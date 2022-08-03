@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.main.MainFragment"
+        android:label="Welcome!"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_orientationFragment"
+            app:destination="@id/orientationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mainFragment_to_whatIsDiabetes"
+            app:destination="@id/whatIsDiabetes"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mainFragment_to_typesOfInsulin"
+            app:destination="@id/typesOfInsulin"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/calculatorFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.calculator.CalculatorFragment"
+        android:label="Insulin Calculator"
+        tools:layout="@layout/fragment_calculator" />
+
+    <fragment
+        android:id="@+id/orientationFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.orientation.OrientationFragment"
+        android:label="Orientation(1/4)"
+        tools:layout="@layout/fragment_orientation">
+
+        <action
+            android:id="@+id/action_orientationFragment_to_agendaFragment"
+            app:destination="@id/agendaFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/lifeIsFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.orientation.LifeIsFragment"
+        android:label="Orientation(4/4)"
+        tools:layout="@layout/fragment_orientation_life_is" />
+    <fragment
+        android:id="@+id/agendaFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.orientation.AgendaFragment"
+        android:label="Orientation(2/4)"
+        tools:layout="@layout/fragment_orientation_agenda">
+        <action
+            android:id="@+id/action_agendaFragment_to_medicalTeamFragment"
+            app:destination="@id/medicalTeamFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/medicalTeamFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.orientation.MedicalTeamFragment"
+        android:label="Orientation(3/4)"
+        tools:layout="@layout/fragment_orientation_medical_team">
+        <action
+            android:id="@+id/action_medicalTeamFragment_to_lifeIsFragment"
+            app:destination="@id/lifeIsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/whatIsDiabetes"
+        android:name="edu.emory.diabetes.education.presentation.fragments.orientation.WhatIsDiabetes"
+        android:label="What's Diabetes?"
+        tools:layout="@layout/fragment_orientation_what_is_diabetes" />
+    <fragment
+        android:id="@+id/typesOfInsulin"
+        android:name="edu.emory.diabetes.education.presentation.fragments.orientation.TypesOfInsulin"
+        android:label="Types of Insulin"
+        tools:layout="@layout/fragment_orientation_types_of_insulin" />
+
+</navigation>

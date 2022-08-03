@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="16dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/scrollIndicatorText"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/scrollIndicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="8dp"
+                android:layout_weight="1"
+                android:indeterminate="false"
+                android:progress="0"
+                app:indicatorColor="@color/yellow_500"
+                app:trackCornerRadius="20dp"
+                app:trackThickness="10dp" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <ScrollView
+            android:id="@+id/parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                tools:ignore="HardcodedText">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textTitle"
+                    android:layout_width="match_parent"
+                    android:text="What is diabetes?" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Glucose builds up in the blood leading to gyperglycemia. Diabetes affects the body’s ability to make or properly use insulin." />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textTitle"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:text="Main types of Diabetes" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Type 1 diabetes happens when your body does not make insulin. This means you have to take insulin through shots or an insulin pump." />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="220dp"
+                    android:layout_marginVertical="8dp"
+                    android:src="@drawable/im_diabetes_type_1" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Type 2 diabetes happens when your body cannot use the insulin it makes or when your body does not make enough insulin. You may have to take insulin or another type of medicine to keep your blood sugar in a healthy range." />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="220dp"
+                    android:layout_marginVertical="8dp"
+                    android:src="@drawable/im_diabetes_type_2" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textTitle"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:text="Symptom of diabetes" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Signs of diabetes occur because the body lacks insulin. This causes blood sugar to build up in the blood, leading to these signs:
+\n\t\t▪	Passing extra urine.
+\n\t\t▪	Drinking a lot.
+\n\t\t▪	Eating a lot.
+\n\t\t▪	Feeling tired.
+\n\t\t▪	Weight loss.
+\n\t\t▪	Change in vision.
+\n\t\t▪	Nausea and vomiting. " />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textTitle"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:text="What make blood sugar high?" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Many, many factors- the ones we will discuss here are:
+\n\t\t1. Food with carbohydrates
+\n\t\t2. Illness
+\n\t\t3. Hormones" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textTitle"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:text="What is insulin?" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="\t\t▪	Insulin is a hormone made in the pancreas by the beta cells.
+\n\t\t▪	When we eat food it turns to sugar in our blood.
+\n\t\t▪	Insulin is needed to carry sugar from our bloodstream into our cells to be used as energy." />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="220dp"
+                    android:layout_marginVertical="8dp"
+                    android:src="@drawable/im_insulin" />
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/shape_rectangle_shadow_radius_50px"
+                    android:elevation="2dp"
+                    android:outlineSpotShadowColor="@color/green_900"
+                    android:paddingHorizontal="50dp"
+                    android:text="Done"
+                    android:textColor="@android:color/white" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

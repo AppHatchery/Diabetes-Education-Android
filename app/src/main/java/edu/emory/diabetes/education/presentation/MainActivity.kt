@@ -1,0 +1,35 @@
+package edu.emory.diabetes.education.presentation
+
+import android.content.pm.ActivityInfo
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
+import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.databinding.ActivityMainBinding
+
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        navController = findNavController(R.id.fragmentContainerView)
+        binding.bottomNavigationView.setupWithNavController(navController)
+        setupActionBarWithNavController(navController, AppBarConfiguration(navController.graph))
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+}

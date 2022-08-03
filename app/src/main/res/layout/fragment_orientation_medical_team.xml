@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="HardcodedText">
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/im_direction_board"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView"
+                style="@style/textTitle"
+                android:layout_width="0dp"
+                android:layout_marginStart="8dp"
+                android:text="Medical Team"
+                app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
+                app:layout_constraintTop_toTopOf="@+id/appCompatImageView"
+                app:layout_constraintVertical_bias="0.35" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="You are not alone!"
+                app:layout_constraintEnd_toEndOf="@+id/appCompatTextView"
+                app:layout_constraintStart_toStartOf="@+id/appCompatTextView"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView2"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/im_orientation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView6"
+                style="@style/textTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Educators, nurses , doctors and support"
+                app:layout_constraintEnd_toEndOf="@+id/appCompatImageView2"
+                app:layout_constraintStart_toStartOf="@+id/appCompatImageView2"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
+                android:textColor="@color/gray_200"
+                app:fontFamily="@font/gotham_rounded"
+                app:layout_constraintEnd_toEndOf="@+id/appCompatTextView6"
+                app:layout_constraintStart_toStartOf="@+id/appCompatTextView6"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView6" />
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/linearLayoutCompat7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/shape_rectangle_stroke_white_radius_15px"
+                android:orientation="vertical"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/appCompatTextView6"
+                app:layout_constraintStart_toStartOf="@+id/appCompatTextView6"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView10">
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textViewMedicalTeamStyle"
+                    android:drawableStart="@drawable/ic_diabetes_educator"
+                    android:drawablePadding="12dp"
+                    android:text="1 Diabetes Educator" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textViewMedicalTeamStyle"
+                    android:drawableStart="@drawable/ic_doctor"
+                    android:drawablePadding="12dp"
+                    android:text="1 Nurse" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textViewMedicalTeamStyle"
+                    android:drawableStart="@drawable/ic_doctor"
+                    android:drawablePadding="12dp"
+                    android:text="1 Doctor" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/shape_rectangle_stroke_radius_50px"
+                android:drawableEnd="@drawable/ic_arrow_forward_small"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:paddingHorizontal="24dp"
+                android:text="Next"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayoutCompat7"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat7"
+                app:layout_constraintVertical_bias="0.786" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</layout>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="topAdapter"
+            type="edu.emory.diabetes.education.presentation.fragments.main.MainAdapter" />
+
+
+        <variable
+            name="bottomAdapter"
+            type="edu.emory.diabetes.education.presentation.fragments.main.MainAdapter" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cine_100">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:cardCornerRadius="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/orientation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="16dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/appCompatImageView"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/im_direction_board"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/appCompatTextView"
+                        style="@style/textTitle"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="8dp"
+                        android:text="Orientation"
+                        app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
+                        app:layout_constraintEnd_toStartOf="@+id/appCompatImageButton"
+                        app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
+                        app:layout_constraintTop_toTopOf="@+id/appCompatImageView"
+                        app:layout_constraintVertical_bias="0.35" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/appCompatTextView2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Education schedule"
+                        app:layout_constraintEnd_toEndOf="@+id/appCompatTextView"
+                        app:layout_constraintStart_toStartOf="@+id/appCompatTextView"
+                        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView" />
+
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/appCompatImageButton"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/shape_rectangle_radius_5px"
+                        android:backgroundTint="@color/green_900"
+                        android:src="@drawable/ic_keyboard_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="First Day"
+                app:layout_constraintStart_toStartOf="@+id/cardView"
+                app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:adapter="@{topAdapter}"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView3"
+                app:spanCount="2"
+                tools:itemCount="2"
+                tools:listitem="@layout/fragment_main_item" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Second Day"
+                app:layout_constraintStart_toStartOf="@+id/cardView"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_one" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:adapter="@{bottomAdapter}"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView4"
+                app:spanCount="1"
+                tools:itemCount="1"
+                tools:listitem="@layout/fragment_main_item" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>

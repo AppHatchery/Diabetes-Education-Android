@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        tools:ignore="HardcodedText">
+
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="7dp"
+            android:layout_height="24dp"
+            android:background="@color/orange_1000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/textTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="First day"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintStart_toEndOf="@+id/view"
+            app:layout_constraintTop_toTopOf="@+id/view" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:cardBackgroundColor="@color/cine_50"
+            app:cardCornerRadius="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/appCompatImageView3"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/shape_rectangle_radius_50px"
+                    android:backgroundTint="@android:color/white"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_morning"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/appCompatTextView8"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Morning"
+                    android:textColor="@color/yellow_500"
+                    app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
+                    app:layout_constraintTop_toTopOf="@+id/appCompatImageView3" />
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearLayoutCompat5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/appCompatImageView3"
+                    app:layout_constraintTop_toBottomOf="@+id/appCompatImageView3">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="• Get Materials" />
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="• Section 1: Diabetes Basics" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="1. What is Diabetes?\n2. Types of Insulin\n3. Ketones"
+                        android:textColor="@color/gray_200"
+                        app:fontFamily="@font/gotham_rounded" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/green_50"
+                    app:layout_constraintEnd_toEndOf="@+id/linearLayoutCompat5"
+                    app:layout_constraintStart_toStartOf="@+id/linearLayoutCompat5"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat5" />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/appCompatImageView10"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/shape_rectangle_radius_50px"
+                    android:backgroundTint="@android:color/white"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_morning"
+                    app:layout_constraintStart_toStartOf="@+id/appCompatImageView3"
+                    app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/appCompatTextView12"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Lunch"
+                    android:textColor="@color/yellow_500"
+                    app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/appCompatImageView10"
+                    app:layout_constraintTop_toTopOf="@+id/appCompatImageView10" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/appCompatTextView9"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:text="• Prep meal with diabetes educators"
+                    app:layout_constraintEnd_toEndOf="@+id/linearLayoutCompat5"
+                    app:layout_constraintStart_toStartOf="@+id/appCompatImageView10"
+                    app:layout_constraintTop_toBottomOf="@+id/appCompatImageView10" />
+
+
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/green_50"
+                    app:layout_constraintEnd_toEndOf="@+id/linearLayoutCompat5"
+                    app:layout_constraintStart_toStartOf="@+id/linearLayoutCompat5"
+                    app:layout_constraintTop_toBottomOf="@+id/appCompatTextView9" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/appCompatImageView12"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/shape_rectangle_radius_50px"
+                    android:backgroundTint="@android:color/white"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_morning"
+                    app:layout_constraintStart_toStartOf="@+id/appCompatImageView3"
+                    app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/appCompatTextView13"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Lunch"
+                    android:textColor="@color/yellow_500"
+                    app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView12"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/appCompatImageView10"
+                    app:layout_constraintTop_toTopOf="@+id/appCompatImageView12" />
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearLayoutCompat6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="24dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/appCompatImageView3"
+                    app:layout_constraintTop_toBottomOf="@+id/appCompatImageView12">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="• Section 2: Nutrition and Diabetes" />
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="1. How to Count Carbohydrates\n2. What is a Carbohydrate Serving\n3. How to calculate insulin dosing"
+                        android:textColor="@color/gray_200"
+                        app:fontFamily="@font/gotham_rounded" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
