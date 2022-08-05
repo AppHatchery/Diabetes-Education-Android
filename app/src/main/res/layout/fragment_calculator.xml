@@ -116,7 +116,9 @@
                     style="@style/textViewCalculatorStyle"
                     android:text="Blood Sugar" />
 
-                <androidx.appcompat.widget.AppCompatEditText style="@style/editTextCalculatorStyle" />
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/bloodSugar"
+                    style="@style/editTextCalculatorStyle" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -128,9 +130,11 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/textViewCalculatorStyle"
-                    android:text="Carb Ratio" />
+                    android:text="Target Blood Sugar" />
 
-                <androidx.appcompat.widget.AppCompatEditText style="@style/editTextCalculatorStyle" />
+                <androidx.appcompat.widget.AppCompatEditText
+                    style="@style/editTextCalculatorStyle"
+                    android:text="100"/>
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -152,11 +156,12 @@
                 style="@style/textViewCalculatorStyle"
                 android:text="Correction Factor" />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                style="@style/editTextCalculatorStyle"
-                android:drawableEnd="@drawable/ic_arrow_down"
-                android:paddingEnd="16dp"
-                android:text="2" />
+
+            <Spinner
+                android:id="@+id/correction_factor_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"/>
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -206,7 +211,10 @@
                 android:scrollbars="horizontal"
                 tools:listitem="@layout/fragment_calculator_item" />
 
+
+
         </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

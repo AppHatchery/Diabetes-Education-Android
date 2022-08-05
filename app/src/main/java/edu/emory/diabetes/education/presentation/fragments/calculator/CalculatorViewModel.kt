@@ -26,6 +26,7 @@ class CalculatorViewModel @Inject constructor(
         }
     }
 
+
     val getInsulinData = repo.query().map {
         @Suppress("UNCHECKED_CAST")
         (it as List<InsulinCalculatorEntity>).map { it.toInsulinCalculator() }
@@ -38,6 +39,7 @@ class CalculatorViewModel @Inject constructor(
     fun onEvent(event: CalculatorEvent) {
         when (event) {
             is CalculatorEvent.CalculateInsulinForFood -> insert(event.insulinCalculator)
+            is CalculatorEvent.CalculateInsulinForBloodSugar ->insert(event.insulinCalculator)
         }
     }
 
