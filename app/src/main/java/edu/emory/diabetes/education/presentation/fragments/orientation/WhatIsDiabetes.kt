@@ -8,6 +8,7 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 
 class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabetes) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        
         with(FragmentOrientationWhatIsDiabetesBinding.bind(view)) {
             parent.viewTreeObserver.addOnScrollChangedListener {
                 if (parent.scrollY > 0) {
@@ -18,7 +19,15 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                     }
                 }
             }
-            done.setOnClickListener { requireActivity().onBackPressed() }
+
+
+            webView.loadUrl("file:///android_asset/pages/index.html")
+
+            webView.settings.javaScriptEnabled = true
+
+
+
+//            done.setOnClickListener { requireActivity().onBackPressed() }
         }
     }
 }

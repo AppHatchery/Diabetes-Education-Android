@@ -1,0 +1,71 @@
+@font-face {
+    font-family: GothamRoundedBook;
+    src: url("../font/gotham-rounded/GothamRoundedBook.ttf");
+
+}
+
+* {
+    font-family: GothamRoundedBook, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.section-container {
+    margin: 20px 0;
+    padding: 0;
+}
+
+h3{
+    font-size: 20px;
+    color: #084E06;
+    font-weight: bold;
+    line-height: 19px;
+    text-align: left;
+    margin-bottom: 11px;
+}
+
+p{
+    font-size: 16px;
+    color: #57585A;
+    font-weight: 400;
+    line-height: 28px;
+    margin-bottom: 0;
+}
+
+.image-container {
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    overflow: hidden;
+}
+
+.image{
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.button-container {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-bottom: 51px;
+}
+
+.button{
+    height: 48px;
+    width: 147px;
+    border-radius: 52px;
+    background-color:#00A94F;
+    color: white;
+    border: none;
+    border-radius: 52px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
+}
