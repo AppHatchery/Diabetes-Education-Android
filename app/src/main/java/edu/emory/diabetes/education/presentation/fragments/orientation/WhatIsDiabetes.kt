@@ -2,13 +2,23 @@ package edu.emory.diabetes.education.presentation.fragments.orientation
 
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentOrientationWhatIsDiabetesBinding
+import edu.emory.diabetes.education.htmlExt
 import edu.emory.diabetes.education.presentation.BaseFragment
 
 class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabetes) {
+
+    private val args: WhatIsDiabetesArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        
+
         with(FragmentOrientationWhatIsDiabetesBinding.bind(view)) {
             parent.viewTreeObserver.addOnScrollChangedListener {
                 if (parent.scrollY > 0) {
@@ -21,13 +31,29 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             }
 
 
-            webView.loadUrl("file:///android_asset/pages/index.html")
+            webView.apply {
+                loadUrl(Ext.getPathUrl(args.pageUrl))
+                webViewClient = object : WebViewClient() {
+                    override fun shouldOverrideUrlLoading(
+                        view: WebView?,
+                        request: WebResourceRequest?,
+                    ): Boolean {
+                        with(request?.url.toString()) {
+                            substring(
+                                lastIndexOf("/")
+                                    .plus(1), length
+                            ).replace(htmlExt, "")
+                        }.also {
+                            WhatIsDiabetesDirections
+                                .actionGlobalWhatIsDiabetes(it).also {
+                                    findNavController().navigate(it)
+                                }
+                        }
+                        return true
+                    }
+                }
+            }
 
-            webView.settings.javaScriptEnabled = true
-
-
-
-//            done.setOnClickListener { requireActivity().onBackPressed() }
         }
     }
 }

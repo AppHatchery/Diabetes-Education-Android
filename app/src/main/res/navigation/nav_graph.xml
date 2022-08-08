@@ -88,11 +88,22 @@
         android:id="@+id/whatIsDiabetes"
         android:name="edu.emory.diabetes.education.presentation.fragments.orientation.WhatIsDiabetes"
         android:label="What's Diabetes?"
-        tools:layout="@layout/fragment_orientation_what_is_diabetes" />
+        tools:layout="@layout/fragment_orientation_what_is_diabetes">
+        <argument
+            android:name="pageUrl"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/typesOfInsulin"
         android:name="edu.emory.diabetes.education.presentation.fragments.orientation.TypesOfInsulin"
         android:label="Types of Insulin"
         tools:layout="@layout/fragment_orientation_types_of_insulin" />
+    <action
+        android:id="@+id/action_global_whatIsDiabetes"
+        app:destination="@id/whatIsDiabetes"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
 
 </navigation>

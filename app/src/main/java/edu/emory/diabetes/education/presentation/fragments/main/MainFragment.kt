@@ -31,7 +31,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
         topAdapter = MainAdapter {
             if (it.id == 1) {
                 MainFragmentDirections
-                    .actionMainFragmentToWhatIsDiabetes().also {
+                    .actionMainFragmentToWhatIsDiabetes("index").also {
                         findNavController().navigate(it)
                     }
             }
