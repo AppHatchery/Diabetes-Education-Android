@@ -40,6 +40,7 @@ class CalculatorViewModel @Inject constructor(
         when (event) {
             is CalculatorEvent.CalculateInsulinForFood -> insert(event.insulinCalculator)
             is CalculatorEvent.CalculateInsulinForBloodSugar ->insert(event.insulinCalculator)
+            is CalculatorEvent.CalculateTotalInsulin -> insert(event.insulinCalculator)
         }
     }
 

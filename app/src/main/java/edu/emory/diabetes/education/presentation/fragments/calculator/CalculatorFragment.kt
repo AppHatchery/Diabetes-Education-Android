@@ -1,15 +1,18 @@
 package edu.emory.diabetes.education.presentation.fragments.calculator
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils.dialog
@@ -40,7 +43,7 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
                 requireContext(),
                 1,
                 RecyclerView.HORIZONTAL,
-                false
+                false,
             )
 
 
@@ -65,31 +68,37 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
 
             appCompatButton.setOnClickListener {
 
+
+                var insulinFood: Float = 0.0F
+                var insulinBloodSugar: Float = 0.0F
+
                 if (totalCarbs.text?.isNotEmpty() == true) {
 
-                    val insulinFood = totalCarbs.text.toString().toFloat()
+                    insulinFood = totalCarbs.text.toString().toFloat()
                         .div(carbsRatio.text.toString().toFloat())
 
                     val insulinCalculator = CalculatorUtils.data[0].copy(
                         answer = DecimalFormat("#.###").format(insulinFood)
                     )
-
-                    Log.e("TAG", "onViewCreated: " + insulinCalculator )
-
                     viewModel.onEvent(CalculateInsulinForFood(insulinCalculator.toInsulinCalculator()))
                 }
 
                 if(bloodSugar.text?.isNotEmpty() == true && correctionFactor > 0){
-                    val insulinBloodSugar = (bloodSugar.text.toString().toFloat()
+                    insulinBloodSugar = (bloodSugar.text.toString().toFloat()
                         .minus(100)).div(correctionFactor)
 
                     val insulinBloodCalculator = CalculatorUtils.data[1].copy(
                         answer = DecimalFormat("#.##").format(insulinBloodSugar)
                     )
-
-                    Log.e("TAG", "onViewCreated: " + insulinBloodCalculator )
                     viewModel.onEvent(CalculatorEvent.CalculateInsulinForBloodSugar(insulinBloodCalculator.toInsulinCalculator()))
                 }
+
+                val totalInsulin = insulinFood + insulinBloodSugar
+                val totalInsulinCalculator = CalculatorUtils.data[2].copy(
+                    answer = DecimalFormat("#.##").format(totalInsulin)
+                )
+
+                viewModel.onEvent(CalculatorEvent.CalculateTotalInsulin(totalInsulinCalculator.toInsulinCalculator()))
 
 
             }
@@ -132,4 +141,5 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
         }
 
 }
+
 

@@ -5,6 +5,31 @@
       <map>
         <entry key="../../Library/Android/sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.24166666666666667" />
         <entry key="../../Library/Android/sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.24166666666666667" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/custom_tab_indicator.xml" value="0.1" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/ic_arrow_forward_filled.xml" value="0.2395" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/ic_quiz_complete.xml" value="0.2395" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/ic_resource.xml" value="0.195" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/ic_stethoscope.xml" value="0.195" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_layer_list.xml" value="0.195" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectange_radius_500dp.xml" value="0.223" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_radius_10px.xml" value="0.2395" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_radius_500dp_width.xml" value="0.2395" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_radius_50px.xml" value="0.195" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_stroke_white_radius_15px.xml" value="0.195" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_top_radius_50px.xml" value="0.195" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_calculator.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_calculator_dialog_item.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_calculator_item.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_diabetes_basics.xml" value="0.2734375" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_diabetes_basics_item.xml" value="0.264" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_diabetes_basics_lesson.xml" value="0.2734375" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_diabetes_basics_lesson_item.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_diabetes_basics_quiz.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_diabetes_basics_quiz_item.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_main.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_main_item.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_orientation.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_orientation_agenda_first_day.xml" value="0.27447916666666666" />
         <entry key="app/src/main/res/drawable/ic_arrow_down.xml" value="0.181" />
         <entry key="app/src/main/res/drawable/ic_arrow_forward_small.xml" value="0.142" />
         <entry key="app/src/main/res/drawable/ic_calculator.xml" value="0.1755" />
