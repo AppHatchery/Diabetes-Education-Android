@@ -102,7 +102,11 @@
         android:id="@+id/diabetesBasicsFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.basics.DiabetesBasicsFragment"
         android:label="Diabetes Basics"
-        tools:layout="@layout/fragment_diabetes_basics" />
+        tools:layout="@layout/fragment_diabetes_basics" >
+        <action
+            android:id="@+id/action_diabetesBasicsFragment_to_whatIsDiabetes"
+            app:destination="@id/whatIsDiabetes" />
+    </fragment>
     <fragment
         android:id="@+id/lessonFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.basics.LessonFragment"

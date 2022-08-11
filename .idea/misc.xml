@@ -5,6 +5,10 @@
       <map>
         <entry key="../../Library/Android/sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.24166666666666667" />
         <entry key="../../Library/Android/sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.24166666666666667" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_diabetes_basics.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_diabetes_basics_lesson.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_diabetes_basics_lesson_item.xml" value="0.27447916666666666" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_orientation_what_is_diabetes.xml" value="0.27447916666666666" />
         <entry key="app/src/main/res/drawable/ic_arrow_down.xml" value="0.181" />
         <entry key="app/src/main/res/drawable/ic_arrow_forward_filled.xml" value="0.2155" />
         <entry key="app/src/main/res/drawable/ic_arrow_forward_small.xml" value="0.142" />
