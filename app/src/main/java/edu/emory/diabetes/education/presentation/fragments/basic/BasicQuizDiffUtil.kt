@@ -1,10 +1,9 @@
-package edu.emory.diabetes.education.presentation.fragments.basics
+package edu.emory.diabetes.education.presentation.fragments.basic
 
 import androidx.recyclerview.widget.DiffUtil
-import edu.emory.diabetes.education.domain.model.Lesson
 import edu.emory.diabetes.education.domain.model.Quiz
 
-object QuizDiffUtil{
+object BasicQuizDiffUtil{
     val diffUtil = object : DiffUtil.ItemCallback<Quiz>() {
         override fun areItemsTheSame(oldItem: Quiz, newItem: Quiz): Boolean {
             return oldItem == newItem

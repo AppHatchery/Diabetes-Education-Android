@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_rectangle_stroke_radius_50px"
+        android:drawableEnd="@drawable/ic_arrow_forward_small"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:paddingHorizontal="24dp"
+        android:text="Next" />
+</layout>

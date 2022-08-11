@@ -25,6 +25,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mainFragment_to_browseFragment"
+            app:destination="@id/browseFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/calculatorFragment"
@@ -80,7 +87,7 @@
     <fragment
         android:id="@+id/whatIsDiabetes"
         android:name="edu.emory.diabetes.education.presentation.fragments.orientation.WhatIsDiabetes"
-        android:label="What's Diabetes?"
+        android:label="What is Diabetes?"
         tools:layout="@layout/fragment_orientation_what_is_diabetes">
         <argument
             android:name="pageUrl"
@@ -100,20 +107,54 @@
         app:popExitAnim="@anim/slide_out_right" />
     <fragment
         android:id="@+id/diabetesBasicsFragment"
-        android:name="edu.emory.diabetes.education.presentation.fragments.basics.DiabetesBasicsFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.basic.BasicFragment"
         android:label="Diabetes Basics"
-        tools:layout="@layout/fragment_diabetes_basics" >
+        tools:layout="@layout/fragment_diabetes_basics">
         <action
             android:id="@+id/action_diabetesBasicsFragment_to_whatIsDiabetes"
-            app:destination="@id/whatIsDiabetes" />
+            app:destination="@id/whatIsDiabetes"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_diabetesBasicsFragment_to_quizFragment"
+            app:destination="@id/quizFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/lessonFragment"
-        android:name="edu.emory.diabetes.education.presentation.fragments.basics.LessonFragment"
-        android:label="LessonFragment" >
+        android:name="edu.emory.diabetes.education.presentation.fragments.basic.BasicLessonFragment"
+        android:label="LessonFragment"
+        tools:layout="@layout/fragment_diabetes_basics_lesson">
         <action
             android:id="@+id/action_lessonFragment_to_whatIsDiabetes"
             app:destination="@id/whatIsDiabetes" />
     </fragment>
+    <fragment
+        android:id="@+id/browseFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.browse.BrowseFragment"
+        android:label="BrowseFragment"
+        tools:layout="@layout/fragment_browse" />
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.quiz.QuizFragment"
+        android:label="QuizFragment"
+        tools:layout="@layout/fragment_quiz">
+        <action
+            android:id="@+id/action_quizFragment_to_quizQuestionFragment"
+            app:destination="@id/quizQuestionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizQuestionFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.quiz.QuizQuestionFragment"
+        android:label="QuizQuestionFragment" />
 
 </navigation>

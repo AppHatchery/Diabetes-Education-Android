@@ -1,10 +1,10 @@
-package edu.emory.diabetes.education.presentation.fragments.basics
+package edu.emory.diabetes.education.presentation.fragments.basic
 
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.data.local.entities.LessonEntity
 import edu.emory.diabetes.education.data.local.entities.QuizEntity
 
-object DiabetesBasicsUtils {
+object BasicUtils {
 
     val lessonData = listOf(
         LessonEntity(0, R.drawable.ic_stethoscope, "What is Diabetes?", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "),

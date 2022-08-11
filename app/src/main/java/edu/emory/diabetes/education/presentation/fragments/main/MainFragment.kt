@@ -46,7 +46,10 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
 
 
         bottomAdapter = MainAdapter {
-
+            MainFragmentDirections
+                .actionMainFragmentToBrowseFragment().apply {
+                    findNavController().navigate(this)
+                }
         }.apply {
             viewModel
                 .state.onEach {
