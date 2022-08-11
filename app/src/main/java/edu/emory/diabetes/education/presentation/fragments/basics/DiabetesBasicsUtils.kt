@@ -1,4 +1,4 @@
-package edu.emory.diabetes.education.presentation.fragments.diabetesBasics
+package edu.emory.diabetes.education.presentation.fragments.basics
 
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.data.local.entities.LessonEntity

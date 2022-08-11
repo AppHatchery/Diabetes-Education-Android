@@ -1,4 +1,4 @@
-package edu.emory.diabetes.education.presentation.fragments.diabetesBasics
+package edu.emory.diabetes.education.presentation.fragments.basics
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter

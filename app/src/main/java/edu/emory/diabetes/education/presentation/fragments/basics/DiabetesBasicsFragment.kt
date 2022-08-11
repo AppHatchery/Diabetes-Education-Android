@@ -1,4 +1,4 @@
-package edu.emory.diabetes.education.presentation.fragments.diabetesBasics
+package edu.emory.diabetes.education.presentation.fragments.basics
 
 import android.os.Bundle
 import android.view.View

@@ -72,11 +72,11 @@
                     android:background="@drawable/shape_rectangle_radius_10px"
                     android:backgroundTint="@android:color/white"
                     android:drawableEnd="@drawable/ic_arrow_down"
+                    android:fontFamily="@font/gotham_rounded_medium"
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:padding="12dp"
                     android:paddingEnd="16dp"
-                    android:fontFamily="@font/gotham_rounded_medium"
                     android:text="15"
                     android:textColor="@color/green_900"
                     tools:ignore="RtlSymmetry" />
@@ -137,15 +137,15 @@
                 <androidx.appcompat.widget.AppCompatEditText
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:background="@drawable/shape_rectangle_radius_10px"
                     android:backgroundTint="@android:color/white"
+                    android:fontFamily="@font/gotham_rounded_medium"
                     android:gravity="center"
-                    android:layout_gravity="end"
                     android:padding="12dp"
                     android:paddingEnd="16dp"
-                    android:textColor="@color/green_900"
-                    android:fontFamily="@font/gotham_rounded_medium"
-                    android:text="100" />
+                    android:text="100"
+                    android:textColor="@color/green_900" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -170,11 +170,11 @@
                 android:id="@+id/correction_factor_spinner"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:background="@drawable/shape_rectangle_radius_10px"
                 android:backgroundTint="@android:color/white"
                 android:fontFamily="@font/gotham_rounded_medium"
                 android:gravity="center"
-                android:layout_gravity="end"
                 android:padding="4dp"
                 android:paddingEnd="16dp"
                 android:textColor="@color/green_900" />

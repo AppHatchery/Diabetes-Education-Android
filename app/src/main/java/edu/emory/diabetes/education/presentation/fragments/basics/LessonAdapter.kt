@@ -1,14 +1,11 @@
-package edu.emory.diabetes.education.presentation.fragments.diabetesBasics
+package edu.emory.diabetes.education.presentation.fragments.basics
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import edu.emory.diabetes.education.databinding.FragmentCalculatorItemBinding
 import edu.emory.diabetes.education.databinding.FragmentDiabetesBasicsLessonItemBinding
-import edu.emory.diabetes.education.domain.model.InsulinCalculator
 import edu.emory.diabetes.education.domain.model.Lesson
-import edu.emory.diabetes.education.presentation.fragments.calculator.CalculatorAdapter
 
 class LessonAdapter: ListAdapter<Lesson, LessonAdapter.LessonViewHolder>(LessonDiffUtil.diffUtil) {
     

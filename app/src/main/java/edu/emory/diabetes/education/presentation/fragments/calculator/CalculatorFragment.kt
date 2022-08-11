@@ -1,18 +1,15 @@
 package edu.emory.diabetes.education.presentation.fragments.calculator
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils.dialog
@@ -109,7 +106,7 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
                 ArrayAdapter.createFromResource(
                     requireContext(),
                     R.array.correction_factor_array,
-                    R.layout.spinner_item
+                    R.layout.fragment_caluculator_spinner_item
                 ).also { adapter ->
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     spinner.adapter = adapter

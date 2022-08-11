@@ -110,7 +110,7 @@
         app:popExitAnim="@anim/slide_out_right" />
     <fragment
         android:id="@+id/diabetesBasicsFragment"
-        android:name="edu.emory.diabetes.education.presentation.fragments.diabetesBasics.DiabetesBasicsFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.basics.DiabetesBasicsFragment"
         android:label="Diabetes Basics" />
 
 </navigation>
