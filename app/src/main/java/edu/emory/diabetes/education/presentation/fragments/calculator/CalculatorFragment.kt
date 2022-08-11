@@ -10,6 +10,7 @@ import android.widget.Spinner
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils.dialog
@@ -35,14 +36,6 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
                     adapter.submitList(it)
                 }.launchIn(lifecycleScope)
             }
-
-            recyclerView.layoutManager = GridLayoutManager(
-                requireContext(),
-                1,
-                RecyclerView.HORIZONTAL,
-                false,
-            )
-
 
             carbsRatio.setOnClickListener {
                 with(Dialog(requireContext()).dialog()) {
@@ -80,14 +73,18 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
                     viewModel.onEvent(CalculateInsulinForFood(insulinCalculator.toInsulinCalculator()))
                 }
 
-                if(bloodSugar.text?.isNotEmpty() == true && correctionFactor > 0){
+                if (bloodSugar.text?.isNotEmpty() == true && correctionFactor > 0) {
                     insulinBloodSugar = (bloodSugar.text.toString().toFloat()
                         .minus(100)).div(correctionFactor)
 
                     val insulinBloodCalculator = CalculatorUtils.data[1].copy(
                         answer = DecimalFormat("#.##").format(insulinBloodSugar)
                     )
-                    viewModel.onEvent(CalculatorEvent.CalculateInsulinForBloodSugar(insulinBloodCalculator.toInsulinCalculator()))
+                    viewModel.onEvent(
+                        CalculatorEvent.CalculateInsulinForBloodSugar(
+                            insulinBloodCalculator.toInsulinCalculator()
+                        )
+                    )
                 }
 
                 val totalInsulin = insulinFood + insulinBloodSugar
@@ -101,16 +98,15 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
             }
 
             val correctionFactorArray = resources.getStringArray(R.array.correction_factor_array)
-                    val spinner: Spinner = correctionFactorSpinner
+            val spinner: Spinner = correctionFactorSpinner
             if (spinner != null) {
                 ArrayAdapter.createFromResource(
                     requireContext(),
                     R.array.correction_factor_array,
                     R.layout.fragment_caluculator_spinner_item
                 ).also { adapter ->
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    adapter.setDropDownViewResource(R.layout.fragment_caluculator_spinner_item)
                     spinner.adapter = adapter
-
                     spinner.onItemSelectedListener = object :
                         AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(
@@ -130,12 +126,10 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
                 }
             }
 
-            }
-
-
-
-
         }
+
+
+    }
 
 }
 

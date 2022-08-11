@@ -50,7 +50,10 @@
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/total_carbs"
-                    style="@style/editTextCalculatorStyle" />
+                    style="@style/editTextCalculatorStyle"
+                    android:drawableEnd="@drawable/ic_grams"
+                    android:gravity="center"
+                    android:paddingEnd="32dp" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -67,7 +70,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/carbs_ratio"
-                    android:layout_width="120dp"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_rectangle_radius_10px"
                     android:backgroundTint="@android:color/white"
@@ -120,7 +123,9 @@
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/bloodSugar"
-                    style="@style/editTextCalculatorStyle" />
+                    style="@style/editTextCalculatorStyle"
+                    android:drawableEnd="@drawable/ic_mg_dl"
+                    android:paddingEnd="24dp" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -135,7 +140,7 @@
                     android:text="Target Blood Sugar" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:layout_width="120dp"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:background="@drawable/shape_rectangle_radius_10px"
@@ -168,15 +173,13 @@
 
             <Spinner
                 android:id="@+id/correction_factor_spinner"
-                android:layout_width="120dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:background="@drawable/shape_rectangle_radius_10px"
                 android:backgroundTint="@android:color/white"
-                android:fontFamily="@font/gotham_rounded_medium"
                 android:gravity="center"
                 android:padding="4dp"
-                android:paddingEnd="16dp"
                 android:textColor="@color/green_900" />
 
 
@@ -224,11 +227,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adapter="@{adapter}"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="3"
+                tools:itemCount="3"
                 tools:listitem="@layout/fragment_calculator_item" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <!-- android:scrollbars="horizontal"-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -8,8 +8,8 @@ object DiabetesBasicsUtils {
 
     val lessonData = listOf(
         LessonEntity(0, R.drawable.ic_stethoscope, "What is Diabetes?", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "),
-        LessonEntity(1, R.drawable.ic_beaker, "Checking Blood Sugar", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "),
-        LessonEntity(2, R.drawable.ic_injection_needle, "What is Insulin?", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "),
+        LessonEntity(1, R.drawable.ic_injection_needle, "Types of insulin?", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "),
+        LessonEntity(2, R.drawable.ic_beaker, "Checking Blood Sugar", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "),
         LessonEntity(3, R.drawable.ic_dropper, "Ketones", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ")
     )
 

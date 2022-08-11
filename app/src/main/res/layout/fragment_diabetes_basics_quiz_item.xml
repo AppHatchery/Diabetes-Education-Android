@@ -10,26 +10,21 @@
             type="edu.emory.diabetes.education.domain.model.Quiz" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="18dp">
+        android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:padding="20dp"
             app:cardBackgroundColor="@color/cine_100"
-            app:cardCornerRadius="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:cardCornerRadius="15dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:padding="10dp">
 
@@ -38,50 +33,59 @@
                     setImageIcon="@{quiz.image}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/shape_rectangle_radius_10px"
-                    android:backgroundTint="@color/white_100"
+                    android:backgroundTint="@android:color/white"
                     android:padding="10dp"
-                    app:layout_constraintBottom_toBottomOf="@id/desc"
-                    app:layout_constraintEnd_toStartOf="@id/title"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_help" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/title"
                     style="@style/textTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="7dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@{quiz.title}"
-                    app:fontFamily="@font/gotham_rounded"
-                    app:layout_constraintStart_toEndOf="@id/cardIcon"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardIcon"
+                    app:layout_constraintEnd_toStartOf="@+id/endIcon"
+                    app:layout_constraintStart_toEndOf="@+id/cardIcon"
+                    app:layout_constraintTop_toTopOf="@+id/cardIcon"
+                    app:layout_constraintVertical_bias="0.19"
                     tools:text="Quiz 1" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/desc"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="@{quiz.description}"
                     android:textColor="@color/gray_200"
                     app:fontFamily="@font/gotham_rounded"
-                    app:layout_constraintStart_toStartOf="@id/title"
-                    app:layout_constraintTop_toBottomOf="@id/title"
+                    app:layout_constraintEnd_toEndOf="@+id/title"
+                    app:layout_constraintStart_toStartOf="@+id/title"
+                    app:layout_constraintTop_toBottomOf="@+id/title"
                     tools:text="@string/lorem" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/endIcon"
                     setImageIcon="@{quiz.endIcon}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_arrow_forward_filled" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </layout>

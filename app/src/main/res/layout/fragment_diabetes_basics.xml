@@ -29,7 +29,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="10dp"
                 android:background="@drawable/shape_rectangle_radius_50px"
-                android:backgroundTint="@color/green_100"
+                android:backgroundTint="@color/cine_100"
                 android:textSize="14sp"
                 app:tabIndicator="@drawable/shape_rectangle_radius_50px"
                 app:tabIndicatorAnimationMode="linear"
