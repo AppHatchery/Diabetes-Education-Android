@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="content"
+            type="edu.emory.diabetes.education.domain.model.Content" />
+
+    </data>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:padding="12dp"
+        android:background="@drawable/shape_rectangle_radius_5px"
+        android:backgroundTint="@color/cine_100">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center_vertical"
+            android:text="@{content.title}"
+            android:textColor="@color/gray_200"
+            tools:text="What is diabetes?" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:tint="@color/orange_1000"
+            android:src="@drawable/ic_bookmark"
+            android:layout_gravity="center_vertical"
+
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

@@ -1,24 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="adapter"
+            type="edu.emory.diabetes.education.presentation.fragments.browse.ContentAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/cine_100">
+        android:padding="8dp"
+        android:layout_marginTop="20dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:inputType="textAutoCorrect|textAutoComplete"
+            android:background="@drawable/shape_rectangle_stroke_1px_radius_90px_"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="8dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="10dp"
+            android:hint="Search"
+            android:drawableTint="@color/green_900"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+             />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tab1"
+            style="@style/textTitle"
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Diabetes Basics"
+            app:fontFamily="@font/gotham_rounded"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search"
+            tools:text="Diabetes Basics" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/basicsRV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:adapter="@{adapter}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab1"
+            app:spanCount="1"
+            tools:itemCount="3"
+            tools:listitem="@layout/fragment_content_item" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title2"
+            style="@style/textTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Diabetes self-management"
+            app:fontFamily="@font/gotham_rounded"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/basicsRV"
+            tools:text="Diabetes self-management" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/selfMgmtRV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title2"
+            app:spanCount="1"
+            tools:itemCount="3"
+            tools:listitem="@layout/fragment_content_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
