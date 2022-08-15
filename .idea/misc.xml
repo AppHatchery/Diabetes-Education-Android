@@ -5,61 +5,80 @@
       <map>
         <entry key="../../Library/Android/sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.24166666666666667" />
         <entry key="../../Library/Android/sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.24166666666666667" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_radius_5px.xml" value="0.1475" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_stroke.xml" value="0.116" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_stroke_1px_radius_90px_.xml" value="0.116" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_stroke_radius_50px.xml" value="0.116" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_bookmarks.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_bookmarks_item.xml" value="0.25" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_browse.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_calculator.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_content.xml" value="0.2638888888888889" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_content_item.xml" value="0.33" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_diabetes_basics.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_diabetes_basics_lesson.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_diabetes_basics_lesson_item.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_main_item.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_must_have-apps.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_must_have_apps.xml" value="0.33" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_notes.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_notes_item.xml" value="0.3136" />
-        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_quiz.xml" value="0.17074275362318841" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_diabetes_basics_lesson_item.xml" value="0.27447916666666666" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_resource.xml" value="0.27447916666666666" />
+        <entry key="app/src/main/res/drawable/custom_tab_indicator.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_arrow_down.xml" value="0.181" />
+        <entry key="app/src/main/res/drawable/ic_arrow_forward_filled.xml" value="0.2155" />
         <entry key="app/src/main/res/drawable/ic_arrow_forward_small.xml" value="0.142" />
         <entry key="app/src/main/res/drawable/ic_calculator.xml" value="0.1755" />
+        <entry key="app/src/main/res/drawable/ic_eva_arrow_.xml" value="0.2155" />
         <entry key="app/src/main/res/drawable/ic_grams.xml" value="0.181" />
         <entry key="app/src/main/res/drawable/ic_handbook.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/ic_keyboard_arrow_right.xml" value="0.1755" />
+        <entry key="app/src/main/res/drawable/ic_mg_dl.xml" value="0.1415" />
         <entry key="app/src/main/res/drawable/ic_morning.xml" value="0.2475" />
+        <entry key="app/src/main/res/drawable/ic_quiz_complete.xml" value="0.2155" />
+        <entry key="app/src/main/res/drawable/ic_rectangle.xml" value="0.1875" />
         <entry key="app/src/main/res/drawable/ic_resource.xml" value="0.1755" />
+        <entry key="app/src/main/res/drawable/ic_stethoscope.xml" value="0.2155" />
         <entry key="app/src/main/res/drawable/shape_radius_5px.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/shape_rectangle_radius_10px.xml" value="0.1755" />
+        <entry key="app/src/main/res/drawable/shape_rectangle_radius_500dp.xml" value="0.1525" />
+        <entry key="app/src/main/res/drawable/shape_rectangle_radius_500dp_width.xml" value="0.1525" />
         <entry key="app/src/main/res/drawable/shape_rectangle_radius_50px.xml" value="0.1755" />
+        <entry key="app/src/main/res/drawable/shape_rectangle_radius_5px.xml" value="0.1525" />
+        <entry key="app/src/main/res/drawable/shape_rectangle_shadow_radius_10px.xml" value="0.2295" />
         <entry key="app/src/main/res/drawable/shape_rectangle_shadow_radius_50px.xml" value="0.231" />
         <entry key="app/src/main/res/drawable/shape_rectangle_stroke.xml" value="0.2315" />
+        <entry key="app/src/main/res/drawable/shape_rectangle_stroke_radius_10px.xml" value="0.2295" />
         <entry key="app/src/main/res/drawable/shape_rectangle_stroke_radius_15px.xml" value="0.2315" />
         <entry key="app/src/main/res/drawable/shape_rectangle_stroke_radius_50px.xml" value="0.142" />
+        <entry key="app/src/main/res/drawable/shape_rectangle_stroke_white_radius_15px.xml" value="0.2295" />
         <entry key="app/src/main/res/drawable/shape_rectangle_top_radius_10px.xml" value="0.1755" />
+        <entry key="app/src/main/res/drawable/shape_rectangle_top_radius_30px.xml" value="0.1525" />
+        <entry key="app/src/main/res/drawable/shape_rectangle_top_radius_50px.xml" value="0.1525" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11538461538461539" />
-        <entry key="app/src/main/res/layout/fragment_calculator.xml" value="0.18625640869140625" />
+        <entry key="app/src/main/res/layout/fragment_bookmarks.xml" value="0.240625" />
+        <entry key="app/src/main/res/layout/fragment_browse.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_calculator.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/fragment_calculator_dialog.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/fragment_calculator_dialog_item.xml" value="0.3375030517578125" />
         <entry key="app/src/main/res/layout/fragment_calculator_item.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_calculator_spinner.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_caluculator_spinner_item.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_content.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_diabetes_basics.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_diabetes_basics_lesson.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_diabetes_basics_lesson_item.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_diabetes_basics_quiz.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_diabetes_basics_quiz_item.xml" value="0.45" />
         <entry key="app/src/main/res/layout/fragment_life_is.xml" value="0.240625" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.18773946360153257" />
         <entry key="app/src/main/res/layout/fragment_main_item.xml" value="0.1952191235059761" />
         <entry key="app/src/main/res/layout/fragment_medical_team.xml" value="0.240625" />
+        <entry key="app/src/main/res/layout/fragment_must_have_apps.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_notes.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/fragment_orientation.xml" value="0.24166666666666667" />
-        <entry key="app/src/main/res/layout/fragment_orientation_agenda.xml" value="0.16139373779296878" />
+        <entry key="app/src/main/res/layout/fragment_orientation_agenda.xml" value="0.3022801302931596" />
         <entry key="app/src/main/res/layout/fragment_orientation_agenda_first_day.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/fragment_orientation_agenda_second_day.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/fragment_orientation_life_is.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/fragment_orientation_life_is_item.xml" value="0.24166666666666667" />
-        <entry key="app/src/main/res/layout/fragment_orientation_medical_team.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_orientation_medical_team.xml" value="0.3563748079877112" />
         <entry key="app/src/main/res/layout/fragment_orientation_types_of_insulin.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/fragment_orientation_what_is_diabetes.xml" value="0.21745152354570638" />
+        <entry key="app/src/main/res/layout/fragment_quiz.xml" value="0.18333333333333332" />
+        <entry key="app/src/main/res/layout/fragment_quiz_finish.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_quiz_one.xml" value="0.240625" />
+        <entry key="app/src/main/res/layout/fragment_quiz_one_question.xml" value="0.240625" />
+        <entry key="app/src/main/res/layout/fragment_quiz_one_question_item.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_quiz_question.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_quiz_question_item.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_resource.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_resource_food_diary_item.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_resource_must_have_apps.xml" value="0.2175925925925926" />
+        <entry key="app/src/main/res/layout/fragment_resource_must_have_ite.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/fragment_resource_must_have_item.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/layout/include_button_next_arrow_stroke_green_900.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/spinner.xml" value="0.240625" />
         <entry key="app/src/main/res/layout/spinner_item.xml" value="0.240625" />
         <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.24166666666666667" />
@@ -75,7 +94,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.33" />
+        <option name="scale" value="0.1" />
       </ProjectState>
     </option>
   </component>

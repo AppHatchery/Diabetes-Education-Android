@@ -142,7 +142,7 @@
     <fragment
         android:id="@+id/quizFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.quiz.QuizFragment"
-        android:label="QuizFragment"
+        android:label="Quiz 1"
         tools:layout="@layout/fragment_quiz">
         <action
             android:id="@+id/action_quizFragment_to_quizQuestionFragment"
@@ -153,13 +153,27 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
+        tools:layout="@layout/fragment_quiz_question"
         android:id="@+id/quizQuestionFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.quiz.QuizQuestionFragment"
-        android:label="QuizQuestionFragment" />
+        android:label="Quiz 1 : Questions" />
     <fragment
         android:id="@+id/resourceFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.resources.ResourceFragment"
         android:label="App Recommendation"
-        tools:layout="@layout/fragment_resource"/>
+        tools:layout="@layout/fragment_resource">
+        <action
+            android:id="@+id/action_resourceFragment_to_resourceMustHaveFragment"
+            app:destination="@id/resourceMustHaveFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/resourceMustHaveFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.resources.ResourceMustHaveAppsFragment"
+        android:label="Must-Have Apps"
+        tools:layout="@layout/fragment_resource_must_have_apps" />
 
 </navigation>
