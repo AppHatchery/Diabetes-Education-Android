@@ -156,5 +156,10 @@
         android:id="@+id/quizQuestionFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.quiz.QuizQuestionFragment"
         android:label="QuizQuestionFragment" />
+    <fragment
+        android:id="@+id/resourceFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.resources.ResourceFragment"
+        android:label="App Recommendation"
+        tools:layout="@layout/fragment_resource"/>
 
 </navigation>

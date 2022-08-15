@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearLayoutCompat9"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="16dp"
+            android:orientation="vertical"
+            android:background="@color/cine_100">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:backgroundTint="@color/white_100"
+                    android:padding="20dp"
+                    android:layout_marginBottom="31dp"
+                    android:background="@drawable/shape_rectangle_radius_10px">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Must-Have Apps"
+                            style="@style/textTitle"
+                            android:textSize="20sp"
+                            android:layout_marginEnd="120dp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="see all" />
+
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Selected Apps by CHOA experts"
+                        android:fontFamily="@font/gotham_rounded_medium"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="17dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/rect_shape"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_rectangle"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginTop="6dp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/sectionTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:layout_toEndOf="@+id/rect_shape"
+                            android:text="My Sugar" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/sectionDesc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/sectionTitle"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toEndOf="@id/rect_shape"
+                            android:text="the diabetes management app made for people with diabetes by people with diabetes."
+                            android:textSize="11dp" />
+
+                        <View
+                            android:layout_width="269dp"
+                            android:layout_height="2dp"
+                            android:layout_below="@+id/sectionDesc"
+                            android:layout_marginStart="65dp"
+                            android:background="#C9C9C9" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/rect_shape2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_rectangle"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginTop="6dp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/sectionTitle2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:layout_toEndOf="@+id/rect_shape2"
+                            android:text="Calorie King" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/sectionDesc2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/sectionTitle2"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toEndOf="@id/rect_shape2"
+                            android:text="Find nutrition facts for your favorite brands and fast-food restaurants."
+                            android:textSize="11dp" />
+
+                        <View
+                            android:layout_width="269dp"
+                            android:layout_height="2dp"
+                            android:layout_below="@+id/sectionDesc2"
+                            android:background="#C9C9C9"
+                            android:layout_marginStart="65dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/rect_shape3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_rectangle"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginTop="6dp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/sectionTitle3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:layout_toEndOf="@+id/rect_shape3"
+                            android:text="MyFitness Pal" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/sectionDesc3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/sectionTitle3"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toEndOf="@id/rect_shape3"
+                            android:text="Track progress toward your nutrition, water, fitness, and weight loss goals "
+                            android:textSize="11dp" />
+
+                        <View
+                            android:layout_width="269dp"
+                            android:layout_height="2dp"
+                            android:layout_below="@+id/sectionDesc3"
+                            android:background="#C9C9C9"
+                            android:layout_marginStart="65dp" />
+                    </RelativeLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/food_diary_title"
+                            style="@style/textTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Food Diary" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/food_diary_title"
+                            android:text="see all"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginStart="210dp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:padding="13dp"
+                        android:background="@drawable/shape_rectangle_radius_10px"
+                        android:backgroundTint="@color/white_100"
+                        android:layout_marginBottom="10dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/food_diary_icon1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_rectangle"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginTop="6dp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/food_diary_text1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:layout_toEndOf="@+id/food_diary_icon1"
+                            android:text="Free Food List" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/food_diary_desc1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/food_diary_text1"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toEndOf="@id/food_diary_icon1"
+                            android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry.  "
+                            android:textSize="11dp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:padding="13dp"
+                        android:background="@drawable/shape_rectangle_radius_10px"
+                        android:backgroundTint="@color/white_100">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/food_diary_icon2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_rectangle"
+                            android:layout_marginEnd="7dp"
+                            android:layout_marginTop="6dp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/food_diary_text2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:layout_toEndOf="@+id/food_diary_icon2"
+                            android:text="Recommended Food Plan" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/food_diary_desc2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/food_diary_text2"
+                            android:layout_marginBottom="10dp"
+                            android:layout_toEndOf="@id/food_diary_icon2"
+                            android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry.  "
+                            android:textSize="11dp" />
+
+                    </RelativeLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </ScrollView>
+</layout>
