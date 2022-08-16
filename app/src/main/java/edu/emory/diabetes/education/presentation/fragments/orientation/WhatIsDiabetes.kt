@@ -17,6 +17,8 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
     private val args: WhatIsDiabetesArgs by navArgs()
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         with(FragmentOrientationWhatIsDiabetesBinding.bind(view)) {

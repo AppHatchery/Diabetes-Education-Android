@@ -11,6 +11,7 @@ class ResourceFragment : BaseFragment(R.layout.fragment_resource) {
 
     lateinit var mustHaveAdapter: ResourceMustHaveAdapter
     lateinit var foodDiaryAdapter: ResourceFoodDiaryAdapter
+    lateinit var communitiesAdapter: ResourcesCommunitiesAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentResourceBinding.bind(view)) {
@@ -19,6 +20,9 @@ class ResourceFragment : BaseFragment(R.layout.fragment_resource) {
             }
             foodDiaryAdapter = ResourceFoodDiaryAdapter().also {
                 it.submitList(ResourceUtil.foodDiary)
+            }
+            communitiesAdapter = ResourcesCommunitiesAdapter().also {
+                it.submitList(ResourceUtil.communities)
             }
 
             fragment = this@ResourceFragment

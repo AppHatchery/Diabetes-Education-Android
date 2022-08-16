@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.resources
 
+import edu.emory.diabetes.education.domain.model.Communities
 import edu.emory.diabetes.education.domain.model.FoodDiary
 import edu.emory.diabetes.education.domain.model.MustHaveApp
 
@@ -35,4 +36,18 @@ object ResourceUtil {
             "Track progress toward your nutrition, water, fitness, and weight loss goals "
         )
     )
+
+    val communities = listOf(
+        Communities(
+            "A nonprofit organization serving children and teens living with type 1 diabetes "
+        ),
+        Communities(
+            "A nonprofit organization serving children and teens living with type 1 diabetes "
+        ),
+        Communities(
+            "A nonprofit organization serving children and teens living with type 1 diabetes "
+        )
+    )
+
+
 }

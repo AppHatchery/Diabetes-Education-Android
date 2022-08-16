@@ -17,7 +17,9 @@ class BasicLessonFragment(
         with(FragmentDiabetesBasicsLessonBinding.bind(view)) {
             navigation = fragment as BasicNavigator
             adapter = BasicLessonAdapter {
-                navigation.invoke()
+                if (it.id == 0) {
+                    navigation.invoke()
+                }
             }.apply {
                 submitList(BasicUtils.lessonData.map {
                     it.toLesson()
