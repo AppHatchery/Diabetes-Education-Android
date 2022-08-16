@@ -8,10 +8,10 @@ import edu.emory.diabetes.education.domain.model.Lesson
 data class LessonEntity(
     @PrimaryKey(autoGenerate = false)
     val id: Int,
-    val image:Int,
-    val title:String,
-    val description:String
-){
-    fun toLesson() = Lesson(id,image,title,description)
+    val image: Int,
+    val title: String,
+    val description: String
+) {
+    fun toLesson() = Lesson(id, image, title, description)
 
 }

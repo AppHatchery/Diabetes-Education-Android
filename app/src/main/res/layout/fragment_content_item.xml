@@ -3,28 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="content"
             type="edu.emory.diabetes.education.domain.model.Content" />
 
     </data>
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:padding="12dp"
-        android:background="@drawable/shape_rectangle_radius_5px"
-        android:backgroundTint="@color/cine_100">
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="20dp"
-            android:layout_gravity="center_vertical"
-            android:text="@{content.title}"
-            android:textColor="@color/gray_200"
-            tools:text="What is diabetes?" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            android:background="@drawable/shape_rectangle_radius_5px"
+            android:backgroundTint="@color/cine_100"
+            android:padding="12dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="@{content.title}"
+                android:textColor="@color/gray_200"
+                tools:text="What is diabetes?" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </FrameLayout>
 </layout>

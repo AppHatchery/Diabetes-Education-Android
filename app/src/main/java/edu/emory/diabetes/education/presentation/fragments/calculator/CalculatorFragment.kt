@@ -9,8 +9,6 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils.dialog
