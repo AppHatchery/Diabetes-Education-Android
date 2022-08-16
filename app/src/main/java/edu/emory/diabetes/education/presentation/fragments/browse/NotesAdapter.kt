@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.databinding.FragmentNotesItemBinding
 import edu.emory.diabetes.education.domain.model.Content
 
-class NotesAdapter: ListAdapter<Content, NotesAdapter.ViewHolder>(ContentDiffUtil.diffUtil) {
+class NotesAdapter : ListAdapter<Content, NotesAdapter.ViewHolder>(ContentDiffUtil.diffUtil) {
 
     inner class ViewHolder(
         private val bind: FragmentNotesItemBinding

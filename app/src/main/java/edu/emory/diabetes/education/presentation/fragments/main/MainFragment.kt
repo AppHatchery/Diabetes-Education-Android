@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.main
 
+import BrowseUtils
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -23,7 +24,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                 MainFragmentDirections
                     .actionMainFragmentToOrientationFragment()
                     .also { findNavController().navigate(it) }
-                Log.e("TAG", "onViewCreated: "+ BrowseUtils.bookMarkData.toList() )
+                Log.e("TAG", "onViewCreated: " + BrowseUtils.bookMarkData.toList())
             }
         }
 

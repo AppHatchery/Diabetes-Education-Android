@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.databinding.FragmentBookmarksItemBinding
 import edu.emory.diabetes.education.domain.model.Content
 
-class BookmarkAdapter: ListAdapter<Content, BookmarkAdapter.ViewHolder>(ContentDiffUtil.diffUtil) {
+class BookmarkAdapter : ListAdapter<Content, BookmarkAdapter.ViewHolder>(ContentDiffUtil.diffUtil) {
 
     inner class ViewHolder(
         private val bind: FragmentBookmarksItemBinding
