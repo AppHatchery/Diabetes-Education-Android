@@ -1,10 +1,12 @@
 package edu.emory.diabetes.education.presentation.fragments.orientation
 
+import android.app.ActionBar
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.Ext
@@ -20,7 +22,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = args.lesson.title
         with(FragmentOrientationWhatIsDiabetesBinding.bind(view)) {
             parent.viewTreeObserver.addOnScrollChangedListener {
                 if (parent.scrollY > 0) {
@@ -31,10 +33,8 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                     }
                 }
             }
-
-
             webView.apply {
-                loadUrl(Ext.getPathUrl(args.pageUrl))
+                loadUrl(Ext.getPathUrl(args.lesson.pageUrl))
                 webViewClient = object : WebViewClient() {
                     override fun shouldOverrideUrlLoading(
                         view: WebView?,
@@ -47,7 +47,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                             ).replace(htmlExt, "")
                         }.also {
                             WhatIsDiabetesDirections
-                                .actionGlobalWhatIsDiabetes(it).also {
+                                .actionGlobalWhatIsDiabetes(args.lesson).also {
                                     findNavController().navigate(it)
                                 }
                         }

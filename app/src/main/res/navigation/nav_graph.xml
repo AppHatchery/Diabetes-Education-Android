@@ -90,8 +90,8 @@
         android:label="What is Diabetes?"
         tools:layout="@layout/fragment_orientation_what_is_diabetes">
         <argument
-            android:name="pageUrl"
-            app:argType="string" />
+            android:name="lesson"
+            app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
     </fragment>
     <fragment
         android:id="@+id/typesOfInsulin"

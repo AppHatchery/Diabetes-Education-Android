@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentDiabetesBasicsBinding
+import edu.emory.diabetes.education.domain.model.Lesson
 import edu.emory.diabetes.education.presentation.BaseFragment
 
 class BasicFragment : BaseFragment(R.layout.fragment_diabetes_basics), BasicNavigator {
@@ -25,7 +26,7 @@ class BasicFragment : BaseFragment(R.layout.fragment_diabetes_basics), BasicNavi
         }.attach()
     }
 
-    override fun invoke(path: String?, event: Event) {
+    override fun invoke(lesson: Lesson?, event: Event) {
 
         when (event) {
             Event.Quiz ->
@@ -35,10 +36,12 @@ class BasicFragment : BaseFragment(R.layout.fragment_diabetes_basics), BasicNavi
                     }
 
             Event.Lesson ->
-                BasicFragmentDirections
-                    .actionDiabetesBasicsFragmentToWhatIsDiabetes("index").apply {
-                        findNavController().navigate(this)
-                    }
+                lesson?.let {
+                    BasicFragmentDirections
+                        .actionDiabetesBasicsFragmentToWhatIsDiabetes(it).apply {
+                            findNavController().navigate(this)
+                        }
+                }
         }
 
     }

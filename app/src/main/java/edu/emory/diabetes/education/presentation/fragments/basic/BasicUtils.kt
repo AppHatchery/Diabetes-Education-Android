@@ -11,25 +11,29 @@ object BasicUtils {
             0,
             R.drawable.ic_stethoscope,
             "What is Diabetes?",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+            "index"
         ),
         LessonEntity(
             1,
             R.drawable.ic_injection_needle,
             "Types of insulin?",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+            "insulin"
         ),
         LessonEntity(
             2,
             R.drawable.ic_beaker,
             "Checking Blood Sugar",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+            ""
         ),
         LessonEntity(
             3,
             R.drawable.ic_dropper,
             "Ketones",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+            ""
         )
     )
 
