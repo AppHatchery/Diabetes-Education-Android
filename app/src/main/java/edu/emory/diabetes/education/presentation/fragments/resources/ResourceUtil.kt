@@ -3,6 +3,7 @@ package edu.emory.diabetes.education.presentation.fragments.resources
 import edu.emory.diabetes.education.domain.model.Communities
 import edu.emory.diabetes.education.domain.model.FoodDiary
 import edu.emory.diabetes.education.domain.model.MustHaveApp
+import edu.emory.diabetes.education.domain.model.MustHaveAppPage
 
 object ResourceUtil {
 
@@ -47,6 +48,25 @@ object ResourceUtil {
         Communities(
             "A nonprofit organization serving children and teens living with type 1 diabetes "
         )
+    )
+
+    val mustHaveAppPage = listOf(
+        MustHaveAppPage(
+            "My Sugar",
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text."
+        ),
+        MustHaveAppPage(
+            "Calorie King",
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text."
+        ),
+        MustHaveAppPage(
+            "My Fitness Pal",
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text."
+        )
+
     )
 
 
