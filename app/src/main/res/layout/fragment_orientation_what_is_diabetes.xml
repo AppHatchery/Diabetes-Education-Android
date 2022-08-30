@@ -55,38 +55,6 @@
                 android:layout_height="match_parent"
                 android:padding="16dp" />
         </ScrollView>
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#57585A"
-                android:background="@drawable/shape_rectangle_stroke_white_radius_15px"
-                android:orientation="horizontal"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
-                android:padding="11dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/parent"
-                >
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:tint="@color/white_100"
-                    android:layout_marginHorizontal="11dp"
-                    android:src="@drawable/ic_text"/>
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:tint="@color/white_100"
-                    android:layout_marginHorizontal="11dp"
-                    android:src="@drawable/ic_search"/>
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:tint="@color/white_100"
-                    android:layout_marginHorizontal="11dp"
-                    android:src="@drawable/ic__bookmark_outlined"/>
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
