@@ -4,11 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="dialog"
-            type="edu.emory.diabetes.education.domain.model.CalculatorDialog" />
-
-
     </data>
 
     <androidx.cardview.widget.CardView

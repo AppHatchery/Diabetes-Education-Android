@@ -10,9 +10,5 @@ object CalculatorUtils {
         InsulinCalculatorEntity("Total insulin", 3),
     )
 
-    val calculatorDialogData = listOf(
-        CalculatorDialog("Pick your card ratio"),
-        CalculatorDialog("Pick your correction factor")
-    )
 
 }

@@ -31,17 +31,18 @@ object Utils {
             R.drawable.im_knowledge_ladder
         ),
         ChapterEntity(
-            "Diabetes Self-Management",
-            R.color.pink_300,
-            R.color.pink_200,
-            R.drawable.im_knowledge_idea
-        ),
-        ChapterEntity(
             "Nutrition and Carbs Counting",
             R.color.green_200,
             R.color.green_150,
             R.drawable.im_taco_and_avocado_food
         ),
+        ChapterEntity(
+            "Diabetes Self-Management",
+            R.color.pink_300,
+            R.color.pink_200,
+            R.drawable.im_knowledge_idea
+        ),
+
     )
 }
 
