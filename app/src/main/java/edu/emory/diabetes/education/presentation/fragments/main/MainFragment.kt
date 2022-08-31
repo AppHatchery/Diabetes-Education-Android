@@ -38,6 +38,12 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                         findNavController().navigate(it)
                     }
             }
+
+            if (it.id == 2 ){
+                MainFragmentDirections.actionMainFragmentToTypesOfFoodFragment().also {
+                    findNavController().navigate(it)
+                }
+            }
         }.apply {
             viewModel.state
                 .onEach {
