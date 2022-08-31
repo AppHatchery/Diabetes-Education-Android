@@ -5,6 +5,7 @@ import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.navigation.fragment.findNavController
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentTypesOfFoodBinding
@@ -41,6 +42,15 @@ class TypesOfFoodFragment: BaseFragment(R.layout.fragment_types_of_food) {
                     }
                 }
             }
+
+            doneButton.setOnClickListener {
+               TypesOfFoodFragmentDirections
+                   .actionTypesOfFoodFragmentToHowToCountCarbsFragment().also {
+                       findNavController().navigate(it)
+                   }
+            }
+
+
         }
     }
 }

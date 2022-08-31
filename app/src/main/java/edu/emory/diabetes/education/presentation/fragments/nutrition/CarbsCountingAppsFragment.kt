@@ -25,7 +25,7 @@ class CarbsCountingAppsFragment: BaseFragment(R.layout.fragment_carbs_counting_a
             }
 
             webView.apply {
-                loadUrl(Ext.getPathUrl("carbs_counting_apps"))
+                loadUrl(Ext.getPathUrl("cabs_counting_apps"))
                 webViewClient = object : WebViewClient(){
                     override fun shouldOverrideUrlLoading(
                         view: WebView?,

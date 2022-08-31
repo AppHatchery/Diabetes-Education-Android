@@ -5,6 +5,7 @@ import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.navigation.fragment.findNavController
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentHowToCountCarbsBinding
@@ -40,6 +41,13 @@ class HowToCountCarbsFragment: BaseFragment(R.layout.fragment_how_to_count_carbs
                         return true
                     }
                 }
+            }
+
+            doneButton.setOnClickListener {
+                HowToCountCarbsFragmentDirections
+                    .actionHowToCountCarbsFragmentToCarbsCountingAppsFragment().also {
+                        findNavController().navigate(it)
+                    }
             }
         }
     }

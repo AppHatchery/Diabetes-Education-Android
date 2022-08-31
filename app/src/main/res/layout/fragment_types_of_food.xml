@@ -50,11 +50,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <edu.emory.diabetes.education.views.BaseWebView
-                    android:id="@+id/webView"
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="16dp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <edu.emory.diabetes.education.views.BaseWebView
+                        android:id="@+id/webView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/done_button"
+                        android:layout_width="147dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/shape_rectangle_radius_50px"
+                        android:backgroundTint="@color/green_900"
+                        android:text="Done"
+                        android:layout_marginTop="24dp"
+                        android:textColor="@color/white_100"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
