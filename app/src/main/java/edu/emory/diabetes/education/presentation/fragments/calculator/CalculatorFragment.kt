@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -44,7 +45,7 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
                         currentPosition = it
                         dismiss()
                     }.also {
-                        it.submitList((1 until 16).toList()) {
+                        it.submitList((1 until 101).toList()) {
                             recyclerView.scrollToPosition(currentPosition.minus(1))
                         }
                     }
@@ -54,9 +55,26 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
 
 
 
+            correctionFactor.setOnClickListener {
+                with(Dialog(requireContext()).dialog()) {
+                    setContentView(R.layout.fragment_calculator_dialog)
+                    val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
+                    recyclerView.adapter = InsulinDialogAdapter {
+                        correctionFactor.text = it.toString()
+                        currentPosition = it
+                        dismiss()
+                    }.also {
+                        it.submitList((10 until 201).toList()) {
+                            recyclerView.scrollToPosition(currentPosition.minus(10))
+                        }
+                    }
+                    dialogShow()
+                }
+            }
+
+
+
             appCompatButton.setOnClickListener {
-
-
                 var insulinFood: Float = 0.0F
                 var insulinBloodSugar: Float = 0.0F
 
@@ -71,9 +89,9 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
                     viewModel.onEvent(CalculateInsulinForFood(insulinCalculator.toInsulinCalculator()))
                 }
 
-                if (bloodSugar.text?.isNotEmpty() == true && correctionFactor > 0) {
+                if (bloodSugar.text?.isNotEmpty() == true && correctionFactor.text.toString().toFloat() > 0) {
                     insulinBloodSugar = (bloodSugar.text.toString().toFloat()
-                        .minus(100)).div(correctionFactor)
+                        .minus(100)).div(correctionFactor.text.toString().toFloat())
 
                     val insulinBloodCalculator = CalculatorUtils.data[1].copy(
                         answer = DecimalFormat("#.##").format(insulinBloodSugar)
@@ -95,34 +113,6 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
 
             }
 
-            val correctionFactorArray = resources.getStringArray(R.array.correction_factor_array)
-            val spinner: Spinner = correctionFactorSpinner
-            if (spinner != null) {
-                ArrayAdapter.createFromResource(
-                    requireContext(),
-                    R.array.correction_factor_array,
-                    R.layout.fragment_caluculator_spinner_item
-                ).also { adapter ->
-                    adapter.setDropDownViewResource(R.layout.fragment_caluculator_spinner_item)
-                    spinner.adapter = adapter
-                    spinner.onItemSelectedListener = object :
-                        AdapterView.OnItemSelectedListener {
-                        override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            position: Int,
-                            p3: Long
-                        ) {
-                            correctionFactor = correctionFactorArray[position].toInt()
-                            Log.e("TAG", "onItemSelected: " + correctionFactor)
-                        }
-
-                        override fun onNothingSelected(p0: AdapterView<*>?) {
-                            TODO("Not yet implemented")
-                        }
-                    }
-                }
-            }
 
         }
 

@@ -78,7 +78,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
+                android:text="They say it “takes a village” and when it comes to diabetes, it certainly does! You Diabetes Care Team at Children’s involves three main components."
                 android:textColor="@color/gray_200"
                 app:fontFamily="@font/gotham_rounded"
                 app:layout_constraintEnd_toEndOf="@+id/appCompatTextView6"

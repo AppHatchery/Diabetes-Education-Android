@@ -174,16 +174,21 @@
                 style="@style/textViewCalculatorStyle"
                 android:text="Correction Factor" />
 
-            <Spinner
-                android:id="@+id/correction_factor_spinner"
-                android:layout_width="match_parent"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/correction_factor"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
                 android:background="@drawable/shape_rectangle_radius_10px"
                 android:backgroundTint="@android:color/white"
+                android:drawableEnd="@drawable/ic_arrow_down"
+                android:fontFamily="@font/gotham_rounded_medium"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:padding="4dp"
-                android:textColor="@color/green_900" />
+                android:padding="12dp"
+                android:paddingEnd="16dp"
+                android:text="15"
+                android:textColor="@color/green_900"
+                tools:ignore="RtlSymmetry" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>

@@ -31,7 +31,13 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener{ _, destination, _ ->
             when(destination.id){
-                R.id.whatIsDiabetes -> binding.bottomNavigationView.visibility = View.GONE
+                R.id.whatIsDiabetes,
+                R.id.quizQuestionFragment,
+                R.id.resourceMustHaveFragment,
+                R.id.orientationFragment,
+                R.id.agendaFragment,
+                R.id.medicalTeamFragment,
+                R.id.lifeIsFragment-> binding.bottomNavigationView.visibility = View.GONE
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
         }

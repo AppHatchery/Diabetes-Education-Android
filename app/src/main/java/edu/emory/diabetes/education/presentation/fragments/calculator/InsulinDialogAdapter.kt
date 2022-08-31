@@ -13,7 +13,7 @@ class InsulinDialogAdapter(
 ) : ListAdapter<Int, InsulinDialogViewHolder>(InsulinDialogDiffUtil.diffUtil) {
 
     companion object {
-        var currentPosition = 14
+        var currentPosition = 15
     }
 
     override fun onBindViewHolder(holder: InsulinDialogViewHolder, position: Int) {
