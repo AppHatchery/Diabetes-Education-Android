@@ -184,7 +184,7 @@
     <fragment
         android:id="@+id/typesOfFoodFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.TypesOfFoodFragment"
-        android:label="TypesOfFoodFragment"
+        android:label="Types of food"
         tools:layout="@layout/fragment_types_of_food">
         <action
             android:id="@+id/action_typesOfFoodFragment_to_howToCountCarbsFragment"
@@ -193,7 +193,7 @@
     <fragment
         android:id="@+id/howToCountCarbsFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.HowToCountCarbsFragment"
-        android:label="HowToCountCarbsFragment"
+        android:label="How to count carbs"
         tools:layout="@layout/fragment_how_to_count_carbs">
         <action
             android:id="@+id/action_howToCountCarbsFragment_to_carbsCountingAppsFragment"
@@ -202,7 +202,7 @@
     <fragment
         android:id="@+id/carbsCountingAppsFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.CarbsCountingAppsFragment"
-        android:label="CarbsCountingAppsFragment"
+        android:label="Carbs counting apps"
         tools:layout="@layout/fragment_carbs_counting_apps"/>
     <fragment
         android:id="@+id/bloodSugarMonitoringFragment3"
@@ -216,11 +216,13 @@
     <fragment
         android:id="@+id/whenToCallDoctorFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.management.WhenToCallDoctorFragment"
-        android:label="When To Call Doctor" />
+        android:label="When To Call Doctor"
+        tools:layout="@layout/fragment_when_to_call_doctor"/>
     <fragment
         android:id="@+id/checkForKetonesFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.management.CheckForKetonesFragment"
-        android:label="Check For Ketones" >
+        android:label="Check For Ketones"
+        tools:layout="@layout/fragment_check_for_ketones">
         <action
             android:id="@+id/action_checkForKetonesFragment_to_treatmentForLowBloodSugarFragment"
             app:destination="@id/treatmentForLowBloodSugarFragment" />
@@ -228,7 +230,8 @@
     <fragment
         android:id="@+id/treatmentForLowBloodSugarFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.management.TreatmentForLowBloodSugarFragment"
-        android:label="Treatment For Low Blood Sugar" >
+        android:label="Treatment For Low Blood Sugar"
+        tools:layout="@layout/fragment_treatement_for_low_blood_sugar">
         <action
             android:id="@+id/action_treatmentForLowBloodSugarFragment_to_whenToCallDoctorFragment"
             app:destination="@id/whenToCallDoctorFragment" />
