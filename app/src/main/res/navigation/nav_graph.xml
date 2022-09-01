@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_mainFragment_to_typesOfFoodFragment"
             app:destination="@id/typesOfFoodFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_bloodSugarMonitoringFragment3"
+            app:destination="@id/bloodSugarMonitoringFragment3" />
     </fragment>
     <fragment
         android:id="@+id/calculatorFragment"
@@ -201,5 +204,34 @@
         android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.CarbsCountingAppsFragment"
         android:label="CarbsCountingAppsFragment"
         tools:layout="@layout/fragment_carbs_counting_apps"/>
+    <fragment
+        android:id="@+id/bloodSugarMonitoringFragment3"
+        android:name="edu.emory.diabetes.education.presentation.fragments.management.BloodSugarMonitoringFragment"
+        android:label="Blood Sugar Monitoring"
+        tools:layout="@layout/fragment_blood_sugar_monitoring">
+        <action
+            android:id="@+id/action_bloodSugarMonitoringFragment3_to_checkForKetonesFragment"
+            app:destination="@id/checkForKetonesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/whenToCallDoctorFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.management.WhenToCallDoctorFragment"
+        android:label="When To Call Doctor" />
+    <fragment
+        android:id="@+id/checkForKetonesFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.management.CheckForKetonesFragment"
+        android:label="Check For Ketones" >
+        <action
+            android:id="@+id/action_checkForKetonesFragment_to_treatmentForLowBloodSugarFragment"
+            app:destination="@id/treatmentForLowBloodSugarFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/treatmentForLowBloodSugarFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.management.TreatmentForLowBloodSugarFragment"
+        android:label="Treatment For Low Blood Sugar" >
+        <action
+            android:id="@+id/action_treatmentForLowBloodSugarFragment_to_whenToCallDoctorFragment"
+            app:destination="@id/whenToCallDoctorFragment" />
+    </fragment>
 
 </navigation>

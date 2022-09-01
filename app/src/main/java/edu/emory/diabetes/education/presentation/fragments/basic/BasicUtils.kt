@@ -26,14 +26,14 @@ object BasicUtils {
             R.drawable.ic_beaker,
             "Checking Blood Sugar",
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-            ""
+            "how_to_calculate_insulin_dosing"
         ),
         LessonEntity(
             3,
             R.drawable.ic_dropper,
             "Ketones",
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-            ""
+            "how_to_give_insulin_shot"
         )
     )
 
