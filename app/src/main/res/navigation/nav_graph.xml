@@ -63,7 +63,11 @@
         android:id="@+id/lifeIsFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.orientation.LifeIsFragment"
         android:label="Orientation(4/4)"
-        tools:layout="@layout/fragment_orientation_life_is" />
+        tools:layout="@layout/fragment_orientation_life_is" >
+        <action
+            android:id="@+id/action_lifeIsFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
     <fragment
         android:id="@+id/agendaFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.orientation.AgendaFragment"

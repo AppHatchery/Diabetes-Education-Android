@@ -19,8 +19,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
     private val args: WhatIsDiabetesArgs by navArgs()
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = args.lesson.title
         with(FragmentOrientationWhatIsDiabetesBinding.bind(view)) {
@@ -47,7 +45,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                             ).replace(htmlExt, "")
                         }.also {
                             WhatIsDiabetesDirections
-                                .actionGlobalWhatIsDiabetes(args.lesson).also {
+                                .actionGlobalWhatIsDiabetes(args.lesson.copy(pageUrl = "insulin", title = "Types of insulin")).also {
                                     findNavController().navigate(it)
                                 }
                         }

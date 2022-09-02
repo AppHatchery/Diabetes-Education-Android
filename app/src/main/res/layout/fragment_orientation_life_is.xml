@@ -10,10 +10,10 @@
             type="edu.emory.diabetes.education.presentation.fragments.orientation.AgendaAdapter" />
     </data>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appCompatImageView"
@@ -49,21 +49,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
 
-
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/done"
             app:layout_constraintEnd_toEndOf="@+id/appCompatImageView2"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/appCompatImageView2"
             app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2"
+            app:layout_constraintVertical_bias="0.0"
             app:spanCount="1"
             tools:itemCount="2"
             tools:listitem="@layout/fragment_orientation_life_is_item" />
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/shape_rectangle_radius_50px"
+                android:backgroundTint="@color/green_900"
+                android:gravity="center"
+                android:paddingHorizontal="24dp"
+                android:text="Done"
+                android:textColor="@color/white_100"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/recycler_view"
+                app:layout_constraintVertical_bias="0.786" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
