@@ -5,7 +5,9 @@ import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentBloodSugarMonitoringBinding
@@ -14,7 +16,10 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 
 class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_monitoring) {
 
+    private val args: BloodSugarMonitoringFragmentArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = args.managementLesson.title
        with(FragmentBloodSugarMonitoringBinding.bind(view)){
            parent.viewTreeObserver.addOnScrollChangedListener{
                if (parent.scrollY > 0){
@@ -26,7 +31,7 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                }
            }
            webView.apply {
-               loadUrl(Ext.getPathUrl("blood_sugar_monitoring"))
+               loadUrl(Ext.getPathUrl(args.managementLesson.pageUrl))
                webViewClient = object : WebViewClient(){
                    override fun shouldOverrideUrlLoading(
                        view: WebView?,

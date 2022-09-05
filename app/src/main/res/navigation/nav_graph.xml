@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_mainFragment_to_nutritionFragment"
             app:destination="@id/nutritionFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_managementFragment"
+            app:destination="@id/managementFragment" />
     </fragment>
     <fragment
         android:id="@+id/calculatorFragment"
@@ -193,6 +196,9 @@
         android:name="edu.emory.diabetes.education.presentation.fragments.management.BloodSugarMonitoringFragment"
         android:label="Blood Sugar Monitoring"
         tools:layout="@layout/fragment_blood_sugar_monitoring">
+        <argument
+            android:name="managementLesson"
+            app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
         <action
             android:id="@+id/action_bloodSugarMonitoringFragment3_to_checkForKetonesFragment"
             app:destination="@id/checkForKetonesFragment" />
@@ -252,5 +258,25 @@
             android:name="lesson"
             app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
     </fragment>
+    <fragment
+        android:id="@+id/managementFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.management.ManagementFragment"
+        android:label="Diabetes Self-Management"
+        tools:layout="@layout/fragment_management">
+        <action
+            android:id="@+id/action_managementFragment_to_quizFragment"
+            app:destination="@id/quizFragment" />
+        <action
+            android:id="@+id/action_managementFragment_to_bloodSugarMonitoringFragment3"
+            app:destination="@id/bloodSugarMonitoringFragment3" />
+    </fragment>
+    <fragment
+        android:id="@+id/managementLessonFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.management.ManagementLessonFragment"
+        android:label="ManagementLessonFragment" />
+    <fragment
+        android:id="@+id/managementQuizFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.management.ManagementQuizFragment"
+        android:label="ManagementQuizFragment" />
 
 </navigation>

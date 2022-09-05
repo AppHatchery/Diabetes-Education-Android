@@ -64,7 +64,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
 
         bottomAdapter = MainAdapter {
             MainFragmentDirections
-                .actionMainFragmentToBloodSugarMonitoringFragment3().apply {
+                .actionMainFragmentToManagementFragment().apply {
                     findNavController().navigate(this)
                 }
         }.apply {
