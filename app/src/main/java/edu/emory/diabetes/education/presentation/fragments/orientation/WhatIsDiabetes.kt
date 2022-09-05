@@ -44,10 +44,18 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                                     .plus(1), length
                             ).replace(htmlExt, "")
                         }.also {
+//                            WhatIsDiabetesDirections
+//                                .actionGlobalWhatIsDiabetes(
+//                                    args.lesson.copy(pageUrl = "insulin", title = "Types of insulin")
+//                                ).also {
+//                                    findNavController().navigate(it)
+//                                }
                             WhatIsDiabetesDirections
-                                .actionGlobalWhatIsDiabetes(args.lesson.copy(pageUrl = "insulin", title = "Types of insulin")).also {
+                                .actionWhatIsDiabetesToChapterFinishFragment()
+                                .also {
                                     findNavController().navigate(it)
                                 }
+
                         }
                         return true
                     }

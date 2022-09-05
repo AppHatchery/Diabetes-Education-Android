@@ -102,6 +102,9 @@
         <argument
             android:name="lesson"
             app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
+        <action
+            android:id="@+id/action_whatIsDiabetes_to_chapterFinishFragment"
+            app:destination="@id/chapterFinishFragment" />
     </fragment>
     <fragment
         android:id="@+id/typesOfInsulin"
@@ -240,5 +243,11 @@
             android:id="@+id/action_treatmentForLowBloodSugarFragment_to_whenToCallDoctorFragment"
             app:destination="@id/whenToCallDoctorFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/chapterFinishFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.orientation.ChapterFinishFragment"
+        android:label="ChapterFinishFragment"
+        tools:layout="@layout/fragment_finish_chapter"
+        />
 
 </navigation>

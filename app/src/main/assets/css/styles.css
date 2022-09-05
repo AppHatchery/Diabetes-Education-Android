@@ -33,12 +33,13 @@ a{
 
 .uk-button {
     text-transform: none !important;
-    height:
-    width: 147px;
-    padding-vertical: 20px;
-    background-color: #00A94F;
-    color: #ffffff;
-    border-radius: 52px;
+      width: 150px;
+      padding: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #00A94F;
+      color: #ffffff;
+      border-radius: 52px;
 }
 
 .uk-button:hover {
