@@ -5,15 +5,21 @@ import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
-import edu.emory.diabetes.education.databinding.FragmentCarbsCountingAppsBinding
+import edu.emory.diabetes.education.databinding.FragmentNutritionWebViewAppsBinding
 import edu.emory.diabetes.education.htmlExt
 import edu.emory.diabetes.education.presentation.BaseFragment
 
-class CarbsCountingAppsFragment: BaseFragment(R.layout.fragment_carbs_counting_apps) {
+class NutritionWebViewFragment: BaseFragment(R.layout.fragment_nutrition_web_view_apps) {
+
+    private val args: NutritionWebViewFragmentArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with(FragmentCarbsCountingAppsBinding.bind(view)){
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = args.lesson.title
+        with(FragmentNutritionWebViewAppsBinding.bind(view)){
             parent.viewTreeObserver.addOnScrollChangedListener{
                 if (parent.scrollY > 0){
                     val height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
@@ -25,7 +31,7 @@ class CarbsCountingAppsFragment: BaseFragment(R.layout.fragment_carbs_counting_a
             }
 
             webView.apply {
-                loadUrl(Ext.getPathUrl("cabs_counting_apps"))
+                loadUrl(Ext.getPathUrl(args.lesson.pageUrl))
                 webViewClient = object : WebViewClient(){
                     override fun shouldOverrideUrlLoading(
                         view: WebView?,

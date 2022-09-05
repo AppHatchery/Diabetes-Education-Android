@@ -43,13 +43,6 @@ class TypesOfFoodFragment: BaseFragment(R.layout.fragment_types_of_food) {
                 }
             }
 
-            doneButton.setOnClickListener {
-               TypesOfFoodFragmentDirections
-                   .actionTypesOfFoodFragmentToHowToCountCarbsFragment().also {
-                       findNavController().navigate(it)
-                   }
-            }
-
 
         }
     }

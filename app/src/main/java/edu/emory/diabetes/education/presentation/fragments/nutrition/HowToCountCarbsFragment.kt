@@ -43,12 +43,6 @@ class HowToCountCarbsFragment: BaseFragment(R.layout.fragment_how_to_count_carbs
                 }
             }
 
-            doneButton.setOnClickListener {
-                HowToCountCarbsFragmentDirections
-                    .actionHowToCountCarbsFragmentToCarbsCountingAppsFragment().also {
-                        findNavController().navigate(it)
-                    }
-            }
         }
     }
 }

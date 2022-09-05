@@ -33,11 +33,11 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_mainFragment_to_typesOfFoodFragment"
-            app:destination="@id/typesOfFoodFragment" />
-        <action
             android:id="@+id/action_mainFragment_to_bloodSugarMonitoringFragment3"
             app:destination="@id/bloodSugarMonitoringFragment3" />
+        <action
+            android:id="@+id/action_mainFragment_to_nutritionFragment"
+            app:destination="@id/nutritionFragment" />
     </fragment>
     <fragment
         android:id="@+id/calculatorFragment"
@@ -189,29 +189,6 @@
         android:label="Must-Have Apps"
         tools:layout="@layout/fragment_resource_must_have_apps" />
     <fragment
-        android:id="@+id/typesOfFoodFragment"
-        android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.TypesOfFoodFragment"
-        android:label="Types of food"
-        tools:layout="@layout/fragment_types_of_food">
-        <action
-            android:id="@+id/action_typesOfFoodFragment_to_howToCountCarbsFragment"
-            app:destination="@id/howToCountCarbsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/howToCountCarbsFragment"
-        android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.HowToCountCarbsFragment"
-        android:label="How to count carbs"
-        tools:layout="@layout/fragment_how_to_count_carbs">
-        <action
-            android:id="@+id/action_howToCountCarbsFragment_to_carbsCountingAppsFragment"
-            app:destination="@id/carbsCountingAppsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/carbsCountingAppsFragment"
-        android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.CarbsCountingAppsFragment"
-        android:label="Carbs counting apps"
-        tools:layout="@layout/fragment_carbs_counting_apps"/>
-    <fragment
         android:id="@+id/bloodSugarMonitoringFragment3"
         android:name="edu.emory.diabetes.education.presentation.fragments.management.BloodSugarMonitoringFragment"
         android:label="Blood Sugar Monitoring"
@@ -249,5 +226,31 @@
         android:label="ChapterFinishFragment"
         tools:layout="@layout/fragment_finish_chapter"
         />
+    <fragment
+        android:id="@+id/nutritionFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.NutritionFragment"
+        android:label="Nutrition and carbs counting"
+        tools:layout="@layout/fragment_diabetes_nutrition"
+        >
+        <action
+            android:id="@+id/action_nutritionFragment_to_nutritionWebViewFragment"
+            app:destination="@id/nutritionWebViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nutritionLessonFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.NutritionLessonFragment"
+        android:label="NutritionLessonFragment" >
+        <action
+            android:id="@+id/action_nutritionLessonFragment_to_nutritionWebViewFragment"
+            app:destination="@id/nutritionWebViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nutritionWebViewFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.NutritionWebViewFragment"
+        android:label="NutritionWebViewFragment" >
+        <argument
+            android:name="lesson"
+            app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
+    </fragment>
 
 </navigation>

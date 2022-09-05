@@ -48,7 +48,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
             }
 
             if (it.id == 2 ){
-                MainFragmentDirections.actionMainFragmentToTypesOfFoodFragment().also {
+                MainFragmentDirections.actionMainFragmentToNutritionFragment().also {
                     findNavController().navigate(it)
                 }
             }
