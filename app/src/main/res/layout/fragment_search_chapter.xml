@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="adapter"
+            type="edu.emory.diabetes.education.presentation.fragments.orientation.ChapterSearchAdapter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_rectangle_top_radius_30px"
+        android:padding="8dp"
+        android:layout_marginTop="20dp">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="30dp"
+            android:inputType="textAutoCorrect|textAutoComplete"
+            android:background="@drawable/shape_rectangle_stroke_1px_radius_90px_"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="16dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            android:hint="Search"
+            android:drawableTint="@color/green_900"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/adapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:adapter="@{adapter}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search"
+            app:spanCount="1"
+            tools:itemCount="3"
+            tools:listitem="@layout/fragment_chapter_search_item" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

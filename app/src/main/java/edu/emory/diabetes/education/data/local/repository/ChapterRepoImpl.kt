@@ -2,6 +2,7 @@ package edu.emory.diabetes.education.data.local.repository
 
 import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.data.local.Database
+import edu.emory.diabetes.education.data.local.entities.ChapterSearchEntity
 import edu.emory.diabetes.education.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -21,4 +22,14 @@ class ChapterRepoImpl(
         if (query().first().isEmpty())
             dao.insert(Utils.listOfChapter)
     }
+
+
+    suspend fun insertChapter(data: List<ChapterSearchEntity>){
+        dao.insertChapter(data)
+    }
+
+    fun getData(searchQuery: String) : Flow<List<ChapterSearchEntity>> = dao.getData(searchQuery)
+
+
+
 }

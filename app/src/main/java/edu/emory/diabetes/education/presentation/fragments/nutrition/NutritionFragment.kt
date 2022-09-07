@@ -33,7 +33,6 @@ class NutritionFragment : BaseFragment(R.layout.fragment_diabetes_nutrition), Ba
             Event.Quiz ->{}
 
             Event.Lesson ->
-
                 lesson?.let {
                     NutritionFragmentDirections
                         .actionNutritionFragmentToNutritionWebViewFragment(lesson).apply {

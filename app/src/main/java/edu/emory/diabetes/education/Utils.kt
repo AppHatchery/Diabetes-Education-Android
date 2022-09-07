@@ -3,8 +3,13 @@ package edu.emory.diabetes.education
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.WindowManager
+import android.widget.EditText
+import androidx.appcompat.widget.SearchView
 import edu.emory.diabetes.education.data.local.entities.ChapterEntity
+import edu.emory.diabetes.education.data.local.entities.ChapterSearchEntity
 import java.util.*
 
 object Utils {
@@ -44,6 +49,38 @@ object Utils {
         ),
 
     )
+
+
+    val chapterContent = listOf(
+        ChapterSearchEntity(
+            0,
+             "what is diabetes",
+            "Signs of diabetes occur because the body lacks insulin. This causes blood sugar to build up in the blood leading to these signs"
+
+        )
+    )
+
+    fun EditText.setOnTextWatcher(
+        onTextChangedListener: (String) -> Unit) {
+        this.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
+            override fun onTextChanged(
+                charSequence: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                charSequence?.let {
+                    if (it.isNotBlank()) onTextChangedListener(it.toString().lowercase().trim())
+                }
+
+            }
+
+            override fun afterTextChanged(s: Editable?) = Unit
+        })
+    }
+
 }
 
 
