@@ -97,7 +97,7 @@
                 android:id="@+id/appCompatTextView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="First Day"
                 app:layout_constraintStart_toStartOf="@+id/cardView"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
@@ -122,14 +122,14 @@
                 android:id="@+id/appCompatTextView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="4dp"
                 android:text="Second Day"
                 app:layout_constraintStart_toStartOf="@+id/cardView"
                 app:layout_constraintTop_toBottomOf="@+id/recycler_view_one" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="192dp"
                 android:layout_marginTop="4dp"
                 android:adapter="@{bottomAdapter}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

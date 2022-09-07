@@ -229,7 +229,7 @@
     <fragment
         android:id="@+id/chapterFinishFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.orientation.ChapterFinishFragment"
-        android:label="ChapterFinishFragment"
+        android:label="End Of Chapter"
         tools:layout="@layout/fragment_finish_chapter"
         />
     <fragment
