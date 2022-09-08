@@ -11,6 +11,4 @@ data class ChapterSearchEntity(
     val id: Int = 0,
     val chapterTitle: String,
     val bodyText: String
-){
-    fun toChapterSearch() = ChapterSearch(id, chapterTitle, bodyText)
-}
+)

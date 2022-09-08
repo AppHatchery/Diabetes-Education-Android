@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/shape_rectangle_top_radius_30px"
+        android:background="@drawable/shape_rectangle_top_radius_50px"
         android:padding="8dp"
         android:layout_marginTop="20dp">
 
@@ -35,16 +35,33 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/not_found"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:text="Sorry! No result found :("
+            android:textColor="@color/gray_200"
+            app:fontFamily="@font/gotham_rounded_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search"
+            tools:text="Sorry! No result found :(" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/adapter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/not_found"
             app:spanCount="1"
             tools:itemCount="3"
             tools:listitem="@layout/fragment_chapter_search_item" />

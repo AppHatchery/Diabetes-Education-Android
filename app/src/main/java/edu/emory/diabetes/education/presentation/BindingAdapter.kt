@@ -2,6 +2,7 @@ package edu.emory.diabetes.education.presentation
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
@@ -26,4 +27,9 @@ fun setBackgroundColorResource(view: CardView, backgroundColor: Int) {
 @BindingAdapter("setImageIcon")
 fun setImageIcon(view: ImageView, image: Int) {
     view.setImageDrawable(ContextCompat.getDrawable(view.context, image))
+}
+
+@BindingAdapter( "searchText")
+fun searchText(view: TextView, search: String) {
+    view.text = String.format("%s %s", "•", search.trim())
 }

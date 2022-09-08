@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.data.local.repository.RepositoryImpl
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import edu.emory.diabetes.education.domain.model.ChapterSearch
+import edu.emory.diabetes.education.views.WebAppInterface
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,17 +18,18 @@ class ChapterViewModel @Inject constructor(
 ): ViewModel() {
 
     val searchQuery = MutableStateFlow("")
-
-    init {
-        viewModelScope.launch {
-            repo.chapterRepoImpl.insertChapter(Utils.chapterContent.toList())
-        }
-    }
-
     private val searchFlow = searchQuery.flatMapLatest {
-        repo.chapterRepoImpl.getData(it)
+        search(it)
+
     }
 
     val searchResult = searchFlow
+
+    fun search(searchQuery:String): Flow<List<String>> {
+        return flow {
+            val result = WebAppInterface.webData.split(".", "?",":").filter { it.trim().contains(searchQuery, true) }
+            emit(result)
+        }
+    }
 
 }

@@ -5,10 +5,14 @@
       <map>
         <entry key="../../Library/Android/sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.24166666666666667" />
         <entry key="../../Library/Android/sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.24166666666666667" />
+        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/ic__bookmark_outlined.xml" value="0.1015" />
+        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/ic_bookmark.xml" value="0.1015" />
+        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_circle_px.xml" value="0.12" />
         <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_radius_5px.xml" value="0.1475" />
         <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_stroke.xml" value="0.116" />
         <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_stroke_1px_radius_90px_.xml" value="0.116" />
         <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_stroke_radius_50px.xml" value="0.116" />
+        <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_top_radius_50px.xml" value="0.1015" />
         <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_blood_sugar_monitoring.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_bookmarks.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_bookmarks_item.xml" value="0.25" />

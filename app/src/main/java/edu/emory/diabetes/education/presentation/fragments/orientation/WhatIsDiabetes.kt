@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.orientation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -8,10 +9,12 @@ import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Adapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.MenuProvider
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -23,16 +26,19 @@ import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
 import edu.emory.diabetes.education.databinding.FragmentOrientationWhatIsDiabetesBinding
+import edu.emory.diabetes.education.domain.model.ChapterSearch
 import edu.emory.diabetes.education.htmlExt
 import edu.emory.diabetes.education.presentation.BaseFragment
+import edu.emory.diabetes.education.views.WebAppInterface
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabetes) {
 
     private val args: WhatIsDiabetesArgs by navArgs()
-    private val viewModel : ChapterViewModel by viewModels()
+    private val viewModel: ChapterViewModel by viewModels()
 
+    @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = args.lesson.title
         with(FragmentOrientationWhatIsDiabetesBinding.bind(view)) {
@@ -47,7 +53,13 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             }
             webView.apply {
                 loadUrl(Ext.getPathUrl(args.lesson.pageUrl))
+                addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
                 webViewClient = object : WebViewClient() {
+                    override fun onPageFinished(view: WebView?, url: String?) {
+                        super.onPageFinished(view, url)
+                        view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);");
+                    }
+
                     override fun shouldOverrideUrlLoading(
                         view: WebView?,
                         request: WebResourceRequest?,
@@ -89,7 +101,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         }
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-            return when(menuItem.itemId){
+            return when (menuItem.itemId) {
                 R.id.action_search -> {
 //                    val bottomSheet = BottomSheetFragment()
 //                    bottomSheet.show(requireActivity().supportFragmentManager, BottomSheetFragment.TAG)
@@ -108,21 +120,35 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         bottomSheetDialog.setContentView(R.layout.fragment_search_chapter);
         bottomSheetDialog.show();
 
-        val editText = bottomSheetDialog.findViewById<AppCompatEditText>(R.id.search)
+        val searchKeyword = bottomSheetDialog.findViewById<AppCompatEditText>(R.id.search)
+        val searchResult = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.not_found)
         var recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
+        val not = bottomSheetDialog.findViewById<AppCompatEditText>(R.id.search)
 
-        recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
-            viewModel.searchResult.onEach {
-                adapter.submitList(it.map { it.toChapterSearch() }){ recyclerView?.scrollToPosition(adapter.currentList.lastIndex) }
-            }.launchIn(lifecycleScope)
-        }
 
-        editText?.setOnTextWatcher {
+        searchKeyword?.setOnTextWatcher {
             viewModel.searchQuery.value = it
 
-        }
-    }
+            with(searchResult) {
+                     if (searchKeyword.toString().trim().isNotBlank())
+                         this?.visibility = View.GONE
+            }
+            recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
+                viewModel.searchResult.onEach {
+                    adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
+                        recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
+                    }
+                }.launchIn(lifecycleScope)
 
+            }
+
+
+
+
+        }
+
+
+    }
 
 
 }
