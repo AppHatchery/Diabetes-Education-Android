@@ -116,7 +116,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
     private fun showBottomSheetDialog() {
-        val bottomSheetDialog = BottomSheetDialog(requireContext());
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogStyle);
         bottomSheetDialog.setContentView(R.layout.fragment_search_chapter);
         bottomSheetDialog.show();
 
@@ -124,7 +124,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         val searchResult = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.not_found)
         var recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
         val not = bottomSheetDialog.findViewById<AppCompatEditText>(R.id.search)
-
 
         searchKeyword?.setOnTextWatcher {
             viewModel.searchQuery.value = it

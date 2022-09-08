@@ -30,7 +30,8 @@
                 android:layout_weight="1"
                 searchText="@{chapterSearch.bodyText}"
                 android:textColor="@color/gray_200"
-                tools:text="What is diabetes?" />
+                tools:text="What is diabetes?"
+                android:textSize="16sp"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </FrameLayout>
