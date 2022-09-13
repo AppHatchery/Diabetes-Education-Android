@@ -17,25 +17,45 @@
         android:backgroundTint="@color/cine_100"
         android:layout_marginTop="20dp">
 
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/search"
-            android:layout_width="320dp"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/search_linear"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:orientation="horizontal"
             android:layout_marginBottom="30dp"
-            android:inputType="textAutoCorrect|textAutoComplete"
-            android:background="@drawable/shape_rectangle_white_stroke_1px_radius_90px_"
-            android:drawableStart="@drawable/ic_search"
-            android:drawablePadding="16dp"
-            android:drawableEnd="@drawable/ic_clear_text"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="10dp"
-            android:drawableTint="@color/green_900"
             app:layout_constraintEnd_toStartOf="@id/search_text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            android:background="@drawable/shape_rectangle_white_stroke_1px_radius_90px_"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/search"
+                android:layout_width="270dp"
+                android:backgroundTint="@color/white_100"
+                android:layout_height="wrap_content"
+                android:inputType="textAutoCorrect|textAutoComplete"
+                android:drawableStart="@drawable/ic_search"
+                android:drawablePadding="16dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="10dp"
+                android:drawableTint="@color/green_900" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/clear_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
+                android:src="@drawable/ic_clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/search_text"
@@ -43,10 +63,10 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="@color/green_900"
-            app:layout_constraintTop_toTopOf="@id/search"
-            app:layout_constraintStart_toEndOf="@id/search"
+            app:layout_constraintTop_toTopOf="@id/search_linear"
+            app:layout_constraintStart_toEndOf="@id/search_linear"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/search"
+            app:layout_constraintBottom_toBottomOf="@id/search_linear"
             android:text="Search"/>
 
 
@@ -62,8 +82,10 @@
             app:fontFamily="@font/gotham_rounded_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search"
+            app:layout_constraintTop_toBottomOf="@id/search_linear"
             tools:text="Sorry! No result found :(" />
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/adapter"

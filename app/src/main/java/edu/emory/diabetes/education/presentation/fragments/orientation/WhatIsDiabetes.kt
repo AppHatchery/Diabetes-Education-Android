@@ -2,6 +2,8 @@ package edu.emory.diabetes.education.presentation.fragments.orientation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -9,9 +11,13 @@ import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -51,6 +57,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                     }
                 }
             }
+
             webView.apply {
                 loadUrl(Ext.getPathUrl(args.lesson.pageUrl))
                 addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
@@ -59,7 +66,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                         super.onPageFinished(view, url)
                         view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);");
                     }
-
                     override fun shouldOverrideUrlLoading(
                         view: WebView?,
                         request: WebResourceRequest?,
@@ -70,18 +76,11 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                                     .plus(1), length
                             ).replace(htmlExt, "")
                         }.also {
-//                            WhatIsDiabetesDirections
-//                                .actionGlobalWhatIsDiabetes(
-//                                    args.lesson.copy(pageUrl = "insulin", title = "Types of insulin")
-//                                ).also {
-//                                    findNavController().navigate(it)
-//                                }
                             WhatIsDiabetesDirections
                                 .actionWhatIsDiabetesToChapterFinishFragment()
                                 .also {
                                     findNavController().navigate(it)
                                 }
-
                         }
                         return true
                     }
@@ -90,8 +89,15 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
         }
 
-        addMenuProvider()
+       // addMenuProvider()
     }
+/*
+    //                            WhatIsDiabetesDirections
+//                                .actionGlobalWhatIsDiabetes(
+//                                    args.lesson.copy(pageUrl = "insulin", title = "Types of insulin")
+//                                ).also {
+//                                    findNavController().navigate(it)
+//                                }
 
 
     private fun addMenuProvider() = requireActivity().addMenuProvider(object : MenuProvider {
@@ -124,6 +130,28 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         val searchResult = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.not_found)
         var recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
         val not = bottomSheetDialog.findViewById<AppCompatEditText>(R.id.search)
+        val clearTextButton = bottomSheetDialog.findViewById<AppCompatImageView>(R.id.clear_button)
+
+        clearTextButton?.setOnClickListener {
+            if (searchKeyword != null) {
+                searchKeyword.text?.clear()
+                clearTextButton.isEnabled = true
+            }
+        }
+
+       *//* searchKeyword?.addTextChangedListener(object : TextWatcher{
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                clearTextButton?.isEnabled = s.toString().trim { it <= ' ' }.isNotEmpty()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })*//*
 
         searchKeyword?.setOnTextWatcher {
             viewModel.searchQuery.value = it
@@ -147,7 +175,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         }
 
 
-    }
+    }*/
 
 
 }
