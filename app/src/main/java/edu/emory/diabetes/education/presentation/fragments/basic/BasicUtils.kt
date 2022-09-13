@@ -17,21 +17,21 @@ object BasicUtils {
         LessonEntity(
             1,
             R.drawable.ic_injection_needle,
-            "Types of insulin?",
+            "Types of insulin",
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
             "insulin"
         ),
         LessonEntity(
             2,
             R.drawable.ic_beaker,
-            "Checking Blood Sugar",
+            "How to calculate insulin dosing",
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
             "how_to_calculate_insulin_dosing"
         ),
         LessonEntity(
             3,
             R.drawable.ic_dropper,
-            "Ketones",
+            "How to give insulin shot",
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
             "how_to_give_insulin_shot"
         )

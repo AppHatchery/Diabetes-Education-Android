@@ -142,7 +142,7 @@
                     style="@style/textViewCalculatorStyle"
                     android:text="Target Blood Sugar" />
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"

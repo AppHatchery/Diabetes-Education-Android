@@ -77,7 +77,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                             ).replace(htmlExt, "")
                         }.also {
                             WhatIsDiabetesDirections
-                                .actionWhatIsDiabetesToChapterFinishFragment()
+                                .actionWhatIsDiabetesToChapterFinishFragment(args.lesson)
                                 .also {
                                     findNavController().navigate(it)
                                 }

@@ -231,7 +231,14 @@
         android:name="edu.emory.diabetes.education.presentation.fragments.orientation.ChapterFinishFragment"
         android:label="End Of Chapter"
         tools:layout="@layout/fragment_finish_chapter"
-        />
+        >
+        <argument
+            android:name="lesson"
+            app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
+        <action
+            android:id="@+id/action_chapterFinishFragment_to_whatIsDiabetes"
+            app:destination="@id/whatIsDiabetes" />
+    </fragment>
     <fragment
         android:id="@+id/nutritionFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.NutritionFragment"
