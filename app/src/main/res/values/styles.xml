@@ -51,12 +51,12 @@
         <item name="cornerSize">20%</item>
     </style>
 
-    <style name="BottomSheetDialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="BottomSheetDialogStyle" parent="">
         <item name="bottomSheetStyle">@style/bottomSheetBackground</item>
     </style>
 
     <style name="bottomSheetBackground" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/shape_rectangle_top_radius_40px</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
 </resources>

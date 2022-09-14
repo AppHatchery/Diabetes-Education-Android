@@ -23,7 +23,6 @@ class ChapterFinishFragment :BaseFragment(R.layout.fragment_finish_chapter) {
         with(FragmentFinishChapterBinding.bind(view)){
             viewModel.getNextChapter(args.lesson.id).onEach { lesson ->
                 nextChapter.text =lesson[0].title
-
                 next.setOnClickListener {
                     ChapterFinishFragmentDirections
                         .actionChapterFinishFragmentToWhatIsDiabetes(lesson[0]).also {

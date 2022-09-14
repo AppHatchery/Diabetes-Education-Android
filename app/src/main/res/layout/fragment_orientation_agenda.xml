@@ -69,6 +69,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="32dp"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:background="@drawable/shape_rectangle_stroke_radius_50px"
                 android:drawableEnd="@drawable/ic_arrow_forward_small"
                 android:drawablePadding="4dp"

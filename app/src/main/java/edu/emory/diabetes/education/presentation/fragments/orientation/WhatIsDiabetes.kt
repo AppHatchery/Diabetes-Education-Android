@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -28,6 +25,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import dagger.hilt.android.qualifiers.ApplicationContext
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
@@ -89,9 +87,9 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
         }
 
-       // addMenuProvider()
+        addMenuProvider()
     }
-/*
+
     //                            WhatIsDiabetesDirections
 //                                .actionGlobalWhatIsDiabetes(
 //                                    args.lesson.copy(pageUrl = "insulin", title = "Types of insulin")
@@ -112,9 +110,10 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 //                    val bottomSheet = BottomSheetFragment()
 //                    bottomSheet.show(requireActivity().supportFragmentManager, BottomSheetFragment.TAG)
                     showBottomSheetDialog()
+
                     true
                 }
-                else -> true
+                else -> false
             }
 
         }
@@ -122,7 +121,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
     private fun showBottomSheetDialog() {
-        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogStyle);
+        val bottomSheetDialog = BottomSheetDialog(requireContext());
         bottomSheetDialog.setContentView(R.layout.fragment_search_chapter);
         bottomSheetDialog.show();
 
@@ -139,7 +138,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             }
         }
 
-       *//* searchKeyword?.addTextChangedListener(object : TextWatcher{
+       searchKeyword?.addTextChangedListener(object : TextWatcher{
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
             }
@@ -151,7 +150,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
             }
 
-        })*//*
+        })
 
         searchKeyword?.setOnTextWatcher {
             viewModel.searchQuery.value = it
@@ -175,7 +174,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         }
 
 
-    }*/
+    }
 
 
 }

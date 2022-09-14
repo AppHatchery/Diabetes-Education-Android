@@ -12,6 +12,7 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
 import edu.emory.diabetes.education.databinding.FragmentSearchChapterBinding
+import edu.emory.diabetes.education.domain.model.ChapterSearch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -47,6 +48,17 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
             search.setOnTextWatcher {
                 viewModel.searchQuery.value = it
             }
+
+                if (search.toString().trim().isNotBlank())
+                    notFound.visibility = android.view.View.GONE
+
+            adapter.adapter = ChapterSearchAdapter().also { adapter ->
+                viewModel.searchResult.onEach {
+                    adapter.submitList(it.map { ChapterSearch(bodyText = it) })
+                }.launchIn(lifecycleScope)
+
+            }
+
         }
     }
 
