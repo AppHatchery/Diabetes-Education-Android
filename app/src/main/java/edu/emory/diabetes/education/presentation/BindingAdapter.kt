@@ -29,7 +29,7 @@ fun setImageIcon(view: ImageView, image: Int) {
     view.setImageDrawable(ContextCompat.getDrawable(view.context, image))
 }
 
-@BindingAdapter( "searchText")
+@BindingAdapter("searchText")
 fun searchText(view: TextView, search: String) {
     view.text = String.format("%s %s", "•", search.trim())
 }

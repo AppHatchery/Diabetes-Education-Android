@@ -10,15 +10,16 @@ import edu.emory.diabetes.education.presentation.fragments.management.Management
 
 class ManagementLessonAdapter(
     val onEvent: (Lesson) -> Unit
-):ListAdapter<Lesson, ManagementLessonAdapter.ManagementLessonViewHolder>(diffUtil) {
+) : ListAdapter<Lesson, ManagementLessonAdapter.ManagementLessonViewHolder>(diffUtil) {
 
     inner class ManagementLessonViewHolder(
         private val bind: FragmentDiabetesBasicsLessonItemBinding
-    ): RecyclerView.ViewHolder(bind.root){
+    ) : RecyclerView.ViewHolder(bind.root) {
 
         fun bind(lesson: Lesson) = bind.apply {
             this.lesson = lesson
         }
+
         init {
             bind.cardView.setOnClickListener { onEvent.invoke(currentList[adapterPosition]) }
         }

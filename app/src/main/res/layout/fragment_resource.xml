@@ -72,8 +72,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="16dp"
-                    android:nestedScrollingEnabled="false"
                     android:adapter="@{fragment.mustHaveAdapter}"
+                    android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat10"
                     tools:itemCount="3"
@@ -118,8 +118,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
                     android:adapter="@{fragment.foodDiaryAdapter}"
+                    android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="4"
                     tools:listitem="@layout/fragment_resource_food_diary_item" />
@@ -165,9 +165,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adapter="@{fragment.communitiesAdapter}"
+                    android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="4"
-                    android:nestedScrollingEnabled="false"
                     tools:listitem="@layout/fragment_resource_food_diary_item" />
 
 

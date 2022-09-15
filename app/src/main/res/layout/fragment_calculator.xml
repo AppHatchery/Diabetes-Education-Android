@@ -14,65 +14,169 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/cine_100">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="HardcodedText">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="HardcodedText">
 
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/appCompatTextView5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:text="Insulin for food"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/linearLayoutCompat2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="@+id/appCompatTextView5"
-            app:layout_constraintStart_toStartOf="@+id/appCompatTextView5"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView5">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="Insulin for food"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/linearLayoutCompat2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/appCompatTextView5"
+                app:layout_constraintStart_toStartOf="@+id/appCompatTextView5"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView5">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/textViewCalculatorStyle"
+                        android:text="Total Carbs" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/total_carbs"
+                        style="@style/editTextCalculatorStyle"
+                        android:drawableEnd="@drawable/ic_grams"
+                        android:gravity="center"
+                        android:paddingEnd="32dp" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearLayoutCompat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/textViewCalculatorStyle"
+                        android:text="Carb Ratio" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/carbs_ratio"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_rectangle_radius_10px"
+                        android:backgroundTint="@android:color/white"
+                        android:drawableEnd="@drawable/ic_arrow_down"
+                        android:fontFamily="@font/gotham_rounded_medium"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:paddingEnd="16dp"
+                        android:text="15"
+                        android:textColor="@color/green_900"
+                        tools:ignore="RtlSymmetry" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_marginTop="16dp"
+                android:text="Insulin for high blood sugar"
+                app:layout_constraintStart_toStartOf="@+id/appCompatTextView5"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat2" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/textViewCalculatorStyle"
-                    android:text="Total Carbs" />
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/total_carbs"
-                    style="@style/editTextCalculatorStyle"
-                    android:drawableEnd="@drawable/ic_grams"
-                    android:gravity="center"
-                    android:paddingEnd="32dp" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/linearLayoutCompat3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/appCompatTextView5"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/appCompatTextView5"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView7">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/textViewCalculatorStyle"
+                        android:text="Blood Sugar" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/bloodSugar"
+                        style="@style/editTextCalculatorStyle"
+                        android:drawableEnd="@drawable/ic_mg_dl"
+                        android:paddingEnd="24dp" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/textViewCalculatorStyle"
+                        android:text="Target Blood Sugar" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/shape_rectangle_radius_10px"
+                        android:backgroundTint="@android:color/white"
+                        android:fontFamily="@font/gotham_rounded_medium"
+                        android:gravity="center"
+                        android:padding="15dp"
+                        android:paddingEnd="16dp"
+                        android:text="100"
+                        android:textColor="@color/green_900" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/linearLayoutCompat"
+                android:id="@+id/linearLayoutCompat4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayoutCompat3"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat3">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/textViewCalculatorStyle"
-                    android:text="Carb Ratio" />
+                    android:text="Correction Factor" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/carbs_ratio"
+                    android:id="@+id/correction_factor"
                     android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_rectangle_radius_10px"
@@ -91,160 +195,57 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/appCompatButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/shape_rectangle_radius_50px"
+                android:backgroundTint="@color/green_900"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:text="Calculate"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="@+id/appCompatTextView5"
+                app:layout_constraintStart_toStartOf="@+id/appCompatTextView5"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat4" />
 
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/appCompatTextView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Insulin for high blood sugar"
-            app:layout_constraintStart_toStartOf="@+id/appCompatTextView5"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat2" />
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/linearLayoutCompat3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/appCompatTextView5"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/appCompatTextView5"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView7">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/textViewCalculatorStyle"
-                    android:text="Blood Sugar" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/bloodSugar"
-                    style="@style/editTextCalculatorStyle"
-                    android:drawableEnd="@drawable/ic_mg_dl"
-                    android:paddingEnd="24dp" />
-
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/textViewCalculatorStyle"
-                    android:text="Target Blood Sugar" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:background="@drawable/shape_rectangle_radius_10px"
-                    android:backgroundTint="@android:color/white"
-                    android:fontFamily="@font/gotham_rounded_medium"
-                    android:gravity="center"
-                    android:padding="15dp"
-                    android:paddingEnd="16dp"
-                    android:text="100"
-                    android:textColor="@color/green_900" />
-
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/linearLayoutCompat4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayoutCompat3"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat3">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/textViewCalculatorStyle"
-                android:text="Correction Factor" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/correction_factor"
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_rectangle_radius_10px"
-                android:backgroundTint="@android:color/white"
-                android:drawableEnd="@drawable/ic_arrow_down"
-                android:fontFamily="@font/gotham_rounded_medium"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:padding="12dp"
-                android:paddingEnd="16dp"
-                android:text="15"
-                android:textColor="@color/green_900"
-                tools:ignore="RtlSymmetry" />
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/appCompatButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="8dp"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:background="@drawable/shape_rectangle_radius_50px"
-            android:backgroundTint="@color/green_900"
-            android:text="Calculate"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            app:layout_constraintEnd_toEndOf="@+id/appCompatTextView5"
-            app:layout_constraintStart_toStartOf="@+id/appCompatTextView5"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat4" />
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/shape_rectangle_top_radius_30px"
-            android:backgroundTint="@android:color/white"
-            android:orientation="vertical"
-            android:paddingHorizontal="24dp"
-            android:paddingTop="10dp"
-            android:layout_marginBottom="100dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatButton">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/textTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Insulin" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:adapter="@{adapter}"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="3"
-                tools:itemCount="3"
-                tools:listitem="@layout/fragment_calculator_item" />
+                android:layout_height="200dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="100dp"
+                android:background="@drawable/shape_rectangle_top_radius_30px"
+                android:backgroundTint="@android:color/white"
+                android:orientation="vertical"
+                android:paddingHorizontal="24dp"
+                android:paddingTop="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatButton">
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Insulin" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adapter="@{adapter}"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="3"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/fragment_calculator_item" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 </layout>

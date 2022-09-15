@@ -8,6 +8,7 @@ object NutritionLessonDiffUtil {
         override fun areItemsTheSame(oldItem: Lesson, newItem: Lesson): Boolean {
             return oldItem == newItem
         }
+
         override fun areContentsTheSame(oldItem: Lesson, newItem: Lesson): Boolean {
             return oldItem.id == newItem.id
         }

@@ -1,4 +1,5 @@
 package edu.emory.diabetes.education.domain.model
+
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
@@ -9,4 +10,4 @@ data class Lesson(
     val title: String,
     val description: String,
     val pageUrl: String
-): Parcelable
+) : Parcelable

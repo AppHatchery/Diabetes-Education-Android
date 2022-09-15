@@ -16,16 +16,16 @@ import edu.emory.diabetes.education.htmlExt
 import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.views.WebAppInterface
 
-class NutritionWebViewFragment: BaseFragment(R.layout.fragment_nutrition_web_view_apps) {
+class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_view_apps) {
 
     private val args: NutritionWebViewFragmentArgs by navArgs()
 
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = args.lesson.title
-        with(FragmentNutritionWebViewAppsBinding.bind(view)){
-            parent.viewTreeObserver.addOnScrollChangedListener{
-                if (parent.scrollY > 0){
+        with(FragmentNutritionWebViewAppsBinding.bind(view)) {
+            parent.viewTreeObserver.addOnScrollChangedListener {
+                if (parent.scrollY > 0) {
                     val height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
                     (parent.scrollY / height).times(100).toInt().also {
                         scrollIndicatorText.text = "${it}%"
@@ -36,12 +36,13 @@ class NutritionWebViewFragment: BaseFragment(R.layout.fragment_nutrition_web_vie
 
             webView.apply {
                 loadUrl(Ext.getPathUrl(args.lesson.pageUrl))
-                addJavascriptInterface(WebAppInterface(requireContext()),"INTERFACE")
-                webViewClient = object : WebViewClient(){
+                addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
+                webViewClient = object : WebViewClient() {
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
                         view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
                     }
+
                     override fun shouldOverrideUrlLoading(
                         view: WebView?,
                         request: WebResourceRequest?

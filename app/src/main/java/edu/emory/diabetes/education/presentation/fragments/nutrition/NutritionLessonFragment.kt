@@ -18,7 +18,7 @@ class NutritionLessonFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentDiabetesNutritionLessonBinding.bind(view)) {
             navigation = fragment as BasicNavigator
-            adapter = NutritionLessonAdapter{
+            adapter = NutritionLessonAdapter {
                 navigation.invoke(it)
 
             }.apply {

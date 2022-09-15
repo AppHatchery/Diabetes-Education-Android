@@ -24,12 +24,11 @@ class ChapterRepoImpl(
     }
 
 
-    suspend fun insertChapter(data: List<ChapterSearchEntity>){
+    suspend fun insertChapter(data: List<ChapterSearchEntity>) {
         dao.insertChapter(data)
     }
 
-    fun getData(searchQuery: String) : Flow<List<ChapterSearchEntity>> = dao.getData(searchQuery)
-
+    fun getData(searchQuery: String): Flow<List<ChapterSearchEntity>> = dao.getData(searchQuery)
 
 
 }

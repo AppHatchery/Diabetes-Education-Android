@@ -27,16 +27,16 @@ class ChapterSearchAdapter : ListAdapter<ChapterSearch, ChapterSearchAdapter.Vie
         }
     }
 
-        inner class ViewHolder(private val bind: FragmentChapterSearchItemBinding):
-            RecyclerView.ViewHolder(bind.root){
-                fun bind(chapterSearch: ChapterSearch) = bind.apply {
-                    this.chapterSearch = chapterSearch
+    inner class ViewHolder(private val bind: FragmentChapterSearchItemBinding) :
+        RecyclerView.ViewHolder(bind.root) {
+        fun bind(chapterSearch: ChapterSearch) = bind.apply {
+            this.chapterSearch = chapterSearch
 
-                }
         }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return  ViewHolder(
+        return ViewHolder(
             FragmentChapterSearchItemBinding.inflate(LayoutInflater.from(parent.context))
 
         )

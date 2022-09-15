@@ -9,12 +9,12 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 
 class ManagementLessonFragment(
     private val fragment: Fragment
-): BaseFragment(R.layout.fragment_management_lesson) {
+) : BaseFragment(R.layout.fragment_management_lesson) {
 
     private lateinit var navigator: ManagementNavigator
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with(FragmentManagementLessonBinding.bind(view)){
+        with(FragmentManagementLessonBinding.bind(view)) {
             navigator = fragment as ManagementNavigator
             adapter = ManagementLessonAdapter {
                 navigator.invoke(it)

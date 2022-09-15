@@ -11,7 +11,7 @@ data class LessonEntity(
     val image: Int,
     val title: String,
     val description: String,
-    val pageUrl:String
+    val pageUrl: String
 ) {
     fun toLesson() = Lesson(id, image, title, description, pageUrl)
 

@@ -9,7 +9,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.ActivityMainBinding
@@ -29,8 +28,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, AppBarConfiguration(navController.graph))
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        navController.addOnDestinationChangedListener{ _, destination, _ ->
-            when(destination.id){
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
                 R.id.whatIsDiabetes,
                 R.id.quizQuestionFragment,
                 R.id.resourceMustHaveFragment,
@@ -47,6 +46,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }

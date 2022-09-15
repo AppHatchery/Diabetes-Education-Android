@@ -27,11 +27,11 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                 Log.e("TAG", "onViewCreated: " + BrowseUtils.bookMarkData.toList())
             }
 
-            appCompatImageButton.setOnClickListener{
+            appCompatImageButton.setOnClickListener {
                 MainFragmentDirections.actionMainFragmentToOrientationFragment()
                     .also {
-                    findNavController().navigate(it)
-                }
+                        findNavController().navigate(it)
+                    }
             }
 
         }
@@ -47,7 +47,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                     }
             }
 
-            if (it.id == 2 ){
+            if (it.id == 2) {
                 MainFragmentDirections.actionMainFragmentToNutritionFragment().also {
                     findNavController().navigate(it)
                 }

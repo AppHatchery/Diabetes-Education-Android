@@ -47,7 +47,7 @@
                     style="@style/textTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                     android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="8dp"
                     android:text="@{insulinCalculator.answer}"
                     android:textColor="@color/green_900"
                     app:layout_constraintBottom_toBottomOf="parent"

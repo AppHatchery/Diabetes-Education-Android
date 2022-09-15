@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.databinding.FragmentResourceCommunitiesItemBinding
 import edu.emory.diabetes.education.domain.model.Communities
 
-class ResourcesCommunitiesAdapter: ListAdapter<Communities, ResourcesCommunitiesAdapter.CommunitiesViewHolder>(diffUtil) {
+class ResourcesCommunitiesAdapter :
+    ListAdapter<Communities, ResourcesCommunitiesAdapter.CommunitiesViewHolder>(diffUtil) {
 
     class CommunitiesViewHolder(
         private val bind: FragmentResourceCommunitiesItemBinding
-    ): RecyclerView.ViewHolder(bind.root){
-        fun bind(communities: Communities)= bind.apply {
+    ) : RecyclerView.ViewHolder(bind.root) {
+        fun bind(communities: Communities) = bind.apply {
             data = communities
             executePendingBindings()
         }
@@ -31,8 +32,8 @@ class ResourcesCommunitiesAdapter: ListAdapter<Communities, ResourcesCommunities
         holder.bind(getItem(position))
     }
 
-    companion object{
-        private val diffUtil = object : DiffUtil.ItemCallback<Communities>(){
+    companion object {
+        private val diffUtil = object : DiffUtil.ItemCallback<Communities>() {
             override fun areItemsTheSame(oldItem: Communities, newItem: Communities): Boolean {
                 return newItem == oldItem
             }

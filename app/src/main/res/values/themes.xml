@@ -14,5 +14,5 @@
         <!-- Customize your theme here. -->
         <item name="android:textViewStyle">@style/textViewStyle</item>
         <item name="android:buttonStyle">@style/buttonStyle</item>
-      </style>
+    </style>
 </resources>

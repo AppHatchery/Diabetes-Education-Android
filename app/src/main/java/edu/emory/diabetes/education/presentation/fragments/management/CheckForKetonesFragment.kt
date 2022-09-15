@@ -14,9 +14,9 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 
 class CheckForKetonesFragment : BaseFragment(R.layout.fragment_check_for_ketones) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with(FragmentCheckForKetonesBinding.bind(view)){
-            parent.viewTreeObserver.addOnScrollChangedListener{
-                if (parent.scrollY > 0){
+        with(FragmentCheckForKetonesBinding.bind(view)) {
+            parent.viewTreeObserver.addOnScrollChangedListener {
+                if (parent.scrollY > 0) {
                     val height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
                     (parent.scrollY / height).times(100).toInt().also {
                         scrollIndicatorText.text = "${it}%"
@@ -26,7 +26,7 @@ class CheckForKetonesFragment : BaseFragment(R.layout.fragment_check_for_ketones
             }
             webView.apply {
                 loadUrl(Ext.getPathUrl("check_for_ketones"))
-                webViewClient = object : WebViewClient(){
+                webViewClient = object : WebViewClient() {
                     override fun shouldOverrideUrlLoading(
                         view: WebView?,
                         request: WebResourceRequest?
@@ -42,10 +42,10 @@ class CheckForKetonesFragment : BaseFragment(R.layout.fragment_check_for_ketones
                 }
             }
             doneButton.setOnClickListener {
-               CheckForKetonesFragmentDirections
-                   .actionCheckForKetonesFragmentToTreatmentForLowBloodSugarFragment().also {
-                       findNavController().navigate(it)
-                   }
+                CheckForKetonesFragmentDirections
+                    .actionCheckForKetonesFragmentToTreatmentForLowBloodSugarFragment().also {
+                        findNavController().navigate(it)
+                    }
             }
 
         }

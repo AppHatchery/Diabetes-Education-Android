@@ -44,17 +44,18 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <ScrollView
-            android:id="@+id/parent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <edu.emory.diabetes.education.views.BaseWebView
-                android:id="@+id/webView"
+            <ScrollView
+                android:id="@+id/parent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp" />
-        </ScrollView>
+                android:layout_height="match_parent">
+
+                <edu.emory.diabetes.education.views.BaseWebView
+                    android:id="@+id/webView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="16dp" />
+            </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 

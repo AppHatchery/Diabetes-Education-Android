@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import edu.emory.diabetes.education.domain.model.Quiz
 
 object ManagementQuizDiffUtil {
-    val diffUtil = object : DiffUtil.ItemCallback<Quiz>(){
+    val diffUtil = object : DiffUtil.ItemCallback<Quiz>() {
         override fun areItemsTheSame(oldItem: Quiz, newItem: Quiz): Boolean {
             return oldItem == newItem
         }

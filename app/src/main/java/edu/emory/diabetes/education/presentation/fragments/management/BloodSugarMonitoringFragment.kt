@@ -22,46 +22,50 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
 
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = args.managementLesson.title
-       with(FragmentBloodSugarMonitoringBinding.bind(view)){
-           parent.viewTreeObserver.addOnScrollChangedListener{
-               if (parent.scrollY > 0){
-                   val height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
-                   (parent.scrollY / height).times(100).toInt().also {
-                       scrollIndicatorText.text = "${it}%"
-                       scrollIndicator.progress = it
-                   }
-               }
-           }
-           webView.apply {
-               loadUrl(Ext.getPathUrl(args.managementLesson.pageUrl))
-               addJavascriptInterface(WebAppInterface(requireContext()),"INTERFACE")
-               webViewClient = object : WebViewClient(){
-                   override fun onPageFinished(view: WebView?, url: String?) {
-                       super.onPageFinished(view, url)
-                       view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
-                   }
-                   override fun shouldOverrideUrlLoading(
-                       view: WebView?,
-                       request: WebResourceRequest?
-                   ): Boolean {
-                       with(request?.url.toString()) {
-                           substring(
-                               lastIndexOf("/")
-                                   .plus(1), length
-                           ).replace(htmlExt, "")
-                       }.also {
-                          BloodSugarMonitoringFragmentDirections
-                              .actionBloodSugarMonitoringFragment3ToChapterFinishManagementFragment(args.managementLesson)
-                              .also {
-                                  findNavController().navigate(it)
-                              }
-                       }
-                       return true
-                   }
-               }
-           }
-       }
+        (requireActivity() as AppCompatActivity).supportActionBar?.title =
+            args.managementLesson.title
+        with(FragmentBloodSugarMonitoringBinding.bind(view)) {
+            parent.viewTreeObserver.addOnScrollChangedListener {
+                if (parent.scrollY > 0) {
+                    val height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
+                    (parent.scrollY / height).times(100).toInt().also {
+                        scrollIndicatorText.text = "${it}%"
+                        scrollIndicator.progress = it
+                    }
+                }
+            }
+            webView.apply {
+                loadUrl(Ext.getPathUrl(args.managementLesson.pageUrl))
+                addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
+                webViewClient = object : WebViewClient() {
+                    override fun onPageFinished(view: WebView?, url: String?) {
+                        super.onPageFinished(view, url)
+                        view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
+                    }
+
+                    override fun shouldOverrideUrlLoading(
+                        view: WebView?,
+                        request: WebResourceRequest?
+                    ): Boolean {
+                        with(request?.url.toString()) {
+                            substring(
+                                lastIndexOf("/")
+                                    .plus(1), length
+                            ).replace(htmlExt, "")
+                        }.also {
+                            BloodSugarMonitoringFragmentDirections
+                                .actionBloodSugarMonitoringFragment3ToChapterFinishManagementFragment(
+                                    args.managementLesson
+                                )
+                                .also {
+                                    findNavController().navigate(it)
+                                }
+                        }
+                        return true
+                    }
+                }
+            }
+        }
     }
 }
 

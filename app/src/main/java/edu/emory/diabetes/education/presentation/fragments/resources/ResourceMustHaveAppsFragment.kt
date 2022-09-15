@@ -12,7 +12,7 @@ class ResourceMustHaveAppsFragment : BaseFragment(R.layout.fragment_resource_mus
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        with(FragmentResourceMustHaveAppsBinding.bind(view)){
+        with(FragmentResourceMustHaveAppsBinding.bind(view)) {
 
             mustHaveRecyclerAdapter = MustHaveRecyclerAdapter().also {
                 it.submitList(ResourceUtil.mustHaveAppPage)

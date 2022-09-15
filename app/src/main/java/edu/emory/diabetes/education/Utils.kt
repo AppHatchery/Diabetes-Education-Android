@@ -7,7 +7,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.WindowManager
 import android.widget.EditText
-import androidx.appcompat.widget.SearchView
 import edu.emory.diabetes.education.data.local.entities.ChapterEntity
 import edu.emory.diabetes.education.data.local.entities.ChapterSearchEntity
 import java.util.*
@@ -48,22 +47,24 @@ object Utils {
             R.drawable.im_knowledge_idea
         ),
 
-    )
+        )
 
 
     val chapterContent = listOf(
         ChapterSearchEntity(
             0,
-             "what is diabetes",
+            "what is diabetes",
             "Signs of diabetes occur because the body lacks insulin. This causes blood sugar to build up in the blood leading to these signs"
 
         )
     )
 
     fun EditText.setOnTextWatcher(
-        onTextChangedListener: (String) -> Unit) {
+        onTextChangedListener: (String) -> Unit
+    ) {
         this.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
+                Unit
 
             override fun onTextChanged(
                 charSequence: CharSequence?,

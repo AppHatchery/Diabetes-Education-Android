@@ -30,14 +30,14 @@ class NutritionFragment : BaseFragment(R.layout.fragment_diabetes_nutrition), Ba
 
     override fun invoke(lesson: Lesson?, event: Event) {
         when (event) {
-            Event.Quiz ->{}
+            Event.Quiz -> {}
 
             Event.Lesson ->
                 lesson?.let {
                     NutritionFragmentDirections
                         .actionNutritionFragmentToNutritionWebViewFragment(lesson).apply {
-                        findNavController().navigate(this)
-                    }
+                            findNavController().navigate(this)
+                        }
 
                 }
         }

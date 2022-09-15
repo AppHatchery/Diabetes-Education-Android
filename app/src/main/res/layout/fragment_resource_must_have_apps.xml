@@ -31,14 +31,14 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_margin="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:adapter="@{mustHaveFragment.mustHaveRecyclerAdapter}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="1"
-                android:adapter="@{mustHaveFragment.mustHaveRecyclerAdapter}"
-                tools:listitem="@layout/fragment_must_have_apps_item"
-                tools:itemCount="3"/>
+                tools:itemCount="3"
+                tools:listitem="@layout/fragment_must_have_apps_item" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

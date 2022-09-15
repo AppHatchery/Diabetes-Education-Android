@@ -15,7 +15,7 @@ interface ChapterDao : BaseDao<ChapterEntity> {
     fun query(): Flow<List<ChapterEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertChapter(data : List<ChapterSearchEntity>)
+    suspend fun insertChapter(data: List<ChapterSearchEntity>)
 
     @Query("SELECT * FROM ChapterSearchEntity WHERE chapterTitle LIKE '%' || :searchQuery || '%' ")
     fun getData(searchQuery: String): Flow<List<ChapterSearchEntity>>

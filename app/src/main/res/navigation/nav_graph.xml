@@ -66,7 +66,7 @@
         android:id="@+id/lifeIsFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.orientation.LifeIsFragment"
         android:label="Orientation(4/4)"
-        tools:layout="@layout/fragment_orientation_life_is" >
+        tools:layout="@layout/fragment_orientation_life_is">
         <action
             android:id="@+id/action_lifeIsFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
@@ -169,10 +169,10 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
-        tools:layout="@layout/fragment_quiz_question"
         android:id="@+id/quizQuestionFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.quiz.QuizQuestionFragment"
-        android:label="Quiz 1 : Questions" />
+        android:label="Quiz 1 : Questions"
+        tools:layout="@layout/fragment_quiz_question" />
     <fragment
         android:id="@+id/resourceFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.resources.ResourceFragment"
@@ -207,7 +207,7 @@
         android:id="@+id/whenToCallDoctorFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.management.WhenToCallDoctorFragment"
         android:label="When To Call Doctor"
-        tools:layout="@layout/fragment_when_to_call_doctor"/>
+        tools:layout="@layout/fragment_when_to_call_doctor" />
     <fragment
         android:id="@+id/checkForKetonesFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.management.CheckForKetonesFragment"
@@ -230,8 +230,7 @@
         android:id="@+id/chapterFinishFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.orientation.ChapterFinishFragment"
         android:label="End Of Chapter"
-        tools:layout="@layout/fragment_finish_chapter"
-        >
+        tools:layout="@layout/fragment_finish_chapter">
         <argument
             android:name="lesson"
             app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
@@ -251,7 +250,7 @@
     <fragment
         android:id="@+id/nutritionLessonFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.NutritionLessonFragment"
-        android:label="NutritionLessonFragment" >
+        android:label="NutritionLessonFragment">
         <action
             android:id="@+id/action_nutritionLessonFragment_to_nutritionWebViewFragment"
             app:destination="@id/nutritionWebViewFragment" />
@@ -259,7 +258,7 @@
     <fragment
         android:id="@+id/nutritionWebViewFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.NutritionWebViewFragment"
-        android:label="NutritionWebViewFragment" >
+        android:label="NutritionWebViewFragment">
         <argument
             android:name="lesson"
             app:argType="edu.emory.diabetes.education.domain.model.Lesson" />

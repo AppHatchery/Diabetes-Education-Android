@@ -7,7 +7,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
-import edu.emory.diabetes.education.databinding.FragmentManagementFinishChapterBinding
 import edu.emory.diabetes.education.databinding.FragmentNutritionFinishChapterBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
 import kotlinx.coroutines.flow.launchIn
@@ -18,18 +17,18 @@ class ChapterFinishNutritionFragment : BaseFragment(R.layout.fragment_nutrition_
     private val args: NutritionWebViewFragmentArgs by navArgs()
     private val viewModel: NutritionEndChapterViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-      with(FragmentNutritionFinishChapterBinding.bind(view)){
-          viewModel.getNextChapterNtrn(args.lesson.id).onEach { lesson ->
-              nextChapter.text = lesson[0].title
-              next.setOnClickListener {
-                  ChapterFinishNutritionFragmentDirections
-                      .actionChapterFinishNutritionFragmentToNutritionWebViewFragment(lesson[0])
-                      .also {
-                          findNavController().navigate(it)
-                      }
-              }
-          }.launchIn(lifecycleScope)
-      }
+        with(FragmentNutritionFinishChapterBinding.bind(view)) {
+            viewModel.getNextChapterNtrn(args.lesson.id).onEach { lesson ->
+                nextChapter.text = lesson[0].title
+                next.setOnClickListener {
+                    ChapterFinishNutritionFragmentDirections
+                        .actionChapterFinishNutritionFragmentToNutritionWebViewFragment(lesson[0])
+                        .also {
+                            findNavController().navigate(it)
+                        }
+                }
+            }.launchIn(lifecycleScope)
+        }
 
     }
 

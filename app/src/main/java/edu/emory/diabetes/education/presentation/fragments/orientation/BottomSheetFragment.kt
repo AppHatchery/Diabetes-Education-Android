@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import edu.emory.diabetes.education.R
-import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
 import edu.emory.diabetes.education.databinding.FragmentSearchChapterBinding
 import edu.emory.diabetes.education.domain.model.ChapterSearch
@@ -19,9 +17,8 @@ import kotlinx.coroutines.flow.onEach
 class BottomSheetFragment : BottomSheetDialogFragment() {
 
 
-    private val viewModel : ChapterViewModel by viewModels()
-    private lateinit var bind:FragmentSearchChapterBinding
-
+    private val viewModel: ChapterViewModel by viewModels()
+    private lateinit var bind: FragmentSearchChapterBinding
 
 
     companion object {
@@ -49,8 +46,8 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
                 viewModel.searchQuery.value = it
             }
 
-                if (search.toString().trim().isNotBlank())
-                    notFound.visibility = android.view.View.GONE
+            if (search.toString().trim().isNotBlank())
+                notFound.visibility = android.view.View.GONE
 
             adapter.adapter = ChapterSearchAdapter().also { adapter ->
                 viewModel.searchResult.onEach {

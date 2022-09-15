@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="adapter"
             type="edu.emory.diabetes.education.presentation.fragments.orientation.ChapterSearchAdapter" />
@@ -13,34 +14,35 @@
         android:id="@+id/bottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
         android:background="@drawable/shape_rectangle_top_radius_10px"
-        android:padding="8dp"
         android:backgroundTint="@color/cine_100"
-        android:layout_marginTop="20dp">
+        android:padding="8dp">
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/search_linear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:orientation="horizontal"
             android:layout_marginBottom="30dp"
+            android:background="@drawable/shape_rectangle_white_stroke_1px_radius_90px_"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toStartOf="@id/search_text"
             app:layout_constraintStart_toStartOf="parent"
-            android:background="@drawable/shape_rectangle_white_stroke_1px_radius_90px_"
             app:layout_constraintTop_toTopOf="parent">
 
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/search"
                 android:layout_width="270dp"
-                android:backgroundTint="@color/white_100"
                 android:layout_height="wrap_content"
-                android:inputType="textAutoCorrect|textAutoComplete"
+                android:backgroundTint="@color/white_100"
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="16dp"
+                android:drawableTint="@color/green_900"
+                android:inputType="textAutoCorrect|textAutoComplete"
                 android:paddingHorizontal="16dp"
-                android:paddingVertical="10dp"
-                android:drawableTint="@color/green_900" />
+                android:paddingVertical="10dp" />
 
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -56,35 +58,33 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/search_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:text="Search"
             android:textColor="@color/green_900"
-            app:layout_constraintTop_toTopOf="@id/search_linear"
-            app:layout_constraintStart_toEndOf="@id/search_linear"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/search_linear"
-            android:text="Search"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/search_linear"
+            app:layout_constraintTop_toTopOf="@id/search_linear" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/not_found"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:text="Sorry! No result found :("
             android:textColor="@color/gray_200"
+            android:visibility="visible"
             app:fontFamily="@font/gotham_rounded_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_linear"
             tools:text="Sorry! No result found :(" />
-
 
 
         <androidx.recyclerview.widget.RecyclerView

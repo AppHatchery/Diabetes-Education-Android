@@ -10,7 +10,7 @@ import edu.emory.diabetes.education.databinding.FragmentManagementBinding
 import edu.emory.diabetes.education.domain.model.Lesson
 import edu.emory.diabetes.education.presentation.BaseFragment
 
-class ManagementFragment: BaseFragment(R.layout.fragment_management), ManagementNavigator {
+class ManagementFragment : BaseFragment(R.layout.fragment_management), ManagementNavigator {
     private lateinit var managementViewPagerAdapter: ManagementViewPagerAdapter
     private lateinit var viewPager2: ViewPager2
     private lateinit var binding: FragmentManagementBinding
@@ -21,16 +21,16 @@ class ManagementFragment: BaseFragment(R.layout.fragment_management), Management
         managementViewPagerAdapter = ManagementViewPagerAdapter(this, tabs.size)
         viewPager2 = view.findViewById(R.id.managementViewPager)
         viewPager2.adapter = managementViewPagerAdapter
-        TabLayoutMediator(binding.tabLayout, viewPager2){tab, position ->
+        TabLayoutMediator(binding.tabLayout, viewPager2) { tab, position ->
             tab.text = tabs[position]
         }.attach()
     }
 
     override fun invoke(lesson: Lesson?, event: ManagementEvent) {
-        when(event){
+        when (event) {
             ManagementEvent.Quiz ->
                 ManagementFragmentDirections
-                   .actionManagementFragmentToQuizFragment().apply {
+                    .actionManagementFragmentToQuizFragment().apply {
                         findNavController().navigate(this)
                     }
 

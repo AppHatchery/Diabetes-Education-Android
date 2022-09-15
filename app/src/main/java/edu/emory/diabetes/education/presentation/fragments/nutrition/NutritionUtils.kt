@@ -28,7 +28,7 @@ object NutritionUtils {
             "cabs_counting_apps"
         ),
 
-    )
+        )
 
     val quizData = listOf(
         QuizEntity(

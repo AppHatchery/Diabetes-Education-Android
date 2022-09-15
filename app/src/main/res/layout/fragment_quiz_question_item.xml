@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
             android:background="@drawable/shape_rectangle_radius_10px"
-             android:padding="16dp"
+            android:padding="16dp"
             android:text="@{question}"
             tools:text="A. Body poduces too much glucose" />
 

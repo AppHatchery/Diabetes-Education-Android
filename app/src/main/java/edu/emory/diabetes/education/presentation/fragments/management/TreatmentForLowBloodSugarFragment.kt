@@ -8,16 +8,16 @@ import android.webkit.WebViewClient
 import androidx.navigation.fragment.findNavController
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
-import edu.emory.diabetes.education.databinding.FragmentBloodSugarMonitoringBinding
 import edu.emory.diabetes.education.databinding.FragmentTreatementForLowBloodSugarBinding
 import edu.emory.diabetes.education.htmlExt
 import edu.emory.diabetes.education.presentation.BaseFragment
 
-class TreatmentForLowBloodSugarFragment: BaseFragment(R.layout.fragment_treatement_for_low_blood_sugar) {
+class TreatmentForLowBloodSugarFragment :
+    BaseFragment(R.layout.fragment_treatement_for_low_blood_sugar) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with(FragmentTreatementForLowBloodSugarBinding.bind(view)){
-            parent.viewTreeObserver.addOnScrollChangedListener{
-                if (parent.scrollY > 0){
+        with(FragmentTreatementForLowBloodSugarBinding.bind(view)) {
+            parent.viewTreeObserver.addOnScrollChangedListener {
+                if (parent.scrollY > 0) {
                     val height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
                     (parent.scrollY / height).times(100).toInt().also {
                         scrollIndicatorText.text = "${it}%"
@@ -27,7 +27,7 @@ class TreatmentForLowBloodSugarFragment: BaseFragment(R.layout.fragment_treateme
             }
             webView.apply {
                 loadUrl(Ext.getPathUrl("treatment_for_low_blood_sugar"))
-                webViewClient = object : WebViewClient(){
+                webViewClient = object : WebViewClient() {
                     override fun shouldOverrideUrlLoading(
                         view: WebView?,
                         request: WebResourceRequest?

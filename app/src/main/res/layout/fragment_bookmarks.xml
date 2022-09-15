@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="adapter"
             type="edu.emory.diabetes.education.presentation.fragments.browse.BookmarkAdapter" />
@@ -12,33 +13,32 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:padding="8dp">
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:inputType="textAutoCorrect|textAutoComplete"
             android:background="@drawable/shape_rectangle_stroke_1px_radius_90px_"
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="16dp"
+            android:drawableTint="@color/green_900"
+            android:hint="Search"
+            android:inputType="textAutoCorrect|textAutoComplete"
             android:paddingHorizontal="16dp"
             android:paddingVertical="10dp"
-            android:hint="Search"
-            android:drawableTint="@color/green_900"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/title"
             style="@style/textTitle"
-            android:layout_marginTop="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:text="Diabetes Basics"
             app:fontFamily="@font/gotham_rounded"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +52,7 @@
             android:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title"
             app:spanCount="1"
             tools:itemCount="3"

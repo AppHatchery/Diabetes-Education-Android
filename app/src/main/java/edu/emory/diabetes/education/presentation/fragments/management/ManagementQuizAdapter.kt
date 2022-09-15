@@ -10,18 +10,19 @@ import edu.emory.diabetes.education.presentation.fragments.management.Management
 
 class ManagementQuizAdapter(
     val onEvent: (Quiz) -> Unit
-): ListAdapter<Quiz, ManagementQuizAdapter.ManamementQuizViewHolder>(diffUtil) {
+) : ListAdapter<Quiz, ManagementQuizAdapter.ManamementQuizViewHolder>(diffUtil) {
 
-    inner class ManamementQuizViewHolder (
+    inner class ManamementQuizViewHolder(
         private val bind: FragmentDiabetesBasicsQuizItemBinding
-            ): RecyclerView.ViewHolder(bind.root){
-                fun bind(quiz: Quiz) = bind.apply {
-                    this.quiz = quiz
-                }
-        init {
-            bind.parent.setOnClickListener{onEvent.invoke(currentList[adapterPosition])}
+    ) : RecyclerView.ViewHolder(bind.root) {
+        fun bind(quiz: Quiz) = bind.apply {
+            this.quiz = quiz
         }
-            }
+
+        init {
+            bind.parent.setOnClickListener { onEvent.invoke(currentList[adapterPosition]) }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ManamementQuizViewHolder {
         return ManamementQuizViewHolder(

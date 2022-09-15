@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="content"
             type="edu.emory.diabetes.education.domain.model.Content" />

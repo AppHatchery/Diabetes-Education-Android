@@ -20,7 +20,7 @@ class LifeIsFragment : BaseFragment(R.layout.fragment_orientation_life_is) {
                     .actionLifeIsFragmentToMainFragment()
                     .also {
                         findNavController().navigate(it)
-                }
+                    }
             }
         }
     }

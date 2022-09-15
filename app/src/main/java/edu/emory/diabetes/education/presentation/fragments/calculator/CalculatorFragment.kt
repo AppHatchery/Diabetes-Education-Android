@@ -2,12 +2,7 @@ package edu.emory.diabetes.education.presentation.fragments.calculator
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -89,7 +84,9 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
                     viewModel.onEvent(CalculateInsulinForFood(insulinCalculator.toInsulinCalculator()))
                 }
 
-                if (bloodSugar.text?.isNotEmpty() == true && correctionFactor.text.toString().toFloat() > 0) {
+                if (bloodSugar.text?.isNotEmpty() == true && correctionFactor.text.toString()
+                        .toFloat() > 0
+                ) {
                     insulinBloodSugar = (bloodSugar.text.toString().toFloat()
                         .minus(100)).div(correctionFactor.text.toString().toFloat())
 

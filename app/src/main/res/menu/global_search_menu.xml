@@ -6,17 +6,17 @@
         android:icon="@drawable/ic_text"
         android:iconTint="@color/cine_100"
         android:title="Edit"
-        app:showAsAction="always|collapseActionView"/>
+        app:showAsAction="always|collapseActionView" />
     <item
         android:id="@+id/action_search"
-        android:iconTint="@color/cine_100"
         android:icon="@drawable/ic_search"
+        android:iconTint="@color/cine_100"
         android:title="Search"
-        app:showAsAction="always|collapseActionView"/>
+        app:showAsAction="always|collapseActionView" />
     <item
         android:id="@+id/action_bookmark"
         android:icon="@drawable/ic__bookmark_outlined"
         android:iconTint="@color/cine_100"
         android:title="Bookmark"
-        app:showAsAction="always|collapseActionView"/>
+        app:showAsAction="always|collapseActionView" />
 </menu>
