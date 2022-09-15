@@ -200,8 +200,8 @@
             android:name="managementLesson"
             app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
         <action
-            android:id="@+id/action_bloodSugarMonitoringFragment3_to_checkForKetonesFragment"
-            app:destination="@id/checkForKetonesFragment" />
+            android:id="@+id/action_bloodSugarMonitoringFragment3_to_chapterFinishManagementFragment"
+            app:destination="@id/chapterFinishManagementFragment" />
     </fragment>
     <fragment
         android:id="@+id/whenToCallDoctorFragment"
@@ -243,8 +243,7 @@
         android:id="@+id/nutritionFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.NutritionFragment"
         android:label="Nutrition and carbs counting"
-        tools:layout="@layout/fragment_diabetes_nutrition"
-        >
+        tools:layout="@layout/fragment_diabetes_nutrition">
         <action
             android:id="@+id/action_nutritionFragment_to_nutritionWebViewFragment"
             app:destination="@id/nutritionWebViewFragment" />
@@ -264,6 +263,9 @@
         <argument
             android:name="lesson"
             app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
+        <action
+            android:id="@+id/action_nutritionWebViewFragment_to_chapterFinishNutritionFragment"
+            app:destination="@id/chapterFinishNutritionFragment" />
     </fragment>
     <fragment
         android:id="@+id/managementFragment"
@@ -285,5 +287,29 @@
         android:id="@+id/managementQuizFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.management.ManagementQuizFragment"
         android:label="ManagementQuizFragment" />
+    <fragment
+        android:id="@+id/chapterFinishManagementFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.management.ChapterFinishManagementFragment"
+        android:label="ChapterFinishManagementFragment"
+        tools:layout="@layout/fragment_management_finish_chapter">
+        <argument
+            android:name="managementLesson"
+            app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
+        <action
+            android:id="@+id/action_chapterFinishManagementFragment_to_bloodSugarMonitoringFragment3"
+            app:destination="@id/bloodSugarMonitoringFragment3" />
+    </fragment>
+    <fragment
+        android:id="@+id/chapterFinishNutritionFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.ChapterFinishNutritionFragment"
+        android:label="ChapterFinishNutritionFragment"
+        tools:layout="@layout/fragment_nutrition_finish_chapter">
+        <argument
+            android:name="lesson"
+            app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
+        <action
+            android:id="@+id/action_chapterFinishNutritionFragment_to_nutritionWebViewFragment"
+            app:destination="@id/nutritionWebViewFragment" />
+    </fragment>
 
 </navigation>
