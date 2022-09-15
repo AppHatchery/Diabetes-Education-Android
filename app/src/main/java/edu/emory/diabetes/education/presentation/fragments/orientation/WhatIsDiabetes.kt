@@ -47,7 +47,8 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                 if (parent.scrollY > 0) {
                     val height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
                     (parent.scrollY / height).times(100).toInt().also {
-                        scrollIndicatorText.text = "${it}%"
+                        scrollIndicatorText.text =
+                            requireContext().getString(R.string.progress_indicator, it)
                         scrollIndicator.progress = it
                     }
                 }
