@@ -89,14 +89,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         addMenuProvider()
     }
 
-    //                            WhatIsDiabetesDirections
-//                                .actionGlobalWhatIsDiabetes(
-//                                    args.lesson.copy(pageUrl = "insulin", title = "Types of insulin")
-//                                ).also {
-//                                    findNavController().navigate(it)
-//                                }
-
-
     private fun addMenuProvider() = requireActivity().addMenuProvider(object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.global_search_menu, menu)
@@ -106,8 +98,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             return when (menuItem.itemId) {
                 R.id.action_search -> {
-//                    val bottomSheet = BottomSheetFragment()
-//                    bottomSheet.show(requireActivity().supportFragmentManager, BottomSheetFragment.TAG)
                     showBottomSheetDialog()
 
                     true
@@ -123,54 +113,34 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(R.layout.fragment_search_chapter)
         bottomSheetDialog.show()
-
         val searchKeyword = bottomSheetDialog.findViewById<AppCompatEditText>(R.id.search)
+        val searchBtn = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.search_text)
         val searchResult = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.not_found)
-        var recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
-        val not = bottomSheetDialog.findViewById<AppCompatEditText>(R.id.search)
+        val recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
         val clearTextButton = bottomSheetDialog.findViewById<AppCompatImageView>(R.id.clear_button)
 
+
         clearTextButton?.setOnClickListener {
-            if (searchKeyword != null) {
-                searchKeyword.text?.clear()
-                clearTextButton.isEnabled = true
-            }
+            searchKeyword?.text?.clear()
         }
-
-        searchKeyword?.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                clearTextButton?.isEnabled = s.toString().trim { it <= ' ' }.isNotEmpty()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-
-        })
 
         searchKeyword?.setOnTextWatcher {
             viewModel.searchQuery.value = it
+            searchBtn?.setOnClickListener {
+                recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
+                    viewModel.searchResult.onEach {
+                        adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
+                            recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
+                        }
+                    }.launchIn(lifecycleScope)
+                }
 
+            }
             with(searchResult) {
                 if (searchKeyword.toString().trim().isNotBlank())
                     this?.visibility = View.GONE
             }
-            recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
-                viewModel.searchResult.onEach {
-                    adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
-                        recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
-                    }
-                }.launchIn(lifecycleScope)
-
-            }
-
-
         }
-
 
     }
 

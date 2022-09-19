@@ -124,6 +124,7 @@
         <entry key="app/src/main/res/layout/fragment_orientation_medical_team.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/fragment_orientation_types_of_insulin.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/fragment_orientation_what_is_diabetes.xml" value="0.21745152354570638" />
+        <entry key="app/src/main/res/layout/fragment_search_chapter.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/spinner.xml" value="0.240625" />
         <entry key="app/src/main/res/layout/spinner_item.xml" value="0.240625" />
         <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.24166666666666667" />

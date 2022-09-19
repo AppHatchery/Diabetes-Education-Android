@@ -63,6 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Search"
+            android:background="?attr/selectableItemBackground"
             android:textColor="@color/green_900"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/search_linear"
