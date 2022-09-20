@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.FragmentBloodSugarMonitoringBinding
 import edu.emory.diabetes.education.htmlExt
 import edu.emory.diabetes.education.presentation.BaseFragment
@@ -48,18 +49,17 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                         request: WebResourceRequest?
                     ): Boolean {
                         with(request?.url.toString()) {
-                            substring(
-                                lastIndexOf("/")
-                                    .plus(1), length
-                            ).replace(htmlExt, "")
-                        }.also {
-                            BloodSugarMonitoringFragmentDirections
-                                .actionBloodSugarMonitoringFragment3ToChapterFinishManagementFragment(
-                                    args.managementLesson
-                                )
-                                .also {
-                                    findNavController().navigate(it)
-                                }
+                            if (this.startsWith("http")){
+                                Utils.launchUrl(context,this.toString())
+                            }else{
+                                BloodSugarMonitoringFragmentDirections
+                                    .actionBloodSugarMonitoringFragment3ToChapterFinishManagementFragment(
+                                        args.managementLesson
+                                    )
+                                    .also {
+                                        findNavController().navigate(it)
+                                    }
+                            }
                         }
                         return true
                     }
