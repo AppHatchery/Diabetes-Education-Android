@@ -1,8 +1,11 @@
 package edu.emory.diabetes.education
 
 import android.app.Dialog
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.WindowManager
@@ -26,6 +29,12 @@ object Utils {
         show()
     }
 
+
+    fun launchUrl(context: Context, url: String) {
+        val browserUrl = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, browserUrl)
+        context?.startActivity(Intent.createChooser(intent, "Choose Browser"))
+    }
 
     val listOfChapter = listOf(
         ChapterEntity(

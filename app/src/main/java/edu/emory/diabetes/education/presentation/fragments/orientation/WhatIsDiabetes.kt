@@ -1,9 +1,9 @@
 package edu.emory.diabetes.education.presentation.fragments.orientation
-
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
 import edu.emory.diabetes.education.databinding.FragmentOrientationWhatIsDiabetesBinding
 import edu.emory.diabetes.education.domain.model.ChapterSearch
@@ -33,6 +34,7 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.views.WebAppInterface
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+
 
 class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabetes) {
 
@@ -62,23 +64,21 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                         super.onPageFinished(view, url)
                         view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
                     }
-
                     override fun shouldOverrideUrlLoading(
                         view: WebView?,
                         request: WebResourceRequest?,
                     ): Boolean {
                         with(request?.url.toString()) {
-                            substring(
-                                lastIndexOf("/")
-                                    .plus(1), length
-                            ).replace(htmlExt, "")
-                        }.also {
-                            WhatIsDiabetesDirections
-                                .actionWhatIsDiabetesToChapterFinishFragment(args.lesson)
-                                .also {
-                                    findNavController().navigate(it)
-                                }
+                            if(this.startsWith("http")){
+                               Utils.launchUrl(context, this.toString())
+                            }else{
+                                WhatIsDiabetesDirections
+                                    .actionWhatIsDiabetesToChapterFinishFragment(args.lesson).also {
+                                        findNavController().navigate(it)
+                                    }
+                            }
                         }
+
                         return true
                     }
                 }
@@ -145,4 +145,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     }
 
 
+
 }
+

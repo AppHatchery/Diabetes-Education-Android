@@ -27,8 +27,25 @@ object NutritionUtils {
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
             "cabs_counting_apps"
         ),
+    )
 
-        )
+    val otherPages = listOf(
+        LessonEntity(
+            0,
+            R.drawable.ic_beaker,
+            "Recommended Apps",
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+            "recommended_apps"
+        ),
+        LessonEntity(
+            0,
+            R.drawable.ic_beaker,
+            "Food List",
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+            "food_lists"
+        ),
+
+    )
 
     val quizData = listOf(
         QuizEntity(

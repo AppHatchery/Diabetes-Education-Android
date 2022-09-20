@@ -2,6 +2,7 @@ package edu.emory.diabetes.education.presentation.fragments.nutrition
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -11,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.FragmentNutritionWebViewAppsBinding
 import edu.emory.diabetes.education.htmlExt
 import edu.emory.diabetes.education.presentation.BaseFragment
@@ -53,11 +55,23 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                                     .plus(1), length
                             ).replace(htmlExt, "")
                         }.also {
-                            NutritionWebViewFragmentDirections
+                            when(it){
+                                "food_lists" ->
+                                    NutritionWebViewFragmentDirections
+                                        .actionGlobalWhatIsDiabetes(NutritionUtils.otherPages[1].toLesson()).also {
+                                            findNavController().navigate(it)
+                                }
+                                "recommended_apps" ->
+                                    NutritionWebViewFragmentDirections
+                                        .actionGlobalWhatIsDiabetes(NutritionUtils.otherPages[0].toLesson()).also {
+                                            findNavController().navigate(it)
+                                }
+                               else -> NutritionWebViewFragmentDirections
                                 .actionNutritionWebViewFragmentToChapterFinishNutritionFragment(args.lesson)
                                 .also {
                                     findNavController().navigate(it)
                                 }
+                            }
                         }
                         return true
                     }
