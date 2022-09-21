@@ -2,9 +2,11 @@ package edu.emory.diabetes.education.presentation.fragments.management
 
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentWhenToCallDoctorBinding
@@ -39,6 +41,7 @@ class WhenToCallDoctorFragment : BaseFragment(R.layout.fragment_when_to_call_doc
                         return true
                     }
                 }
+
             }
 
         }

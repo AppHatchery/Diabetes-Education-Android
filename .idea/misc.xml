@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.10847628657921292" />
         <entry key="../../Library/Android/sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.24166666666666667" />
         <entry key="../../Library/Android/sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.24166666666666667" />
         <entry key="..\:/Users/AppHatchery/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_radius_5px.xml" value="0.1475" />
@@ -107,6 +108,7 @@
         <entry key="app/src/main/res/drawable/shape_rectangle_stroke_radius_50px.xml" value="0.142" />
         <entry key="app/src/main/res/drawable/shape_rectangle_top_radius_10px.xml" value="0.1755" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11538461538461539" />
+        <entry key="app/src/main/res/layout/fragment_blood_sugar_monitoring.xml" value="0.18931159420289856" />
         <entry key="app/src/main/res/layout/fragment_calculator.xml" value="0.18625640869140625" />
         <entry key="app/src/main/res/layout/fragment_calculator_dialog.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/fragment_calculator_dialog_item.xml" value="0.3375030517578125" />
@@ -125,6 +127,7 @@
         <entry key="app/src/main/res/layout/fragment_orientation_types_of_insulin.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/fragment_orientation_what_is_diabetes.xml" value="0.21745152354570638" />
         <entry key="app/src/main/res/layout/fragment_search_chapter.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/fragment_when_to_call_doctor.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/spinner.xml" value="0.240625" />
         <entry key="app/src/main/res/layout/spinner_item.xml" value="0.240625" />
         <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.24166666666666667" />

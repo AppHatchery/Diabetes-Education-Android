@@ -3,9 +3,11 @@ package edu.emory.diabetes.education.presentation.fragments.management
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,6 +22,12 @@ import edu.emory.diabetes.education.views.WebAppInterface
 class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_monitoring) {
 
     private val args: BloodSugarMonitoringFragmentArgs by navArgs()
+    private lateinit var fullScreenView: FrameLayout
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
 
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,7 +51,6 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                         super.onPageFinished(view, url)
                         view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
                     }
-
                     override fun shouldOverrideUrlLoading(
                         view: WebView?,
                         request: WebResourceRequest?
@@ -64,6 +71,27 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                         return true
                     }
                 }
+
+                webChromeClient = object: WebChromeClient() {
+                    override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
+                        super.onShowCustomView(view, callback)
+                        if (view is FrameLayout) {
+                            fullScreenView = view
+                            fullscreenContainer.addView(fullScreenView)
+                            webViewContainer.visibility = View.GONE
+                            scrollIndicatorParent.visibility =  View.GONE
+                            fullscreenContainer.visibility = View.VISIBLE
+                        }
+                    }
+                    override fun onHideCustomView() {
+                        super.onHideCustomView()
+                        fullscreenContainer.visibility = View.GONE
+                        fullscreenContainer.removeView(fullScreenView)
+                        webViewContainer.visibility = View.VISIBLE
+                        scrollIndicatorParent.visibility = View.VISIBLE
+                    }
+                }
+
             }
         }
     }
