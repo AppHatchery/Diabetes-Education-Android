@@ -52,6 +52,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+                    <ProgressBar
+                        android:id="@+id/pageLoadProgressBar"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                     <edu.emory.diabetes.education.views.BaseWebView
                         android:id="@+id/webView"
                         android:layout_width="match_parent"

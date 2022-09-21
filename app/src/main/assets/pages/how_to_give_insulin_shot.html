@@ -15,7 +15,16 @@
     <div>
         <h3>With an insulin pen.</h3>
         <ul class="uk-list uk-list-bullet">
-            <li>Giving an Insulin Injection Using a Pen - <span><a href="https://www.youtube.com/watch?v=XTXzTDUf6rc">YouTube- Demo Video.</a></span></li>
+            <li>Giving an Insulin Injection Using a Pen-<span><a href="https://www.youtube.com/watch?v=RlHUyiK4R0I">YouTube- Demo Video.</a></span>
+                <div class="uk-position-relative">
+                    <iframe  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                            src="https://www.youtube.com/embed/RlHUyiK4R0I"
+                            height="300"
+                            class="uk-width-1-1">
+                    </iframe>
+                    <div id="loader-top" class="uk-position-absolute uk-position-center" uk-spinner="ratio:1.5"></div>
+                </div>
+            </li>
             <li>ALWAYS prime the pen with each injection, not just the first time you use the pen.</li>
             <li>ALWAYS hold injection in for 10 seconds after you have injected the full dose.</li>
         </ul>
@@ -23,7 +32,16 @@
     <div>
         <h3>With a syringe and vial.</h3>
         <ul class="uk-list uk-list-bullet">
-            <li> How to Draw Up an Insulin Syringe | Cincinnati Children's - <span><a href="https://www.youtube.com/watch?v=4s5KO1n97GU">YouTube- Demo Video.</a></span></li>
+            <li> How to Draw Up an Insulin Syringe | Cincinnati Children's - <span><a href="https://www.youtube.com/watch?v=4s5KO1n97GU">YouTube- Demo Video.</a></span>
+                <div class="uk-position-relative">
+                    <iframe id="i-frame" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                            src="https://www.youtube.com/embed/4s5KO1n97GU"
+                            height="300"
+                            class="uk-width-1-1">
+                    </iframe>
+                    <div id="loader" class="uk-position-absolute uk-position-center" uk-spinner="ratio:1.5"></div>
+                </div>
+            </li>
             <li> Make sure air bubbles are not present- they are not harmful, but necessary to remove to ensure receiving full dose of insulin.
             </li>
         </ul>
@@ -44,5 +62,11 @@
 
 </div>
 </body>
+<script>
+      window.onload = function(){
+        document.getElementById('loader-top').style.display = "none";
+        document.getElementById('loader').style.display = "none";
+    }
+</script>
 <script src="../js/uikit.js"></script>
 </html>

@@ -8,9 +8,11 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
@@ -40,6 +42,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
     private val args: WhatIsDiabetesArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
+    private lateinit var fullScreenView: FrameLayout
 
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,6 +83,26 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                         }
 
                         return true
+                    }
+                }
+
+                webChromeClient = object: WebChromeClient() {
+                    override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
+                        super.onShowCustomView(view, callback)
+                        if (view is FrameLayout) {
+                            fullScreenView = view
+                            fullscreenContainer.addView(fullScreenView)
+                            webViewContainer.visibility = View.GONE
+                            scrollIndicatorParent.visibility =  View.GONE
+                            fullscreenContainer.visibility = View.VISIBLE
+                        }
+                    }
+                    override fun onHideCustomView() {
+                        super.onHideCustomView()
+                        fullscreenContainer.visibility = View.GONE
+                        fullscreenContainer.removeView(fullScreenView)
+                        webViewContainer.visibility = View.VISIBLE
+                        scrollIndicatorParent.visibility = View.VISIBLE
                     }
                 }
             }

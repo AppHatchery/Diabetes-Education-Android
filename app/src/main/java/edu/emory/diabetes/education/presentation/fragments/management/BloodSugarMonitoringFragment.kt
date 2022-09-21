@@ -24,11 +24,6 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
     private val args: BloodSugarMonitoringFragmentArgs by navArgs()
     private lateinit var fullScreenView: FrameLayout
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
@@ -73,6 +68,12 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                 }
 
                 webChromeClient = object: WebChromeClient() {
+
+                    override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                        super.onProgressChanged(view, newProgress)
+
+                        pageLoadProgressBar.progress = newProgress
+                    }
                     override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
                         super.onShowCustomView(view, callback)
                         if (view is FrameLayout) {
