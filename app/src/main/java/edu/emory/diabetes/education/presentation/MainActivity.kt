@@ -38,9 +38,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.medicalTeamFragment,
                 R.id.lifeIsFragment,
                 R.id.bloodSugarMonitoringFragment3,
-                R.id.checkForKetonesFragment,
-                R.id.treatmentForLowBloodSugarFragment,
-                R.id.whenToCallDoctorFragment
+                R.id.diabetesBasicsFragment,
+                R.id.managementFragment,
+                R.id.nutritionFragment,
+                R.id.quizFragment,
+                R.id.nutritionWebViewFragment,
+                R.id.chapterFinishFragment,
+                R.id.chapterFinishManagementFragment,
+                R.id.chapterFinishNutritionFragment
                 -> binding.bottomNavigationView.visibility = View.GONE
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
