@@ -1,8 +1,7 @@
 package edu.emory.diabetes.education.presentation.fragments.orientation
+
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -31,7 +30,6 @@ import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
 import edu.emory.diabetes.education.databinding.FragmentOrientationWhatIsDiabetesBinding
 import edu.emory.diabetes.education.domain.model.ChapterSearch
-import edu.emory.diabetes.education.htmlExt
 import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.views.WebAppInterface
 import kotlinx.coroutines.flow.launchIn
@@ -67,14 +65,15 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                         super.onPageFinished(view, url)
                         view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
                     }
+
                     override fun shouldOverrideUrlLoading(
                         view: WebView?,
                         request: WebResourceRequest?,
                     ): Boolean {
                         with(request?.url.toString()) {
-                            if(this.startsWith("http")){
-                               Utils.launchUrl(context, this.toString())
-                            }else{
+                            if (this.startsWith("http")) {
+                                Utils.launchUrl(context, this.toString())
+                            } else {
                                 WhatIsDiabetesDirections
                                     .actionWhatIsDiabetesToChapterFinishFragment(args.lesson).also {
                                         findNavController().navigate(it)
@@ -86,17 +85,18 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                     }
                 }
 
-                webChromeClient = object: WebChromeClient() {
+                webChromeClient = object : WebChromeClient() {
                     override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
                         super.onShowCustomView(view, callback)
                         if (view is FrameLayout) {
                             fullScreenView = view
                             fullscreenContainer.addView(fullScreenView)
                             webViewContainer.visibility = View.GONE
-                            scrollIndicatorParent.visibility =  View.GONE
+                            scrollIndicatorParent.visibility = View.GONE
                             fullscreenContainer.visibility = View.VISIBLE
                         }
                     }
+
                     override fun onHideCustomView() {
                         super.onHideCustomView()
                         fullscreenContainer.visibility = View.GONE
@@ -135,6 +135,9 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     private fun showBottomSheetDialog() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(R.layout.fragment_search_chapter)
+        bottomSheetDialog.window
+            ?.findViewById<View>(R.id.bottomSheet)
+            ?.setBackgroundColor(Color.TRANSPARENT)
         bottomSheetDialog.show()
         val searchKeyword = bottomSheetDialog.findViewById<AppCompatEditText>(R.id.search)
         val searchBtn = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.search_text)
@@ -166,7 +169,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         }
 
     }
-
 
 
 }

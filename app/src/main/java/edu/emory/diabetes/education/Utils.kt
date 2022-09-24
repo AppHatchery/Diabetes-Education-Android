@@ -33,7 +33,7 @@ object Utils {
     fun launchUrl(context: Context, url: String) {
         val browserUrl = Uri.parse(url)
         val intent = Intent(Intent.ACTION_VIEW, browserUrl)
-        context?.startActivity(Intent.createChooser(intent, "Choose Browser"))
+        context.startActivity(Intent.createChooser(intent, "Choose Browser"))
     }
 
     val listOfChapter = listOf(

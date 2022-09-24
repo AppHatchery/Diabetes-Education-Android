@@ -2,11 +2,9 @@ package edu.emory.diabetes.education.presentation.fragments.management
 
 import android.os.Bundle
 import android.view.View
-import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.FrameLayout
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentWhenToCallDoctorBinding

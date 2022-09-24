@@ -45,7 +45,7 @@ object NutritionUtils {
             "food_lists"
         ),
 
-    )
+        )
 
     val quizData = listOf(
         QuizEntity(
