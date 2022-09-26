@@ -166,6 +166,11 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                 if (searchKeyword.toString().trim().isNotBlank())
                     this?.visibility = View.GONE
             }
+            if (searchKeyword.text.toString().isNotEmpty()){
+                searchBtn?.setTextColor(Color.parseColor("#00A94F"))
+                clearTextButton?.visibility = View.VISIBLE
+            }
+
         }
 
     }

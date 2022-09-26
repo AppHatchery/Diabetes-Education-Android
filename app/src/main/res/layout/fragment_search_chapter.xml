@@ -52,6 +52,7 @@
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="5dp"
                 android:src="@drawable/ic_clear_text"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,7 +65,7 @@
             android:layout_height="wrap_content"
             android:text="Search"
             android:background="?attr/selectableItemBackground"
-            android:textColor="@color/green_900"
+            android:textColor="@color/gray_100"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/search_linear"
             app:layout_constraintEnd_toEndOf="parent"
