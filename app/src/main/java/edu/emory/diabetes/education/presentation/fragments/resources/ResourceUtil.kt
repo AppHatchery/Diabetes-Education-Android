@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.resources
 
+import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.domain.model.Communities
 import edu.emory.diabetes.education.domain.model.FoodDiary
 import edu.emory.diabetes.education.domain.model.MustHaveApp
@@ -25,28 +26,41 @@ object ResourceUtil {
 
     val foodDiary = listOf(
         FoodDiary(
-            "My Sugar",
+            "Low Carb Snack Combinations",
             "the diabetes management app made for people with diabetes by people with diabetes."
         ),
         FoodDiary(
-            "Calorie King",
+            "Know your carbs",
             "Find nutrition facts for your favorite brands and fast-food restaurants."
         ),
         FoodDiary(
-            "MyFitness Pal",
+            "Foods that raise Blood Sugar",
+            "Track progress toward your nutrition, water, fitness, and weight loss goals "
+        ),
+        FoodDiary(
+            "Foods that don't raise Blood Sugar",
             "Track progress toward your nutrition, water, fitness, and weight loss goals "
         )
     )
 
     val communities = listOf(
         Communities(
-            "A nonprofit organization serving children and teens living with type 1 diabetes "
+            0,
+            "A nonprofit organization serving children and teens living with type 1 diabetes ",
+            R.drawable.im_strong4life,
+            "https://www.strong4life.com/en"
         ),
         Communities(
-            "A nonprofit organization serving children and teens living with type 1 diabetes "
+            1,
+            "A nonprofit organization serving children and teens living with type 1 diabetes ",
+            R.drawable.im_jrdf,
+            "https://www.jdrf.org/georgiasouthcarolina/"
         ),
         Communities(
-            "A nonprofit organization serving children and teens living with type 1 diabetes "
+            2,
+            "A nonprofit organization serving children and teens living with type 1 diabetes ",
+            R.drawable.im_camp_kudze,
+            "https://www.campkudzu.org/newly-diagnosed-resource-page/"
         )
     )
 

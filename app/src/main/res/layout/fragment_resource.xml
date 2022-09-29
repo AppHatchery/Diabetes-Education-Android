@@ -168,7 +168,7 @@
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="4"
-                    tools:listitem="@layout/fragment_resource_food_diary_item" />
+                    tools:listitem="@layout/fragment_resource_communities_item" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>

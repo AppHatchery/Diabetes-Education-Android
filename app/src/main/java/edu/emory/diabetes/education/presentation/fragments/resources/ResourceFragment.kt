@@ -2,6 +2,7 @@ package edu.emory.diabetes.education.presentation.fragments.resources
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentResourceBinding
@@ -21,12 +22,16 @@ class ResourceFragment : BaseFragment(R.layout.fragment_resource) {
             foodDiaryAdapter = ResourceFoodDiaryAdapter().also {
                 it.submitList(ResourceUtil.foodDiary)
             }
-            communitiesAdapter = ResourcesCommunitiesAdapter().also {
+            communitiesAdapter = ResourcesCommunitiesAdapter(
+                {}
+            ).also {
                 it.submitList(ResourceUtil.communities)
             }
 
             fragment = this@ResourceFragment
         }
+
+
     }
 
 
@@ -35,4 +40,5 @@ class ResourceFragment : BaseFragment(R.layout.fragment_resource) {
             .actionResourceFragmentToResourceMustHaveFragment()
             .also { findNavController().navigate(it) }
     }
+
 }

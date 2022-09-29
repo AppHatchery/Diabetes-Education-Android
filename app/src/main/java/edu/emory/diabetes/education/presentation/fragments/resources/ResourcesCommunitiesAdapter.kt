@@ -8,15 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.databinding.FragmentResourceCommunitiesItemBinding
 import edu.emory.diabetes.education.domain.model.Communities
 
-class ResourcesCommunitiesAdapter :
-    ListAdapter<Communities, ResourcesCommunitiesAdapter.CommunitiesViewHolder>(diffUtil) {
+class ResourcesCommunitiesAdapter(
+    val onEvent: (Communities) -> Unit
+) : ListAdapter<Communities, ResourcesCommunitiesAdapter.CommunitiesViewHolder>(diffUtil) {
 
-    class CommunitiesViewHolder(
+    inner class CommunitiesViewHolder(
         private val bind: FragmentResourceCommunitiesItemBinding
     ) : RecyclerView.ViewHolder(bind.root) {
         fun bind(communities: Communities) = bind.apply {
-            data = communities
-            executePendingBindings()
+            this.data = communities
+        }
+        init {
+            bind.link.setOnClickListener { onEvent.invoke(currentList[adapterPosition]) }
         }
     }
 
