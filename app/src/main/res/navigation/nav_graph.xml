@@ -108,6 +108,9 @@
         <action
             android:id="@+id/action_whatIsDiabetes_to_chapterFinishFragment"
             app:destination="@id/chapterFinishFragment" />
+        <action
+            android:id="@+id/action_whatIsDiabetes_to_lessonFragment"
+            app:destination="@id/lessonFragment" />
     </fragment>
     <fragment
         android:id="@+id/typesOfInsulin"
