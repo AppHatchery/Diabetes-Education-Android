@@ -2,9 +2,9 @@ package edu.emory.diabetes.education.presentation.fragments.resources
 
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.FragmentResourceBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
 
@@ -22,9 +22,9 @@ class ResourceFragment : BaseFragment(R.layout.fragment_resource) {
             foodDiaryAdapter = ResourceFoodDiaryAdapter().also {
                 it.submitList(ResourceUtil.foodDiary)
             }
-            communitiesAdapter = ResourcesCommunitiesAdapter(
-                {}
-            ).also {
+            communitiesAdapter = ResourcesCommunitiesAdapter{
+                Utils.launchUrl(requireContext(), it.url)
+            }.also {
                 it.submitList(ResourceUtil.communities)
             }
 

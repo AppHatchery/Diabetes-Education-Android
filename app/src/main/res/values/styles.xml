@@ -11,7 +11,7 @@
         <item name="fontFamily">@font/gotham_rounded_medium</item>
         <item name="android:textColor">@color/green_1000</item>
     </style>
-
+    >
 
     <style name="editTextCalculatorStyle" parent="Widget.AppCompat.EditText">
         <item name="fontFamily">@font/gotham_rounded_medium</item>

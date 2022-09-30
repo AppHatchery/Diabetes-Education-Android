@@ -4,10 +4,12 @@ import BrowseUtils
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.FragmentMainBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
 import kotlinx.coroutines.flow.launchIn

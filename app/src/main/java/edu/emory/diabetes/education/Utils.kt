@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -10,6 +11,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.WindowManager
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import edu.emory.diabetes.education.data.local.entities.ChapterEntity
 import edu.emory.diabetes.education.data.local.entities.ChapterSearchEntity
 import java.util.*
@@ -90,6 +93,20 @@ object Utils {
             override fun afterTextChanged(s: Editable?) = Unit
         })
     }
+
+        @SuppressLint("RestrictedApi")
+        fun setSupportActionBar(
+            activity: AppCompatActivity,
+            toolbar: Toolbar
+        ) = activity.apply {
+            setSupportActionBar(toolbar)
+            supportActionBar?.let {
+                it.setDisplayHomeAsUpEnabled(true)
+                it.setDefaultDisplayHomeAsUpEnabled(true)
+                it.title = null
+            }
+            toolbar.setNavigationOnClickListener { activity.onBackPressed() }
+        }
 
 }
 

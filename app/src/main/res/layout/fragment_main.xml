@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="topAdapter"
             type="edu.emory.diabetes.education.presentation.fragments.main.MainAdapter" />
@@ -15,6 +14,7 @@
             type="edu.emory.diabetes.education.presentation.fragments.main.MainAdapter" />
 
     </data>
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -145,5 +145,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+        </ScrollView>
 </layout>

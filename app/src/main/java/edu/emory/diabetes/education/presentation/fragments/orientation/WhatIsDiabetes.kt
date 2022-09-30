@@ -44,14 +44,13 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = args.lesson.title
         with(FragmentOrientationWhatIsDiabetesBinding.bind(view)) {
+            addMenuProvider()
             parent.viewTreeObserver.addOnScrollChangedListener {
                 if (parent.scrollY > 0) {
                     val height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
                     (parent.scrollY / height).times(100).toInt().also {
-                        scrollIndicatorText.text =
-                            requireContext().getString(R.string.progress_indicator, it)
+                        scrollIndicatorText.text = "$it%"
                         scrollIndicator.progress = it
                     }
                 }
@@ -109,7 +108,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
         }
 
-        addMenuProvider()
+
     }
 
     private fun addMenuProvider() = requireActivity().addMenuProvider(object : MenuProvider {

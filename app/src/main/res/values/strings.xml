@@ -14,4 +14,5 @@
     </string>
 
     <string name="progress_indicator">%d</string>
+    <string name="link"><a >View in browser</a></string>
 </resources>

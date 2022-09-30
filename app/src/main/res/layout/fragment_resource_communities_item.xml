@@ -32,9 +32,11 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/link"
+            android:autoLink="web"
+            android:linksClickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{data.url}"
+            android:text="View in browser"
             tools:text="View in browser"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

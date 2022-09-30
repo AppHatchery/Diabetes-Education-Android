@@ -9,7 +9,7 @@ import edu.emory.diabetes.education.databinding.FragmentResourceCommunitiesItemB
 import edu.emory.diabetes.education.domain.model.Communities
 
 class ResourcesCommunitiesAdapter(
-    val onEvent: (Communities) -> Unit
+    val onEvent: (Communities) -> Unit?
 ) : ListAdapter<Communities, ResourcesCommunitiesAdapter.CommunitiesViewHolder>(diffUtil) {
 
     inner class CommunitiesViewHolder(
