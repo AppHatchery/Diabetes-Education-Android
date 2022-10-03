@@ -45,6 +45,8 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (requireActivity() as AppCompatActivity).supportActionBar?.title =
+            args.lesson.title
         with(FragmentOrientationWhatIsDiabetesBinding.bind(view)) {
             addMenuProvider()
             parent.viewTreeObserver.addOnScrollChangedListener {
