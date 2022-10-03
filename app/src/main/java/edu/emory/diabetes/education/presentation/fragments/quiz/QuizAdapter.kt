@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentQuizQuestionItemBinding
+import edu.emory.diabetes.education.domain.model.Choice
 import edu.emory.diabetes.education.presentation.fragments.quiz.QuizAdapter.ViewHolder
 
 class QuizAdapter(
     val onEven: () -> Unit
-) : ListAdapter<String, ViewHolder>(QuizDiffUtil.diffUtil) {
+) : ListAdapter<Choice, ViewHolder>(QuizDiffUtil.diffUtil) {
 
     private var currentIndex = 3
 
@@ -20,8 +21,8 @@ class QuizAdapter(
     inner class ViewHolder(
         private val bind: FragmentQuizQuestionItemBinding
     ) : RecyclerView.ViewHolder(bind.root) {
-        fun bind(string: String) = bind.apply {
-            question = string
+        fun bind(choice: Choice) = bind.apply {
+            question = choice
             view.apply {
                 if (currentIndex == adapterPosition) {
                     setBackgroundResource(R.drawable.shape_rectangle_stroke_radius_10px)

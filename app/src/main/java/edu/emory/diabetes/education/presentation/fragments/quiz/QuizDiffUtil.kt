@@ -1,15 +1,16 @@
 package edu.emory.diabetes.education.presentation.fragments.quiz
 
 import androidx.recyclerview.widget.DiffUtil
+import edu.emory.diabetes.education.domain.model.Choice
 
 object QuizDiffUtil {
-    val diffUtil = object : DiffUtil.ItemCallback<String>() {
-        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+    val diffUtil = object : DiffUtil.ItemCallback<Choice>() {
+        override fun areContentsTheSame(oldItem: Choice, newItem: Choice): Boolean {
             return oldItem == newItem
         }
 
-        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
+        override fun areItemsTheSame(oldItem: Choice, newItem: Choice): Boolean {
+            return oldItem.id == newItem.id
         }
     }
 }

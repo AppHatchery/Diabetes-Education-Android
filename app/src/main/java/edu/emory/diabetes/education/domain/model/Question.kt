@@ -8,6 +8,7 @@ data class Question(
 )
 
 data class Choice(
+    val id: String,
     val choice:String
 )
 
