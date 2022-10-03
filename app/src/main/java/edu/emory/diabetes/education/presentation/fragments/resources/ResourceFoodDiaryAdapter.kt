@@ -7,17 +7,26 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.databinding.FragmentResourceFoodDiaryItemBinding
 import edu.emory.diabetes.education.domain.model.FoodDiary
+import edu.emory.diabetes.education.domain.model.Quiz
 import edu.emory.diabetes.education.presentation.fragments.resources.ResourceFoodDiaryAdapter.ViewHolder
 
-class ResourceFoodDiaryAdapter : ListAdapter<FoodDiary, ViewHolder>(diffUtil) {
+class ResourceFoodDiaryAdapter(
+    val onEvent: (FoodDiary) -> Unit
+    ) : ListAdapter<FoodDiary, ViewHolder>(diffUtil) {
 
-    class ViewHolder(
+    inner class ViewHolder(
         private val bind: FragmentResourceFoodDiaryItemBinding
     ) : RecyclerView.ViewHolder(bind.root) {
         fun bind(mustHaveApp: FoodDiary) = bind.apply {
             data = mustHaveApp
             executePendingBindings()
         }
+
+        init {
+            bind.root.setOnClickListener { onEvent.invoke(currentList[adapterPosition]) }
+        }
+
+
     }
 
 

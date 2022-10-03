@@ -19,7 +19,12 @@ class ResourceFragment : BaseFragment(R.layout.fragment_resource) {
             mustHaveAdapter = ResourceMustHaveAdapter().also {
                 it.submitList(ResourceUtil.mustHaveApp)
             }
-            foodDiaryAdapter = ResourceFoodDiaryAdapter().also {
+            foodDiaryAdapter = ResourceFoodDiaryAdapter{
+                ResourceFragmentDirections
+                    .actionResourceFragmentToResourceWebViewFragment(it).also {
+                        findNavController().navigate(it)
+                    }
+            }.also {
                 it.submitList(ResourceUtil.foodDiary)
             }
             communitiesAdapter = ResourcesCommunitiesAdapter{

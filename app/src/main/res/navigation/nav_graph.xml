@@ -188,6 +188,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_resourceFragment_to_resourceWebViewFragment"
+            app:destination="@id/resourceWebViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/resourceMustHaveFragment"
@@ -326,5 +329,15 @@
         android:id="@+id/baseFragment"
         android:name="edu.emory.diabetes.education.presentation.BaseFragment"
         android:label="BaseFragment" />
+    <fragment
+        android:id="@+id/resourceWebViewFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.resources.ResourceWebViewFragment"
+        android:label="Resource"
+        tools:layout="@layout/fragment_resource_web_view_apps"
+        >
+        <argument
+            android:name="foodDiary"
+            app:argType="edu.emory.diabetes.education.domain.model.FoodDiary" />
+    </fragment>
 
 </navigation>
