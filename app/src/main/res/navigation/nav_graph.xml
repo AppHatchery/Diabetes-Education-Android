@@ -111,6 +111,9 @@
         <action
             android:id="@+id/action_whatIsDiabetes_to_lessonFragment"
             app:destination="@id/lessonFragment" />
+        <action
+            android:id="@+id/action_whatIsDiabetes_to_baseFragment"
+            app:destination="@id/baseFragment" />
     </fragment>
     <fragment
         android:id="@+id/typesOfInsulin"
@@ -313,5 +316,9 @@
             android:id="@+id/action_chapterFinishNutritionFragment_to_nutritionWebViewFragment"
             app:destination="@id/nutritionWebViewFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/baseFragment"
+        android:name="edu.emory.diabetes.education.presentation.BaseFragment"
+        android:label="BaseFragment" />
 
 </navigation>
