@@ -4,18 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="adapter"
             type="edu.emory.diabetes.education.presentation.fragments.quiz.QuizAdapter" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/linearLayoutCompat8"
             android:layout_width="0dp"
@@ -56,45 +52,55 @@
 
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView4"
+            android:id="@+id/iconAnswer"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:visibility="gone"
             android:layout_marginTop="24dp"
             android:src="@drawable/ic_correct_answer"
             app:layout_constraintStart_toStartOf="@+id/linearLayoutCompat8"
             app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat8" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/appCompatTextView15"
+            android:id="@+id/answer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginStart="8dp"
             android:text="Answer D"
-            app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView4"
-            app:layout_constraintStart_toEndOf="@+id/appCompatImageView4"
-            app:layout_constraintTop_toTopOf="@+id/appCompatImageView4" />
+            app:layout_constraintBottom_toBottomOf="@+id/iconAnswer"
+            app:layout_constraintStart_toEndOf="@+id/iconAnswer"
+            app:layout_constraintTop_toTopOf="@+id/iconAnswer" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/appCompatTextView16"
+            android:id="@+id/selectedChoices"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
             android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's."
             app:fontFamily="@font/gotham_rounded_light"
             app:layout_constraintEnd_toEndOf="@+id/linearLayoutCompat8"
             app:layout_constraintStart_toStartOf="@+id/linearLayoutCompat8"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatImageView4" />
+            app:layout_constraintTop_toBottomOf="@+id/iconAnswer" />
 
 
-        <include
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/next"
-            layout="@layout/include_button_next_arrow_stroke_green_900"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="@+id/appCompatTextView16"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView16" />
+            android:layout_marginTop="24dp"
+            android:background="@drawable/shape_rectangle_radius_50px"
+            android:backgroundTint="@color/green_900"
+            android:gravity="center"
+            android:paddingHorizontal="15dp"
+            android:text="Submit"
+            android:textColor="@color/white_100"
+            app:layout_constraintEnd_toEndOf="@+id/selectedChoices"
+            app:layout_constraintStart_toStartOf="@+id/selectedChoices"
+            app:layout_constraintTop_toBottomOf="@+id/selectedChoices" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
