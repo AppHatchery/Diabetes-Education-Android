@@ -2,6 +2,7 @@ package edu.emory.diabetes.education.presentation.fragments.management
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
@@ -15,6 +16,7 @@ import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.FragmentBloodSugarMonitoringBinding
+import edu.emory.diabetes.education.htmlExt
 import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.views.WebAppInterface
 
@@ -51,14 +53,27 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                         request: WebResourceRequest?
                     ): Boolean {
                         with(request?.url.toString()) {
-                            if (this.startsWith("http")) {
+                            substring(
+                                lastIndexOf("/")
+                                    .plus(1), length
+                            ).replace(htmlExt, "")
+                        }.also {
+                            if (it.startsWith("http")) {
                                 Utils.launchUrl(context, this.toString())
-                            } else {
+                            }
+                            if (it == "next"){
                                 BloodSugarMonitoringFragmentDirections
                                     .actionBloodSugarMonitoringFragment3ToChapterFinishManagementFragment(
                                         args.managementLesson
                                     )
                                     .also {
+                                        findNavController().navigate(it)
+                                    }
+                            }
+
+                            if (it == "done") {
+                                BloodSugarMonitoringFragmentDirections
+                                    .actionBloodSugarMonitoringFragment3ToManagementFragment().also {
                                         findNavController().navigate(it)
                                     }
                             }

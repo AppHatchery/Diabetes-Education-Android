@@ -66,10 +66,13 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                                         .also {
                                             findNavController().navigate(it)
                                         }
+                                "next" -> NutritionWebViewFragmentDirections
+                                    .actionNutritionWebViewFragmentToChapterFinishNutritionFragment(args.lesson).also {
+                                        findNavController().navigate(it)
+                                    }
+
                                 else -> NutritionWebViewFragmentDirections
-                                    .actionNutritionWebViewFragmentToChapterFinishNutritionFragment(
-                                        args.lesson
-                                    )
+                                    .actionNutritionWebViewFragmentToNutritionFragment()
                                     .also {
                                         findNavController().navigate(it)
                                     }

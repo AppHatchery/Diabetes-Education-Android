@@ -109,11 +109,8 @@
             android:id="@+id/action_whatIsDiabetes_to_chapterFinishFragment"
             app:destination="@id/chapterFinishFragment" />
         <action
-            android:id="@+id/action_whatIsDiabetes_to_lessonFragment"
-            app:destination="@id/lessonFragment" />
-        <action
-            android:id="@+id/action_whatIsDiabetes_to_baseFragment"
-            app:destination="@id/baseFragment" />
+            android:id="@+id/action_whatIsDiabetes_to_diabetesBasicsFragment"
+            app:destination="@id/diabetesBasicsFragment" />
     </fragment>
     <fragment
         android:id="@+id/typesOfInsulin"
@@ -208,6 +205,12 @@
         <action
             android:id="@+id/action_bloodSugarMonitoringFragment3_to_chapterFinishManagementFragment"
             app:destination="@id/chapterFinishManagementFragment" />
+        <action
+            android:id="@+id/action_bloodSugarMonitoringFragment3_to_managementFragment"
+            app:destination="@id/managementFragment" />
+        <action
+            android:id="@+id/action_bloodSugarMonitoringFragment3_to_managementLessonFragment"
+            app:destination="@id/managementLessonFragment" />
     </fragment>
     <fragment
         android:id="@+id/whenToCallDoctorFragment"
@@ -271,6 +274,9 @@
         <action
             android:id="@+id/action_nutritionWebViewFragment_to_chapterFinishNutritionFragment"
             app:destination="@id/chapterFinishNutritionFragment" />
+        <action
+            android:id="@+id/action_nutritionWebViewFragment_to_nutritionFragment"
+            app:destination="@id/nutritionFragment" />
     </fragment>
     <fragment
         android:id="@+id/managementFragment"

@@ -45,8 +45,6 @@ class BasicFragment : BaseFragment(R.layout.fragment_diabetes_basics), BasicNavi
         }
 
     }
-
-
 }
 
 

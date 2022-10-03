@@ -30,6 +30,7 @@ import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
 import edu.emory.diabetes.education.databinding.FragmentOrientationWhatIsDiabetesBinding
 import edu.emory.diabetes.education.domain.model.ChapterSearch
+import edu.emory.diabetes.education.htmlExt
 import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.views.WebAppInterface
 import kotlinx.coroutines.flow.launchIn
@@ -70,16 +71,27 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                         request: WebResourceRequest?,
                     ): Boolean {
                         with(request?.url.toString()) {
-                            if (this.startsWith("http")) {
+                            substring(
+                                lastIndexOf("/")
+                                    .plus(1), length
+                            ).replace(htmlExt, "")
+                        }.also {
+                            if (it.startsWith("http")) {
                                 Utils.launchUrl(context, this.toString())
-                            } else {
+                            }
+                            if(it ==  "next") {
                                 WhatIsDiabetesDirections
                                     .actionWhatIsDiabetesToChapterFinishFragment(args.lesson).also {
                                         findNavController().navigate(it)
                                     }
                             }
-                        }
 
+                            if(it ==  "done")
+                                WhatIsDiabetesDirections
+                                    .actionWhatIsDiabetesToDiabetesBasicsFragment().also {
+                                        findNavController().navigate(it)
+                                    }
+                        }
                         return true
                     }
                 }
