@@ -38,6 +38,8 @@ class QuizAdapter(
         init {
             bind.root.setOnClickListener {
                 onEven.invoke()
+                QuizUtils.answer.clear()
+                QuizUtils.answer.add(QuizUtils.whatIsDiabetesQuiz[0].choices[adapterPosition].id)
                 currentIndex = adapterPosition
                 notifyDataSetChanged()
             }

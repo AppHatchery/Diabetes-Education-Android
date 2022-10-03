@@ -4,7 +4,7 @@ data class Question(
     val title: String,
     val description: String,
     val choices: List<Choice>,
-    val answers: List<Answer>
+    val answers: List<String>
 )
 
 data class Choice(

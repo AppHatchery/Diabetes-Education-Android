@@ -96,6 +96,7 @@
         <entry key="app/src/main/res/drawable/ic_arrow_down.xml" value="0.181" />
         <entry key="app/src/main/res/drawable/ic_arrow_forward_small.xml" value="0.142" />
         <entry key="app/src/main/res/drawable/ic_calculator.xml" value="0.1755" />
+        <entry key="app/src/main/res/drawable/ic_correct_answer.xml" value="0.189" />
         <entry key="app/src/main/res/drawable/ic_grams.xml" value="0.181" />
         <entry key="app/src/main/res/drawable/ic_handbook.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/ic_keyboard_arrow_right.xml" value="0.1755" />
@@ -140,6 +141,7 @@
         <entry key="app/src/main/res/layout/fragment_resource_web_view_apps.xml" value="0.1157548125633232" />
         <entry key="app/src/main/res/layout/fragment_search_chapter.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_when_to_call_doctor.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/include_button_next_arrow_stroke_green_900.xml" value="0.1" />
         <entry key="app/src/main/res/layout/spinner.xml" value="0.240625" />
         <entry key="app/src/main/res/layout/spinner_item.xml" value="0.240625" />
         <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.24166666666666667" />
