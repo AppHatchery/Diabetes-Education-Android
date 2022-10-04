@@ -15,7 +15,7 @@ class QuizAdapter(
     val onEven: () -> Unit
 ) : ListAdapter<Choice, ViewHolder>(QuizDiffUtil.diffUtil) {
 
-    private var currentIndex = 3
+    private var currentIndex = QuizUtils.answer.size.minus(1)
 
     @SuppressLint("NotifyDataSetChanged")
     inner class ViewHolder(

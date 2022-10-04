@@ -10,6 +10,12 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 
 class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        QuizUtils.answer.clear()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val quiz = QuizUtils.whatIsDiabetesQuiz[0]
         with(FragmentQuizQuestionBinding.bind(view)) {
@@ -23,16 +29,26 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
                 ans.isNotEmpty().also {
                     if (it){
                         if (quiz.answers.contains(ans.get(0))){
-                            iconAnswer.visibility = View.VISIBLE
-                            answer.visibility = View.VISIBLE
-                            answer.text = ans.get(0)
+                            iconAnswer.apply {
+                                visibility = View.VISIBLE
+                                setImageDrawable(requireContext().getDrawable(R.drawable.ic_correct_answer))
+                            }
+                            answer.apply {
+                                visibility = View.VISIBLE
+                                text = ans.get(ans.size.minus(1))
+                            }
+                            next.text = "Next"
                             selectedChoices.visibility = View.VISIBLE
-                            Log.e("ANS", "onViewCreated: " + ans.get(0) )
                         } else{
-                            iconAnswer.visibility = View.VISIBLE
-                            iconAnswer.setImageDrawable(requireContext().getDrawable(R.drawable.ic_wrong_answer))
-                            answer.visibility = View.VISIBLE
-                            answer.text = ans.get(0)
+                            iconAnswer.apply {
+                                visibility = View.VISIBLE
+                                setImageDrawable(requireContext().getDrawable(R.drawable.ic_wrong_answer))
+                            }
+                            answer.apply {
+                                visibility = View.VISIBLE
+                                text = ans.get(ans.size.minus(1))
+                            }
+                            next.text = "Submit"
                             selectedChoices.visibility = View.VISIBLE
 
                         }
@@ -41,5 +57,6 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
             }
         }
     }
+
 
 }
