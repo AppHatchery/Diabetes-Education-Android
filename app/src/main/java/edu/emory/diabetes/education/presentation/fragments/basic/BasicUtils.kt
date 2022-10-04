@@ -42,23 +42,31 @@ object BasicUtils {
             0,
             R.drawable.ic_help,
             R.drawable.ic_quiz_complete,
-            "Quiz 1",
+            "Quiz 1: What is diabetes",
             "5 questions, 5 mins"
         ),
         QuizEntity(
             1,
             R.drawable.ic_help,
             R.drawable.ic_arrow_forward_filled,
-            "Quiz 2",
+            "Quiz 2: Types of Insulin",
             "5 questions, 5 mins"
         ),
         QuizEntity(
             2,
             R.drawable.ic_help,
             R.drawable.ic_arrow_forward_filled,
-            "Quiz 3",
+            "Quiz 3: ",
             "5 questions, 5 mins"
-        )
+        ),
+
+        QuizEntity(
+            3,
+            R.drawable.ic_help,
+            R.drawable.ic_arrow_forward_filled,
+            "Quiz 4",
+            "5 questions, 5 mins"
+        ),
     )
 
 }

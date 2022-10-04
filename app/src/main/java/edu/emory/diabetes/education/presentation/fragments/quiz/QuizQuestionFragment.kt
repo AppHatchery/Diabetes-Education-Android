@@ -1,28 +1,33 @@
 package edu.emory.diabetes.education.presentation.fragments.quiz
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentQuizQuestionBinding
-import edu.emory.diabetes.education.domain.model.Question
 import edu.emory.diabetes.education.presentation.BaseFragment
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
-
+    private val viewModel:QuizQuestionViewModel by viewModels()
+    private val args:QuizQuestionFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         QuizUtils.answer.clear()
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val quiz = QuizUtils.whatIsDiabetesQuiz[0]
+        val quiz = QuizUtils.questions[0]
         with(FragmentQuizQuestionBinding.bind(view)) {
             question.text = quiz.title
             adapter = QuizAdapter {
-            }.also {
-                it.submitList(QuizUtils.whatIsDiabetesQuiz[0].choices)
+            }.also { adapter ->
+                viewModel.selectQuestions(args.quizId).onEach {
+                    adapter.submitList(it[0].choices)
+                }.launchIn(lifecycleScope)
             }
             next.setOnClickListener {
                 val ans = QuizUtils.answer

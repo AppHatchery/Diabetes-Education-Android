@@ -170,12 +170,19 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="quiz"
+            app:argType="edu.emory.diabetes.education.domain.model.Quiz" />
     </fragment>
     <fragment
         android:id="@+id/quizQuestionFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.quiz.QuizQuestionFragment"
         android:label="Quiz 1 : Questions"
-        tools:layout="@layout/fragment_quiz_question" />
+        tools:layout="@layout/fragment_quiz_question" >
+        <argument
+            android:name="quizId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/resourceFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.resources.ResourceFragment"

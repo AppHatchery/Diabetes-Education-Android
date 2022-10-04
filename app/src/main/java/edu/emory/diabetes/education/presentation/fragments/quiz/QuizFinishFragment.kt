@@ -11,11 +11,11 @@ class QuizFinishFragment : BaseFragment(R.layout.fragment_quiz) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         FragmentQuizBinding.bind(view).apply {
-            next.setOnClickListener {
-                QuizFragmentDirections
-                    .actionQuizFragmentToQuizQuestionFragment()
-                    .apply { findNavController().navigate(this) }
-            }
+//            next.setOnClickListener {
+//                QuizFragmentDirections
+//                    .actionQuizFragmentToQuizQuestionFragment()
+//                    .apply { findNavController().navigate(this) }
+//            }
         }
     }
 

@@ -4,7 +4,8 @@ data class Question(
     val title: String,
     val description: String,
     val choices: List<Choice>,
-    val answers: List<String>
+    val answers: List<String>,
+    val ChapterName: ChapterName
 )
 
 data class Choice(
@@ -14,4 +15,9 @@ data class Choice(
 
 data class Answer(
     val answer: String
+)
+
+data class ChapterName(
+    val quiz: Int,
+    val chapterName: String
 )

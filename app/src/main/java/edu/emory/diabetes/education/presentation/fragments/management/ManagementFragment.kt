@@ -28,11 +28,7 @@ class ManagementFragment : BaseFragment(R.layout.fragment_management), Managemen
 
     override fun invoke(lesson: Lesson?, event: ManagementEvent) {
         when (event) {
-            ManagementEvent.Quiz ->
-                ManagementFragmentDirections
-                    .actionManagementFragmentToQuizFragment().apply {
-                        findNavController().navigate(this)
-                    }
+            ManagementEvent.Quiz -> {}
 
             ManagementEvent.Lesson ->
                 lesson?.let {
