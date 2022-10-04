@@ -9,5 +9,6 @@ data class Quiz(
     val image: Int,
     val endIcon: Int,
     val title: String,
+    val chapter:String,
     val description: String
 ) : Parcelable

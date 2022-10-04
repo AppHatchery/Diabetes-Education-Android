@@ -11,8 +11,9 @@ data class QuizEntity(
     val image: Int,
     val endIcon: Int,
     val title: String,
+    val chapter:String,
     val description: String
 ) {
-    fun toQuiz() = Quiz(id, image, endIcon, title, description)
+    fun toQuiz() = Quiz(id, image, endIcon, title, chapter, description)
 
 }

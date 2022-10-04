@@ -2,6 +2,7 @@ package edu.emory.diabetes.education.presentation.fragments.quiz
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -21,11 +22,17 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val quiz = QuizUtils.questions[0]
+
+        viewModel.getQuizCode(args.quizId).onEach {
+            (requireActivity() as AppCompatActivity)
+                .supportActionBar?.title = "${it.title} : Questions"
+        }
+
         with(FragmentQuizQuestionBinding.bind(view)) {
-            question.text = quiz.title
             adapter = QuizAdapter {
             }.also { adapter ->
                 viewModel.selectQuestions(args.quizId).onEach {
+                    question.text = it[0].title
                     adapter.submitList(it[0].choices)
                 }.launchIn(lifecycleScope)
             }
