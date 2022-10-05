@@ -265,6 +265,9 @@
         <action
             android:id="@+id/action_nutritionFragment_to_nutritionWebViewFragment"
             app:destination="@id/nutritionWebViewFragment" />
+        <action
+            android:id="@+id/action_nutritionFragment_to_quizNutritionFragment"
+            app:destination="@id/quizNutritionFragment" />
     </fragment>
     <fragment
         android:id="@+id/nutritionLessonFragment"
@@ -371,6 +374,26 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
 
+        <argument
+            android:name="quiz"
+            app:argType="edu.emory.diabetes.education.domain.model.Quiz" />
+    </fragment>
+    <fragment
+        android:id="@+id/nutritionQuizQuestionsFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.quiz.NutritionQuizQuestionsFragment"
+        android:label="NutritionQuizQuestionsFragment" >
+
+        <argument
+            android:name="quizId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizNutritionFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.quiz.QuizNutritionFragment"
+        android:label="QuizNutritionFragment" >
+        <action
+            android:id="@+id/action_quizNutritionFragment_to_nutritionQuizQuestionsFragment"
+            app:destination="@id/nutritionQuizQuestionsFragment" />
         <argument
             android:name="quiz"
             app:argType="edu.emory.diabetes.education.domain.model.Quiz" />

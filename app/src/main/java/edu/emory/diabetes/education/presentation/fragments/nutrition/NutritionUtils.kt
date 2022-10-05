@@ -56,7 +56,7 @@ object NutritionUtils {
             "",
             "5 questions, 5 mins"
         ),
-        QuizEntity(
+        /*QuizEntity(
             1,
             R.drawable.ic_help,
             R.drawable.ic_arrow_forward_filled,
@@ -71,6 +71,6 @@ object NutritionUtils {
             "Quiz 3",
             "",
             "5 questions, 5 mins"
-        )
+        )*/
     )
 }
