@@ -16,9 +16,7 @@ class ManagementQuizFragment(
         with(FragmentManagementQuizBinding.bind(view)) {
             navigation = fragment as ManagementNavigator
             adapter = ManagementQuizAdapter {
-                if (it.id == 0) {
-                    navigation.invoke(event = ManagementEvent.Quiz)
-                }
+                    navigation.invoke(quiz = it, event = ManagementEvent.Quiz)
             }.apply {
                 submitList(ManagementUtils.managementQuizData.map {
                     it.toQuiz()

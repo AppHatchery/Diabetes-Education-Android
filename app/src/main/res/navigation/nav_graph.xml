@@ -299,6 +299,9 @@
         <action
             android:id="@+id/action_managementFragment_to_bloodSugarMonitoringFragment3"
             app:destination="@id/bloodSugarMonitoringFragment3" />
+        <action
+            android:id="@+id/action_managementFragment_to_managementQuizFragment2"
+            app:destination="@id/managementQuizFragment2" />
     </fragment>
     <fragment
         android:id="@+id/managementLessonFragment"
@@ -345,6 +348,32 @@
         <argument
             android:name="foodDiary"
             app:argType="edu.emory.diabetes.education.domain.model.FoodDiary" />
+    </fragment>
+    <fragment
+        android:id="@+id/managementQuizQuestionFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.management.quiz.ManagementQuizQuestionFragment"
+        android:label="ManagementQuizQuestionFragment"
+        tools:layout="@layout/fragment_management_quiz_question">
+        <argument
+            android:name="quizId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/managementQuizFragment2"
+        android:name="edu.emory.diabetes.education.presentation.fragments.management.quiz.QuizManagementFragment"
+        android:label="ManagementQuizFragment"
+        tools:layout="@layout/quiz_management">
+        <action
+            android:id="@+id/action_managementQuizFragment2_to_managementQuizQuestionFragment"
+            app:destination="@id/managementQuizQuestionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <argument
+            android:name="quiz"
+            app:argType="edu.emory.diabetes.education.domain.model.Quiz" />
     </fragment>
 
 </navigation>
