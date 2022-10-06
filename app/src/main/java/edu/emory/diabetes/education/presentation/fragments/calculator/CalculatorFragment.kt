@@ -79,7 +79,7 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
                         .div(carbsRatio.text.toString().toFloat())
 
                     val insulinCalculator = CalculatorUtils.data[0].copy(
-                        answer = DecimalFormat("#.###").format(insulinFood)
+                        answer = DecimalFormat("#.#").format(insulinFood)
                     )
                     viewModel.onEvent(CalculateInsulinForFood(insulinCalculator.toInsulinCalculator()))
                 }
@@ -91,7 +91,7 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
                         .minus(100)).div(correctionFactor.text.toString().toFloat())
 
                     val insulinBloodCalculator = CalculatorUtils.data[1].copy(
-                        answer = DecimalFormat("#.##").format(insulinBloodSugar)
+                        answer = DecimalFormat("#.#").format(insulinBloodSugar)
                     )
                     viewModel.onEvent(
                         CalculatorEvent.CalculateInsulinForBloodSugar(
@@ -102,7 +102,7 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
 
                 val totalInsulin = insulinFood + insulinBloodSugar
                 val totalInsulinCalculator = CalculatorUtils.data[2].copy(
-                    answer = DecimalFormat("#.##").format(totalInsulin)
+                    answer = DecimalFormat("#.#").format(totalInsulin)
                 )
 
                 viewModel.onEvent(CalculatorEvent.CalculateTotalInsulin(totalInsulinCalculator.toInsulinCalculator()))
