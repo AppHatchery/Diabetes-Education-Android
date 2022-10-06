@@ -58,7 +58,7 @@ object BasicUtils {
             2,
             R.drawable.ic_help,
             R.drawable.ic_arrow_forward_filled,
-            "Quiz 3",
+            "Quiz 3 ",
             "How to calculate insulin dosing",
             "5 questions, 5 mins"
         ),
