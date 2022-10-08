@@ -5,7 +5,8 @@ data class Question(
     val description: String,
     val choices: List<Choice>,
     val answers: List<String>,
-    val ChapterName: ChapterName
+    val ChapterName: ChapterName,
+    val maxAnswerSize : Int = 1
 )
 
 data class Choice(

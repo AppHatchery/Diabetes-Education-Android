@@ -18,11 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
-            android:backgroundTint="@android:color/white"
-            android:background="@drawable/shape_rectangle_radius_10px"
+            android:background="@drawable/shape_rectangle_white_radius_90px"
             android:padding="16dp"
             android:text="@{question.choice}"
-            tools:text="A. Body poduces too much glucose" />
+            tools:text="A. Body produces too much glucose" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

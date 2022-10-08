@@ -26,7 +26,8 @@ object QuizUtils {
             answers = listOf(
                 "B"
             ),
-            ChapterName(0, "what is diabetes")
+            ChapterName(0, "what is diabetes"),
+            maxAnswerSize =  3
         ),
 
         Question(
