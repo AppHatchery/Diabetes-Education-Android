@@ -26,7 +26,7 @@ class ManagementQuizQuestionFragment: BaseFragment(R.layout.fragment_management_
         viewModel.getQuizCode(args.quizId).onEach {
             (requireActivity() as AppCompatActivity)
                 .supportActionBar?.title = "${it.title}: Questions"
-        }
+        }.launchIn(lifecycleScope)
 
         with(FragmentManagementQuizQuestionBinding.bind(view)){
             adapter = ManagementQuizAdapter {
