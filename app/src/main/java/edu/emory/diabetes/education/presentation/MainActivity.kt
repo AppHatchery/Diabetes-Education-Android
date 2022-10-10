@@ -44,7 +44,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.nutritionWebViewFragment,
                 R.id.chapterFinishFragment,
                 R.id.chapterFinishManagementFragment,
-                R.id.chapterFinishNutritionFragment
+                R.id.chapterFinishNutritionFragment,
+                R.id.managementQuizQuestionFragment,
+                R.id.managementQuizFragment2,
+                R.id.nutritionQuizQuestionsFragment,
+                R.id.quizNutritionFragment
                 -> binding.bottomNavigationView.visibility = View.GONE
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
