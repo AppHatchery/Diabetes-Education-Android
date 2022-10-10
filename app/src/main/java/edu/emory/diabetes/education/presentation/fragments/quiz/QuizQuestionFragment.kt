@@ -1,6 +1,7 @@
 package edu.emory.diabetes.education.presentation.fragments.quiz
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +30,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
         viewModel.getQuizCode(args.quizId).onEach {
             (requireActivity() as AppCompatActivity)
                 .supportActionBar?.title = "${it.title} : Questions"
-        }
+        }.launchIn(lifecycleScope)
 
         with(FragmentQuizQuestionBinding.bind(view)) {
             adapter = QuizAdapter {

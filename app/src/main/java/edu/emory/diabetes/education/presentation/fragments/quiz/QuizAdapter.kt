@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentQuizQuestionItemBinding
 import edu.emory.diabetes.education.domain.model.Choice
+import edu.emory.diabetes.education.presentation.fragments.basic.BasicUtils
 import edu.emory.diabetes.education.presentation.fragments.management.quiz.ManagementQuizUtils
 import edu.emory.diabetes.education.presentation.fragments.quiz.QuizAdapter.ViewHolder
 
@@ -50,7 +51,7 @@ class QuizAdapter(
                     } else
                         add(adapterPosition)
                 }.onEach {
-                    QuizUtils.answer.add(ManagementQuizUtils.questions[0].choices[it].id)
+                    QuizUtils.answer.add(QuizUtils.questions[0].choices[it].id)
                 }
                 notifyDataSetChanged()
             }
