@@ -21,7 +21,7 @@ class NutritionQuizAdapter(
         }
 
         init {
-            bind.parent.setOnClickListener { onEvent.invoke(currentList[adapterPosition]) }
+            bind.root.setOnClickListener { onEvent.invoke(currentList[adapterPosition]) }
         }
 
     }

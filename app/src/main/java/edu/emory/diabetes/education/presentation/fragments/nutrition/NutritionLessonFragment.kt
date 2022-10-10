@@ -13,11 +13,11 @@ class NutritionLessonFragment(
     private val fragment: Fragment
 ) : BaseFragment(R.layout.fragment_diabetes_nutrition_lesson) {
 
-    private lateinit var navigation: BasicNavigator
+    private lateinit var navigation: NutritionNavigator
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentDiabetesNutritionLessonBinding.bind(view)) {
-            navigation = fragment as BasicNavigator
+            navigation = fragment as NutritionNavigator
             adapter = NutritionLessonAdapter {
                 navigation.invoke(it)
 

@@ -10,10 +10,8 @@ import edu.emory.diabetes.education.databinding.FragmentDiabetesNutritionBinding
 import edu.emory.diabetes.education.domain.model.Lesson
 import edu.emory.diabetes.education.domain.model.Quiz
 import edu.emory.diabetes.education.presentation.BaseFragment
-import edu.emory.diabetes.education.presentation.fragments.basic.BasicNavigator
-import edu.emory.diabetes.education.presentation.fragments.basic.Event
 
-class NutritionFragment : BaseFragment(R.layout.fragment_diabetes_nutrition), BasicNavigator {
+class NutritionFragment : BaseFragment(R.layout.fragment_diabetes_nutrition), NutritionNavigator {
     private lateinit var basicViewPagerAdapter: NutritionViewPagerAdapter
     private lateinit var viewPager: ViewPager2
     private lateinit var binding: FragmentDiabetesNutritionBinding
@@ -24,7 +22,7 @@ class NutritionFragment : BaseFragment(R.layout.fragment_diabetes_nutrition), Ba
         basicViewPagerAdapter = NutritionViewPagerAdapter(this, tabs.size)
         viewPager = view.findViewById(R.id.viewPager)
         viewPager.adapter = basicViewPagerAdapter
-        TabLayoutMediator(binding.tabLayout, viewPager) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, viewPager) {tab, position ->
             tab.text = tabs[position]
         }.attach()
     }
@@ -34,19 +32,17 @@ class NutritionFragment : BaseFragment(R.layout.fragment_diabetes_nutrition), Ba
             Event.Quiz -> {
                 quiz?.let {
                     NutritionFragmentDirections
-                        .actionNutritionFragmentToQuizNutritionFragment(it).apply {
+                        .actionNutritionFragmentToQuizNutritionFragment(quiz).apply {
                             findNavController().navigate(this)
                         }
                 }
             }
-
             Event.Lesson ->
                 lesson?.let {
                     NutritionFragmentDirections
                         .actionNutritionFragmentToNutritionWebViewFragment(lesson).apply {
                             findNavController().navigate(this)
                         }
-
                 }
         }
 

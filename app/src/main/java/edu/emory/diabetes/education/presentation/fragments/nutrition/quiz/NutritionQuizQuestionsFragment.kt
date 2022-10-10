@@ -29,7 +29,7 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
         viewModel.getQuizCode(args.quizId).onEach {
             (requireActivity() as AppCompatActivity)
                 .supportActionBar?.title = "${it.title} : Questions"
-        }
+        }.launchIn(lifecycleScope)
 
         with(FragmentNutritionQuizQuestionsBinding.bind(view)){
             adapter = QuizNutritionAdapter {
