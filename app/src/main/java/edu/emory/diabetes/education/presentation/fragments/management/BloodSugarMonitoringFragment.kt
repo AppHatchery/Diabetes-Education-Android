@@ -55,7 +55,7 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                 if (parent.scrollY > 0) {
                     val height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
                     (parent.scrollY / height).times(100).toInt().also {
-                        scrollIndicatorText.text = "${it}%"
+                        scrollIndicatorText.text = "$it%"
                         scrollIndicator.progress = it
                     }
                 }
