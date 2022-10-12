@@ -6,7 +6,7 @@
     <data>
         <variable
             name="adapter"
-            type="edu.emory.diabetes.education.presentation.fragments.management.quiz.ManagementQuizAdapter" />
+            type="edu.emory.diabetes.education.presentation.fragments.management.quiz.ManagementQuizQuestionAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,4 +1,4 @@
-package edu.emory.diabetes.education.presentation.fragments.nutrition.quiz
+package edu.emory.diabetes.education.presentation.fragments.management.quiz
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,21 +6,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.R
-import edu.emory.diabetes.education.databinding.NutritionQuizQuestionItemBinding
+import edu.emory.diabetes.education.databinding.ManagementQuizQuestionItemBinding
 import edu.emory.diabetes.education.domain.model.Choice
 import edu.emory.diabetes.education.presentation.fragments.quiz.QuizAdapterEvent
 
-class QuizNutritionAdapter(
+class ManagementQuizQuestionAdapter(
     val onEvent: (QuizAdapterEvent) -> Unit
-) : RecyclerView.Adapter<QuizNutritionAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ManagementQuizQuestionAdapter.ViewHolder>() {
 
     private val selectedIndexes: MutableList<Int> = ArrayList()
-    val asyncListDiffer = AsyncListDiffer(this, QuizNutritionDiffUtil.diffUtil)
+    val asyncListDiffer = AsyncListDiffer(this, ManagementQuizDiffUtil.diffUtil)
     var maxAnswerSize = 0
 
     @SuppressLint("NotifyDataSetChanged")
     inner class ViewHolder(
-        private val bind: NutritionQuizQuestionItemBinding
+        private val bind: ManagementQuizQuestionItemBinding
     ) : RecyclerView.ViewHolder(bind.root) {
 
 
@@ -38,7 +38,7 @@ class QuizNutritionAdapter(
 
         init {
             bind.root.setOnClickListener {
-                QuizNutritionUtil.answer.clear()
+                ManagementQuizUtils.answer.clear()
                 selectedIndexes.apply {
                     if (contains(adapterPosition)) remove(adapterPosition)
                     else if (size > maxAnswerSize.minus(1)) {
@@ -49,7 +49,7 @@ class QuizNutritionAdapter(
                     } else
                         add(adapterPosition)
                 }.onEach {
-                    QuizNutritionUtil.answer.add(QuizNutritionUtil.questions[0].choices[it].id)
+                    ManagementQuizUtils.answer.add(ManagementQuizUtils.questions[0].choices[it].id)
                 }
                 notifyDataSetChanged()
             }
@@ -58,7 +58,7 @@ class QuizNutritionAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            NutritionQuizQuestionItemBinding.inflate(
+            ManagementQuizQuestionItemBinding.inflate(
                 LayoutInflater.from(parent.context)
             )
         )

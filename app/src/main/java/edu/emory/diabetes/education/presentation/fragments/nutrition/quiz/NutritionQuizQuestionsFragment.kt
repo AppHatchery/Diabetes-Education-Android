@@ -1,7 +1,9 @@
 package edu.emory.diabetes.education.presentation.fragments.nutrition.quiz
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -9,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentNutritionQuizQuestionsBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
-import edu.emory.diabetes.education.presentation.fragments.management.quiz.ManagementQuizUtils
+import edu.emory.diabetes.education.presentation.fragments.quiz.QuizAdapterEvent
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -24,7 +26,7 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val quiz = ManagementQuizUtils.questions[0]
+        val quiz = QuizNutritionUtil.questions[0]
 
         viewModel.getQuizCode(args.quizId).onEach {
             (requireActivity() as AppCompatActivity)
@@ -33,10 +35,21 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
 
         with(FragmentNutritionQuizQuestionsBinding.bind(view)){
             adapter = QuizNutritionAdapter {
-            }.also { adapter->
+                when (it) {
+                    QuizAdapterEvent.MaximumLimit ->
+                        Toast.makeText(
+                            requireContext(),
+                            "Maximum number of entries reached",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                }
+            }.also { adapter ->
                 viewModel.selectQuestions(args.quizId).onEach {
-                    question.text = it[0].title
-                    adapter.submitList(it[0].choices)
+                    with(it.first()) {
+                        question.text = title
+                        adapter.maxAnswerSize = maxAnswerSize
+                        adapter.asyncListDiffer.submitList(choices)
+                    }
                 }.launchIn(lifecycleScope)
             }
             next.setOnClickListener {

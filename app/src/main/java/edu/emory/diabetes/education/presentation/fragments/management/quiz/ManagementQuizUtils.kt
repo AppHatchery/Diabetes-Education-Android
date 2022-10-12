@@ -9,13 +9,6 @@ object ManagementQuizUtils {
 
     val answer = mutableListOf<String>("A")
 
-    val chapters = listOf(
-        ChapterName(1,"Blood Sugar Monitoring"),
-        ChapterName(2,"Check for Ketones"),
-        ChapterName(3,"Treatment for Low Blood Sugar"),
-        ChapterName(4,"When to call a Doctor"),
-    )
-
     val questions = listOf(
         Question(
             "How often should BG be checked in Type 1 Diabetes?",
@@ -27,7 +20,8 @@ object ManagementQuizUtils {
                 Choice("D","D. Fasting and 2 hours after largest meal"),
             ),
             answers = listOf("C"),
-            ChapterName(0,"Blood sugar monitoring")
+            ChapterName(0,"Blood sugar monitoring"),
+            maxAnswerSize =  3
         ),
         Question(
             "Ketones indicate:",
@@ -41,7 +35,8 @@ object ManagementQuizUtils {
             answers = listOf(
                 "B"
             ),
-            ChapterName(1,"Check for Ketones")
+            ChapterName(1,"Check for Ketones"),
+            maxAnswerSize =  3
         ),
         Question(
             "How is routine hypoglycemia best treated?",
@@ -55,7 +50,8 @@ object ManagementQuizUtils {
             answers = listOf(
                 "A"
             ),
-            ChapterName(2,"Treatment for Low Blood Sugar")
+            ChapterName(2,"Treatment for Low Blood Sugar"),
+            maxAnswerSize =  3
         ),
         Question(
             "When should you call the doctor? ",
@@ -70,7 +66,8 @@ object ManagementQuizUtils {
                 "C",
                 "D"
             ),
-            ChapterName(3,"When to call a Doctor")
+            ChapterName(3,"When to call a Doctor"),
+            maxAnswerSize =  3
         )
     )
 

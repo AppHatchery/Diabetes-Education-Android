@@ -83,7 +83,6 @@
         <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_management_quiz.xml" value="0.205078125" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_must_have_apps_item.xml" value="0.1" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_nutrition_finish_chapter.xml" value="0.27447916666666666" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_nutrition_web_view_apps.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_orientation_what_is_diabetes.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_quiz.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/layout/fragment_quiz_management.xml" value="0.205078125" />
@@ -127,10 +126,12 @@
         <entry key="app/src/main/res/layout/fragment_life_is.xml" value="0.240625" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_main_item.xml" value="0.1952191235059761" />
+        <entry key="app/src/main/res/layout/fragment_management_quiz_question.xml" value="0.1037037037037037" />
         <entry key="app/src/main/res/layout/fragment_medical_team.xml" value="0.240625" />
+        <entry key="app/src/main/res/layout/fragment_nutrition_quiz_questions.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_nutrition_web_view_apps.xml" value="0.1157548125633232" />
         <entry key="app/src/main/res/layout/fragment_orientation.xml" value="0.24166666666666667" />
-        <entry key="app/src/main/res/layout/fragment_orientation_agenda.xml" value="0.16139373779296878" />
+        <entry key="app/src/main/res/layout/fragment_orientation_agenda.xml" value="0.2954104718810601" />
         <entry key="app/src/main/res/layout/fragment_orientation_agenda_first_day.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/fragment_orientation_agenda_second_day.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/fragment_orientation_life_is.xml" value="0.24166666666666667" />
@@ -147,6 +148,8 @@
         <entry key="app/src/main/res/layout/fragment_search_chapter.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_when_to_call_doctor.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/include_button_next_arrow_stroke_green_900.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/management_quiz_question_item.xml" value="0.1037037037037037" />
+        <entry key="app/src/main/res/layout/nutrition_quiz_question_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/spinner.xml" value="0.240625" />
         <entry key="app/src/main/res/layout/spinner_item.xml" value="0.240625" />
         <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.24166666666666667" />
