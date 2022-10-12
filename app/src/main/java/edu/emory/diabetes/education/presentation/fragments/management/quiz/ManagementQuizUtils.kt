@@ -21,10 +21,10 @@ object ManagementQuizUtils {
             "How often should BG be checked in Type 1 Diabetes?",
             "",
             choices = listOf(
-                Choice("A","Hourly"),
-                Choice("B","Every 5 minutes"),
-                Choice("C","Before meals, before bed, and before exercise"),
-                Choice("D","Fasting and 2 hours after largest meal"),
+                Choice("A","A. Hourly"),
+                Choice("B","B. Every 5 minutes"),
+                Choice("C","C. Before meals, before bed, and before exercise"),
+                Choice("D","D. Fasting and 2 hours after largest meal"),
             ),
             answers = listOf("C"),
             ChapterName(0,"Blood sugar monitoring")
@@ -33,10 +33,10 @@ object ManagementQuizUtils {
             "Ketones indicate:",
             "",
             choices = listOf(
-                Choice("A","BG is well managed"),
-                Choice("B","Diabetes is out of balance"),
-                Choice("C","BG is high"),
-                Choice("D","There is enough insulin to carry glucose (sugar) into cells"),
+                Choice("A","A. BG is well managed"),
+                Choice("B","B. Diabetes is out of balance"),
+                Choice("C","C. BG is high"),
+                Choice("D","D. There is enough insulin to carry glucose (sugar) into cells"),
             ),
             answers = listOf(
                 "B"
@@ -47,10 +47,10 @@ object ManagementQuizUtils {
             "How is routine hypoglycemia best treated?",
             "",
             choices = listOf(
-                Choice("A","Rapid acting carbohydrates"),
-                Choice("B","Complex carbohydrates"),
-                Choice("C","You should not eat carbs until BG resolved"),
-                Choice("D","Glucagon"),
+                Choice("A","A. Rapid acting carbohydrates"),
+                Choice("B","B. Complex carbohydrates"),
+                Choice("C","C. You should not eat carbs until BG resolved"),
+                Choice("D","D. Glucagon"),
             ),
             answers = listOf(
                 "A"
@@ -61,10 +61,10 @@ object ManagementQuizUtils {
             "When should you call the doctor? ",
             "Check all that apply",
             choices = listOf(
-                Choice("A","Daily"),
-                Choice("B","Ketones are small"),
-                Choice("C","Consistently high or low BG"),
-                Choice("D","When sick"),
+                Choice("A","A. Daily"),
+                Choice("B","B. Ketones are small"),
+                Choice("C","C. Consistently high or low BG"),
+                Choice("D","D. When sick"),
             ),
             answers = listOf(
                 "C",

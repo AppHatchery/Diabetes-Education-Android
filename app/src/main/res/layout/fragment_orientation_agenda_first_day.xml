@@ -104,7 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:text="1. What is Diabetes?\n2. Types of Insulin\n3. Ketones"
+                        android:text="1. What is Diabetes?\n2. Types of Insulin\n3. How to calculate insulin dosing\n4. How to give insulin shot"
                         android:textColor="@color/gray_200"
                         app:fontFamily="@font/gotham_rounded" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -218,7 +218,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:text="1. How to Count Carbohydrates\n2. What is a Carbohydrate Serving\n3. How to calculate insulin dosing"
+                        android:text="1. Types of food\n2. How to count carbs\n3. Carbs counting Apps
+"
                         android:textColor="@color/gray_200"
                         app:fontFamily="@font/gotham_rounded" />
                 </androidx.appcompat.widget.LinearLayoutCompat>

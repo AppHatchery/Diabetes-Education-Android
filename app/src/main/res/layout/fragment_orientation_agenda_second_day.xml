@@ -101,7 +101,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:text="1. Causes of Low Blood Sugar\n2. Rule of 15\n3. Exercise and Diabetes\n4. When to Call the Diabetes Doctor\n5. School management"
+                        android:text="1. Blood sugar monitoring\n2. Check for ketones\n3. Treatment for low blood sugar\n4. When to call diabetes doctor"
                         android:textColor="@color/gray_200"
                         app:fontFamily="@font/gotham_rounded" />
 
