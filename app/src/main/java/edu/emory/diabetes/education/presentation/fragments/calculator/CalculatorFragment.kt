@@ -88,7 +88,7 @@ class CalculatorFragment : BaseFragment(R.layout.fragment_calculator) {
                         .toFloat() > 0
                 ) {
                     insulinBloodSugar = (bloodSugar.text.toString().toFloat()
-                        .minus(100)).div(correctionFactor.text.toString().toFloat())
+                        .minus(targetBloodSugar.text.toString().toFloat())).div(correctionFactor.text.toString().toFloat())
 
                     val insulinBloodCalculator = CalculatorUtils.data[1].copy(
                         answer = DecimalFormat("#.#").format(insulinBloodSugar)

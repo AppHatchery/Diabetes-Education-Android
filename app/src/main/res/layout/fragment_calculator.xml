@@ -140,17 +140,15 @@
                     style="@style/textViewCalculatorStyle"
                     android:text="Target Blood Sugar" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatEditText
+                    style="@style/editTextCalculatorStyle"
+                    android:id="@+id/target_blood_sugar"
                     android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:background="@drawable/shape_rectangle_radius_10px"
                     android:backgroundTint="@android:color/white"
                     android:fontFamily="@font/gotham_rounded_medium"
-                    android:gravity="center"
-                    android:padding="15dp"
-                    android:paddingEnd="16dp"
-                    android:text="100"
                     android:textColor="@color/green_900" />
 
 
