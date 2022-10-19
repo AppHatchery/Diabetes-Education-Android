@@ -74,15 +74,10 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                         request: WebResourceRequest?
                     ): Boolean {
                         with(request?.url.toString()) {
-                            substring(
-                                lastIndexOf("/")
-                                    .plus(1), length
-                            ).replace(htmlExt, "")
-                        }.also {
-                            if (it.startsWith("http")) {
+                            if (this.startsWith("http")) {
                                 Utils.launchUrl(context, this.toString())
                             }
-                            if (it == "next"){
+                            if (this.contains("next")){
                                 BloodSugarMonitoringFragmentDirections
                                     .actionBloodSugarMonitoringFragment3ToChapterFinishManagementFragment(
                                         args.managementLesson
@@ -90,9 +85,8 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                                     .also {
                                         findNavController().navigate(it)
                                     }
-                            }
-
-                            if (it == "done") {
+                                }
+                            if (this.contains("done")) {
                                 BloodSugarMonitoringFragmentDirections
                                     .actionBloodSugarMonitoringFragment3ToManagementFragment().also {
                                         findNavController().navigate(it)

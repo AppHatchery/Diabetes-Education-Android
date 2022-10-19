@@ -3,6 +3,7 @@ package edu.emory.diabetes.education.presentation.fragments.orientation
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -74,22 +75,16 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                         request: WebResourceRequest?,
                     ): Boolean {
                         with(request?.url.toString()) {
-                            substring(
-                                lastIndexOf("/")
-                                    .plus(1), length
-                            ).replace(htmlExt, "")
-                        }.also {
-                            if (it.startsWith("http")) {
-                                Utils.launchUrl(context, this.toString())
+                            if (this.startsWith("http")) {
+                                Utils.launchUrl(context, this)
                             }
-                            if(it ==  "next") {
+                            if(this.contains("next")) {
                                 WhatIsDiabetesDirections
                                     .actionWhatIsDiabetesToChapterFinishFragment(args.lesson).also {
                                         findNavController().navigate(it)
                                     }
                             }
-
-                            if(it ==  "done")
+                            if(this.contains("done"))
                                 WhatIsDiabetesDirections
                                     .actionWhatIsDiabetesToDiabetesBasicsFragment().also {
                                         findNavController().navigate(it)
