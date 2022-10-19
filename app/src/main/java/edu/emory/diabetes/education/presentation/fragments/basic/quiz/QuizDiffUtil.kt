@@ -1,4 +1,4 @@
-package edu.emory.diabetes.education.presentation.fragments.quiz
+package edu.emory.diabetes.education.presentation.fragments.basic.quiz
 
 import androidx.recyclerview.widget.DiffUtil
 import edu.emory.diabetes.education.domain.model.Choice

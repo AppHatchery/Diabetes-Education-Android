@@ -1,4 +1,4 @@
-package edu.emory.diabetes.education.presentation.fragments.orientation
+package edu.emory.diabetes.education.presentation.fragments.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

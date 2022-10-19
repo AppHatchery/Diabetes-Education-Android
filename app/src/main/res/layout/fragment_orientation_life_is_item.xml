@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="color"
-            type="Integer" />
+            name="data"
+            type="edu.emory.diabetes.education.domain.model.FourOrientation" />
 
     </data>
 
@@ -19,64 +19,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="@drawable/shape_rectangle_stroke_white_radius_15px"
+            android:background="@drawable/shape_rectangle_stroke_radius_15px"
             android:padding="8dp">
 
-
-            <View
-                android:id="@+id/view4"
-                setBackgroundTintColorResource="@{color}"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/shape_rectangle_radius_50px"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:backgroundTint="@color/pink_300" />
-
-
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/appCompatTextView11"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="Name"
-                android:textSize="16sp"
-                app:fontFamily="@font/gotham_rounded_bold"
-                app:layout_constraintBottom_toBottomOf="@+id/view4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/view4"
-                app:layout_constraintTop_toTopOf="@+id/view4"
-                app:layout_constraintVertical_bias="0.19999999" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Occupation"
-                android:textColor="@color/gray_200"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/appCompatTextView11"
-                app:layout_constraintStart_toStartOf="@+id/appCompatTextView11"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView11" />
-
-
-            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:maxLines="4"
-                android:text="@string/lorem"
-                android:textColor="@color/gray_200"
+                android:text="@{data.description}"
+                tools:text="@string/lorem"
+                android:textColor="@color/green_1000"
                 android:textSize="16sp"
                 app:fontFamily="@font/gotham_rounded"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/appCompatTextView11"
-                app:layout_constraintStart_toStartOf="@+id/view4"
-                app:layout_constraintTop_toBottomOf="@+id/view4" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf= "parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.age}"
+                tools:text="child age 15"
+                android:textColor="@color/gray_100"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>

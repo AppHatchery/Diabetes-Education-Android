@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.NutritionQuizQuestionItemBinding
 import edu.emory.diabetes.education.domain.model.Choice
-import edu.emory.diabetes.education.presentation.fragments.quiz.QuizAdapterEvent
+import edu.emory.diabetes.education.presentation.fragments.basic.quiz.QuizAdapterEvent
 
 class QuizNutritionAdapter(
     val onEvent: (QuizAdapterEvent) -> Unit

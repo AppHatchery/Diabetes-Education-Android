@@ -99,7 +99,7 @@
     </fragment>
     <fragment
         android:id="@+id/whatIsDiabetes"
-        android:name="edu.emory.diabetes.education.presentation.fragments.orientation.WhatIsDiabetes"
+        android:name="edu.emory.diabetes.education.presentation.fragments.basic.WhatIsDiabetes"
         android:label="What is Diabetes?"
         tools:layout="@layout/fragment_orientation_what_is_diabetes">
         <argument
@@ -114,7 +114,7 @@
     </fragment>
     <fragment
         android:id="@+id/typesOfInsulin"
-        android:name="edu.emory.diabetes.education.presentation.fragments.orientation.TypesOfInsulin"
+        android:name="edu.emory.diabetes.education.presentation.fragments.basic.TypesOfInsulin"
         android:label="Types of Insulin"
         tools:layout="@layout/fragment_orientation_types_of_insulin" />
     <action
@@ -160,7 +160,7 @@
         tools:layout="@layout/fragment_browse" />
     <fragment
         android:id="@+id/quizFragment"
-        android:name="edu.emory.diabetes.education.presentation.fragments.quiz.QuizFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.basic.quiz.QuizFragment"
         android:label="Quiz 1"
         tools:layout="@layout/fragment_quiz">
         <action
@@ -176,7 +176,7 @@
     </fragment>
     <fragment
         android:id="@+id/quizQuestionFragment"
-        android:name="edu.emory.diabetes.education.presentation.fragments.quiz.QuizQuestionFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.basic.quiz.QuizQuestionFragment"
         android:label="Quiz 1 : Questions"
         tools:layout="@layout/fragment_quiz_question" >
         <argument
@@ -247,7 +247,7 @@
     </fragment>
     <fragment
         android:id="@+id/chapterFinishFragment"
-        android:name="edu.emory.diabetes.education.presentation.fragments.orientation.ChapterFinishFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.basic.ChapterFinishFragment"
         android:label="End Of Chapter"
         tools:layout="@layout/fragment_finish_chapter">
         <argument

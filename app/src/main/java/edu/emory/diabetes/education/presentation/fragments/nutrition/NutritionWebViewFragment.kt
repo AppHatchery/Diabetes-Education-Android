@@ -29,8 +29,8 @@ import edu.emory.diabetes.education.databinding.FragmentNutritionWebViewAppsBind
 import edu.emory.diabetes.education.domain.model.ChapterSearch
 import edu.emory.diabetes.education.htmlExt
 import edu.emory.diabetes.education.presentation.BaseFragment
-import edu.emory.diabetes.education.presentation.fragments.orientation.ChapterSearchAdapter
-import edu.emory.diabetes.education.presentation.fragments.orientation.ChapterViewModel
+import edu.emory.diabetes.education.presentation.fragments.search.ChapterSearchAdapter
+import edu.emory.diabetes.education.presentation.fragments.search.ChapterViewModel
 import edu.emory.diabetes.education.views.WebAppInterface
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

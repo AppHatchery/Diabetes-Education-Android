@@ -11,9 +11,9 @@ class LifeIsFragment : BaseFragment(R.layout.fragment_orientation_life_is) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentOrientationLifeIsBinding.bind(view)) {
-            adapter = AgendaAdapter {
-
-            }.also { it.submitList(AgendaUtils.color) }
+            adapter = FourOrientationAdapter().also {
+                it.submitList(FourOrientationUtils.listOfStories)
+            }
 
             done.setOnClickListener {
                 LifeIsFragmentDirections

@@ -1,8 +1,7 @@
-package edu.emory.diabetes.education.presentation.fragments.orientation
+package edu.emory.diabetes.education.presentation.fragments.search
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import edu.emory.diabetes.education.data.local.repository.RepositoryImpl
 import edu.emory.diabetes.education.views.WebAppInterface
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

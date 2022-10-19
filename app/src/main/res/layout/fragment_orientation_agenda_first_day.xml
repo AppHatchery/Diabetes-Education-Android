@@ -121,7 +121,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat5" />
 
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/appCompatImageView10"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -129,7 +129,7 @@
                     android:background="@drawable/shape_rectangle_radius_50px"
                     android:backgroundTint="@android:color/white"
                     android:padding="8dp"
-                    android:src="@drawable/ic_morning"
+                    android:drawableStart="@drawable/ic_vector__1_"
                     app:layout_constraintStart_toStartOf="@+id/appCompatImageView3"
                     app:layout_constraintTop_toBottomOf="@+id/view2" />
 
@@ -168,15 +168,15 @@
                     app:layout_constraintStart_toStartOf="@+id/linearLayoutCompat5"
                     app:layout_constraintTop_toBottomOf="@+id/appCompatTextView9" />
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/appCompatImageView12"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/shape_rectangle_radius_50px"
                     android:backgroundTint="@android:color/white"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_morning"
+                    android:padding="10dp"
+                    android:drawableStart="@drawable/ic_afternoon_sun"
                     app:layout_constraintStart_toStartOf="@+id/appCompatImageView3"
                     app:layout_constraintTop_toBottomOf="@+id/view3" />
 
@@ -186,7 +186,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Lunch"
+                    android:text="Afternoon"
                     android:textColor="@color/yellow_500"
                     app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView12"
                     app:layout_constraintEnd_toEndOf="parent"

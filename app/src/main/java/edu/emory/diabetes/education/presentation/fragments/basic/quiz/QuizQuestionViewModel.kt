@@ -1,4 +1,4 @@
-package edu.emory.diabetes.education.presentation.fragments.quiz
+package edu.emory.diabetes.education.presentation.fragments.basic.quiz
 import androidx.lifecycle.ViewModel
 import edu.emory.diabetes.education.presentation.fragments.basic.BasicUtils
 import kotlinx.coroutines.flow.flow

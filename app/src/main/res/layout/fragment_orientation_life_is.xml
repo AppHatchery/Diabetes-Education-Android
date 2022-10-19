@@ -7,7 +7,7 @@
 
         <variable
             name="adapter"
-            type="edu.emory.diabetes.education.presentation.fragments.orientation.AgendaAdapter" />
+            type="edu.emory.diabetes.education.presentation.fragments.orientation.FourOrientationAdapter" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -32,7 +32,7 @@
                 style="@style/textTitle"
                 android:layout_width="0dp"
                 android:layout_marginStart="8dp"
-                android:text="Life is still bright!"
+                android:text="You are not alone!"
                 app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/appCompatImageView"

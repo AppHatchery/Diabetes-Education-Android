@@ -1,4 +1,4 @@
-package edu.emory.diabetes.education.presentation.fragments.quiz
+package edu.emory.diabetes.education.presentation.fragments.basic.quiz
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import edu.emory.diabetes.education.databinding.FragmentQuizQuestionItemBinding
 import edu.emory.diabetes.education.domain.model.Choice
 import edu.emory.diabetes.education.presentation.fragments.basic.BasicUtils
 import edu.emory.diabetes.education.presentation.fragments.management.quiz.ManagementQuizUtils
-import edu.emory.diabetes.education.presentation.fragments.quiz.QuizAdapter.ViewHolder
+import edu.emory.diabetes.education.presentation.fragments.basic.quiz.QuizAdapter.ViewHolder
 
 class QuizAdapter(
     val onEvent: (QuizAdapterEvent) -> Unit
