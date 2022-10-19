@@ -11,15 +11,18 @@ object ResourceUtil {
     val mustHaveApp = listOf(
         MustHaveApp(
             "My Sugar",
-            "the diabetes management app made for people with diabetes by people with diabetes."
+            "the diabetes management app made for people with diabetes by people with diabetes.",
+            image = R.drawable.im_sugar
         ),
         MustHaveApp(
             "Calorie King",
-            "Find nutrition facts for your favorite brands and fast-food restaurants."
+            "Find nutrition facts for your favorite brands and fast-food restaurants.",
+            image = R.drawable.im_calorie
         ),
         MustHaveApp(
             "MyFitness Pal",
-            "Track progress toward your nutrition, water, fitness, and weight loss goals "
+            "Track progress toward your nutrition, water, fitness, and weight loss goals ",
+            image = R.drawable.im_fitnes
         )
     )
 
@@ -28,23 +31,27 @@ object ResourceUtil {
         FoodDiary(
             "Low Carb Snack Combinations",
             "the diabetes management app made for people with diabetes by people with diabetes.",
-            "low_carb_snack_combinations"
+            "low_carb_snack_combinations",
+            image = R.drawable.im_low_carbs
 
         ),
         FoodDiary(
             "Know your carbs",
             "Find nutrition facts for your favorite brands and fast-food restaurants.",
-            "know_your_carbs"
+            "know_your_carbs",
+            image = R.drawable.im_know_your_carbs
         ),
         FoodDiary(
             "Foods that raise Blood Sugar",
             "Track progress toward your nutrition, water, fitness, and weight loss goals.",
-            "foods_that_raise_blood_sugar"
+            "foods_that_raise_blood_sugar",
+            image = R.drawable.im_food_that_raise_bloods_sugar
         ),
         FoodDiary(
             "Foods that don't raise Blood Sugar",
             "Track progress toward your nutrition, water, fitness, and weight loss goals",
-            "foods_that_don't_raise_blood_sugar"
+            "foods_that_don't_raise_blood_sugar",
+            image = R.drawable.im_food_that_dont_raise
         )
     )
 

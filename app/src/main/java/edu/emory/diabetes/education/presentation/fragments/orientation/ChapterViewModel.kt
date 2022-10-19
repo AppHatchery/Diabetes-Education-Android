@@ -12,20 +12,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChapterViewModel @Inject constructor(
-    private val repo: RepositoryImpl
 
 ) : ViewModel() {
-
     val searchQuery = MutableStateFlow("")
     private val searchFlow = searchQuery.flatMapLatest {
         search(it)
-
     }
+
     val searchResult = searchFlow
     fun search(searchQuery: String): Flow<List<String>> {
         return flow {
             val result = WebAppInterface.webData.split(".", "?", ":")
-                .filter { it.trim().contains(searchQuery, true) }
+                .filter { it.trim().contains(searchQuery)}
             emit(result)
         }
     }
