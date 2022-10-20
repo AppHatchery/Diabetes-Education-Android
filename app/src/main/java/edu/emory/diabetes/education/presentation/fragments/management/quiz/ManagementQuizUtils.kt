@@ -11,6 +11,7 @@ object ManagementQuizUtils {
 
     val questions = listOf(
         Question(
+            0,
             "How often should BG be checked in Type 1 Diabetes?",
             "",
             choices = listOf(
@@ -24,6 +25,7 @@ object ManagementQuizUtils {
             maxAnswerSize =  3
         ),
         Question(
+            2,
             "Ketones indicate:",
             "",
             choices = listOf(
@@ -39,6 +41,7 @@ object ManagementQuizUtils {
             maxAnswerSize =  3
         ),
         Question(
+            3,
             "How is routine hypoglycemia best treated?",
             "",
             choices = listOf(
@@ -54,6 +57,7 @@ object ManagementQuizUtils {
             maxAnswerSize =  3
         ),
         Question(
+            4,
             "When should you call the doctor? ",
             "Check all that apply",
             choices = listOf(
@@ -67,7 +71,7 @@ object ManagementQuizUtils {
                 "D"
             ),
             ChapterName(3,"When to call a Doctor"),
-            maxAnswerSize =  3
+            maxAnswerSize =  2
         )
     )
 

@@ -15,6 +15,7 @@ object QuizUtils {
 
     val questions = listOf(
         Question(
+            0,
             "Diabetes is best described as:",
             "",
             choices = listOf(
@@ -27,10 +28,11 @@ object QuizUtils {
                 "B"
             ),
             ChapterName(0, "what is diabetes"),
-            maxAnswerSize =  3
+            maxAnswerSize =  1
         ),
 
         Question(
+            1,
             "Long-acting insulin should be given:",
             "",
             choices = listOf(
@@ -43,9 +45,10 @@ object QuizUtils {
                 "A"
             ),
             ChapterName(1, "Types of insulin"),
-            maxAnswerSize =  3,
+            maxAnswerSize =  1,
         ),
         Question(
+            2,
             "Rapid-acting insulin may be calculated using:",
             "Check all apply",
             choices = listOf(
@@ -55,11 +58,13 @@ object QuizUtils {
                 Choice("D", "D. Sliding scale")
             ),
             answers = listOf(
-                "A"
+                "A","B","C","D"
             ),
-            ChapterName(2, "How to calculate Insulin dosing")
+            ChapterName(2, "How to calculate Insulin dosing"),
+            maxAnswerSize =  4,
         ),
         Question(
+            3,
             "Insulin may be given via:):",
             "Check all apply",
             choices = listOf(
@@ -69,10 +74,10 @@ object QuizUtils {
                 Choice("D", "D. Central line")
             ),
             answers = listOf(
-                "B"
+                "B","C"
             ),
             ChapterName(3, "How to give insulin shot"),
-            maxAnswerSize =  3,
+            maxAnswerSize =  2,
         )
     )
 

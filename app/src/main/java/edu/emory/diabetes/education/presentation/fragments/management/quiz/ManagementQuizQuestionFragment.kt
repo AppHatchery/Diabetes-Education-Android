@@ -25,78 +25,78 @@ class ManagementQuizQuestionFragment: BaseFragment(R.layout.fragment_management_
         ManagementQuizUtils.answer.clear()
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-       val quiz = ManagementQuizUtils.questions[0]
-
         viewModel.getQuizCode(args.quizId).onEach {
             (requireActivity() as AppCompatActivity)
-                .supportActionBar?.title = "${it.title}: Questions"
+                .supportActionBar?.title = "${it.title} : Questions"
         }.launchIn(lifecycleScope)
-
         with(FragmentManagementQuizQuestionBinding.bind(view)){
-            adapter = ManagementQuizQuestionAdapter {
-                when (it) {
-                    QuizAdapterEvent.MaximumLimit ->
-                        Toast.makeText(
-                            requireContext(),
-                            "Maximum number of entries reached",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                }
-            }.also { adapter ->
-                viewModel.selectQuestions(args.quizId).onEach {
-                    with(it.first()) {
-                        question.text = title
-                        adapter.maxAnswerSize = maxAnswerSize
-                        adapter.asyncListDiffer.submitList(choices)
+            viewModel.selectQuestions(args.quizId).onEach { questionEntity->
+                adapter = ManagementQuizQuestionAdapter {
+                    when (it) {
+                        QuizAdapterEvent.MaximumLimit ->
+                            Toast.makeText(
+                                requireContext(),
+                                "Maximum number of entries reached",
+                                Toast.LENGTH_SHORT
+                            ).show()
                     }
-                }.launchIn(lifecycleScope)
-            }
-            next.setOnClickListener {
-                val ans = ManagementQuizUtils.answer
-                ans.isNotEmpty().also {
-                    if (it) {
-                        if (quiz.answers == ans) {
-                            iconAnswer.apply {
-                                visibility = View.VISIBLE
-                                setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        requireContext(),
-                                        R.drawable.ic_correct_answer
+                }.also { adapter ->
+                        with(questionEntity.first()) {
+                            question.text = title
+                            adapter.maxAnswerSize = maxAnswerSize
+                            adapter.asyncListDiffer.submitList(choices)
+                        }
+                }
+                next.setOnClickListener {
+                    val answers = ManagementQuizUtils.answer
+                    answers.isNotEmpty().also {
+                        if (it) {
+                            if (questionEntity.first().answers.all{ answers.contains(it) }) {
+                                iconAnswer.apply {
+                                    visibility = View.VISIBLE
+                                    setImageDrawable(
+                                        ContextCompat.getDrawable(
+                                            requireContext(),
+                                            R.drawable.ic_correct_answer
+                                        )
                                     )
-                                )
-                            }
-                            answerRecyclerView.apply {
-                                visibility = View.VISIBLE
-                                answerAdapter = AnswerAdapter().also {
-                                    it.submitList(ans)
                                 }
-                            }
-                            next.text = "Next"
-                            selectedChoices.visibility = View.VISIBLE
-                        } else {
-                            iconAnswer.apply {
-                                visibility = View.VISIBLE
-                                setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        requireContext(),
-                                        R.drawable.ic_wrong_answer
+                                answerRecyclerView.apply {
+                                    visibility = View.VISIBLE
+                                    answerAdapter = AnswerAdapter().also {
+                                        it.submitList(answers)
+                                    }
+                                }
+                                next.text = "Next"
+                                selectedChoices.visibility = View.VISIBLE
+                            } else {
+                                iconAnswer.apply {
+                                    visibility = View.VISIBLE
+                                    setImageDrawable(
+                                        ContextCompat.getDrawable(
+                                            requireContext(),
+                                            R.drawable.ic_wrong_answer
+                                        )
                                     )
-                                )
-                            }
-                            answerRecyclerView.apply {
-                                visibility = View.VISIBLE
-                                answerAdapter = AnswerAdapter().also {
-                                    it.submitList(ans)
                                 }
-                            }
-                            next.text = "Submit"
-                            selectedChoices.visibility = View.VISIBLE
+                                answerRecyclerView.apply {
+                                    visibility = View.VISIBLE
+                                    answerAdapter = AnswerAdapter().also {
+                                        it.submitList(answers)
+                                    }
+                                }
+                                next.text = "Submit"
+                                selectedChoices.visibility = View.VISIBLE
 
+                            }
                         }
                     }
+
                 }
 
-            }
+            }.launchIn(lifecycleScope)
+
+
         }
     }
 

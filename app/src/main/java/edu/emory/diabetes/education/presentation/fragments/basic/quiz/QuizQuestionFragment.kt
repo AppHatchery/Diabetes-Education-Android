@@ -13,6 +13,8 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentQuizQuestionBinding
 import edu.emory.diabetes.education.presentation.AnswerAdapter
 import edu.emory.diabetes.education.presentation.BaseFragment
+import edu.emory.diabetes.education.presentation.fragments.management.quiz.ManagementQuizQuestionAdapter
+import edu.emory.diabetes.education.presentation.fragments.management.quiz.ManagementQuizUtils
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -33,69 +35,72 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
         }.launchIn(lifecycleScope)
 
         with(FragmentQuizQuestionBinding.bind(view)) {
-            adapter = QuizAdapter {
-                when (it) {
-                    QuizAdapterEvent.MaximumLimit ->
-                        Toast.makeText(
-                            requireContext(),
-                            "Maximum number of entries reached",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                }
-            }.also { adapter ->
-                viewModel.selectQuestions(args.quizId).onEach {
-                    with(it.first()) {
+            viewModel.selectQuestions(args.quizId).onEach { questionEntity->
+                adapter = QuizAdapter {
+                    when (it) {
+                        QuizAdapterEvent.MaximumLimit ->
+                            Toast.makeText(
+                                requireContext(),
+                                "Maximum number of entries reached",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                    }
+                }.also { adapter ->
+                    with(questionEntity.first()) {
                         question.text = title
                         adapter.maxAnswerSize = maxAnswerSize
                         adapter.asyncListDiffer.submitList(choices)
                     }
-                }.launchIn(lifecycleScope)
-            }
-            next.setOnClickListener {
-                val ans = QuizUtils.answer
-                ans.isNotEmpty().also {
-                    if (it) {
-                        if (quiz.answers == ans) {
-                            iconAnswer.apply {
-                                visibility = View.VISIBLE
-                                setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        requireContext(),
-                                        R.drawable.ic_correct_answer
+                }
+                next.setOnClickListener {
+                    val answers = QuizUtils.answer
+                    answers.isNotEmpty().also {
+                        if (it) {
+                            if (questionEntity.first().answers.all{ answers.contains(it) }) {
+                                iconAnswer.apply {
+                                    visibility = View.VISIBLE
+                                    setImageDrawable(
+                                        ContextCompat.getDrawable(
+                                            requireContext(),
+                                            R.drawable.ic_correct_answer
+                                        )
                                     )
-                                )
-                            }
-                            answerRecyclerView.apply {
-                                visibility = View.VISIBLE
-                                answerAdapter = AnswerAdapter().also {
-                                    it.submitList(ans)
                                 }
-                            }
-                            next.text = "Next"
-                            selectedChoices.visibility = View.VISIBLE
-                        } else {
-                            iconAnswer.apply {
-                                visibility = View.VISIBLE
-                                setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        requireContext(),
-                                        R.drawable.ic_wrong_answer
+                                answerRecyclerView.apply {
+                                    visibility = View.VISIBLE
+                                    answerAdapter = AnswerAdapter().also {
+                                        it.submitList(answers)
+                                    }
+                                }
+                                next.text = "Next"
+                                selectedChoices.visibility = View.VISIBLE
+                            } else {
+                                iconAnswer.apply {
+                                    visibility = View.VISIBLE
+                                    setImageDrawable(
+                                        ContextCompat.getDrawable(
+                                            requireContext(),
+                                            R.drawable.ic_wrong_answer
+                                        )
                                     )
-                                )
-                            }
-                            answerRecyclerView.apply {
-                                visibility = View.VISIBLE
-                                answerAdapter = AnswerAdapter().also {
-                                    it.submitList(ans)
                                 }
-                            }
-                            next.text = "Submit"
-                            selectedChoices.visibility = View.VISIBLE
+                                answerRecyclerView.apply {
+                                    visibility = View.VISIBLE
+                                    answerAdapter = AnswerAdapter().also {
+                                        it.submitList(answers)
+                                    }
+                                }
+                                next.text = "Submit"
+                                selectedChoices.visibility = View.VISIBLE
 
+                            }
                         }
                     }
+
                 }
-            }
+
+            }.launchIn(lifecycleScope)
+
         }
     }
 

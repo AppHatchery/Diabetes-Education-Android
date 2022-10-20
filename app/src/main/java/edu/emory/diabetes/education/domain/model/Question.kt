@@ -1,12 +1,14 @@
 package edu.emory.diabetes.education.domain.model
 
 data class Question(
+    val id: Int,
     val title: String,
     val description: String,
     val choices: List<Choice>,
     val answers: List<String>,
     val ChapterName: ChapterName,
     val maxAnswerSize : Int = 1
+
 )
 
 data class Choice(

@@ -5,10 +5,11 @@ import edu.emory.diabetes.education.domain.model.Choice
 import edu.emory.diabetes.education.domain.model.Question
 
 object QuizNutritionUtil {
-    val answer = mutableListOf("A")
+    val answer = mutableListOf<String>()
 
     val questions = listOf(
         Question(
+            1,
             "Examples of carbohydrates include: (check all that apply)" ,
             "",
             choices = listOf(
@@ -18,9 +19,9 @@ object QuizNutritionUtil {
                 Choice("D","D. Beans"),
                 Choice("E","E. Potatoes"),
             ),
-            answers = listOf(),
+            answers = listOf("A","D","E"),
             ChapterName(0,""),
-            maxAnswerSize =  4
+            maxAnswerSize =  3
         )
     )
 }
