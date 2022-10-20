@@ -7,7 +7,7 @@ import edu.emory.diabetes.education.domain.model.Question
 
 object ManagementQuizUtils {
 
-    val answer = mutableListOf<String>("A")
+    val answer = mutableListOf<String>()
 
     val questions = listOf(
         Question(

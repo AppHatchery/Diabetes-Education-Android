@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentQuizQuestionBinding
+import edu.emory.diabetes.education.presentation.AnswerAdapter
 import edu.emory.diabetes.education.presentation.BaseFragment
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,7 +24,6 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
         super.onCreate(savedInstanceState)
         QuizUtils.answer.clear()
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val quiz = QuizUtils.questions[0]
 
@@ -55,7 +55,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
                 val ans = QuizUtils.answer
                 ans.isNotEmpty().also {
                     if (it) {
-                        if (quiz.answers.contains(ans[0])) {
+                        if (quiz.answers == ans) {
                             iconAnswer.apply {
                                 visibility = View.VISIBLE
                                 setImageDrawable(
@@ -65,9 +65,11 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
                                     )
                                 )
                             }
-                            answer.apply {
+                            answerRecyclerView.apply {
                                 visibility = View.VISIBLE
-                                text = ans.get(ans.size.minus(1))
+                                answerAdapter = AnswerAdapter().also {
+                                    it.submitList(ans)
+                                }
                             }
                             next.text = "Next"
                             selectedChoices.visibility = View.VISIBLE
@@ -81,9 +83,11 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
                                     )
                                 )
                             }
-                            answer.apply {
+                            answerRecyclerView.apply {
                                 visibility = View.VISIBLE
-                                text = ans[ans.size.minus(1)]
+                                answerAdapter = AnswerAdapter().also {
+                                    it.submitList(ans)
+                                }
                             }
                             next.text = "Submit"
                             selectedChoices.visibility = View.VISIBLE

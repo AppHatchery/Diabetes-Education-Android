@@ -7,6 +7,10 @@
         <variable
             name="adapter"
             type="edu.emory.diabetes.education.presentation.fragments.basic.quiz.QuizAdapter" />
+
+        <variable
+            name="answerAdapter"
+            type="edu.emory.diabetes.education.presentation.AnswerAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,32 +50,36 @@
                 app:spanCount="1"
                 tools:itemCount="3"
                 tools:listitem="@layout/fragment_quiz_question_item" />
-
-
         </androidx.appcompat.widget.LinearLayoutCompat>
-
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iconAnswer"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:visibility="gone"
             android:layout_marginTop="24dp"
             android:src="@drawable/ic_correct_answer"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/answerRecyclerView"
             app:layout_constraintStart_toStartOf="@+id/linearLayoutCompat8"
             app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat8" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/answer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/answerRecyclerView"
+            android:layout_width="286dp"
+            android:layout_height="69dp"
             android:layout_marginStart="8dp"
-            android:text="Answer D"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:adapter="@{answerAdapter}"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="@+id/iconAnswer"
             app:layout_constraintStart_toEndOf="@+id/iconAnswer"
-            app:layout_constraintTop_toTopOf="@+id/iconAnswer" />
-
+            app:layout_constraintTop_toTopOf="@+id/iconAnswer"
+            app:layout_constraintVertical_bias="0.51"
+            app:spanCount="1"
+            tools:itemCount="3"
+            tools:listitem="@layout/fragment_answer_item" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/selectedChoices"

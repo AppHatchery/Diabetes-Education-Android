@@ -5,11 +5,13 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentNutritionQuizQuestionsBinding
+import edu.emory.diabetes.education.presentation.AnswerAdapter
 import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.basic.quiz.QuizAdapterEvent
 import kotlinx.coroutines.flow.launchIn
@@ -55,26 +57,40 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
             next.setOnClickListener {
                 val ans = QuizNutritionUtil.answer
                 ans.isNotEmpty().also {
-                    if (it){
-                        if (quiz.answers.contains(ans.get(0))){
+                    if (it) {
+                        if (quiz.answers == ans) {
                             iconAnswer.apply {
                                 visibility = View.VISIBLE
-                                setImageDrawable(requireContext().getDrawable(R.drawable.ic_correct_answer))
+                                setImageDrawable(
+                                    ContextCompat.getDrawable(
+                                        requireContext(),
+                                        R.drawable.ic_correct_answer
+                                    )
+                                )
                             }
-                            answer.apply {
+                            answerRecyclerView.apply {
                                 visibility = View.VISIBLE
-                                text = ans.get(ans.size.minus(1))
+                                answerAdapter = AnswerAdapter().also {
+                                    it.submitList(ans)
+                                }
                             }
                             next.text = "Next"
                             selectedChoices.visibility = View.VISIBLE
-                        } else{
+                        } else {
                             iconAnswer.apply {
                                 visibility = View.VISIBLE
-                                setImageDrawable(requireContext().getDrawable(R.drawable.ic_wrong_answer))
+                                setImageDrawable(
+                                    ContextCompat.getDrawable(
+                                        requireContext(),
+                                        R.drawable.ic_wrong_answer
+                                    )
+                                )
                             }
-                            answer.apply {
+                            answerRecyclerView.apply {
                                 visibility = View.VISIBLE
-                                text = ans.get(ans.size.minus(1))
+                                answerAdapter = AnswerAdapter().also {
+                                    it.submitList(ans)
+                                }
                             }
                             next.text = "Submit"
                             selectedChoices.visibility = View.VISIBLE
