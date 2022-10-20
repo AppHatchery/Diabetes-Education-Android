@@ -42,7 +42,8 @@ object QuizUtils {
             answers = listOf(
                 "A"
             ),
-            ChapterName(1, "Types of insulin")
+            ChapterName(1, "Types of insulin"),
+            maxAnswerSize =  3,
         ),
         Question(
             "Rapid-acting insulin may be calculated using:",
@@ -70,7 +71,8 @@ object QuizUtils {
             answers = listOf(
                 "B"
             ),
-            ChapterName(3, "How to give insulin shot")
+            ChapterName(3, "How to give insulin shot"),
+            maxAnswerSize =  3,
         )
     )
 
