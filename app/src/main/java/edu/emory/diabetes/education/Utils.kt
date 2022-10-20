@@ -44,19 +44,22 @@ object Utils {
             "Diabetes Basics",
             R.color.orange_500,
             R.color.gold_100,
-            R.drawable.im_knowledge_ladder
+            R.drawable.im_knowledge_ladder,
+            1,
         ),
         ChapterEntity(
             "Nutrition and Carbs Counting",
             R.color.green_200,
             R.color.green_150,
-            R.drawable.im_taco_and_avocado_food
+            R.drawable.im_taco_and_avocado_food,
+            2,
         ),
         ChapterEntity(
             "Diabetes Self-Management",
             R.color.pink_300,
             R.color.pink_200,
-            R.drawable.im_knowledge_idea
+            R.drawable.im_knowledge_idea,
+            3
         ),
 
         )

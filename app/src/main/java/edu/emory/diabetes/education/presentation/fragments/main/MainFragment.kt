@@ -55,14 +55,8 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                 }
             }
         }.apply {
-            viewModel.state
-                .onEach {
-                    if (it.data.isNotEmpty())
-                        submitList(it.data.subList(0, 2))
-                }
-                .launchIn(lifecycleScope)
+            submitList(Utils.listOfChapter.map { it.toChapter() }.subList(0,2))
         }
-
 
         bottomAdapter = MainAdapter {
             MainFragmentDirections
@@ -70,12 +64,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                     findNavController().navigate(this)
                 }
         }.apply {
-            viewModel
-                .state.onEach {
-                    if (it.data.isNotEmpty())
-                        submitList(it.data.subList(2, 3))
-                }
-                .launchIn(lifecycleScope)
+            submitList(Utils.listOfChapter.map { it.toChapter() }.subList(2,3))
         }
 
     }
