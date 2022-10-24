@@ -50,7 +50,7 @@ object QuizUtils {
         Question(
             2,
             "Rapid-acting insulin may be calculated using:",
-            "Check all apply",
+            "Check all that apply",
             choices = listOf(
                 Choice( "A", "A. Insulin to carbohydrate ratio"),
                 Choice("B","B. Correction factor"),
@@ -65,8 +65,8 @@ object QuizUtils {
         ),
         Question(
             3,
-            "Insulin may be given via:):",
-            "Check all apply",
+            "Insulin may be given via:",
+            "Check all that apply",
             choices = listOf(
                 Choice( "A", "A. Intramuscular injection"),
                 Choice("B","B. Subcutaneous injection   "),

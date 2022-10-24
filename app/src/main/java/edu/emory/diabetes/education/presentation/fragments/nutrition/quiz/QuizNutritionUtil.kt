@@ -10,8 +10,8 @@ object QuizNutritionUtil {
     val questions = listOf(
         Question(
             1,
-            "Examples of carbohydrates include: (check all that apply)" ,
-            "",
+            "Examples of carbohydrates include:" ,
+            "Check all that apply",
             choices = listOf(
                 Choice("A", "A. Apples"),
                 Choice("B","B. Eggs"),

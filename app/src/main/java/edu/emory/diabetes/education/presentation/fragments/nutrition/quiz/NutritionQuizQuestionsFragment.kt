@@ -31,7 +31,6 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val quiz = QuizNutritionUtil.questions[0]
 
         viewModel.getQuizCode(args.quizId).onEach {
             (requireActivity() as AppCompatActivity)
@@ -52,6 +51,8 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
                 }.also { adapter ->
                     with(questionEntity.first()) {
                         question.text = title
+                        if (description.isEmpty()) subtitle.visibility = View.GONE
+                        subtitle.text = description
                         adapter.maxAnswerSize = maxAnswerSize
                         adapter.asyncListDiffer.submitList(choices)
                     }

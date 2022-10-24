@@ -22,7 +22,7 @@ object ManagementQuizUtils {
             ),
             answers = listOf("C"),
             ChapterName(0,"Blood sugar monitoring"),
-            maxAnswerSize =  3
+            maxAnswerSize =  1
         ),
         Question(
             2,
@@ -38,7 +38,7 @@ object ManagementQuizUtils {
                 "B"
             ),
             ChapterName(1,"Check for Ketones"),
-            maxAnswerSize =  3
+            maxAnswerSize =  1
         ),
         Question(
             3,
@@ -54,7 +54,7 @@ object ManagementQuizUtils {
                 "A"
             ),
             ChapterName(2,"Treatment for Low Blood Sugar"),
-            maxAnswerSize =  3
+            maxAnswerSize =  1
         ),
         Question(
             4,

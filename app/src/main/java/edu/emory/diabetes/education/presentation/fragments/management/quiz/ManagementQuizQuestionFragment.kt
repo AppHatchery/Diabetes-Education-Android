@@ -43,6 +43,8 @@ class ManagementQuizQuestionFragment: BaseFragment(R.layout.fragment_management_
                 }.also { adapter ->
                         with(questionEntity.first()) {
                             question.text = title
+                            if (description.isEmpty()) subtitle.visibility = View.GONE
+                            subtitle.text = description
                             adapter.maxAnswerSize = maxAnswerSize
                             adapter.asyncListDiffer.submitList(choices)
                         }
