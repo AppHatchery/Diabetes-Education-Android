@@ -12,4 +12,4 @@ data class FoodDiary(
     val pageUrl: String,
     @DrawableRes
     val image: Int = R.drawable.ic_rectangle,
-): Parcelable
+) : Parcelable

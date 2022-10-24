@@ -16,7 +16,7 @@ import edu.emory.diabetes.education.presentation.fragments.basic.quiz.QuizAdapte
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class ManagementQuizQuestionFragment: BaseFragment(R.layout.fragment_management_quiz_question) {
+class ManagementQuizQuestionFragment : BaseFragment(R.layout.fragment_management_quiz_question) {
     private val viewModel: ManagementQuizQuestionViewModel by viewModels()
     private val args: ManagementQuizQuestionFragmentArgs by navArgs()
 
@@ -24,13 +24,14 @@ class ManagementQuizQuestionFragment: BaseFragment(R.layout.fragment_management_
         super.onCreate(savedInstanceState)
         ManagementQuizUtils.answer.clear()
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.getQuizCode(args.quizId).onEach {
             (requireActivity() as AppCompatActivity)
                 .supportActionBar?.title = "${it.title} : Questions"
         }.launchIn(lifecycleScope)
-        with(FragmentManagementQuizQuestionBinding.bind(view)){
-            viewModel.selectQuestions(args.quizId).onEach { questionEntity->
+        with(FragmentManagementQuizQuestionBinding.bind(view)) {
+            viewModel.selectQuestions(args.quizId).onEach { questionEntity ->
                 adapter = ManagementQuizQuestionAdapter {
                     when (it) {
                         QuizAdapterEvent.MaximumLimit ->
@@ -41,19 +42,19 @@ class ManagementQuizQuestionFragment: BaseFragment(R.layout.fragment_management_
                             ).show()
                     }
                 }.also { adapter ->
-                        with(questionEntity.first()) {
-                            question.text = title
-                            if (description.isEmpty()) subtitle.visibility = View.GONE
-                            subtitle.text = description
-                            adapter.maxAnswerSize = maxAnswerSize
-                            adapter.asyncListDiffer.submitList(choices)
-                        }
+                    with(questionEntity.first()) {
+                        question.text = title
+                        if (description.isEmpty()) subtitle.visibility = View.GONE
+                        subtitle.text = description
+                        adapter.maxAnswerSize = maxAnswerSize
+                        adapter.asyncListDiffer.submitList(choices)
+                    }
                 }
                 next.setOnClickListener {
                     val answers = ManagementQuizUtils.answer
                     answers.isNotEmpty().also {
                         if (it) {
-                            if (questionEntity.first().answers.all{ answers.contains(it) }) {
+                            if (questionEntity.first().answers.all { answers.contains(it) }) {
                                 iconAnswer.apply {
                                     visibility = View.VISIBLE
                                     setImageDrawable(

@@ -18,6 +18,7 @@ class ResourcesCommunitiesAdapter(
         fun bind(communities: Communities) = bind.apply {
             this.data = communities
         }
+
         init {
             bind.link.setOnClickListener { onEvent.invoke(currentList[adapterPosition]) }
         }

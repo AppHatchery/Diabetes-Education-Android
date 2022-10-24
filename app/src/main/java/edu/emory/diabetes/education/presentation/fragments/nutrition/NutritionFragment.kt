@@ -22,7 +22,7 @@ class NutritionFragment : BaseFragment(R.layout.fragment_diabetes_nutrition), Nu
         basicViewPagerAdapter = NutritionViewPagerAdapter(this, tabs.size)
         viewPager = view.findViewById(R.id.viewPager)
         viewPager.adapter = basicViewPagerAdapter
-        TabLayoutMediator(binding.tabLayout, viewPager) {tab, position ->
+        TabLayoutMediator(binding.tabLayout, viewPager) { tab, position ->
             tab.text = tabs[position]
         }.attach()
     }

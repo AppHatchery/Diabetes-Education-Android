@@ -6,8 +6,8 @@
     <meta content="dark light" name="color-scheme">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Title</title>
-    <link rel="stylesheet" href="../css/uikit.css">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link href="../css/uikit.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
 </head>
 <body>
 <div class="uk-container">
@@ -15,15 +15,17 @@
     <div>
         <h3>With an insulin pen.</h3>
         <ul class="uk-list uk-list-bullet">
-            <li>Giving an Insulin Injection Using a Pen-<span><a href="https://choa.rev.vbrick.com/embed?id=39f98a91-4386-4040-a1a8-7b5012e38f54">YouTube- Demo Video.</a></span></li>
+            <li>Giving an Insulin Injection Using a Pen-<span><a
+                    href="https://choa.rev.vbrick.com/embed?id=39f98a91-4386-4040-a1a8-7b5012e38f54">YouTube- Demo Video.</a></span>
+            </li>
         </ul>
         <div class="uk-position-relative">
-            <iframe  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-                     src="https://choa.rev.vbrick.com/embed?id=39f98a91-4386-4040-a1a8-7b5012e38f54"
-                     height="300"
-                     class="uk-width-1-1">
+            <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                    class="uk-width-1-1"
+                    height="300"
+                    src="https://choa.rev.vbrick.com/embed?id=39f98a91-4386-4040-a1a8-7b5012e38f54">
             </iframe>
-            <div id="loader-top" class="uk-position-absolute uk-position-center" uk-spinner="ratio:1.5"></div>
+            <div class="uk-position-absolute uk-position-center" id="loader-top" uk-spinner="ratio:1.5"></div>
         </div>
         <ul>
             <li>ALWAYS prime the pen with each injection, not just the first time you use the pen.</li>
@@ -33,43 +35,45 @@
     <div>
         <h3>With a syringe and vial.</h3>
         <ul class="uk-list uk-list-bullet">
-            <li> How to Draw Up an Insulin Syringe | Cincinnati Children's - <span><a href="https://choa.rev.vbrick.com/embed?id=bb8a7d47-4b12-4cc2-bffd-bcf68da8787a">YouTube- Demo Video.</a></span></li>
+            <li> How to Draw Up an Insulin Syringe | Cincinnati Children's - <span><a
+                    href="https://choa.rev.vbrick.com/embed?id=bb8a7d47-4b12-4cc2-bffd-bcf68da8787a">YouTube- Demo Video.</a></span>
+            </li>
         </ul>
         <div class="uk-position-relative">
-            <iframe id="i-frame" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-                    src="https://choa.rev.vbrick.com/embed?id=bb8a7d47-4b12-4cc2-bffd-bcf68da8787a"
+            <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                    class="uk-width-1-1"
                     height="300"
-                    class="uk-width-1-1">
+                    id="i-frame"
+                    src="https://choa.rev.vbrick.com/embed?id=bb8a7d47-4b12-4cc2-bffd-bcf68da8787a">
             </iframe>
-            <div id="loader" class="uk-position-absolute uk-position-center" uk-spinner="ratio:1.5"></div>
+            <div class="uk-position-absolute uk-position-center" id="loader" uk-spinner="ratio:1.5"></div>
         </div>
         <ul>
-            <li> Make sure air bubbles are not present- they are not harmful, but necessary to remove to ensure receiving full dose of insulin.
+            <li> Make sure air bubbles are not present- they are not harmful, but necessary to remove to ensure
+                receiving full dose of insulin.
             </li>
         </ul>
     </div>
     <div>
         <h3>Site rotation.</h3>
         <ul class="uk-list uk-list-bullet">
-        <li>Sites to use abdomen, buttocks, arms, thighs. See page 18 of green book!.</li>
-        <li>Importance of site rotation- improve insulin action, decreases scar tissue.</li>
-        <li>Change the site where you give shots each tie. If not, your body might make scar tissue under the skin and insulin may not be absorbed as well as it should and your blood sugar may remain elevated!.</li>
+            <li>Sites to use abdomen, buttocks, arms, thighs. See page 18 of green book!.</li>
+            <li>Importance of site rotation- improve insulin action, decreases scar tissue.</li>
+            <li>Change the site where you give shots each tie. If not, your body might make scar tissue under the skin
+                and insulin may not be absorbed as well as it should and your blood sugar may remain elevated!.
+            </li>
         </ul>
-
-        <img src="insulin.png"
+        <img alt="glucose"
              class="uk-responsive-width uk-margin-small"
-             alt="glucose">
+             src="insulin.png">
     </div>
-
     <div class="uk-flex uk-flex-center uk-margin-xlarge-top uk-margin-xlarge-bottom">
         <a class="uk-button" href="done">Go To Overview</a>
     </div>
-
-
 </div>
 </body>
 <script>
-      window.onload = function(){
+    window.onload = function () {
         document.getElementById('loader-top').style.display = "none";
         document.getElementById('loader').style.display = "none";
     }

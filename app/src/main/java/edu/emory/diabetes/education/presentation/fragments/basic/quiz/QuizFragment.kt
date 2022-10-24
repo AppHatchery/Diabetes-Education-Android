@@ -10,7 +10,7 @@ import edu.emory.diabetes.education.databinding.FragmentQuizBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
 
 class QuizFragment : BaseFragment(R.layout.fragment_quiz) {
-    private val args:QuizFragmentArgs by navArgs()
+    private val args: QuizFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         FragmentQuizBinding.bind(view).apply {

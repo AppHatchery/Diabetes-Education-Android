@@ -7,13 +7,13 @@ data class Question(
     val choices: List<Choice>,
     val answers: List<String>,
     val ChapterName: ChapterName,
-    val maxAnswerSize : Int = 1
+    val maxAnswerSize: Int = 1
 
 )
 
 data class Choice(
     val id: String,
-    val choice:String
+    val choice: String
 )
 
 data class Answer(

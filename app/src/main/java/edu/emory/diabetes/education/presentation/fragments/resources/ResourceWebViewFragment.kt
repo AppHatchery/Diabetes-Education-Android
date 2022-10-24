@@ -37,46 +37,47 @@ import kotlinx.coroutines.flow.onEach
 class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view_apps) {
     private val args: ResourceWebViewFragmentArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
-        @SuppressLint("JavascriptInterface")
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            (requireActivity() as AppCompatActivity).supportActionBar?.title = "Food Diary"
-            with(FragmentResourceWebViewAppsBinding.bind(view)) {
-                addMenuProvider()
-                parent.viewTreeObserver.addOnScrollChangedListener {
-                    if (parent.scrollY > 0) {
-                        val height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
-                        (parent.scrollY / height).times(100).toInt().also {
-                            scrollIndicatorText.text = "${it}%"
-                            scrollIndicator.progress = it
-                        }
+
+    @SuppressLint("JavascriptInterface")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Food Diary"
+        with(FragmentResourceWebViewAppsBinding.bind(view)) {
+            addMenuProvider()
+            parent.viewTreeObserver.addOnScrollChangedListener {
+                if (parent.scrollY > 0) {
+                    val height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
+                    (parent.scrollY / height).times(100).toInt().also {
+                        scrollIndicatorText.text = "${it}%"
+                        scrollIndicator.progress = it
                     }
                 }
-                webView.apply {
-                    loadUrl(Ext.getPathUrl(args.foodDiary.pageUrl))
-                    addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
-                    webViewClient = object : WebViewClient() {
-                        override fun onPageFinished(view: WebView?, url: String?) {
-                            super.onPageFinished(view, url)
-                            view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
-                        }
+            }
+            webView.apply {
+                loadUrl(Ext.getPathUrl(args.foodDiary.pageUrl))
+                addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
+                webViewClient = object : WebViewClient() {
+                    override fun onPageFinished(view: WebView?, url: String?) {
+                        super.onPageFinished(view, url)
+                        view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
+                    }
 
-                        override fun shouldOverrideUrlLoading(
-                            view: WebView?,
-                            request: WebResourceRequest?
-                        ): Boolean {
-                            with(request?.url.toString()) {
-                                substring(
-                                    lastIndexOf("/")
-                                        .plus(1), length
-                                ).replace(htmlExt, "")
-                            }.also {
-                            }
-                            return true
+                    override fun shouldOverrideUrlLoading(
+                        view: WebView?,
+                        request: WebResourceRequest?
+                    ): Boolean {
+                        with(request?.url.toString()) {
+                            substring(
+                                lastIndexOf("/")
+                                    .plus(1), length
+                            ).replace(htmlExt, "")
+                        }.also {
                         }
+                        return true
                     }
                 }
             }
         }
+    }
 
 
     private fun addMenuProvider() = requireActivity().addMenuProvider(object : MenuProvider {
@@ -98,6 +99,7 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
         }
 
     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
     private fun showBottomSheetDialog() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(R.layout.fragment_search_chapter)
@@ -132,7 +134,7 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
                 if (searchKeyword.toString().trim().isNotBlank())
                     this?.visibility = View.GONE
             }
-            if (searchKeyword.text.toString().isNotEmpty()){
+            if (searchKeyword.text.toString().isNotEmpty()) {
                 searchBtn?.setTextColor(Color.parseColor("#00A94F"))
                 clearTextButton?.visibility = View.VISIBLE
             }

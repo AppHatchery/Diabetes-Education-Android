@@ -10,18 +10,18 @@ object QuizNutritionUtil {
     val questions = listOf(
         Question(
             1,
-            "Examples of carbohydrates include:" ,
+            "Examples of carbohydrates include:",
             "Check all that apply",
             choices = listOf(
                 Choice("A", "A. Apples"),
-                Choice("B","B. Eggs"),
-                Choice("C","C. Seeds"),
-                Choice("D","D. Beans"),
-                Choice("E","E. Potatoes"),
+                Choice("B", "B. Eggs"),
+                Choice("C", "C. Seeds"),
+                Choice("D", "D. Beans"),
+                Choice("E", "E. Potatoes"),
             ),
-            answers = listOf("A","D","E"),
-            ChapterName(0,""),
-            maxAnswerSize =  3
+            answers = listOf("A", "D", "E"),
+            ChapterName(0, ""),
+            maxAnswerSize = 3
         )
     )
 }

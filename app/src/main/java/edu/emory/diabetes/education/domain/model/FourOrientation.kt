@@ -7,4 +7,4 @@ import kotlinx.parcelize.Parcelize
 data class FourOrientation(
     val age: String,
     val description: String,
-): Parcelable
+) : Parcelable

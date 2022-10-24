@@ -1,6 +1,5 @@
 package edu.emory.diabetes.education.presentation.fragments.management
 
-import android.app.usage.UsageEvents
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
@@ -28,7 +27,7 @@ class ManagementFragment : BaseFragment(R.layout.fragment_management), Managemen
         }.attach()
     }
 
-    override fun invoke(lesson: Lesson?,quiz: Quiz?, event: ManagementEvent) {
+    override fun invoke(lesson: Lesson?, quiz: Quiz?, event: ManagementEvent) {
         when (event) {
             ManagementEvent.Quiz ->
                 quiz?.let {

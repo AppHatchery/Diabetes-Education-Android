@@ -78,13 +78,13 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                             if (this.startsWith("http")) {
                                 Utils.launchUrl(context, this)
                             }
-                            if(this.contains("next")) {
+                            if (this.contains("next")) {
                                 WhatIsDiabetesDirections
                                     .actionWhatIsDiabetesToChapterFinishFragment(args.lesson).also {
                                         findNavController().navigate(it)
                                     }
                             }
-                            if(this.contains("done"))
+                            if (this.contains("done"))
                                 WhatIsDiabetesDirections
                                     .actionWhatIsDiabetesToDiabetesBasicsFragment().also {
                                         findNavController().navigate(it)
@@ -175,7 +175,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                 if (searchKeyword.toString().trim().isNotBlank())
                     this?.visibility = View.GONE
             }
-            if (searchKeyword.text.toString().isNotEmpty()){
+            if (searchKeyword.text.toString().isNotEmpty()) {
                 searchBtn?.setTextColor(Color.parseColor("#00A94F"))
                 clearTextButton?.visibility = View.VISIBLE
             }

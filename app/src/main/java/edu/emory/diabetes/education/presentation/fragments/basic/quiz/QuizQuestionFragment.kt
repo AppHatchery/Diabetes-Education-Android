@@ -1,7 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.basic.quiz
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,8 +12,6 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentQuizQuestionBinding
 import edu.emory.diabetes.education.presentation.AnswerAdapter
 import edu.emory.diabetes.education.presentation.BaseFragment
-import edu.emory.diabetes.education.presentation.fragments.management.quiz.ManagementQuizQuestionAdapter
-import edu.emory.diabetes.education.presentation.fragments.management.quiz.ManagementQuizUtils
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -26,6 +23,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
         super.onCreate(savedInstanceState)
         QuizUtils.answer.clear()
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val quiz = QuizUtils.questions[0]
 
@@ -35,7 +33,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
         }.launchIn(lifecycleScope)
 
         with(FragmentQuizQuestionBinding.bind(view)) {
-            viewModel.selectQuestions(args.quizId).onEach { questionEntity->
+            viewModel.selectQuestions(args.quizId).onEach { questionEntity ->
                 adapter = QuizAdapter {
                     when (it) {
                         QuizAdapterEvent.MaximumLimit ->
@@ -58,7 +56,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
                     val answers = QuizUtils.answer
                     answers.isNotEmpty().also {
                         if (it) {
-                            if (questionEntity.first().answers.all{ answers.contains(it) }) {
+                            if (questionEntity.first().answers.all { answers.contains(it) }) {
                                 iconAnswer.apply {
                                     visibility = View.VISIBLE
                                     setImageDrawable(

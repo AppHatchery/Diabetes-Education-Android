@@ -75,7 +75,7 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                             if (this.startsWith("http")) {
                                 Utils.launchUrl(context, this.toString())
                             }
-                            if (this.contains("next")){
+                            if (this.contains("next")) {
                                 BloodSugarMonitoringFragmentDirections
                                     .actionBloodSugarMonitoringFragment3ToChapterFinishManagementFragment(
                                         args.managementLesson
@@ -83,10 +83,11 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                                     .also {
                                         findNavController().navigate(it)
                                     }
-                                }
+                            }
                             if (this.contains("done")) {
                                 BloodSugarMonitoringFragmentDirections
-                                    .actionBloodSugarMonitoringFragment3ToManagementFragment().also {
+                                    .actionBloodSugarMonitoringFragment3ToManagementFragment()
+                                    .also {
                                         findNavController().navigate(it)
                                     }
                             }
@@ -181,7 +182,7 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                 if (searchKeyword.toString().trim().isNotBlank())
                     this?.visibility = View.GONE
             }
-            if (searchKeyword.text.toString().isNotEmpty()){
+            if (searchKeyword.text.toString().isNotEmpty()) {
                 searchBtn?.setTextColor(Color.parseColor("#00A94F"))
                 clearTextButton?.visibility = View.VISIBLE
             }

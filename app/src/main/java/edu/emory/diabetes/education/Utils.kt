@@ -97,19 +97,19 @@ object Utils {
         })
     }
 
-        @SuppressLint("RestrictedApi")
-        fun setSupportActionBar(
-            activity: AppCompatActivity,
-            toolbar: Toolbar
-        ) = activity.apply {
-            setSupportActionBar(toolbar)
-            supportActionBar?.let {
-                it.setDisplayHomeAsUpEnabled(true)
-                it.setDefaultDisplayHomeAsUpEnabled(true)
-                it.title = null
-            }
-            toolbar.setNavigationOnClickListener { activity.onBackPressed() }
+    @SuppressLint("RestrictedApi")
+    fun setSupportActionBar(
+        activity: AppCompatActivity,
+        toolbar: Toolbar
+    ) = activity.apply {
+        setSupportActionBar(toolbar)
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setDefaultDisplayHomeAsUpEnabled(true)
+            it.title = null
         }
+        toolbar.setNavigationOnClickListener { activity.onBackPressed() }
+    }
 
 }
 

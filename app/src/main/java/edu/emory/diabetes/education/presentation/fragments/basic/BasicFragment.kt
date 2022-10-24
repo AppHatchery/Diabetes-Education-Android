@@ -34,8 +34,9 @@ class BasicFragment : BaseFragment(R.layout.fragment_diabetes_basics), BasicNavi
                 quiz?.let {
                     BasicFragmentDirections
                         .actionDiabetesBasicsFragmentToQuizFragment(it).apply {
-                        findNavController().navigate(this)
-                    } }
+                            findNavController().navigate(this)
+                        }
+                }
 
 
             Event.Lesson ->

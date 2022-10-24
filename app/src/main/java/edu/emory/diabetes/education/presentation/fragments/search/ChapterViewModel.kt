@@ -22,7 +22,7 @@ class ChapterViewModel @Inject constructor(
     fun search(searchQuery: String): Flow<List<String>> {
         return flow {
             val result = WebAppInterface.webData.split(".", "?", ":")
-                .filter { it.trim().contains(searchQuery)}
+                .filter { it.trim().contains(searchQuery) }
             emit(result)
         }
     }

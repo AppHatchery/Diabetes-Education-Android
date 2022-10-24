@@ -1,4 +1,5 @@
 package edu.emory.diabetes.education.presentation
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,8 +9,8 @@ import edu.emory.diabetes.education.databinding.FragmentAnswerItemBinding
 
 class AnswerAdapter : ListAdapter<String, AnswerAdapter.ViewHolder>(AnswerAdapter.diff) {
 
-    companion object{
-        val diff = object : DiffUtil.ItemCallback<String>(){
+    companion object {
+        val diff = object : DiffUtil.ItemCallback<String>() {
 
             override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
                 return oldItem == newItem
@@ -21,24 +22,24 @@ class AnswerAdapter : ListAdapter<String, AnswerAdapter.ViewHolder>(AnswerAdapte
         }
     }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            return ViewHolder(
-                FragmentAnswerItemBinding.inflate(
-                    LayoutInflater.from(parent.context)
-                )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(
+            FragmentAnswerItemBinding.inflate(
+                LayoutInflater.from(parent.context)
             )
-        }
+        )
+    }
 
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.bind(getItem(position))
-        }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
 
-        inner class ViewHolder(
-            private val bind: FragmentAnswerItemBinding
-        ) : RecyclerView.ViewHolder(bind.root) {
-            fun bind(answer: String) = bind.apply {
-                this.answer = answer
-                executePendingBindings()
-            }
+    inner class ViewHolder(
+        private val bind: FragmentAnswerItemBinding
+    ) : RecyclerView.ViewHolder(bind.root) {
+        fun bind(answer: String) = bind.apply {
+            this.answer = answer
+            executePendingBindings()
         }
+    }
 }

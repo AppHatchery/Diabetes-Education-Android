@@ -17,7 +17,7 @@ class NutritionQuizFragment(
         with(FragmentDiabetesNutritionQuizBinding.bind(view)) {
             navigation = fragment as NutritionNavigator
             adapter = NutritionQuizAdapter {
-                    navigation.invoke( quiz = it, event = Event.Quiz)
+                navigation.invoke(quiz = it, event = Event.Quiz)
 
             }.apply {
                 submitList(NutritionUtils.quizData.map {

@@ -9,7 +9,7 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.QuizManagementBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
 
-class QuizManagementFragment: BaseFragment(R.layout.quiz_management){
+class QuizManagementFragment : BaseFragment(R.layout.quiz_management) {
     private val args: QuizManagementFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

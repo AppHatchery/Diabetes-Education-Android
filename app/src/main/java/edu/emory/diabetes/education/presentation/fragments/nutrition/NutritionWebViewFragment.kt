@@ -88,7 +88,9 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                                             findNavController().navigate(it)
                                         }
                                 "next" -> NutritionWebViewFragmentDirections
-                                    .actionNutritionWebViewFragmentToChapterFinishNutritionFragment(args.lesson).also {
+                                    .actionNutritionWebViewFragmentToChapterFinishNutritionFragment(
+                                        args.lesson
+                                    ).also {
                                         findNavController().navigate(it)
                                     }
 
@@ -160,7 +162,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                 if (searchKeyword.toString().trim().isNotBlank())
                     this?.visibility = View.GONE
             }
-            if (searchKeyword.text.toString().isNotEmpty()){
+            if (searchKeyword.text.toString().isNotEmpty()) {
                 searchBtn?.setTextColor(Color.parseColor("#00A94F"))
                 clearTextButton?.visibility = View.VISIBLE
             }

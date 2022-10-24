@@ -9,7 +9,7 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentQuizNutritionBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
 
-class QuizNutritionFragment: BaseFragment(R.layout.fragment_quiz_nutrition) {
+class QuizNutritionFragment : BaseFragment(R.layout.fragment_quiz_nutrition) {
     private val args: QuizNutritionFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -19,7 +19,8 @@ class QuizNutritionFragment: BaseFragment(R.layout.fragment_quiz_nutrition) {
             (requireActivity() as AppCompatActivity).supportActionBar?.title = args.quiz.title
             next.setOnClickListener {
                 QuizNutritionFragmentDirections
-                    .actionQuizNutritionFragmentToNutritionQuizQuestionsFragment(args.quiz.id).apply {
+                    .actionQuizNutritionFragmentToNutritionQuizQuestionsFragment(args.quiz.id)
+                    .apply {
                         findNavController().navigate(this)
                     }
             }
