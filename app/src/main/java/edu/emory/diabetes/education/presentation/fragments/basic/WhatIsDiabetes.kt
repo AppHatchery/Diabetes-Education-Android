@@ -46,7 +46,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Lesson"
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Basics"
 
         with(FragmentOrientationWhatIsDiabetesBinding.bind(view)) {
             title.text = args.lesson.title

@@ -123,7 +123,7 @@
         <entry key="app/src/main/res/drawable/shape_rectangle_stroke_radius_50px.xml" value="0.142" />
         <entry key="app/src/main/res/drawable/shape_rectangle_top_radius_10px.xml" value="0.1755" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11538461538461539" />
-        <entry key="app/src/main/res/layout/fragment_blood_sugar_monitoring.xml" value="0.18931159420289856" />
+        <entry key="app/src/main/res/layout/fragment_blood_sugar_monitoring.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_calculator.xml" value="0.18625640869140625" />
         <entry key="app/src/main/res/layout/fragment_calculator_dialog.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/fragment_calculator_dialog_item.xml" value="0.3375030517578125" />
@@ -148,7 +148,7 @@
         <entry key="app/src/main/res/layout/fragment_orientation_life_is_item.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/fragment_orientation_medical_team.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/layout/fragment_orientation_types_of_insulin.xml" value="0.24010416666666667" />
-        <entry key="app/src/main/res/layout/fragment_orientation_what_is_diabetes.xml" value="0.409035409035409" />
+        <entry key="app/src/main/res/layout/fragment_orientation_what_is_diabetes.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_quiz.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_quiz_question.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_quiz_question_item.xml" value="0.31543624161073824" />

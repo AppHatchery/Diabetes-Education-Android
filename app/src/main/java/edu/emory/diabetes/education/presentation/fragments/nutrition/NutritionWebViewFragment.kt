@@ -42,9 +42,10 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
 
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = args.lesson.title
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Nutrition"
         with(FragmentNutritionWebViewAppsBinding.bind(view)) {
             addMenuProvider()
+            title.text = args.lesson.title
             parent.viewTreeObserver.addOnScrollChangedListener {
                 if (parent.scrollY > 0) {
                     val height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
