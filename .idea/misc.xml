@@ -64,6 +64,7 @@
         <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/ic_vector__1_.xml" value="0.1355" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/ic_wrong_answer.xml" value="0.184" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_stroke_1px_radius_90px_.xml" value="0.184" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_stroke_radius_7px.xml" value="0.1355" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_top_radius_40px.xml" value="0.184" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_top_radius_50px.xml" value="0.184" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/Diabetes-Education-Android/app/src/main/res/drawable/shape_rectangle_white_stroke_1px_radius_90px_.xml" value="0.184" />
@@ -150,7 +151,7 @@
         <entry key="app/src/main/res/layout/fragment_orientation_types_of_insulin.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/fragment_orientation_what_is_diabetes.xml" value="0.409035409035409" />
         <entry key="app/src/main/res/layout/fragment_quiz.xml" value="0.19610507246376813" />
-        <entry key="app/src/main/res/layout/fragment_quiz_question.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_quiz_question.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_quiz_question_item.xml" value="0.31543624161073824" />
         <entry key="app/src/main/res/layout/fragment_resource.xml" value="0.18931159420289856" />
         <entry key="app/src/main/res/layout/fragment_resource_communities_item.xml" value="0.18931159420289856" />
