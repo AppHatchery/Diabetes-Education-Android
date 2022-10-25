@@ -18,23 +18,20 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/shape_rectangle_stroke_radius_15px"
-            android:padding="8dp">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/shape_rectangle_stroke_radius_15px_border_2px"
+            android:padding="16dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:maxLines="4"
                 android:text="@{data.description}"
                 tools:text="@string/lorem"
                 android:textColor="@color/green_1000"
                 android:textSize="16sp"
                 app:fontFamily="@font/gotham_rounded"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf= "parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +41,10 @@
                 android:layout_height="wrap_content"
                 android:text="@{data.age}"
                 tools:text="child age 15"
-                android:textColor="@color/gray_100"
+                android:layout_marginTop="20dp"
+                android:drawableStart="@drawable/ic__dashh"
+                android:drawablePadding="5dp"
+                android:textColor="#A2A2A2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text"
                 app:layout_constraintEnd_toEndOf="parent"/>

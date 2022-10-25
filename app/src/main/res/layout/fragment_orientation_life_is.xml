@@ -32,11 +32,27 @@
                 style="@style/textTitle"
                 android:layout_width="0dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginBottom="10dp"
                 android:text="You are not alone!"
                 app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
-                app:layout_constraintTop_toTopOf="@+id/appCompatImageView" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/gray_200"
+                android:fontFamily="@font/gotham_rounded"
+                android:text="Voices from other diabetes patients"
+                app:layout_constraintEnd_toEndOf="@+id/appCompatTextView"
+                app:layout_constraintStart_toStartOf="@+id/appCompatTextView"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView"
+                tools:ignore="HardcodedText" />
 
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -57,6 +73,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:adapter="@{adapter}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintBottom_toTopOf="@+id/done"
