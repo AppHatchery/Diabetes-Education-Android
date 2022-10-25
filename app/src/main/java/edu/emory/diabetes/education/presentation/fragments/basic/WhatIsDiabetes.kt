@@ -28,6 +28,7 @@ import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
+import edu.emory.diabetes.education.databinding.FragmentMainBinding
 import edu.emory.diabetes.education.databinding.FragmentOrientationWhatIsDiabetesBinding
 import edu.emory.diabetes.education.domain.model.ChapterSearch
 import edu.emory.diabetes.education.presentation.BaseFragment
@@ -44,16 +45,21 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var fullScreenView: FrameLayout
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
+
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = "Basics"
-
         with(FragmentOrientationWhatIsDiabetesBinding.bind(view)) {
             title.text = args.lesson.title
             addMenuProvider()
             parent.viewTreeObserver.addOnScrollChangedListener {
                 if (parent.scrollY > 0) {
-                    val height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
+                    var height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
                     (parent.scrollY / height).times(100).toInt().also {
                         scrollIndicatorText.text = "$it%"
                         scrollIndicator.progress = it
@@ -183,6 +189,8 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         }
 
     }
+
+
 
 
 }
