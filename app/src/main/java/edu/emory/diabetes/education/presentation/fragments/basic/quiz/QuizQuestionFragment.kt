@@ -25,7 +25,6 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val quiz = QuizUtils.questions[0]
 
         viewModel.getQuizCode(args.quizId).onEach {
             (requireActivity() as AppCompatActivity)

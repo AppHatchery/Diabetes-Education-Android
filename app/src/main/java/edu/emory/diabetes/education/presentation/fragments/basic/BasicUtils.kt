@@ -44,7 +44,7 @@ object BasicUtils {
             R.drawable.ic_quiz_complete,
             "Quiz 1",
             "What is diabetes",
-            "5 questions, 5 mins"
+            ""
         ),
         QuizEntity(
             1,
@@ -52,7 +52,7 @@ object BasicUtils {
             R.drawable.ic_arrow_forward_filled,
             "Quiz 2",
             "Type of insulin",
-            "5 questions, 5 mins"
+            ""
         ),
         QuizEntity(
             2,
@@ -60,7 +60,7 @@ object BasicUtils {
             R.drawable.ic_arrow_forward_filled,
             "Quiz 3 ",
             "How to calculate insulin dosing",
-            "5 questions, 5 mins"
+            ""
         ),
 
         QuizEntity(
@@ -69,7 +69,7 @@ object BasicUtils {
             R.drawable.ic_arrow_forward_filled,
             "Quiz 4",
             "How to give insulin shot",
-            "5 questions, 5 mins"
+            ""
         ),
     )
 

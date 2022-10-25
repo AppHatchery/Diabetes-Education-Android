@@ -54,7 +54,7 @@ object NutritionUtils {
             R.drawable.ic_quiz_complete,
             "Quiz 1",
             "",
-            "5 questions, 5 mins"
+            ""
         ),
         /*QuizEntity(
             1,

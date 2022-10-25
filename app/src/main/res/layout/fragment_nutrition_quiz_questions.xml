@@ -110,6 +110,7 @@
             android:backgroundTint="@color/green_900"
             android:gravity="center"
             android:paddingHorizontal="15dp"
+            android:foreground="?attr/selectableItemBackground"
             android:text="Submit"
             android:textColor="@color/white_100"
             app:layout_constraintEnd_toEndOf="@+id/selectedChoices"

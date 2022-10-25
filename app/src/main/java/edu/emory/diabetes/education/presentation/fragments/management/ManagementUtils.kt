@@ -44,7 +44,7 @@ object ManagementUtils {
             R.drawable.ic_quiz_complete,
             "Quiz 1",
             "Blood Sugar Monitoring",
-            "5 questions, 5 mins"
+            ""
         ),
         QuizEntity(
             1,
@@ -52,7 +52,7 @@ object ManagementUtils {
             R.drawable.ic_arrow_forward_filled,
             "Quiz 2",
             "Check for Ketones",
-            "5 questions, 5 mins"
+            ""
         ),
         QuizEntity(
             2,
@@ -60,7 +60,7 @@ object ManagementUtils {
             R.drawable.ic_arrow_forward_filled,
             "Quiz 3",
             "Treatment for Low Blood Sugar",
-            "5 questions, 5 mins"
+            ""
         ),
         QuizEntity(
             3,
@@ -68,7 +68,7 @@ object ManagementUtils {
             R.drawable.ic_arrow_forward_filled,
             "Quiz 4",
             "How to give insulin shot",
-            "5 questions, 5 mins"
+            ""
         ),
     )
 }
