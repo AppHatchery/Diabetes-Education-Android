@@ -46,9 +46,10 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
-            args.managementLesson.title
+        "Management"
         with(FragmentBloodSugarMonitoringBinding.bind(view)) {
             addMenuProvider()
+            title.text = args.managementLesson.title
             parent.viewTreeObserver.addOnScrollChangedListener {
                 if (parent.scrollY > 0) {
                     val height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
