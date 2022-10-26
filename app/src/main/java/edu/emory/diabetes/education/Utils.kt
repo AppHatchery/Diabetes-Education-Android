@@ -9,7 +9,9 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -37,6 +39,11 @@ object Utils {
         val browserUrl = Uri.parse(url)
         val intent = Intent(Intent.ACTION_VIEW, browserUrl)
         context.startActivity(Intent.createChooser(intent, "Choose Browser"))
+    }
+
+    fun View.hideKeyboard() {
+        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
     val listOfChapter = listOf(

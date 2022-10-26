@@ -3,10 +3,7 @@ package edu.emory.diabetes.education.presentation.fragments.basic
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -17,6 +14,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.MenuProvider
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils
+import edu.emory.diabetes.education.Utils.hideKeyboard
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
 import edu.emory.diabetes.education.databinding.FragmentMainBinding
 import edu.emory.diabetes.education.databinding.FragmentOrientationWhatIsDiabetesBinding
@@ -44,12 +43,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     private val args: WhatIsDiabetesArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var fullScreenView: FrameLayout
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
 
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -173,13 +166,10 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                         adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
                             recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
                         }
+                        if (it.isEmpty()) searchResult?.visibility = View.VISIBLE
                     }.launchIn(lifecycleScope)
                 }
-
-            }
-            with(searchResult) {
-                if (searchKeyword.toString().trim().isNotBlank())
-                    this?.visibility = View.GONE
+               it.hideKeyboard()
             }
             if (searchKeyword.text.toString().isNotEmpty()) {
                 searchBtn?.setTextColor(Color.parseColor("#00A94F"))
@@ -187,6 +177,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             }
 
         }
+
 
     }
 

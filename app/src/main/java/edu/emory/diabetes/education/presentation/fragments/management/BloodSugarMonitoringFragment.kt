@@ -27,6 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils
+import edu.emory.diabetes.education.Utils.hideKeyboard
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
 import edu.emory.diabetes.education.databinding.FragmentBloodSugarMonitoringBinding
 import edu.emory.diabetes.education.domain.model.ChapterSearch
@@ -177,6 +178,7 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                         }
                     }.launchIn(lifecycleScope)
                 }
+                it.hideKeyboard()
 
             }
             with(searchResult) {

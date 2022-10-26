@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.Utils.hideKeyboard
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
 import edu.emory.diabetes.education.databinding.FragmentResourceWebViewAppsBinding
 import edu.emory.diabetes.education.domain.model.ChapterSearch
@@ -126,13 +127,11 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
                         adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
                             recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
                         }
+                        if (it.isEmpty()) searchResult?.visibility = View.VISIBLE
                     }.launchIn(lifecycleScope)
                 }
+                it.hideKeyboard()
 
-            }
-            with(searchResult) {
-                if (searchKeyword.toString().trim().isNotBlank())
-                    this?.visibility = View.GONE
             }
             if (searchKeyword.text.toString().isNotEmpty()) {
                 searchBtn?.setTextColor(Color.parseColor("#00A94F"))
