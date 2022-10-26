@@ -2,6 +2,8 @@ package edu.emory.diabetes.education.presentation.fragments.basic
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
@@ -27,6 +29,13 @@ class BasicFragment : BaseFragment(R.layout.fragment_diabetes_basics), BasicNavi
         }.attach()
     }
 
+    private fun Fragment.findNavControllerSafely(): NavController? {
+        return if (isAdded) {
+            findNavController()
+        } else {
+             null
+        }
+    }
     override fun invoke(lesson: Lesson?, quiz: Quiz?, event: Event) {
 
         when (event) {
@@ -43,7 +52,7 @@ class BasicFragment : BaseFragment(R.layout.fragment_diabetes_basics), BasicNavi
                 lesson?.let {
                     BasicFragmentDirections
                         .actionDiabetesBasicsFragmentToWhatIsDiabetes(it).apply {
-                            findNavController().navigate(this)
+                            findNavControllerSafely()?.navigate(this)
                         }
                 }
         }
