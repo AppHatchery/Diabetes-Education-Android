@@ -124,6 +124,7 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
             searchBtn?.setOnClickListener {
                 recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
                     viewModel.searchResult.onEach {
+                        searchResult?.visibility = View.GONE
                         adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
                             recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
                         }
@@ -139,6 +140,5 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
             }
 
         }
-
     }
 }

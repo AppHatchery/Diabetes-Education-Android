@@ -151,24 +151,27 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
         searchKeyword?.setOnTextWatcher {
             viewModel.searchQuery.value = it
             searchBtn?.setOnClickListener {
+
                 recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
-                    viewModel.searchResult.onEach {
-                        adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
-                            recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
-                        }
-                        if (it.isEmpty()) searchResult?.visibility = View.VISIBLE
+                    viewModel.searchResult.onEach { search ->
+                            searchResult?.visibility = View.GONE
+                            adapter.submitList(search.map { ChapterSearch(bodyText = it) }) {
+                                recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
+                               }
+                        if (search.isEmpty()) searchResult?.visibility = View.VISIBLE
+
                     }.launchIn(lifecycleScope)
+                    it.hideKeyboard()
+
                 }
-                it.hideKeyboard()
 
-            }
+                if (searchKeyword.text.toString().isNotEmpty()) {
+                    searchBtn?.setTextColor(Color.parseColor("#00A94F"))
+                    clearTextButton?.visibility = View.VISIBLE
+                }
 
-            if (searchKeyword.text.toString().isNotEmpty()) {
-                searchBtn?.setTextColor(Color.parseColor("#00A94F"))
-                clearTextButton?.visibility = View.VISIBLE
             }
 
         }
-
     }
 }

@@ -173,6 +173,7 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
             searchBtn?.setOnClickListener {
                 recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
                     viewModel.searchResult.onEach {
+                        searchResult?.visibility = View.GONE
                         adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
                             recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
                         }
