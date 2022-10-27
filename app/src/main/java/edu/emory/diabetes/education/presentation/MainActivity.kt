@@ -1,12 +1,10 @@
 package edu.emory.diabetes.education.presentation
 
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -20,7 +18,7 @@ import edu.emory.diabetes.education.presentation.fragments.basic.BasicNavigator
 import edu.emory.diabetes.education.presentation.fragments.basic.Event
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() , BasicNavigator {
+class MainActivity : AppCompatActivity(), BasicNavigator {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
@@ -54,7 +52,8 @@ class MainActivity : AppCompatActivity() , BasicNavigator {
                 R.id.managementQuizQuestionFragment,
                 R.id.managementQuizFragment2,
                 R.id.nutritionQuizQuestionsFragment,
-                R.id.quizNutritionFragment
+                R.id.quizNutritionFragment,
+                R.id.resourceWebViewFragment
                 -> binding.bottomNavigationView.visibility = View.GONE
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
