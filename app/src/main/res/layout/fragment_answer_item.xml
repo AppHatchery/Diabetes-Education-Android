@@ -18,8 +18,9 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
             android:background="@drawable/shape_rectangle_white_radius_90px"
-            android:padding="16dp"
-            android:text="@{answer}"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="16dp"
+            android:text="@{answer+','}"
             tools:text="A" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

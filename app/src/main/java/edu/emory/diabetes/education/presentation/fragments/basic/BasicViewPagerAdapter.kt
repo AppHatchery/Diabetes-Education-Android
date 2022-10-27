@@ -11,7 +11,7 @@ class BasicViewPagerAdapter(
     override fun getItemCount(): Int = size
 
     override fun createFragment(position: Int) = when (position) {
-        0 -> BasicLessonFragment()
-        else -> BasicQuizFragment()
+        0 -> BasicLessonFragment(fragment)
+        else -> BasicQuizFragment(fragment)
     }
 }
