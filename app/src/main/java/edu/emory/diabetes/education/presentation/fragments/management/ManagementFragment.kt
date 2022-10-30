@@ -2,16 +2,13 @@ package edu.emory.diabetes.education.presentation.fragments.management
 
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentManagementBinding
-import edu.emory.diabetes.education.domain.model.Lesson
-import edu.emory.diabetes.education.domain.model.Quiz
 import edu.emory.diabetes.education.presentation.BaseFragment
 
-class ManagementFragment : BaseFragment(R.layout.fragment_management), ManagementNavigator {
+class ManagementFragment : BaseFragment(R.layout.fragment_management) {
     private lateinit var managementViewPagerAdapter: ManagementViewPagerAdapter
     private lateinit var viewPager2: ViewPager2
     private lateinit var binding: FragmentManagementBinding
@@ -26,27 +23,4 @@ class ManagementFragment : BaseFragment(R.layout.fragment_management), Managemen
             tab.text = tabs[position]
         }.attach()
     }
-
-    override fun invoke(lesson: Lesson?, quiz: Quiz?, event: ManagementEvent) {
-        when (event) {
-            ManagementEvent.Quiz ->
-                quiz?.let {
-                    ManagementFragmentDirections
-                        .actionManagementFragmentToManagementQuizFragment2(it).apply {
-                            findNavController().navigate(this)
-                        }
-                }
-
-            ManagementEvent.Lesson ->
-                lesson?.let {
-                    ManagementFragmentDirections
-                        .actionManagementFragmentToBloodSugarMonitoringFragment3(it).apply {
-                            findNavController().navigate(this)
-                        }
-                }
-
-        }
-    }
-
-
 }

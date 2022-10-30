@@ -10,7 +10,7 @@ class ManagementViewPagerAdapter(
     override fun getItemCount(): Int = size
 
     override fun createFragment(position: Int) = when (position) {
-        0 -> ManagementLessonFragment(fragment)
-        else -> ManagementQuizFragment(fragment)
+        0 -> ManagementLessonFragment()
+        else -> ManagementQuizFragment()
     }
 }

@@ -1,6 +1,7 @@
 package edu.emory.diabetes.education.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -11,14 +12,9 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.ActivityMainBinding
-import edu.emory.diabetes.education.domain.model.Lesson
-import edu.emory.diabetes.education.domain.model.Quiz
-import edu.emory.diabetes.education.presentation.fragments.basic.BasicFragmentDirections
-import edu.emory.diabetes.education.presentation.fragments.basic.BasicNavigator
-import edu.emory.diabetes.education.presentation.fragments.basic.Event
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), BasicNavigator {
+class MainActivity : AppCompatActivity(), EventNavigator {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
@@ -41,9 +37,6 @@ class MainActivity : AppCompatActivity(), BasicNavigator {
                 R.id.medicalTeamFragment,
                 R.id.lifeIsFragment,
                 R.id.bloodSugarMonitoringFragment3,
-                R.id.diabetesBasicsFragment,
-                R.id.managementFragment,
-                R.id.nutritionFragment,
                 R.id.quizFragment,
                 R.id.nutritionWebViewFragment,
                 R.id.chapterFinishFragment,
@@ -64,26 +57,9 @@ class MainActivity : AppCompatActivity(), BasicNavigator {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    override fun invoke(lesson: Lesson?, quiz: Quiz?, event: Event) {
 
-        when (event) {
-            Event.Quiz ->
-                quiz?.let {
-                    BasicFragmentDirections
-                        .actionDiabetesBasicsFragmentToQuizFragment(it).apply {
-                            navController.navigate(this)
-                        }
-                }
-
-
-            Event.Lesson ->
-                lesson?.let {
-                    BasicFragmentDirections
-                        .actionDiabetesBasicsFragmentToWhatIsDiabetes(it).apply {
-                            navController.navigate(this)
-                        }
-                }
-        }
+    override fun invoke(eventNav: EventNav) {
+        MainActivityEventNav(eventNav, navController).invoke()
     }
 
 }

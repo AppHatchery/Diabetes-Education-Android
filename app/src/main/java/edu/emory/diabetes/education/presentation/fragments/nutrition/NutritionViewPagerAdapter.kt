@@ -11,7 +11,7 @@ class NutritionViewPagerAdapter(
     override fun getItemCount(): Int = size
 
     override fun createFragment(position: Int) = when (position) {
-        0 -> NutritionLessonFragment(fragment)
-        else -> NutritionQuizFragment(fragment)
+        0 -> NutritionLessonFragment()
+        else -> NutritionQuizFragment()
     }
 }
