@@ -35,8 +35,6 @@ class ResourceFragment : BaseFragment(R.layout.fragment_resource) {
 
             fragment = this@ResourceFragment
         }
-
-
     }
 
 

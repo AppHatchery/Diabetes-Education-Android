@@ -404,7 +404,7 @@
     <fragment
         android:id="@+id/chapterFinishManagementFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.management.ChapterFinishManagementFragment"
-        android:label="ChapterFinishManagementFragment"
+        android:label="End of Chapter"
         tools:layout="@layout/fragment_management_finish_chapter">
         <argument
             android:name="managementLesson"
@@ -419,13 +419,12 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/chapterFinishNutritionFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.ChapterFinishNutritionFragment"
-        android:label="ChapterFinishNutritionFragment"
+        android:label="End of Chapter"
         tools:layout="@layout/fragment_nutrition_finish_chapter">
         <argument
             android:name="lesson"
@@ -436,8 +435,7 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/baseFragment"

@@ -14,8 +14,6 @@
             type="edu.emory.diabetes.education.presentation.fragments.main.MainAdapter" />
 
     </data>
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
