@@ -128,10 +128,10 @@
         <action
             android:id="@+id/action_whatIsDiabetes_to_diabetesBasicsFragment"
             app:destination="@id/diabetesBasicsFragment"
-            app:enterAnim="@anim/slide_in_right"
+            app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/typesOfInsulin"
@@ -248,10 +248,10 @@
         <action
             android:id="@+id/action_bloodSugarMonitoringFragment3_to_managementFragment"
             app:destination="@id/managementFragment"
-            app:enterAnim="@anim/slide_in_right"
+            app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_left"/>
         <action
             android:id="@+id/action_bloodSugarMonitoringFragment3_to_managementLessonFragment"
             app:destination="@id/managementLessonFragment"
@@ -358,10 +358,10 @@
         <action
             android:id="@+id/action_nutritionWebViewFragment_to_nutritionFragment"
             app:destination="@id/nutritionFragment"
-            app:enterAnim="@anim/slide_in_right"
+            app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/managementFragment"
