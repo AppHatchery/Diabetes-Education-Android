@@ -42,7 +42,7 @@ object NutritionUtils {
             R.drawable.ic_beaker,
             "Food List",
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-            "food_lists"
+            "know_your_carbs"
         ),
 
         )
