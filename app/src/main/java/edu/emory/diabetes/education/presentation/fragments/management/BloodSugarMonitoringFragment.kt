@@ -3,10 +3,7 @@ package edu.emory.diabetes.education.presentation.fragments.management
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -37,18 +34,30 @@ import edu.emory.diabetes.education.presentation.fragments.search.ChapterViewMod
 import edu.emory.diabetes.education.views.WebAppInterface
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.util.zip.Inflater
 
 class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_monitoring) {
 
     private val args: BloodSugarMonitoringFragmentArgs by navArgs()
     private lateinit var fullScreenView: FrameLayout
     private val viewModel: ChapterViewModel by viewModels()
+    private lateinit var binding: FragmentBloodSugarMonitoringBinding
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentBloodSugarMonitoringBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
         "Management"
-        with(FragmentBloodSugarMonitoringBinding.bind(view)) {
+        binding.apply {
             addMenuProvider()
             title.text = args.managementLesson.title
             parent.viewTreeObserver.addOnScrollChangedListener {
@@ -65,6 +74,7 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                 addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
                 webViewClient = object : WebViewClient() {
                     override fun onPageFinished(view: WebView?, url: String?) {
+                        binding.scrollIndicator.progress = 0
                         super.onPageFinished(view, url)
                         view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
                     }
@@ -102,7 +112,6 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
 
                     override fun onProgressChanged(view: WebView?, newProgress: Int) {
                         super.onProgressChanged(view, newProgress)
-
                         pageLoadProgressBar.progress = newProgress
                     }
 

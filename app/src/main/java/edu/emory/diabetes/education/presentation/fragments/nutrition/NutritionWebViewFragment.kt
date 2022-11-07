@@ -3,10 +3,7 @@ package edu.emory.diabetes.education.presentation.fragments.nutrition
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -26,6 +23,7 @@ import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils.hideKeyboard
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
+import edu.emory.diabetes.education.databinding.FragmentBloodSugarMonitoringBinding
 import edu.emory.diabetes.education.databinding.FragmentNutritionWebViewAppsBinding
 import edu.emory.diabetes.education.domain.model.ChapterSearch
 import edu.emory.diabetes.education.htmlExt
@@ -40,11 +38,21 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
 
     private val args: NutritionWebViewFragmentArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
+    private lateinit var binding: FragmentBloodSugarMonitoringBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentBloodSugarMonitoringBinding.inflate(inflater, container, false)
+        return  binding.root
+    }
 
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = "Nutrition"
-        with(FragmentNutritionWebViewAppsBinding.bind(view)) {
+        binding.apply {
             addMenuProvider()
             title.text = args.lesson.title
             parent.viewTreeObserver.addOnScrollChangedListener {
@@ -62,6 +70,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                 addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
                 webViewClient = object : WebViewClient() {
                     override fun onPageFinished(view: WebView?, url: String?) {
+                        binding.scrollIndicator.progress = 0
                         super.onPageFinished(view, url)
                         view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
                     }

@@ -44,11 +44,23 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     private val args: WhatIsDiabetesArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var fullScreenView: FrameLayout
+    private lateinit var binding: FragmentOrientationWhatIsDiabetesBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentOrientationWhatIsDiabetesBinding.inflate(inflater, container, false)
+        binding.scrollIndicator.progress = 0
+        return binding.root
+    }
 
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Basics"
-        with(FragmentOrientationWhatIsDiabetesBinding.bind(view)) {
+       val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        actionBar?.title = "Basics"
+        binding.apply {
             title.text = args.lesson.title
             addMenuProvider()
             parent.viewTreeObserver.addOnScrollChangedListener {
@@ -68,6 +80,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                 addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
                 webViewClient = object : WebViewClient() {
                     override fun onPageFinished(view: WebView?, url: String?) {
+                        binding.scrollIndicator.progress = 0
                         super.onPageFinished(view, url)
                         view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
                     }
@@ -90,6 +103,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                                 WhatIsDiabetesDirections
                                     .actionWhatIsDiabetesToDiabetesBasicsFragment().also {
                                         findNavController().navigate(it)
+                                        binding.scrollIndicator.progress = 0
                                     }
                         }
                         return true
