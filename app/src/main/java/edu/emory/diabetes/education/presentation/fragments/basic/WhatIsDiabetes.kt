@@ -52,14 +52,19 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentOrientationWhatIsDiabetesBinding.inflate(inflater, container, false)
-        binding.scrollIndicator.progress = 0
         return binding.root
     }
 
-    @SuppressLint("JavascriptInterface")
+
+        @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
         actionBar?.title = "Basics"
+            activity?.onBackPressedDispatcher?.addCallback(requireActivity(), object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                        Log.e("TAG", "handleOnBackPressed: ", )
+                }
+            })
         binding.apply {
             title.text = args.lesson.title
             addMenuProvider()
@@ -200,20 +205,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     }
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if(args.lesson.id == BasicUtils.lessonData.size.minus(1)){
-                   val graph = findNavController().graph.startDestinationId + 1
-                   findNavController().popBackStack(graph, false)
-                }else{
-                    isEnabled = false
-                    activity?.onBackPressed()
-                }
-            }
-        })
-    }
 
 
 }
