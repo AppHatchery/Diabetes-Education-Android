@@ -88,13 +88,13 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                             when (it) {
                                 "food_lists" ->
                                     NutritionWebViewFragmentDirections
-                                        .actionGlobalWhatIsDiabetes(NutritionUtils.otherPages[1].toLesson())
+                                        .actionNutritionWebViewFragmentSelf(NutritionUtils.otherPages[1].toLesson())
                                         .also {
                                             findNavController().navigate(it)
                                         }
                                 "recommended_apps" ->
                                     NutritionWebViewFragmentDirections
-                                        .actionGlobalWhatIsDiabetes(NutritionUtils.otherPages[0].toLesson())
+                                        .actionNutritionWebViewFragmentToResourceMustHaveFragment()
                                         .also {
                                             findNavController().navigate(it)
                                         }
