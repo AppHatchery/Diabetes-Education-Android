@@ -24,6 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils.hideKeyboard
+import edu.emory.diabetes.education.Utils.onSearch
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
 import edu.emory.diabetes.education.databinding.FragmentResourceWebViewAppsBinding
 import edu.emory.diabetes.education.domain.model.ChapterSearch
@@ -119,26 +120,35 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
             searchKeyword?.text?.clear()
         }
 
-        searchKeyword?.setOnTextWatcher {
-            viewModel.searchQuery.value = it
-            searchBtn?.setOnClickListener {
-                recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
-                    viewModel.searchResult.onEach {
-                        searchResult?.visibility = View.GONE
-                        adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
-                            recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
-                        }
-                        if (it.isEmpty()) searchResult?.visibility = View.VISIBLE
-                    }.launchIn(lifecycleScope)
-                }
-                it.hideKeyboard()
-
+        fun searchAdapter(){
+            recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
+                viewModel.searchResult.onEach {
+                    searchResult?.visibility = View.GONE
+                    adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
+                        recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
+                    }
+                    if (it.isEmpty()) searchResult?.visibility = View.VISIBLE
+                }.launchIn(lifecycleScope)
             }
-            if (searchKeyword.text.toString().isNotEmpty()) {
+            if (searchKeyword?.text.toString().isNotEmpty()) {
                 searchBtn?.setTextColor(Color.parseColor("#00A94F"))
                 clearTextButton?.visibility = View.VISIBLE
             }
-
         }
+
+        searchKeyword?.setOnTextWatcher {
+            viewModel.searchQuery.value = it
+            searchKeyword.onSearch {
+                searchAdapter()
+            }
+            searchBtn?.setOnClickListener {
+                searchAdapter()
+                it.hideKeyboard()
+
+            }
+        }
+
+
+
     }
 }

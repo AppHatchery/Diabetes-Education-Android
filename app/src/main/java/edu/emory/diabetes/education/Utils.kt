@@ -122,9 +122,10 @@ object Utils {
 
 
     fun AppCompatEditText.onSearch(callback: () -> Unit) {
-        setOnEditorActionListener { _, actionId, _ ->
+        setOnEditorActionListener { view, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 callback.invoke()
+                view.hideKeyboard()
                 return@setOnEditorActionListener true
             }
             false
