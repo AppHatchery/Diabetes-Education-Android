@@ -39,6 +39,8 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white_100"
                 android:imeOptions="actionSearch"
+                android:imeActionLabel="Search"
+                android:singleLine="true"
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="16dp"
                 android:drawableTint="@color/green_900"

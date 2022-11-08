@@ -11,9 +11,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.Toolbar
 import edu.emory.diabetes.education.data.local.entities.ChapterEntity
 import edu.emory.diabetes.education.data.local.entities.ChapterSearchEntity
@@ -116,6 +118,17 @@ object Utils {
             it.title = null
         }
         toolbar.setNavigationOnClickListener { activity.onBackPressed() }
+    }
+
+
+    fun AppCompatEditText.onSearch(callback: () -> Unit) {
+        setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                callback.invoke()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
     }
 
 }

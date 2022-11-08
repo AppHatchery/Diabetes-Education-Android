@@ -105,11 +105,10 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                                         findNavController().navigate(it)
                                     }
 
-                                else -> NutritionWebViewFragmentDirections
-                                    .actionNutritionWebViewFragmentToNutritionFragment()
-                                    .also {
-                                        findNavController().navigate(it)
-                                    }
+                                else ->  {
+                                    val navController = findNavController()
+                                    navController.popBackStack(R.id.nutritionFragment, false)
+                                }
                             }
                         }
                         return true

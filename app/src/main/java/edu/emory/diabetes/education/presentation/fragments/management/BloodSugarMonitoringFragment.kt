@@ -97,12 +97,9 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                                     }
                             }
                             if (this.contains("done")) {
-                                BloodSugarMonitoringFragmentDirections
-                                    .actionBloodSugarMonitoringFragment3ToManagementFragment()
-                                    .also {
-                                        findNavController().navigate(it)
+                                val navController = findNavController()
+                                navController.popBackStack(R.id.managementFragment, false)
                                     }
-                            }
                         }
                         return true
                     }

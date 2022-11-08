@@ -5,11 +5,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.view.inputmethod.EditorInfo
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
@@ -28,6 +30,7 @@ import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.Utils.hideKeyboard
+import edu.emory.diabetes.education.Utils.onSearch
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
 import edu.emory.diabetes.education.databinding.FragmentOrientationWhatIsDiabetesBinding
 import edu.emory.diabetes.education.domain.model.ChapterSearch
@@ -104,12 +107,11 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                                         findNavController().navigate(it)
                                     }
                             }
-                            if (this.contains("done"))
-                                WhatIsDiabetesDirections
-                                    .actionWhatIsDiabetesToDiabetesBasicsFragment().also {
-                                        findNavController().navigate(it)
-                                        binding.scrollIndicator.progress = 0
-                                    }
+                            if (this.contains("done")){
+                                val navController = findNavController()
+                                navController.popBackStack(R.id.diabetesBasicsFragment, false)
+                            }
+
                         }
                         return true
                     }
@@ -179,6 +181,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
         }
+
 
         searchKeyword?.setOnTextWatcher {
             viewModel.searchQuery.value = it
