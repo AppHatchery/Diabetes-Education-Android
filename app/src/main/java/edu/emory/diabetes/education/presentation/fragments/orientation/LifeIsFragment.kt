@@ -2,7 +2,6 @@ package edu.emory.diabetes.education.presentation.fragments.orientation
 
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentOrientationLifeIsBinding
