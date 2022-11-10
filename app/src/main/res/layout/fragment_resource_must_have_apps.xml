@@ -10,6 +10,7 @@
             type="edu.emory.diabetes.education.presentation.fragments.resources.ResourceMustHaveAppsFragment" />
     </data>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -40,6 +41,5 @@
                 tools:itemCount="3"
                 tools:listitem="@layout/fragment_must_have_apps_item" />
         </androidx.appcompat.widget.LinearLayoutCompat>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

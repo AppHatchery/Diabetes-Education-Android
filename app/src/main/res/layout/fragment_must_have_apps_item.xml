@@ -25,7 +25,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/ic_launcher_background"
+                setImageResourceWithGlide="@{data.image}"
                 app:layout_constraintEnd_toStartOf="@+id/title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
