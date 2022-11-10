@@ -441,6 +441,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_chapterFinishManagementFragment_to_managementQuizQuestionFragment"
+            app:destination="@id/managementQuizQuestionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/chapterFinishNutritionFragment"
@@ -459,7 +466,11 @@
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_chapterFinishNutritionFragment_to_quizQuestionFragment"
-            app:destination="@id/quizQuestionFragment" />
+            app:destination="@id/quizQuestionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/baseFragment"

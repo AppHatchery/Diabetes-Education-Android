@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentNutritionFinishChapterBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
+import edu.emory.diabetes.education.presentation.fragments.basic.ChapterFinishFragmentDirections
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -28,6 +29,13 @@ class ChapterFinishNutritionFragment : BaseFragment(R.layout.fragment_nutrition_
                         }
                 }
             }.launchIn(lifecycleScope)
+
+            takeQuiz.setOnClickListener {
+                ChapterFinishNutritionFragmentDirections.actionChapterFinishNutritionFragmentToQuizQuestionFragment(args.lesson.id)
+                    .also {
+                        findNavController().navigate(it)
+                    }
+            }
         }
 
     }
