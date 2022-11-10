@@ -27,9 +27,14 @@ class ChapterFinishFragment : BaseFragment(R.layout.fragment_finish_chapter) {
                             findNavController().navigate(it)
                         }
                 }
-
-
             }.launchIn(lifecycleScope)
+
+            takeQuiz.setOnClickListener {
+                ChapterFinishFragmentDirections.actionChapterFinishFragmentToQuizQuestionFragment2(args.lesson.id)
+                    .also {
+                        findNavController().navigate(it)
+                }
+            }
 
         }
 

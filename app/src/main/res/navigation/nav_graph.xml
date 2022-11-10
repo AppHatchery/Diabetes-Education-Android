@@ -304,6 +304,13 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             />
+        <action
+            android:id="@+id/action_chapterFinishFragment_to_quizQuestionFragment2"
+            app:destination="@id/quizQuestionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/nutritionFragment"
@@ -450,6 +457,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_chapterFinishNutritionFragment_to_quizQuestionFragment"
+            app:destination="@id/quizQuestionFragment" />
     </fragment>
     <fragment
         android:id="@+id/baseFragment"

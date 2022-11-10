@@ -116,6 +116,7 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
         val clearTextButton = bottomSheetDialog.findViewById<AppCompatImageView>(R.id.clear_button)
 
 
+
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
         }

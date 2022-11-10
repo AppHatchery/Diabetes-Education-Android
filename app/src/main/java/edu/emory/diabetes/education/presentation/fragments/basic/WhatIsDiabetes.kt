@@ -182,8 +182,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             searchKeyword?.text?.clear()
         }
 
-
-
         fun searchAdapter(){
             recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
                 viewModel.searchResult.onEach {

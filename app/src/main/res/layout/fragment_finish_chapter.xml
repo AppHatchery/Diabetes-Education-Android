@@ -71,12 +71,10 @@
             app:layout_constraintTop_toBottomOf="@+id/chectText">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/orientation"
                 android:layout_width="match_parent"
                 android:layout_height="74dp"
                 android:background="?attr/selectableItemBackground"
                 android:padding="8dp">
-
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/appCompatImageView"
                     android:layout_width="50dp"
@@ -113,7 +111,7 @@
 
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/appCompatImageButton"
+                    android:id="@+id/takeQuiz"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginEnd="16dp"
