@@ -17,9 +17,10 @@ class BasicFragment : BaseFragment(R.layout.fragment_diabetes_basics) {
     private lateinit var binding: FragmentDiabetesBasicsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val navController = findNavController()
         requireActivity()?.onBackPressedDispatcher?.addCallback(requireActivity(), object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                findNavController().popBackStack(R.id.mainFragment, false)
+                navController.popBackStack(R.id.mainFragment, false)
             }
         })
         binding = FragmentDiabetesBasicsBinding.bind(view)
