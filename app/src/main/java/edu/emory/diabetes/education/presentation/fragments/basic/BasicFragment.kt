@@ -17,12 +17,6 @@ class BasicFragment : BaseFragment(R.layout.fragment_diabetes_basics) {
     private lateinit var binding: FragmentDiabetesBasicsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val navController = findNavController()
-        requireActivity()?.onBackPressedDispatcher?.addCallback(requireActivity(), object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                navController.popBackStack(R.id.mainFragment, false)
-            }
-        })
         binding = FragmentDiabetesBasicsBinding.bind(view)
         val tabs = listOf("Lesson", "Quiz")
         basicViewPagerAdapter = BasicViewPagerAdapter(this, tabs.size)
@@ -33,10 +27,6 @@ class BasicFragment : BaseFragment(R.layout.fragment_diabetes_basics) {
         }.attach()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 }
 
 

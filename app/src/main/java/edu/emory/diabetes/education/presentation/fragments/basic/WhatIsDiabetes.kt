@@ -63,11 +63,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
         actionBar?.title = "Basics"
-//            activity?.onBackPressedDispatcher?.addCallback(requireActivity(), object : OnBackPressedCallback(true) {
-//                override fun handleOnBackPressed() {
-//                        Log.e("TAG", "handleOnBackPressed: ", )
-//                }
-//            })
         binding.apply {
             title.text = args.lesson.title
             addMenuProvider()
