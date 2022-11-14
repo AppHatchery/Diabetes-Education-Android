@@ -30,7 +30,7 @@ class ChapterFinishNutritionFragment : BaseFragment(R.layout.fragment_nutrition_
                 }
             }.launchIn(lifecycleScope)
 
-            takeQuiz.setOnClickListener {
+            orientation.setOnClickListener {
                 ChapterFinishNutritionFragmentDirections.actionChapterFinishNutritionFragmentToQuizQuestionFragment(args.lesson.id)
                     .also {
                         findNavController().navigate(it)

@@ -31,7 +31,7 @@ class ChapterFinishManagementFragment : BaseFragment(R.layout.fragment_managemen
                 }
             }.launchIn(lifecycleScope)
 
-            takeQuiz.setOnClickListener {
+            orientation.setOnClickListener {
                 ChapterFinishManagementFragmentDirections.actionChapterFinishManagementFragmentToManagementQuizQuestionFragment(args.managementLesson.id)
                     .also {
                         findNavController().navigate(it)
