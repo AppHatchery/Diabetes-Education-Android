@@ -31,7 +31,7 @@
                 tools:text="@string/lorem"
                 android:textColor="@color/green_1000"
                 android:textSize="16sp"
-                app:fontFamily="@font/gotham_rounded"
+                app:fontFamily="@font/avenir_roman"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf= "parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -41,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{data.age}"
                 tools:text="child age 15"
+                android:fontFamily="@font/avenir_roman"
                 android:layout_marginTop="20dp"
                 android:drawableStart="@drawable/ic__dashh"
                 android:drawablePadding="5dp"

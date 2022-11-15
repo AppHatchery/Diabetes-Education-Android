@@ -27,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:fontFamily="@font/gotham_rounded"
             android:text="Second day"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintStart_toEndOf="@+id/view"
@@ -70,6 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Morning"
+                    android:fontFamily="@font/gotham_rounded"
                     android:textColor="@color/yellow_500"
                     app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -94,6 +96,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_rounded"
                         android:text="• Section 3: High/Low blood sugar treatment" />
 
 
@@ -101,6 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
+                        android:fontFamily="@font/avenir_roman"
                         android:text="1. Blood sugar monitoring\n2. Check for ketones\n3. Treatment for low blood sugar\n4. When to call diabetes doctor"
                         android:textColor="@color/gray_200"
                         app:fontFamily="@font/gotham_rounded" />
@@ -109,6 +113,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:fontFamily="@font/gotham_rounded"
                         android:text="• Discharging Education" />
 
 

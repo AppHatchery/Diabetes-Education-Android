@@ -27,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:fontFamily="@font/gotham_rounded"
             android:text="First day"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintStart_toEndOf="@+id/view"
@@ -70,6 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Morning"
+                    android:fontFamily="@font/gotham_rounded"
                     android:textColor="@color/yellow_500"
                     app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -92,18 +94,21 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_rounded"
                         android:text="• Get Materials" />
 
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_rounded"
                         android:text="• Section 1: Diabetes Basics" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
+                        android:fontFamily="@font/avenir_roman"
                         android:text="1. What is Diabetes?\n2. Types of Insulin\n3. How to calculate insulin dosing\n4. How to give insulin shot"
                         android:textColor="@color/gray_200"
                         app:fontFamily="@font/gotham_rounded" />
@@ -139,6 +144,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:fontFamily="@font/gotham_rounded"
                     android:text="Lunch"
                     android:textColor="@color/yellow_500"
                     app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView10"
@@ -152,6 +158,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="4dp"
+                    android:fontFamily="@font/gotham_rounded"
                     android:text="• Prep meal with diabetes educators"
                     app:layout_constraintEnd_toEndOf="@+id/linearLayoutCompat5"
                     app:layout_constraintStart_toStartOf="@+id/appCompatImageView10"
@@ -211,6 +218,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_rounded"
                         android:text="• Section 2: Nutrition and Diabetes" />
 
 
@@ -218,6 +226,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
+                        android:fontFamily="@font/avenir_roman"
                         android:text="1. Types of food\n2. How to count carbs\n3. Carbs counting Apps
 "
                         android:textColor="@color/gray_200"
