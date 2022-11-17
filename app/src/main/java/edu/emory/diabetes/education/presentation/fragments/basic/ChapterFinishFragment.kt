@@ -36,6 +36,11 @@ class ChapterFinishFragment : BaseFragment(R.layout.fragment_finish_chapter) {
                 }
             }
 
+            backHome.setOnClickListener {
+                val navController = findNavController()
+                    navController.popBackStack(R.id.diabetesBasicsFragment, false)
+            }
+
         }
 
     }

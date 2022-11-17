@@ -26,6 +26,7 @@
         <item name="android:backgroundTint">@android:color/white</item>
     </style>
 
+
     <style name="textViewCalculatorStyle" parent="Widget.AppCompat.TextView">
         <item name="fontFamily">@font/gotham_rounded_light</item>
         <item name="android:layout_width">wrap_content</item>

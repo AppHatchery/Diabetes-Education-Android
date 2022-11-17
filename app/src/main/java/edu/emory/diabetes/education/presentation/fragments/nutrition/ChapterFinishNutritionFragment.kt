@@ -36,6 +36,11 @@ class ChapterFinishNutritionFragment : BaseFragment(R.layout.fragment_nutrition_
                         findNavController().navigate(it)
                     }
             }
+
+            backHome.setOnClickListener {
+                val navController = findNavController()
+                navController.popBackStack(R.id.nutritionFragment, false)
+            }
         }
 
     }

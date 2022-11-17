@@ -46,6 +46,11 @@ class ChapterFinishManagementFragment : BaseFragment(R.layout.fragment_managemen
                         findNavController().navigate(it)
                     }
             }
+
+            backHome.setOnClickListener {
+                val navController = findNavController()
+                navController.popBackStack(R.id.managementFragment, false)
+            }
         }
 
     }

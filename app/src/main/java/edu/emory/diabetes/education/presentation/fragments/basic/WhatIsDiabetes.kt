@@ -25,6 +25,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
@@ -59,7 +60,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     }
 
 
-        @SuppressLint("JavascriptInterface")
+    @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
         actionBar?.title = "Basics"
@@ -161,11 +162,13 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
     private fun showBottomSheetDialog() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
+
         bottomSheetDialog.setContentView(R.layout.fragment_search_chapter)
         bottomSheetDialog.window
             ?.findViewById<View>(R.id.bottomSheet)
             ?.setBackgroundColor(Color.TRANSPARENT)
         bottomSheetDialog.show()
+
         val searchKeyword = bottomSheetDialog.findViewById<AppCompatEditText>(R.id.search)
         val searchBtn = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.search_text)
         val searchResult = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.not_found)
