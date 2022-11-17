@@ -46,7 +46,10 @@ class MainActivity : AppCompatActivity(), EventNavigator {
                 R.id.managementQuizFragment2,
                 R.id.nutritionQuizQuestionsFragment,
                 R.id.quizNutritionFragment,
-                R.id.resourceWebViewFragment
+                R.id.resourceWebViewFragment,
+                R.id.quizManagementFinishFragment,
+                R.id.quizNutritionFinishFragment,
+                R.id.quizFinishFragment
                 -> binding.bottomNavigationView.visibility = View.GONE
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }

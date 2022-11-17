@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentNutritionQuizQuestionsBinding
@@ -75,6 +76,13 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
                                 }
                                 next.text = "Next"
                                 selectedChoices.visibility = View.VISIBLE
+                                next.setOnClickListener {
+                                    NutritionQuizQuestionsFragmentDirections
+                                        .actionNutritionQuizQuestionsFragmentToQuizNutritionFinishFragment()
+                                        .also {
+                                            findNavController().navigate(it)
+                                        }
+                                }
                             } else {
                                 iconAnswer.apply {
                                     visibility = View.VISIBLE

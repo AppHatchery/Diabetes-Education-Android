@@ -203,6 +203,13 @@
         <argument
             android:name="quizId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_quizQuestionFragment_to_quizFinishFragment"
+            app:destination="@id/quizFinishFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/resourceFragment"
@@ -465,8 +472,8 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_chapterFinishNutritionFragment_to_quizQuestionFragment"
-            app:destination="@id/quizQuestionFragment"
+            android:id="@+id/action_chapterFinishNutritionFragment_to_nutritionQuizQuestionsFragment"
+            app:destination="@id/nutritionQuizQuestionsFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -494,6 +501,13 @@
         <argument
             android:name="quizId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_managementQuizQuestionFragment_to_quizManagementFinishFragment"
+            app:destination="@id/quizManagementFinishFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/managementQuizFragment2"
@@ -520,6 +534,13 @@
         <argument
             android:name="quizId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_nutritionQuizQuestionsFragment_to_quizNutritionFinishFragment"
+            app:destination="@id/quizNutritionFinishFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/quizNutritionFragment"
@@ -537,5 +558,20 @@
             android:name="quiz"
             app:argType="edu.emory.diabetes.education.domain.model.Quiz" />
     </fragment>
+    <fragment
+        android:id="@+id/quizFinishFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.basic.quiz.QuizFinishFragment"
+        tools:layout="@layout/fragment_basics_quiz_finish"
+        android:label="End of quiz" />
+    <fragment
+        android:id="@+id/quizNutritionFinishFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.quiz.QuizNutritionFinishFragment"
+        tools:layout="@layout/fragment_nutrition_quiz_finish"
+        android:label="End of quiz" />
+    <fragment
+        android:id="@+id/quizManagementFinishFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.management.quiz.QuizManagementFinishFragment"
+        android:label="End of quiz"
+        tools:layout="@layout/fragment_management_quiz_finish"/>
 
 </navigation>

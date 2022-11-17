@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentQuizQuestionBinding
@@ -73,6 +74,13 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
                                 }
                                 next.text = "Next"
                                 selectedChoices.visibility = View.VISIBLE
+                                next.setOnClickListener {
+                                    QuizQuestionFragmentDirections
+                                        .actionQuizQuestionFragmentToQuizFinishFragment()
+                                        .also {
+                                            findNavController().navigate(it)
+                                        }
+                                }
                             } else {
                                 iconAnswer.apply {
                                     visibility = View.VISIBLE

@@ -20,10 +20,10 @@ class ChapterFinishNutritionFragment : BaseFragment(R.layout.fragment_nutrition_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentNutritionFinishChapterBinding.bind(view)) {
             viewModel.getNextChapterNtrn(args.lesson.id).onEach { lesson ->
-                nextChapter.text = lesson[0].title
+                nextChapter.text = lesson.first().title
                 next.setOnClickListener {
                     ChapterFinishNutritionFragmentDirections
-                        .actionChapterFinishNutritionFragmentToNutritionWebViewFragment(lesson[0])
+                        .actionChapterFinishNutritionFragmentToNutritionWebViewFragment(lesson.first() )
                         .also {
                             findNavController().navigate(it)
                         }
@@ -31,14 +31,14 @@ class ChapterFinishNutritionFragment : BaseFragment(R.layout.fragment_nutrition_
             }.launchIn(lifecycleScope)
 
             orientation.setOnClickListener {
-                ChapterFinishNutritionFragmentDirections.actionChapterFinishNutritionFragmentToQuizQuestionFragment(args.lesson.id)
+                ChapterFinishNutritionFragmentDirections.actionChapterFinishNutritionFragmentToNutritionQuizQuestionsFragment(0)
                     .also {
                         findNavController().navigate(it)
                     }
             }
 
            takeQuiz.setOnClickListener {
-                ChapterFinishNutritionFragmentDirections.actionChapterFinishNutritionFragmentToQuizQuestionFragment(args.lesson.id)
+                ChapterFinishNutritionFragmentDirections.actionChapterFinishNutritionFragmentToNutritionQuizQuestionsFragment(0)
                     .also {
                         findNavController().navigate(it)
                     }
