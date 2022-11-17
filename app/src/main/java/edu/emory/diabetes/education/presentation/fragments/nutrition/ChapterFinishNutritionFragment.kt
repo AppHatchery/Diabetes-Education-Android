@@ -37,6 +37,16 @@ class ChapterFinishNutritionFragment : BaseFragment(R.layout.fragment_nutrition_
                     }
             }
 
+           takeQuiz.setOnClickListener {
+                ChapterFinishNutritionFragmentDirections.actionChapterFinishNutritionFragmentToQuizQuestionFragment(args.lesson.id)
+                    .also {
+                        findNavController().navigate(it)
+                    }
+            }
+
+
+
+
             backHome.setOnClickListener {
                 val navController = findNavController()
                 navController.popBackStack(R.id.nutritionFragment, false)

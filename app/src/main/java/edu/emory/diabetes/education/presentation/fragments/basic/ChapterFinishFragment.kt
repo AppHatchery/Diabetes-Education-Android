@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentFinishChapterBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
+import edu.emory.diabetes.education.presentation.fragments.nutrition.ChapterFinishNutritionFragmentDirections
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -29,12 +30,21 @@ class ChapterFinishFragment : BaseFragment(R.layout.fragment_finish_chapter) {
                 }
             }.launchIn(lifecycleScope)
 
-                orientation.setOnClickListener {
+            orientation.setOnClickListener {
                 ChapterFinishFragmentDirections.actionChapterFinishFragmentToQuizQuestionFragment2(args.lesson.id)
                     .also {
                         findNavController().navigate(it)
                 }
             }
+
+            takeQuiz.setOnClickListener {
+                ChapterFinishFragmentDirections.actionChapterFinishFragmentToQuizQuestionFragment2(args.lesson.id)
+                    .also {
+                        findNavController().navigate(it)
+                    }
+            }
+
+
 
             backHome.setOnClickListener {
                 val navController = findNavController()
