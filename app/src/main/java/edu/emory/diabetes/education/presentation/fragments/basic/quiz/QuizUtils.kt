@@ -9,9 +9,10 @@ object QuizUtils {
 
     val chapters = listOf(
         ChapterName(1, "What is diabetes"),
-        ChapterName(2, "Types of insulin"),
-        ChapterName(3, "How to calculate insulin dosing"),
-        ChapterName(4, "How to give insulin"),
+        ChapterName(2, "How do I know what my blood sugar is"),
+        ChapterName(3, "Types of insulin"),
+        ChapterName(4, "How to calculate insulin dosing"),
+        ChapterName(5, "How to give insulin"),
     )
 
     val questions = listOf(
