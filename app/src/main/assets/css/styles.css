@@ -4,7 +4,12 @@
 
 }
 
-* {
+@font-face{
+     font-family: AvenirRoman;
+             src: url("../font/AvenirRoman.otf");
+}
+
+h3 {
     font-family: GothamRoundedBook, -apple-system,
     BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",

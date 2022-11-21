@@ -109,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:fontFamily="@font/avenir_roman"
-                        android:text="1. What is Diabetes?\n2. Types of Insulin\n3. How to calculate insulin dosing\n4. How to give insulin shot"
+                        android:text="1.  What is Diabetes?\n2. Types of Insulin\n3. How to calculate insulin dosing\n4. How to give insulin shot"
                         android:textColor="@color/gray_200"
                         app:fontFamily="@font/gotham_rounded" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
