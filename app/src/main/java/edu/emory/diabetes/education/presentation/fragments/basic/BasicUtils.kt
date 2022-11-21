@@ -58,6 +58,14 @@ object BasicUtils {
             R.drawable.ic_help,
             R.drawable.ic_arrow_forward_filled,
             "Quiz 2",
+            "How do I know what my blood sugar is",
+            ""
+        ),
+        QuizEntity(
+            1,
+            R.drawable.ic_help,
+            R.drawable.ic_arrow_forward_filled,
+            "Quiz 3",
             "Type of insulin",
             ""
         ),
@@ -65,7 +73,7 @@ object BasicUtils {
             2,
             R.drawable.ic_help,
             R.drawable.ic_arrow_forward_filled,
-            "Quiz 3 ",
+            "Quiz 4 ",
             "How to calculate insulin dosing",
             ""
         ),
@@ -74,7 +82,7 @@ object BasicUtils {
             3,
             R.drawable.ic_help,
             R.drawable.ic_arrow_forward_filled,
-            "Quiz 4",
+            "Quiz 5",
             "How to give insulin shot",
             ""
         ),

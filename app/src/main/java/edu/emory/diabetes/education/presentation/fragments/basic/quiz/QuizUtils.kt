@@ -9,9 +9,10 @@ object QuizUtils {
 
     val chapters = listOf(
         ChapterName(1, "What is diabetes"),
-        ChapterName(2, "Types of insulin"),
-        ChapterName(3, "How to calculate insulin dosing"),
-        ChapterName(4, "How to give insulin"),
+        ChapterName(2, "How do I know what my blood sugar is"),
+        ChapterName(3, "Types of insulin"),
+        ChapterName(4, "How to calculate insulin dosing"),
+        ChapterName(5, "How to give insulin"),
     )
 
     val questions = listOf(
@@ -37,6 +38,21 @@ object QuizUtils {
 
         Question(
             1,
+            "How often should BG be checked in Type 1 Diabetes?",
+            "",
+            choices = listOf(
+                Choice("A", "A. Hourly"),
+                Choice("B", "B. Every 5 minutes"),
+                Choice("C", "C. Before meals, before bed, and before exercise"),
+                Choice("D", "D. Fasting and 2 hours after largest meal"),
+            ),
+            answers = listOf("C"),
+            ChapterName(0, "Blood sugar monitoring"),
+            maxAnswerSize = 1
+        ),
+
+        Question(
+            2,
             "Long-acting insulin should be given:",
             "",
             choices = listOf(
@@ -52,7 +68,7 @@ object QuizUtils {
             maxAnswerSize = 1,
         ),
         Question(
-            2,
+            3,
             "Rapid-acting insulin may be calculated using:",
             "Check all that apply",
             choices = listOf(
@@ -68,7 +84,7 @@ object QuizUtils {
             maxAnswerSize = 4,
         ),
         Question(
-            3,
+            4,
             "Insulin may be given via:",
             "Check all that apply",
             choices = listOf(

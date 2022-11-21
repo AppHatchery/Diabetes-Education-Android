@@ -10,21 +10,7 @@ object ManagementQuizUtils {
 
     val questions = listOf(
         Question(
-            0,
-            "How often should BG be checked in Type 1 Diabetes?",
-            "",
-            choices = listOf(
-                Choice("A", "A. Hourly"),
-                Choice("B", "B. Every 5 minutes"),
-                Choice("C", "C. Before meals, before bed, and before exercise"),
-                Choice("D", "D. Fasting and 2 hours after largest meal"),
-            ),
-            answers = listOf("C"),
-            ChapterName(0, "Blood sugar monitoring"),
-            maxAnswerSize = 1
-        ),
-        Question(
-            2,
+            1,
             "Ketones indicate:",
             "",
             choices = listOf(
@@ -40,7 +26,7 @@ object ManagementQuizUtils {
             maxAnswerSize = 1
         ),
         Question(
-            3,
+            2,
             "How is routine hypoglycemia best treated?",
             "",
             choices = listOf(
@@ -56,7 +42,7 @@ object ManagementQuizUtils {
             maxAnswerSize = 1
         ),
         Question(
-            4,
+            3,
             "When should you call the doctor? ",
             "Check all that apply",
             choices = listOf(
