@@ -8,13 +8,6 @@ object ManagementUtils {
 
     val managementLessonData = listOf(
         LessonEntity(
-            0,
-            R.drawable.ic_stethoscope,
-            "Blood Sugar Monitoring",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
-            "blood_sugar_monitoring"
-        ),
-        LessonEntity(
             1,
             R.drawable.ic_injection_needle,
             "Check for Ketones",
@@ -38,14 +31,6 @@ object ManagementUtils {
     )
 
     val managementQuizData = listOf(
-        QuizEntity(
-            0,
-            R.drawable.ic_help,
-            R.drawable.ic_quiz_complete,
-            "Quiz 1",
-            "Blood Sugar Monitoring",
-            ""
-        ),
         QuizEntity(
             1,
             R.drawable.ic_help,
