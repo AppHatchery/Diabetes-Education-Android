@@ -13,6 +13,10 @@
             type="edu.emory.diabetes.education.presentation.AnswerAdapter" />
     </data>
 
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -101,7 +105,6 @@
             app:layout_constraintStart_toStartOf="@+id/linearLayoutCompat8"
             app:layout_constraintTop_toBottomOf="@+id/iconAnswer" />
 
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/next"
             android:layout_width="wrap_content"
@@ -117,9 +120,7 @@
             app:layout_constraintEnd_toEndOf="@+id/selectedChoices"
             app:layout_constraintStart_toStartOf="@+id/selectedChoices"
             app:layout_constraintTop_toBottomOf="@+id/selectedChoices" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </androidx.core.widget.NestedScrollView>
 
 </layout>
