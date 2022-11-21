@@ -14,14 +14,13 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class ChapterFinishFragment : BaseFragment(R.layout.fragment_finish_chapter) {
-
     private val args: WhatIsDiabetesArgs by navArgs()
     private val viewModel: ChapterFinishViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentFinishChapterBinding.bind(view)) {
             viewModel.getNextChapter(args.lesson.id).onEach { lesson ->
-                nextChapter.text = lesson[0].title
+                nextChapter.text =  if (lesson.isEmpty()) "Go to overviews" else  lesson.first().title
                 next.setOnClickListener {
                     ChapterFinishFragmentDirections
                         .actionChapterFinishFragmentToWhatIsDiabetes(lesson[0]).also {
@@ -43,7 +42,6 @@ class ChapterFinishFragment : BaseFragment(R.layout.fragment_finish_chapter) {
                         findNavController().navigate(it)
                     }
             }
-
 
 
             backHome.setOnClickListener {

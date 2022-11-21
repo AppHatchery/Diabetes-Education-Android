@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity(), EventNavigator {
         navController = findNavController(R.id.fragmentContainerView)
         binding.bottomNavigationView.setupWithNavController(navController)
         setupActionBarWithNavController(navController, AppBarConfiguration(navController.graph))
-//        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {

@@ -62,7 +62,7 @@ object BasicUtils {
             ""
         ),
         QuizEntity(
-            1,
+            2,
             R.drawable.ic_help,
             R.drawable.ic_arrow_forward_filled,
             "Quiz 3",
@@ -70,7 +70,7 @@ object BasicUtils {
             ""
         ),
         QuizEntity(
-            2,
+            3,
             R.drawable.ic_help,
             R.drawable.ic_arrow_forward_filled,
             "Quiz 4 ",
@@ -79,7 +79,7 @@ object BasicUtils {
         ),
 
         QuizEntity(
-            3,
+            4,
             R.drawable.ic_help,
             R.drawable.ic_arrow_forward_filled,
             "Quiz 5",

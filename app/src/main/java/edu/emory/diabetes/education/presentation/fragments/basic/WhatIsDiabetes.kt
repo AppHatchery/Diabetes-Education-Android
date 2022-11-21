@@ -103,11 +103,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                                         findNavController().navigate(it)
                                     }
                             }
-                            if (this.contains("done")){
-                                val navController = findNavController()
-                                navController.popBackStack(R.id.diabetesBasicsFragment, false)
-                            }
-
                         }
                         return true
                     }

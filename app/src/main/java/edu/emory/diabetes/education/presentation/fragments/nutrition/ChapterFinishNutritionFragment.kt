@@ -20,7 +20,7 @@ class ChapterFinishNutritionFragment : BaseFragment(R.layout.fragment_nutrition_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentNutritionFinishChapterBinding.bind(view)) {
             viewModel.getNextChapterNtrn(args.lesson.id).onEach { lesson ->
-                nextChapter.text = lesson.first().title
+                nextChapter.text =  if (lesson.isEmpty()) "Go to overviews" else  lesson.first().title
                 next.setOnClickListener {
                     ChapterFinishNutritionFragmentDirections
                         .actionChapterFinishNutritionFragmentToNutritionWebViewFragment(lesson.first() )

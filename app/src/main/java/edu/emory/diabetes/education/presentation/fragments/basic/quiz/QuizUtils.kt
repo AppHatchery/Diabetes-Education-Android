@@ -47,7 +47,7 @@ object QuizUtils {
                 Choice("D", "D. Fasting and 2 hours after largest meal"),
             ),
             answers = listOf("C"),
-            ChapterName(0, "Blood sugar monitoring"),
+            ChapterName(1, "Blood sugar monitoring"),
             maxAnswerSize = 1
         ),
 
@@ -64,7 +64,7 @@ object QuizUtils {
             answers = listOf(
                 "A"
             ),
-            ChapterName(1, "Types of insulin"),
+            ChapterName(2, "Types of insulin"),
             maxAnswerSize = 1,
         ),
         Question(
@@ -80,7 +80,7 @@ object QuizUtils {
             answers = listOf(
                 "A", "B", "C", "D"
             ),
-            ChapterName(2, "How to calculate Insulin dosing"),
+            ChapterName(3, "How to calculate Insulin dosing"),
             maxAnswerSize = 4,
         ),
         Question(
@@ -96,7 +96,7 @@ object QuizUtils {
             answers = listOf(
                 "B", "C"
             ),
-            ChapterName(3, "How to give insulin shot"),
+            ChapterName(4, "How to give insulin shot"),
             maxAnswerSize = 2,
         )
     )
