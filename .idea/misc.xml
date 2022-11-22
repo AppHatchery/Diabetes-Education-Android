@@ -125,6 +125,7 @@
         <entry key="app/src/main/res/drawable/shape_rectangle_top_radius_10px.xml" value="0.1755" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11538461538461539" />
         <entry key="app/src/main/res/layout/fragment_answer_item.xml" value="0.13703703703703704" />
+        <entry key="app/src/main/res/layout/fragment_basics_quiz_finish.xml" value="0.2694746376811594" />
         <entry key="app/src/main/res/layout/fragment_blood_sugar_monitoring.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_bookmarks.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/fragment_bookmarks_item.xml" value="0.19610507246376813" />

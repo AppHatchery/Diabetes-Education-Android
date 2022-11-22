@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentManagementFinishChapterBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
+import edu.emory.diabetes.education.presentation.fragments.basic.BasicUtils
 import edu.emory.diabetes.education.presentation.fragments.basic.ChapterFinishFragmentDirections
 import edu.emory.diabetes.education.presentation.fragments.nutrition.ChapterFinishNutritionFragmentDirections
 import kotlinx.coroutines.flow.launchIn
@@ -22,12 +23,11 @@ class ChapterFinishManagementFragment : BaseFragment(R.layout.fragment_managemen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentManagementFinishChapterBinding.bind(view)) {
             viewModel.getNextChapterMngt(args.managementLesson.id).onEach { lesson ->
-                nextChapter.text = if (lesson.isEmpty()) "Go to overviews" else  lesson.first().title
                 if (args.managementLesson.id == ManagementUtils.managementLessonData.size.minus(1)){
-                    next.setOnClickListener {
-                        findNavController().popBackStack(R.id.managementFragment, false)
-                    }
-                } else {
+                    next.visibility = View.GONE
+                    nextChapter.visibility = View.GONE
+                }else{
+                    nextChapter.text = if (lesson.isEmpty()) "Go to overviews" else  lesson.first().title
                     next.setOnClickListener {
                         ChapterFinishManagementFragmentDirections
                             .actionChapterFinishManagementFragmentToBloodSugarMonitoringFragment3(

@@ -9,11 +9,9 @@ import edu.emory.diabetes.education.databinding.FragmentQuizBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
 
 class QuizFinishFragment : BaseFragment(R.layout.fragment_basics_quiz_finish) {
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentBasicsQuizFinishBinding.bind(view)){
             doneButton.setOnClickListener {
-                val navController = findNavController()
                 findNavController().popBackStack(R.id.diabetesBasicsFragment, false)
             }
 

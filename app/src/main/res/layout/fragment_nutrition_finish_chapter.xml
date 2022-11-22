@@ -118,8 +118,8 @@
                     android:layout_height="32dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/shape_rectangle_radius_5px"
-                    android:backgroundTint="@color/green_900"
                     android:foreground="?attr/selectableItemBackground"
+                    android:backgroundTint="@color/green_900"
                     android:src="@drawable/ic_keyboard_arrow_right"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -134,19 +134,20 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
 
+            android:layout_marginTop="40dp"
             android:background="@drawable/shape_rectangle_radius_10px"
             android:backgroundTint="@android:color/white"
             android:padding="4dp"
             android:src="@drawable/im_bullets_points"
-            app:layout_constraintBottom_toBottomOf="@+id/next"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/next" />
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/backToChapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="10dp"
             android:text="Back to chapter list"
             app:layout_constraintStart_toStartOf="@+id/backHome"
             app:layout_constraintTop_toBottomOf="@+id/backHome" />
@@ -155,7 +156,6 @@
             android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/shape_rectangle_stroke_radius_50px"
             android:drawableEnd="@drawable/ic_arrow_forward_small"
@@ -164,8 +164,9 @@
             android:gravity="center"
             android:paddingHorizontal="24dp"
             android:text="Next"
+            app:layout_constraintBottom_toBottomOf="@+id/backHome"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView" />
+            app:layout_constraintTop_toTopOf="@+id/backHome" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/nextChapter"
