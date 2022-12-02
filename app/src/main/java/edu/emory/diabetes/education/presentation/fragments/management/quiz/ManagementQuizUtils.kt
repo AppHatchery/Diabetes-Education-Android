@@ -10,7 +10,7 @@ object ManagementQuizUtils {
 
     val questions = listOf(
         Question(
-            1,
+            0,
             "Ketones indicate:",
             "",
             choices = listOf(
@@ -22,11 +22,11 @@ object ManagementQuizUtils {
             answers = listOf(
                 "B"
             ),
-            ChapterName(1, "Check for Ketones"),
+            ChapterName(0, "Check for Ketones"),
             maxAnswerSize = 1
         ),
         Question(
-            2,
+            1,
             "How is routine hypoglycemia best treated?",
             "",
             choices = listOf(
@@ -38,11 +38,11 @@ object ManagementQuizUtils {
             answers = listOf(
                 "A"
             ),
-            ChapterName(2, "Treatment for Low Blood Sugar"),
+            ChapterName(1, "Treatment for Low Blood Sugar"),
             maxAnswerSize = 1
         ),
         Question(
-            3,
+            2,
             "When should you call the doctor? ",
             "Check all that apply",
             choices = listOf(
@@ -55,7 +55,7 @@ object ManagementQuizUtils {
                 "C",
                 "D"
             ),
-            ChapterName(3, "When to call a Doctor"),
+            ChapterName(2, "When to call a Doctor"),
             maxAnswerSize = 2
         )
     )

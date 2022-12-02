@@ -17,9 +17,8 @@
             style="@style/textTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="60dp"
-            android:layout_marginEnd="20dp"
             android:gravity="center"
             android:text="Quiz 1 : What is diabetes?" />
 
@@ -29,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="26dp"
+            android:layout_marginHorizontal="20dp"
             android:gravity="center"
             android:text="3 questions, 5mins"
             app:fontFamily="@font/gotham_rounded_light" />
@@ -37,9 +37,8 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginHorizontal="20dp"
             android:src="@drawable/im_quiz_start" />
 
 
