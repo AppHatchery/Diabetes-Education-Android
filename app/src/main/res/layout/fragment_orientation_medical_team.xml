@@ -107,19 +107,19 @@
                     style="@style/textViewMedicalTeamStyle"
                     android:drawableStart="@drawable/ic_diabetes_educator"
                     android:drawablePadding="12dp"
-                    android:text="1 Diabetes Educator" />
+                    android:text="Diabetes Educators" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/textViewMedicalTeamStyle"
                     android:drawableStart="@drawable/ic_doctor"
                     android:drawablePadding="12dp"
-                    android:text="1 Nurse" />
+                    android:text="Nurses" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/textViewMedicalTeamStyle"
                     android:drawableStart="@drawable/ic_doctor"
                     android:drawablePadding="12dp"
-                    android:text="1 Doctor" />
+                    android:text="Doctors/APPs/Fellows" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -10,7 +10,7 @@ object BasicUtils {
         LessonEntity(
             0,
             R.drawable.ic_stethoscope,
-            "What is Diabetes?",
+            "What is diabetes?",
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
             "index"
         ),

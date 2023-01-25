@@ -214,7 +214,7 @@
     <fragment
         android:id="@+id/resourceFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.resources.ResourceFragment"
-        android:label="App Recommendation"
+        android:label="Resources"
         tools:layout="@layout/fragment_resource">
         <action
             android:id="@+id/action_resourceFragment_to_resourceMustHaveFragment"
