@@ -30,26 +30,26 @@ object ResourceUtil {
     val foodDiary = listOf(
         FoodDiary(
             "Low Carb Snack Combinations",
-            "the diabetes management app made for people with diabetes by people with diabetes.",
+            "A list of easy-to-make snacks with 5g or less of carbs ",
             "low_carb_snack_combinations",
             image = R.drawable.im_low_carbs
 
         ),
         FoodDiary(
             "Know your carbs",
-            "Find nutrition facts for your favorite brands and fast-food restaurants.",
+            "A list of common foods with carb amounts per serving size",
             "know_your_carbs",
             image = R.drawable.im_know_your_carbs
         ),
         FoodDiary(
             "Foods that raise Blood Sugar",
-            "Track progress toward your nutrition, water, fitness, and weight loss goals.",
+            "A list of foods that require insulin correction",
             "foods_that_raise_blood_sugar",
             image = R.drawable.im_food_that_raise_bloods_sugar
         ),
         FoodDiary(
             "Foods that don't raise Blood Sugar",
-            "Track progress toward your nutrition, water, fitness, and weight loss goals",
+            "A list of foods that don’t require insulin correction",
             "foods_that_don't_raise_blood_sugar",
             image = R.drawable.im_food_that_dont_raise
         )

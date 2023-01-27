@@ -105,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="What can I eat?"
-                        android:textSize="20sp" />
+                        android:textSize="24sp" />
 
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -148,7 +148,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Communities"
-                        android:textSize="20sp" />
+                        android:textSize="24sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
