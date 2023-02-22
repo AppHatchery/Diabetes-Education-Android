@@ -53,7 +53,7 @@ object NutritionUtils {
             R.drawable.ic_help,
             R.drawable.ic_quiz_complete,
             "Quiz 1",
-            "",
+            "Types of foods",
             ""
         ),
         /*QuizEntity(
