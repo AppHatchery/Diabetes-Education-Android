@@ -21,19 +21,19 @@ object QuizUtils {
             "Diabetes is best described as:",
             "",
             choices = listOf(
-                Choice("A", "A. The body’s lack of insulin-producing beta cells"),
+                Choice("A", "A. The body’s lack of ability to produce insulin"),
                 Choice(
                     "B",
-                    "B. The body’s inability to regulate blood glucose with proper amounts of insulin"
+                    "B. Eating too much sugar"
                 ),
-                Choice("C", "C. The body’s rejection of insulin by the pancreas"),
+                Choice("C", "C. The body’s inability to regulate blood glucose with insulin resulting in high blood sugars"),
                 Choice("D", "D. The body’s insulin response to carbohydrates")
             ),
             answers = listOf(
-                "B"
+                "A","C"
             ),
             ChapterName(0, "what is diabetes"),
-            maxAnswerSize = 1
+            maxAnswerSize = 2
         ),
 
         Question(
