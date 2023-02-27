@@ -75,7 +75,9 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
                                     }
                                 }
                                 next.text = "Next"
-                                selectedChoices.visibility = View.VISIBLE
+                                if (selectedChoices.visibility==View.VISIBLE){
+                                    selectedChoices.visibility = View.GONE
+                                }
                                 next.setOnClickListener {
                                     NutritionQuizQuestionsFragmentDirections
                                         .actionNutritionQuizQuestionsFragmentToQuizNutritionFinishFragment()

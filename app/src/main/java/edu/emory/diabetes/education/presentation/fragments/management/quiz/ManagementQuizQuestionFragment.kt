@@ -72,7 +72,9 @@ class ManagementQuizQuestionFragment : BaseFragment(R.layout.fragment_management
                                     }
                                 }
                                 next.text = "Next"
-                                selectedChoices.visibility = View.VISIBLE
+                                if (selectedChoices.visibility==View.VISIBLE){
+                                    selectedChoices.visibility = View.GONE
+                                }
                                 next.setOnClickListener {
                                     ManagementQuizQuestionFragmentDirections
                                         .actionManagementQuizQuestionFragmentToQuizManagementFinishFragment()
