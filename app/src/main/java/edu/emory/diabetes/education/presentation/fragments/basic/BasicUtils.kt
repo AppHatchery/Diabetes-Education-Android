@@ -11,35 +11,35 @@ object BasicUtils {
             0,
             R.drawable.ic_stethoscope,
             "What is diabetes?",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+            "Types of diabetes, signs and symptoms, and treatment.",
             "index"
         ),
         LessonEntity(
             1,
             R.drawable.ic_stethoscope,
-            "How do I know what my blood sugar is",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "Blood sugar monitoring",
+            "When and how to check blood sugar.",
             "how_do_i_know_what_my_blood_sugar_is"
         ),
         LessonEntity(
             2,
             R.drawable.ic_injection_needle,
             "Types of insulin",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+            "Types of insulin, storage, and where to give an injection.",
             "insulin"
         ),
         LessonEntity(
             3,
             R.drawable.ic_beaker,
             "How to calculate insulin dosing",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+            "Long and rapid acting insulin; ways to calculate insulin for food and for blood sugar.",
             "how_to_calculate_insulin_dosing"
         ),
         LessonEntity(
             4,
             R.drawable.ic_dropper,
             "How to give insulin shot",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+            "Insulin injection technique and importance of site rotation.",
             "how_to_give_insulin_shot"
         )
     )

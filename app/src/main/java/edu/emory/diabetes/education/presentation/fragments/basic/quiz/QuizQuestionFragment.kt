@@ -73,7 +73,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
                                     }
                                 }
                                 next.text = "Next"
-                                selectedChoices.visibility = View.VISIBLE
+                                //selectedChoices.visibility = View.VISIBLE
                                 next.setOnClickListener {
                                     QuizQuestionFragmentDirections
                                         .actionQuizQuestionFragmentToQuizFinishFragment()
