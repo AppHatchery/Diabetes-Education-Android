@@ -8,4 +8,5 @@ data class MustHaveApp(
     val descriptor: String,
     @DrawableRes
     val image: Int = R.drawable.ic_rectangle,
+    val url: String
 )

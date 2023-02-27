@@ -5,9 +5,6 @@
 
     <data>
 
-        <variable
-            name="mustHaveFragment"
-            type="edu.emory.diabetes.education.presentation.fragments.resources.ResourceMustHaveAppsFragment" />
     </data>
 
 
@@ -38,7 +35,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:adapter="@{mustHaveFragment.mustHaveRecyclerAdapter}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="1"
                 tools:itemCount="3"

@@ -5,21 +5,40 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import edu.emory.diabetes.education.databinding.FragmentMustHaveAppsItemBinding
+import edu.emory.diabetes.education.databinding.FragmentResourceCommunitiesItemBinding
 import edu.emory.diabetes.education.databinding.FragmentResourceMustHaveItemBinding
+import edu.emory.diabetes.education.domain.model.Communities
 import edu.emory.diabetes.education.domain.model.MustHaveApp
-import edu.emory.diabetes.education.presentation.fragments.resources.ResourceMustHaveAdapter.ViewHolder
 
-class ResourceMustHaveAdapter : ListAdapter<MustHaveApp, ViewHolder>(diffUtil) {
 
-    class ViewHolder(
+class ResourceMustHaveAdapter(
+    val onEvent: (MustHaveApp) -> Unit?
+) : ListAdapter<MustHaveApp, ResourceMustHaveAdapter.MustHaveAppsViewHolder>(diffUtil) {
+
+    inner class MustHaveAppsViewHolder(
         private val bind: FragmentResourceMustHaveItemBinding
-    ) : RecyclerView.ViewHolder(bind.root) {
-        fun bind(mustHaveApp: MustHaveApp) = bind.apply {
-            data = mustHaveApp
-            executePendingBindings()
+    ): RecyclerView.ViewHolder(bind.root){
+        fun bind(mustHaveApp: MustHaveApp) =bind.apply {
+            this.data = mustHaveApp
+        }
+
+        init {
+            bind.appLayout.setOnClickListener { onEvent.invoke(currentList[adapterPosition]) }
         }
     }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MustHaveAppsViewHolder {
+        return MustHaveAppsViewHolder(
+            FragmentResourceMustHaveItemBinding.inflate(
+                LayoutInflater.from(parent.context),parent, false
+            )
+        )
+    }
+
+    override fun onBindViewHolder(holder: MustHaveAppsViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
 
     companion object {
         private val diffUtil = object : DiffUtil.ItemCallback<MustHaveApp>() {
@@ -28,21 +47,10 @@ class ResourceMustHaveAdapter : ListAdapter<MustHaveApp, ViewHolder>(diffUtil) {
             }
 
             override fun areContentsTheSame(oldItem: MustHaveApp, newItem: MustHaveApp): Boolean {
-                return oldItem.title == newItem.title
+                return oldItem.descriptor == newItem.descriptor
             }
-
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            FragmentResourceMustHaveItemBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
-        )
-    }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
-    }
 }
