@@ -24,7 +24,7 @@ class ResourceMustHaveAdapter(
         }
 
         init {
-            bind.appLayout.setOnClickListener { onEvent.invoke(currentList[adapterPosition]) }
+            bind.rectShape.setOnClickListener { onEvent.invoke(currentList[adapterPosition]) }
         }
     }
 
