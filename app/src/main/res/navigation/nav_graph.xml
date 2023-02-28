@@ -148,7 +148,7 @@
     <fragment
         android:id="@+id/diabetesBasicsFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.basic.BasicFragment"
-        android:label="Diabetes Basics"
+        android:label="Section One"
         tools:layout="@layout/fragment_diabetes_basics">
         <action
             android:id="@+id/action_diabetesBasicsFragment_to_whatIsDiabetes"
@@ -322,7 +322,7 @@
     <fragment
         android:id="@+id/nutritionFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.NutritionFragment"
-        android:label="Nutrition and carbs counting"
+        android:label="Section Two"
         tools:layout="@layout/fragment_diabetes_nutrition">
         <action
             android:id="@+id/action_nutritionFragment_to_nutritionWebViewFragment"
@@ -394,7 +394,7 @@
     <fragment
         android:id="@+id/managementFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.management.ManagementFragment"
-        android:label="Diabetes Self-Management"
+        android:label="Section Three"
         tools:layout="@layout/fragment_management">
         <action
             android:id="@+id/action_managementFragment_to_quizFragment"
