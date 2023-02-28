@@ -75,9 +75,6 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
                                     }
                                 }
                                 next.text = "Next"
-                                if (selectedChoices.visibility==View.VISIBLE){
-                                    selectedChoices.visibility = View.GONE
-                                }
                                 next.setOnClickListener {
                                     NutritionQuizQuestionsFragmentDirections
                                         .actionNutritionQuizQuestionsFragmentToQuizNutritionFinishFragment()
@@ -102,8 +99,6 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
                                     }
                                 }
                                 next.text = "Submit"
-                                selectedChoices.visibility = View.VISIBLE
-
                             }
                         }
                     }

@@ -73,9 +73,6 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
                                     }
                                 }
                                 next.text = "Next"
-                                if (selectedChoices.visibility==View.VISIBLE){
-                                    selectedChoices.visibility = View.GONE
-                                }
                                 next.setOnClickListener {
                                     QuizQuestionFragmentDirections
                                         .actionQuizQuestionFragmentToQuizFinishFragment()
@@ -100,8 +97,6 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
                                     }
                                 }
                                 next.text = "Submit"
-                                selectedChoices.visibility = View.VISIBLE
-
                             }
                         }
                     }
