@@ -72,7 +72,6 @@ class ManagementQuizQuestionFragment : BaseFragment(R.layout.fragment_management
                                     }
                                 }
                                 next.text = "Next"
-                                selectedChoices.visibility = View.VISIBLE
                                 next.setOnClickListener {
                                     ManagementQuizQuestionFragmentDirections
                                         .actionManagementQuizQuestionFragmentToQuizManagementFinishFragment()
@@ -98,8 +97,6 @@ class ManagementQuizQuestionFragment : BaseFragment(R.layout.fragment_management
                                     }
                                 }
                                 next.text = "Submit"
-                                selectedChoices.visibility = View.VISIBLE
-
                             }
                         }
                     }
