@@ -67,7 +67,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:maxLines="2"
+                    android:maxLines="3"
                     android:text="@{lesson.description}"
                     android:textColor="@color/gray_200"
                     app:fontFamily="@font/gotham_rounded"

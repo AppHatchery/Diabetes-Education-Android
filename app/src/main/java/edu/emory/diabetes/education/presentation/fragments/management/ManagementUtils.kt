@@ -11,21 +11,21 @@ object ManagementUtils {
             0,
             R.drawable.ic_injection_needle,
             "Check for Ketones",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+            "Symptoms of hyperglycemia, when and how to check for ketones.",
             "check_for_ketones"
         ),
         LessonEntity(
             1,
             R.drawable.ic_beaker,
             "Treatment For Low Blood Sugar",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+            "Symptoms hypoglycemia, how to treat mild and severe low blood sugar, glucagon administration.",
             "treatment_for_low_blood_sugar"
         ),
         LessonEntity(
             2,
             R.drawable.ic_dropper,
             "When To Call Doctor",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. ",
+            "Sick day, missed insulin dose, ketones or other challenges.",
             "when_to_call_diabetes_doctor"
         )
     )
