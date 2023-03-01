@@ -16,7 +16,9 @@ class ResourceFragment : BaseFragment(R.layout.fragment_resource) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentResourceBinding.bind(view)) {
-            mustHaveAdapter = ResourceMustHaveAdapter().also {
+            mustHaveAdapter = ResourceMustHaveAdapter{
+                Utils.launchUrl(requireContext(), it.url)
+            }.also {
                 it.submitList(ResourceUtil.mustHaveApp)
             }
             foodDiaryAdapter = ResourceFoodDiaryAdapter {

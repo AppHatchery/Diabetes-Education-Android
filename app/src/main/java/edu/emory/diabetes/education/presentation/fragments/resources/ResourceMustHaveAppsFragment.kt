@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.resources
 
+/*
 import android.os.Bundle
 import android.view.View
 import edu.emory.diabetes.education.R
@@ -21,4 +22,4 @@ class ResourceMustHaveAppsFragment : BaseFragment(R.layout.fragment_resource_mus
             mustHaveFragment = this@ResourceMustHaveAppsFragment
         }
     }
-}
+}*/

@@ -10,19 +10,22 @@ object ResourceUtil {
 
     val mustHaveApp = listOf(
         MustHaveApp(
-            "My Sugar",
+            "MySugr",
             "the diabetes management app made for people with diabetes by people with diabetes.",
-            image = R.drawable.im_sugar
+            image = R.drawable.im_sugar,
+            "https://play.google.com/store/apps/details?id=com.mysugr.android.companion"
         ),
         MustHaveApp(
             "Calorie King",
             "Find nutrition facts for your favorite brands and fast-food restaurants.",
-            image = R.drawable.im_calorie
+            image = R.drawable.im_calorie_king,
+            "https://play.google.com/store/apps/details?id=com.calorieking.calorieking_mobile"
         ),
         MustHaveApp(
             "MyFitness Pal",
             "Track progress toward your nutrition, water, fitness, and weight loss goals ",
-            image = R.drawable.im_fitnes
+            image = R.drawable.im_fitnes,
+            "https://play.google.com/store/apps/details?id=com.myfitnesspal.android"
         )
     )
 
