@@ -163,15 +163,12 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) ,Answ
                         showView(iconAnswer)
                         showView(resultInfoTextView)
                         resultInfoTextView.text = answerChoices
-
-                        Log.e("ON SUBMIT HAS NONE",answerChoices)
                         selectedChoices.apply {
                             //if (this.visibility == View.GONE) this.visibility = View.VISIBLE
                             //this.text = answerChoices
                         }
                     }
                 }
-                Log.e("ON SUBMIT RESUTLS",answerChoices)
             }
             AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_NONE_CORRECT->{
                 this@QuizQuestionFragment.root.apply {
