@@ -60,4 +60,11 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="checkboxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="buttonTint">@color/green_900</item>
+    </style>
+    <style name="redCheckboxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="buttonTint">@color/red_900</item>
+    </style>
+
 </resources>

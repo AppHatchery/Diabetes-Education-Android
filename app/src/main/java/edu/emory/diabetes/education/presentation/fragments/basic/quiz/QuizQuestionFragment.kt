@@ -1,38 +1,50 @@
 package edu.emory.diabetes.education.presentation.fragments.basic.quiz
 
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withStateAtLeast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentQuizQuestionBinding
+import edu.emory.diabetes.education.databinding.FragmentQuizQuestionItemBinding
+import edu.emory.diabetes.education.domain.model.Choice
+import edu.emory.diabetes.education.domain.model.Question
 import edu.emory.diabetes.education.presentation.AnswerAdapter
 import edu.emory.diabetes.education.presentation.BaseFragment
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
-    private val viewModel: QuizQuestionViewModel by viewModels()
+class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) ,AnswerProcessorUtil.OnSubmitResultStateListener{
+    val viewModel: QuizQuestionViewModel by viewModels()
     private val args: QuizQuestionFragmentArgs by navArgs()
-
+    lateinit var choices:List<Choice>
+    private lateinit var questionItem:Question
+    private lateinit var viewLayout: View
+    private lateinit var selectedChoices: AppCompatTextView
+    private lateinit var root:FragmentQuizQuestionBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         QuizUtils.answer.clear()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+       selectedChoices = view.findViewById(R.id.selectedChoices)
         viewModel.getQuizCode(args.quizId).onEach {
             (requireActivity() as AppCompatActivity)
                 .supportActionBar?.title = "${it.title} : Questions"
         }.launchIn(lifecycleScope)
 
         with(FragmentQuizQuestionBinding.bind(view)) {
+            this@QuizQuestionFragment.root=this
             viewModel.selectQuestions(args.quizId).onEach { questionEntity ->
                 adapter = QuizAdapter {
                     when (it) {
@@ -50,6 +62,8 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
                         subtitle.text = description
                         adapter.maxAnswerSize = maxAnswerSize
                         adapter.asyncListDiffer.submitList(choices)
+                        adapter.listener =this@QuizQuestionFragment
+                        questionItem=this
                     }
                 }
                 next.setOnClickListener {
@@ -57,6 +71,12 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
                     answers.isNotEmpty().also {
                         if (it) {
                             if (questionEntity.first().answers.all { answers.contains(it) }) {
+                                val answerList = answers as List<String>
+                                if (adapter != null) {
+                                    (adapter as? QuizAdapter)?.apply {
+                                        setAnswers(questionItem,args.quizId,answerList)
+                                    }
+                                }
                                 iconAnswer.apply {
                                     visibility = View.VISIBLE
                                     setImageDrawable(
@@ -81,8 +101,14 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
                                         }
                                 }
                             } else {
+                                val answerList = answers as List<String>
+                                if (adapter != null) {
+                                    (adapter as? QuizAdapter)?.apply {
+                                        setAnswers(questionItem,args.quizId,answerList)
+                                    }
+                                }
                                 iconAnswer.apply {
-                                    visibility = View.VISIBLE
+                                    //visibility = View.VISIBLE
                                     setImageDrawable(
                                         ContextCompat.getDrawable(
                                             requireContext(),
@@ -91,7 +117,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
                                     )
                                 }
                                 answerRecyclerView.apply {
-                                    visibility = View.VISIBLE
+                                    //visibility = View.VISIBLE
                                     answerAdapter = AnswerAdapter().also {
                                         it.submitList(answers)
                                     }
@@ -108,5 +134,61 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) {
         }
     }
 
+    override fun onSubmitResultState(
+        resultInfo: AnswerProcessorUtil.RESULTS_ON_SUBMIT,
+        answerChoices:String,hasSomeAllCorrect:Boolean
+    ) {
+        when(resultInfo){
+            AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_ALL_CORRECT-> {
+                this@QuizQuestionFragment.root.apply {
 
+                }
+            }
+            AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT->{
+                this@QuizQuestionFragment.root.apply {
+                    if (hasSomeAllCorrect){
+                        answerRecyclerView.apply {
+                            visibility= View.GONE
+                            iconAnswer.visibility = View.GONE
+                            resultInfoTextView.visibility = View.GONE
+                            selectedChoices.apply {
+                                setTextColor(ContextCompat.getColor(context, R.color.red_900))
+                                visibility =View.VISIBLE
+                                text= answerChoices
+                            }
+                        }
+                    }else{
+                        hideView(answerRecyclerView)
+                        hideView(selectedChoices)
+                        showView(iconAnswer)
+                        showView(resultInfoTextView)
+                        resultInfoTextView.text = answerChoices
+
+                        Log.e("ON SUBMIT HAS NONE",answerChoices)
+                        selectedChoices.apply {
+                            //if (this.visibility == View.GONE) this.visibility = View.VISIBLE
+                            //this.text = answerChoices
+                        }
+                    }
+                }
+                Log.e("ON SUBMIT RESUTLS",answerChoices)
+            }
+            AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_NONE_CORRECT->{
+                this@QuizQuestionFragment.root.apply {
+                    hideView(answerRecyclerView)
+                    showView(resultInfoTextView)
+                    showView(iconAnswer)
+                    resultInfoTextView.text = answerChoices
+                }
+                //Log.e("ON SUBMIT RESUTLS",AnswerProcessorUtil.SubmissionResultStates.IS_NOT_RIGHT_CHOOSE_AGAIN)
+            }
+
+        }
+    }
+    private fun hideView(view:View){
+        if (view.visibility == View.VISIBLE) view.visibility= View.GONE
+    }
+    private fun showView(view:View){
+        if (view.visibility == View.GONE) view.visibility= View.VISIBLE
+    }
 }
