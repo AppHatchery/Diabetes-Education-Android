@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/insulin_food_image"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:src="@drawable/im_hbs_insulin"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/step_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="STEP 1"
+            style="@style/textTitle"
+            android:textSize="14sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/insulin_food_image"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/insulin_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Insulin for high blood sugar"
+            style="@style/textTitle"
+            android:textSize="20sp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/step_one"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="7dp"
+            app:layout_constraintTop_toBottomOf="@+id/insulin_title"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/left_bracket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="("
+                android:textAlignment="center"
+                android:textSize="34sp"
+                android:gravity="center"
+                android:textColor="#9A9A9A"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/blood_sugar_linear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                app:layout_constraintStart_toEndOf="@+id/left_bracket"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/bloodSugarNew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="64sp"
+                    android:textColor="@color/green_900"
+                    android:hint="160"
+                    style="@style/editTextRightNewCalculatorStyle"/>
+
+                <View
+                    android:layout_width="120dp"
+                    android:layout_height="5dp"
+                    android:background="#F4EFF9"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blood Sugar"
+                    android:textColor="#565656"/>
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textSize="24sp"
+                android:textColor="#9A9A9A"
+                app:layout_constraintStart_toEndOf="@+id/blood_sugar_linear"
+                app:layout_constraintTop_toTopOf="@+id/blood_sugar_linear"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/target_blood_linear"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/target_blood_linear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/right_bracket">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/targetBloodSugar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="64sp"
+                    android:textColor="@color/green_1000"
+                    android:hint="100"
+                    style="@style/editTextRightNewCalculatorStyle"/>
+
+                <View
+                    android:layout_width="120dp"
+                    android:layout_height="5dp"
+                    android:background="#F4EFF9"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Target Blood Sugar"
+                    android:textColor="#565656"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/right_bracket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=")"
+                android:textAlignment="center"
+                android:textSize="34sp"
+                android:textColor="#9A9A9A"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/target_blood_linear"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/blood_sugar_error"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_attention"
+            android:textColor="#FA9900"
+            android:textSize="10sp"
+            android:visibility="gone"
+            android:drawablePadding="5dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraint2"
+            android:text="Insulin is not needed if blood sugar is less than 150."
+            />
+        
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linear2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraint2">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/"
+                    android:textSize="24sp"
+                    android:textColor="#9A9A9A"
+                    android:layout_marginEnd="10dp"
+                    />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/correctionFactor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="48sp"
+                    android:hint="2"
+                    android:textColor="@color/green_1000"
+                    android:layout_marginEnd="15dp"
+                    style="@style/editTextRightNewCalculatorStyle"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+            <View
+                android:layout_width="120dp"
+                android:layout_height="5dp"
+                android:background="#F4EFF9"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Correction Factor"
+                android:textColor="#565656"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/shape_rectangle_stroke_radius_50px"
+            android:drawableEnd="@drawable/ic_arrow_forward_small"
+            android:drawablePadding="4dp"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:paddingHorizontal="24dp"
+            android:text="Next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear2" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -15,4 +15,6 @@
 
     <string name="progress_indicator">%d</string>
     <string name="link"><a >View in browser</a></string>
+    <string name="step_one">STEP 1</string>
+    <string name="step_two">STEP 2</string>
 </resources>
