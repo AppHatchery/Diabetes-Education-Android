@@ -31,7 +31,7 @@ class TotalInsulinFragment: BaseFragment(R.layout.fragment_total_insulin) {
             //total insulin adapter
             topAdapter = TotalInsulinAdapter().also  { adapter ->
                 viewModel.getInsulinData.onEach {
-                    adapter.submitList(it.subList(2, it.size))
+                    adapter.submitList(it.subList(2, 3))
                 }.launchIn(lifecycleScope)
             }
 
