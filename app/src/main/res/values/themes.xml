@@ -15,4 +15,9 @@
         <item name="android:textViewStyle">@style/textViewStyle</item>
         <item name="android:buttonStyle">@style/buttonStyle</item>
     </style>
+
+    <style name="Theme.CustomTabLayout" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/green_900</item>
+    </style>
 </resources>

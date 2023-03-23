@@ -5,12 +5,12 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
 
-
     <fragment
         android:id="@+id/mainFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.main.MainFragment"
         android:label="Welcome!"
         tools:layout="@layout/fragment_main">
+
         <action
             android:id="@+id/action_mainFragment_to_orientationFragment"
             app:destination="@id/orientationFragment"
@@ -55,6 +55,7 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
+
     <fragment
         android:id="@+id/calculatorFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.calculator.CalculatorFragment"
@@ -573,5 +574,9 @@
         android:name="edu.emory.diabetes.education.presentation.fragments.management.quiz.QuizManagementFinishFragment"
         android:label="End of quiz"
         tools:layout="@layout/fragment_management_quiz_finish"/>
+    <fragment
+        android:id="@+id/aboutUsHomeFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.aboutus.AboutUsHomeFragment"
+        android:label="About Us" />
 
 </navigation>

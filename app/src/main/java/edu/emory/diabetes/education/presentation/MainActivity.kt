@@ -1,10 +1,16 @@
 package edu.emory.diabetes.education.presentation
 
+import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,11 +19,15 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.ActivityMainBinding
+import edu.emory.diabetes.education.presentation.fragments.aboutus.AboutUsHomeFragment
+import edu.emory.diabetes.education.presentation.fragments.aboutus.AboutUsHomeFragmentDirections
+import edu.emory.diabetes.education.presentation.fragments.main.MainFragment
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), EventNavigator {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private var mMenu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +65,12 @@ class MainActivity : AppCompatActivity(), EventNavigator {
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
         }
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            supportActionBar?.title = destination.label
+            negotiator(destination.label.toString())
+        }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -64,6 +80,41 @@ class MainActivity : AppCompatActivity(), EventNavigator {
 
     override fun invoke(eventNav: EventNav) {
         MainActivityEventNav(eventNav, navController).invoke()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.about_us, menu)
+        mMenu = menu
+        negotiator(supportActionBar?.title.toString())
+        return true
+    }
+
+    private fun negotiator(fragmentName:String){
+        if(fragmentName.equals("Welcome!")) {
+            showMenuItem()
+        }else{
+            hideMenuItem()
+        }
+    }
+
+    private fun hideMenuItem() {
+        val item: MenuItem? = mMenu?.findItem(R.id.menu_overflow)
+        item?.isVisible = false
+    }
+
+    private fun showMenuItem() {
+        val item: MenuItem? = mMenu?.findItem(R.id.menu_overflow)
+        item?.isVisible = true
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_overflow -> {
+                navController.navigate(R.id.aboutUsHomeFragment)
+                binding.bottomNavigationView.visibility = View.GONE
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 }
