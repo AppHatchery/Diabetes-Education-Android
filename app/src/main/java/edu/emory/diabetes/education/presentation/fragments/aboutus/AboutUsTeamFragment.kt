@@ -15,12 +15,9 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 
 class AboutUsTeamFragment : BaseFragment(R.layout.fragment_about_us__team){
 
-private lateinit var binding: FragmentAboutUsTeamBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         with(FragmentAboutUsTeamBinding.bind(view)){
-
-
         imgApphatcherylink.setOnClickListener{
             val openUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Ext.getAppHatcheryUrl()))
             val chooser = Intent.createChooser(openUrlIntent, "Open with")
