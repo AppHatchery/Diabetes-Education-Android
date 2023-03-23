@@ -21,7 +21,7 @@ class CalculatorViewModel @Inject constructor(
         viewModelScope.launch {
             repo.apply {
                 insertIfEmpty()
-                reset()
+                //reset() removed for new calculation
             }
         }
     }
