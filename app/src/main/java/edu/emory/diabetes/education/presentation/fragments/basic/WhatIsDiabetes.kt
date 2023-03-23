@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.basic
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
@@ -163,13 +164,14 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             ?.findViewById<View>(R.id.bottomSheet)
             ?.setBackgroundColor(Color.TRANSPARENT)
         bottomSheetDialog.show()
+        //bottomSheetDialog.window?.setWindowAnimations(R.style.dialogAnimate)
 
         val searchKeyword = bottomSheetDialog.findViewById<AppCompatEditText>(R.id.search)
         val searchBtn = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.search_text)
         val searchResult = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.not_found)
         val recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
         val clearTextButton = bottomSheetDialog.findViewById<AppCompatImageView>(R.id.clear_button)
-
+        val recyclerContainer = bottomSheetDialog.findViewById<View>(R.id.bottomSheet)
 
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
@@ -178,21 +180,82 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         fun searchAdapter(){
             recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
                 viewModel.searchResult.onEach {
-                    searchResult?.visibility = View.GONE
+                    if(it.isNotEmpty()) searchResult?.visibility = View.GONE
                     adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
-                        recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
+                        //Reason why the recycler scrolls to the bottom?
+                        //recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
                     }
                     if (it.isEmpty()) searchResult?.visibility = View.VISIBLE
                 }.launchIn(lifecycleScope)
             }
-            if (searchKeyword?.text.toString().isNotEmpty()) {
-                searchBtn?.setTextColor(Color.parseColor("#00A94F"))
-                clearTextButton?.visibility = View.VISIBLE
-            }
+            //Observe if there are any changes
+            recyclerView?.viewTreeObserver?.addOnGlobalLayoutListener (object: ViewTreeObserver.OnGlobalLayoutListener{
+                override fun onGlobalLayout() {
+                    recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    //Measure the changes
+                    recyclerView.measure(
+                        View.MeasureSpec.makeMeasureSpec(recyclerView.width, View.MeasureSpec.EXACTLY),
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+                    )
+
+                    //Get min height of recycler
+                    val minViewHeight = if (recyclerView.minimumHeight <= 0) 450 else recyclerView.minimumHeight
+                    //Get current height of bottom sheet
+                    val currentHeight = recyclerContainer?.height
+                    //Get desired height of the
+                    val targetHeight = if (recyclerView.measuredHeight < minViewHeight) recyclerView.measuredHeight + minViewHeight else recyclerView.measuredHeight
+                    //If the heights don't match animate to the targeted height
+                    if(currentHeight != targetHeight){
+                        val animator = ValueAnimator.ofInt(currentHeight!!, targetHeight)
+                        animator.addUpdateListener { valueAnimator->
+                            val height = valueAnimator.animatedValue as Int
+                            val layoutParams = recyclerContainer.layoutParams
+                            layoutParams.height = height
+                            //recyclerContainer.layoutParams = layoutParams
+                            recyclerView.minimumHeight = (height * 0.75).toInt()
+                        }
+                        animator.duration = 300
+                        animator.start()
+                    }
+                }
+            })
         }
 
             searchKeyword?.setOnTextWatcher {
                 viewModel.searchQuery.value = it
+                if (searchKeyword.text.toString().isNotEmpty()) {
+                    searchBtn?.setTextColor(Color.parseColor("#00A94F"))
+                    clearTextButton?.visibility = View.VISIBLE
+                }
+                recyclerView?.viewTreeObserver?.addOnGlobalLayoutListener (object: ViewTreeObserver.OnGlobalLayoutListener{
+                    override fun onGlobalLayout() {
+                        recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        recyclerView.measure(
+                            View.MeasureSpec.makeMeasureSpec(recyclerView.width, View.MeasureSpec.EXACTLY),
+                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+                        )
+
+                        val minViewHeight = if (recyclerView.minimumHeight <= 0) 450 else recyclerView.minimumHeight
+                        val currentHeight = recyclerContainer?.height
+
+                        val targetHeight = if (recyclerView.measuredHeight < minViewHeight) recyclerView.measuredHeight + minViewHeight else recyclerView.measuredHeight
+                        if(currentHeight != targetHeight){
+                            val animator = ValueAnimator.ofInt(currentHeight!!, targetHeight)
+                            animator.addUpdateListener { valueAnimator->
+                                val height = valueAnimator.animatedValue as Int
+                                val layoutParams = recyclerContainer.layoutParams
+                                layoutParams.height = height
+                                //recyclerContainer.layoutParams = layoutParams
+                                recyclerView.minimumHeight = (height * 0.75).toInt()
+                                // Don't set height for recycler but the dialog
+                                //bottomSheetDialog.window?.setLayout(bottomSheetDialog.window?.decorView?.width!!, height)
+
+                            }
+                            animator.duration = 500
+                            animator.start()
+                        }
+                    }
+                })
                 searchKeyword.onSearch {
                     searchAdapter()
                      }

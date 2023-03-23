@@ -35,15 +35,15 @@
                 android:layout_width="195dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white_100"
-                android:imeOptions="actionSearch"
-                android:imeActionLabel="Search"
-                android:singleLine="true"
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="16dp"
                 android:drawableTint="@color/green_900"
+                android:imeActionLabel="Search"
+                android:imeOptions="actionSearch"
                 android:inputType="textAutoCorrect|textAutoComplete"
                 android:paddingHorizontal="16dp"
-                android:paddingVertical="10dp" />
+                android:paddingVertical="10dp"
+                android:singleLine="true" />
 
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -96,6 +96,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:paddingBottom="20dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
