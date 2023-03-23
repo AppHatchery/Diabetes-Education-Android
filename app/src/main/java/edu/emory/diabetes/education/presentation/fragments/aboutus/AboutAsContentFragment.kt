@@ -8,33 +8,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import edu.emory.diabetes.education.Ext
+import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentAboutUsContentBinding
+import edu.emory.diabetes.education.presentation.BaseFragment
 
 
-class AboutAsContentFragment : Fragment(){
+class AboutAsContentFragment : BaseFragment(R.layout.fragment_about_us__content){
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        with(FragmentAboutUsContentBinding.bind(view)){
 
-    private lateinit var binding: FragmentAboutUsContentBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentAboutUsContentBinding.inflate(inflater, container, false)
-
-        binding.cardViewAboutUsContent.setOnClickListener {
+        cardViewAboutUsContent.setOnClickListener {
             val openUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Ext.getAmericanDiabetesUrl()))
             val chooser = Intent.createChooser(openUrlIntent, "Open with")
             if (openUrlIntent.resolveActivity(requireActivity().packageManager) != null) {
                 startActivity(chooser)
             }
         }
-        return binding.root
+
+       }
     }
+
+
+
 }
 

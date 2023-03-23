@@ -13,37 +13,37 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 
 class AboutUsHomeFragment : BaseFragment(R.layout.fragment_about_us__home) {
 
-    private lateinit var binding: FragmentAboutUsHomeBinding
     private lateinit var adapter: AboutUsAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding = FragmentAboutUsHomeBinding.bind(view)
+        // binding = FragmentAboutUsHomeBinding.bind(view)
 
-        binding.aboutUsTabLayout.addTab(binding.aboutUsTabLayout.newTab().setText("Content"))
-        binding.aboutUsTabLayout.addTab(binding.aboutUsTabLayout.newTab().setText("Team"))
+        with(FragmentAboutUsHomeBinding.bind(view)) {
+        aboutUsTabLayout.addTab(aboutUsTabLayout.newTab().setText("Content"))
+        aboutUsTabLayout.addTab(aboutUsTabLayout.newTab().setText("Team"))
 
         val fragmentManager = childFragmentManager
         adapter = AboutUsAdapter(fragmentManager, lifecycle)
-        binding.viewPager2.adapter = adapter
+        viewPager2.adapter = adapter
 
-        binding.aboutUsTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        aboutUsTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                binding.viewPager2.currentItem = tab.position
+                viewPager2.currentItem = tab.position
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
 
-        binding.viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                binding.aboutUsTabLayout.selectTab(binding.aboutUsTabLayout.getTabAt(position))
+                aboutUsTabLayout.selectTab(aboutUsTabLayout.getTabAt(position))
 
-                val selectedTabIndex = binding.aboutUsTabLayout.selectedTabPosition
+                val selectedTabIndex = aboutUsTabLayout.selectedTabPosition
                 if (selectedTabIndex == 0) {
-                    binding.aboutUsTabLayout.setSelectedTabIndicator(R.drawable.about_us_tab_indicator_left)
+                    aboutUsTabLayout.setSelectedTabIndicator(R.drawable.about_us_tab_indicator_left)
                 } else if (selectedTabIndex == 1) {
-                    binding.aboutUsTabLayout.setSelectedTabIndicator(R.drawable.about_us_tab_indicator_right)
+                    aboutUsTabLayout.setSelectedTabIndicator(R.drawable.about_us_tab_indicator_right)
                 }
             }
         })
@@ -51,6 +51,5 @@ class AboutUsHomeFragment : BaseFragment(R.layout.fragment_about_us__home) {
     }
 
 
-
-
+    }
 }
