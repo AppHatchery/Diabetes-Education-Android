@@ -574,9 +574,6 @@
         android:name="edu.emory.diabetes.education.presentation.fragments.management.quiz.QuizManagementFinishFragment"
         android:label="End of quiz"
         tools:layout="@layout/fragment_management_quiz_finish"/>
-    <fragment
-        android:id="@+id/aboutUsHomeFragment"
-        android:name="edu.emory.diabetes.education.presentation.fragments.aboutus.AboutUsHomeFragment"
-        android:label="About Us" />
+   
 
 </navigation>
