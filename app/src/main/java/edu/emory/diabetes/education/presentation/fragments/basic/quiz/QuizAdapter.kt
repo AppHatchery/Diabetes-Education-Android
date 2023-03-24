@@ -2,12 +2,14 @@ package edu.emory.diabetes.education.presentation.fragments.basic.quiz
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
 import android.content.res.Resources.Theme
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.CompoundButton
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat.ThemeCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -44,11 +46,13 @@ class QuizAdapter(
                     question = choice
                     bind.constraintLayoutItem.apply {
                         asyncListDiffer.currentList.forEach { _ ->
+                            bind.checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green_900))
                             setBackgroundResource(R.drawable.shape_rectangle_white_radius_90px)
                             bind.checkBox.isChecked = false
                         }
                         selectedIndexes.forEach {
                             if (it == adapterPosition) {
+                                bind.checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green_900))
                                 setBackgroundResource(R.drawable.shape_rectangle_stroke_radius_10px)
                                 bind.checkBox.isChecked = true
                             }
@@ -66,17 +70,20 @@ class QuizAdapter(
                     question = choice
                     bind.constraintLayoutItem.apply {
                         asyncListDiffer.currentList.forEach { _ ->
+                            bind.checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green_900))
                             setBackgroundResource(R.drawable.shape_rectangle_white_radius_90px)
                             bind.checkBox.isChecked = false
                         }
                         selectedIndexes.forEach {
                             if (it == adapterPosition) {
+                                bind.checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green_900))
                                 setBackgroundResource(R.drawable.shape_rectangle_stroke_radius_10px)
                                 bind.checkBox.isChecked = true
                             }
                         }
                         wrongChoiceIndexes.forEach {
                             if (choice.id == it.choice) {
+                                bind.checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.red_900))
                                 setBackgroundResource(R.drawable.shape_rectangle_wrong_choice_stroke_radius_10px)
                                 bind.checkBox.isChecked = true
                             }
@@ -183,7 +190,7 @@ class QuizAdapter(
                 } else {
                     listener?.onSubmitResultState(
                         AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT,
-                        "$answers is not right. Please choose again.",
+                        "${answers.joinToString(separator = ", ")} is not right. Please choose again.",
                         hasSomeAllCorrect = false
                     )
                 }
@@ -203,7 +210,7 @@ class QuizAdapter(
                 val wrongChoiceIndexes = mutableListOf<AnswerData>()
                 listener?.onSubmitResultState(
                     AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_NONE_CORRECT,
-                    "$answers is not right. Please choose again.",
+                    "${answers.joinToString(separator = ", ")} is not right. Please choose again.",
                     false
                 )
                 for (i in wrongChoice.indices) {

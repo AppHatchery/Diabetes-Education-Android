@@ -68,6 +68,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) ,Answ
                 }
                 next.setOnClickListener {
                     val answers = QuizUtils.answer
+                    clearPreviousState(resultInfoTextView, answerRecyclerView, selectedChoices)
                     answers.isNotEmpty().also {
                         if (it) {
                             if (questionEntity.first().answers.all { answers.contains(it) }) {
@@ -181,6 +182,11 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) ,Answ
             }
 
         }
+    }
+    private fun clearPreviousState(resultView: View, answerView: View, selectedView: View){
+        resultView.visibility = View.GONE
+        answerView.visibility = View.GONE
+        selectedView.visibility = View.GONE
     }
     private fun hideView(view:View){
         if (view.visibility == View.VISIBLE) view.visibility= View.GONE
