@@ -145,7 +145,7 @@
 
 
                             <ImageView
-                                android:id="@+id/imageView_"
+                                android:id="@+id/img_childrens"
                                 android:layout_width="200dp"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="20dp"
