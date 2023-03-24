@@ -12,7 +12,7 @@
         android:title="Resources" />
 
     <item
-        android:id="@+id/calculatorFragment"
+        android:id="@+id/insulinCalculatorFragment"
         android:icon="@drawable/ic_calculator"
         android:title="Calculator" />
 </menu>

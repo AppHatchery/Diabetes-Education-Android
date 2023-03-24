@@ -59,7 +59,11 @@
         android:id="@+id/calculatorFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.calculator.CalculatorFragment"
         android:label="Insulin Calculator"
-        tools:layout="@layout/fragment_calculator" />
+        tools:layout="@layout/fragment_calculator" >
+        <action
+            android:id="@+id/action_calculatorFragment_to_totalInsulinFragment"
+            app:destination="@id/totalInsulinFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/orientationFragment"
@@ -573,5 +577,84 @@
         android:name="edu.emory.diabetes.education.presentation.fragments.management.quiz.QuizManagementFinishFragment"
         android:label="End of quiz"
         tools:layout="@layout/fragment_management_quiz_finish"/>
+    <fragment
+        android:id="@+id/insulinCalculatorFragment"
+        tools:layout="@layout/fragment_calculator_insulin"
+        android:name="edu.emory.diabetes.education.presentation.fragments.calculator.newcalculator.InsulinCalculatorFragment"
+        android:label="Insulin Calculator" >
+        <action
+            android:id="@+id/action_insulinCalculatorFragment_to_insulinForHbsFragment"
+            app:destination="@id/insulinForHbsFragment" />
+        <action
+            android:id="@+id/action_insulinCalculatorFragment_to_insulinForFoodFragment"
+            app:destination="@id/insulinForFoodFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/totalInsulinFragment"
+        tools:layout="@layout/fragment_total_insulin"
+        android:name="edu.emory.diabetes.education.presentation.fragments.calculator.newcalculator.TotalInsulinFragment"
+        android:label="Results" >
+        <argument
+            android:name="totalCarbs"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="carbsRatio"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="bloodSugar"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="targetBloodSugar"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="correctionFactor"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_totalInsulinFragment_to_insulinCalculatorFragment"
+            app:destination="@id/insulinCalculatorFragment"
+            app:exitAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+    </fragment>
+    <fragment
+        android:id="@+id/insulinForFoodFragment"
+        tools:layout="@layout/fragment_insulin_for_food"
+        android:name="edu.emory.diabetes.education.presentation.fragments.calculator.newcalculator.InsulinForFoodFragment"
+        android:label="Insulin Calculator" >
+        <action
+            android:id="@+id/action_insulinForFoodFragment_to_totalInsulinFragment"
+            app:destination="@id/totalInsulinFragment" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_insulinForFoodFragment_to_insulinForHbsFragment"
+            app:destination="@id/insulinForHbsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/insulinForHbsFragment"
+        tools:layout="@layout/fragment_insulin_for_hbs"
+        android:name="edu.emory.diabetes.education.presentation.fragments.calculator.newcalculator.InsulinForHbsFragment"
+        android:label="Insulin Calculator" >
+        <action
+            android:id="@+id/action_insulinForHbsFragment_to_totalInsulinFragment"
+            app:destination="@id/totalInsulinFragment" />
+        <argument
+            android:name="carbsRatio"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="totalCarbs"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

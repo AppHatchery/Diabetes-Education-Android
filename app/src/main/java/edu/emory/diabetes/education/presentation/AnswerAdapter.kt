@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -31,8 +32,10 @@ class AnswerAdapter : ListAdapter<String, AnswerAdapter.ViewHolder>(AnswerAdapte
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val formattedString = if(itemCount - 1 == position) getItem(position) else "${getItem(position)},"
+        holder.bind(formattedString)
     }
+
 
     inner class ViewHolder(
         private val bind: FragmentAnswerItemBinding
