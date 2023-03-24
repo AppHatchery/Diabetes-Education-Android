@@ -1,9 +1,16 @@
 package edu.emory.diabetes.education.presentation.fragments.calculator.newcalculator
 
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import androidx.core.widget.addTextChangedListener
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentInsulinForHbsBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
@@ -28,15 +35,8 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
             bloodSugarNew.addTextChangedListener(object : TextWatcher {
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     if (bloodSugarNew.text.toString().isNotEmpty()) {
-
-                        if (bloodSugarNew.text.toString().toFloat() < 150) {
-                            bloodSugarError.apply {
-                                visibility = View.VISIBLE
-                            }
-                        } else {
-                            bloodSugarError.apply {
-                                visibility = View.GONE
-                            }
+                        bloodSugarError.apply {
+                            visibility = if (bloodSugarNew.text.toString().toFloat() < 150) View.VISIBLE else View.GONE
                         }
                     }
                 }
@@ -56,9 +56,73 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                         ).also {
                             findNavController().navigate(it)
                         }
+                } else {
+                    handleEmptyFields(this)
                 }
             }
         }
-
     }
+
+    private fun handleEmptyFields(bind: FragmentInsulinForHbsBinding) {
+        val emptyFields = mutableListOf<String>()
+        if (bind.correctionFactor.text?.isEmpty() == true) {
+            emptyFields.add("Correction factor")
+            bind.correctionFactorText.setTextColor(Color.RED)
+            bind.correctionView.setBackgroundColor(Color.RED)
+        } else {
+            bind.correctionFactorText.setTextColor(Color.parseColor("#565656"))
+            bind.correctionView.setBackgroundColor(Color.parseColor("#F4EFF9"))
+        }
+        if (bind.bloodSugarNew.text?.isEmpty() == true) {
+            emptyFields.add("Blood sugar")
+            bind.bloodSugarText.setTextColor(Color.RED)
+            bind.bloodSugarView.setBackgroundColor(Color.RED)
+        } else {
+            bind.bloodSugarText.setTextColor(Color.parseColor("#565656"))
+            bind.bloodSugarView.setBackgroundColor(Color.parseColor("#F4EFF9"))
+        }
+        if (bind.targetBloodSugar.text?.isEmpty() == true) {
+            emptyFields.add("Target blood sugar")
+            bind.targetBloodText.setTextColor(Color.RED)
+            bind.targetBloodView.setBackgroundColor(Color.RED)
+        } else {
+            bind.targetBloodText.setTextColor(Color.parseColor("#565656"))
+            bind.targetBloodView.setBackgroundColor(Color.parseColor("#F4EFF9"))
+        }
+        if (emptyFields.size > 1) {
+            bind.errorText.text = "Please enter missing data."
+            bind. errorText.visibility = View.VISIBLE
+        } else if (emptyFields.size == 1) {
+            bind.errorText.text = "Please enter ${emptyFields[0]}."
+            bind.errorText.visibility = View.VISIBLE
+        } else {
+            bind.errorText.visibility = View.GONE
+        }
+
+        bind.correctionFactor.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                handleEmptyFields(bind)
+            }
+        })
+
+        bind.bloodSugarNew.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                handleEmptyFields(bind)
+            }
+        })
+
+        bind.targetBloodSugar.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                handleEmptyFields(bind)
+            }
+        })
+    }
+
+
 }
