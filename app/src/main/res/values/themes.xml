@@ -14,5 +14,10 @@
         <!-- Customize your theme here. -->
         <item name="android:textViewStyle">@style/textViewStyle</item>
         <item name="android:buttonStyle">@style/buttonStyle</item>
+
+        <item name="checkboxStyle">@style/checkboxStyle</item>
+        <item name="android:checkboxStyle">@style/checkboxStyle</item>
+
+
     </style>
 </resources>
