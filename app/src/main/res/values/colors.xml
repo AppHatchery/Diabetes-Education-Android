@@ -22,5 +22,7 @@
     <color name="blue_700">#3FBCFF</color>
     <color name="gold_100">#FAEDD6</color>
     <color name="white">#FFFFFF</color>
+    <color name="white_200">#F4EFF9</color>
+    <color name="gray_300">#565656</color>
 </resources>
 
