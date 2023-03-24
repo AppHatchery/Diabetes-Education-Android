@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="TopAdapter"
+            type="edu.emory.diabetes.education.presentation.fragments.calculator.newcalculator.TotalInsulinAdapter" />
+
+        <variable
+            name="BottomAdapter"
+            type="edu.emory.diabetes.education.presentation.fragments.calculator.newcalculator.TotalInsulinAdapter" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cine_100">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/total_insulin_image"
+            android:layout_width="match_parent"
+            android:layout_height="222dp"
+            android:src="@drawable/im_insulin_total"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/insulin_total"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:adapter="@{TopAdapter}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/total_insulin_image"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="1"
+            tools:itemCount="1"
+            tools:listitem="@layout/fragment_total_insulin_item"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="153dp"
+            android:adapter="@{BottomAdapter}"
+            app:layout_constraintTop_toBottomOf="@+id/insulin_total"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:itemCount="2"
+            tools:listitem="@layout/fragment_total_insulin_item"/>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/new_calculator"
+            android:layout_width="330dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/shape_rectangle_stroke_radius_50px"
+            android:drawablePadding="4dp"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:paddingHorizontal="24dp"
+            android:text="New Calculation"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recycler_view_bottom"
+            app:layout_constraintVertical_bias="0.238" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

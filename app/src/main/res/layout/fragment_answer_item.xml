@@ -20,7 +20,7 @@
             android:background="@drawable/shape_rectangle_white_radius_90px"
             android:paddingHorizontal="8dp"
             android:paddingVertical="16dp"
-            android:text="@{answer+','}"
+            android:text="@{answer}"
             tools:text="A" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
