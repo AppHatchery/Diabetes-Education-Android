@@ -1,8 +1,10 @@
 package edu.emory.diabetes.education.presentation.fragments.aboutus
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
+import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import edu.emory.diabetes.education.R
@@ -18,9 +20,20 @@ class AboutUsHomeFragment : BaseFragment(R.layout.fragment_about_us__home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // binding = FragmentAboutUsHomeBinding.bind(view)
 
+
+
         with(FragmentAboutUsHomeBinding.bind(view)) {
-        aboutUsTabLayout.addTab(aboutUsTabLayout.newTab().setText("Content"))
-        aboutUsTabLayout.addTab(aboutUsTabLayout.newTab().setText("Team"))
+//        aboutUsTabLayout.addTab(aboutUsTabLayout.newTab().setText("Content"))
+//        aboutUsTabLayout.addTab(aboutUsTabLayout.newTab().setText("Team"))
+            val tabContent = LayoutInflater.from(requireContext()).inflate(R.layout.about_us_custom_tab_text, null)
+            val tabContentTextView_content= tabContent.findViewById<TextView>(R.id.tabTextView)
+            tabContentTextView_content.text = "Content"
+            aboutUsTabLayout.addTab(aboutUsTabLayout.newTab().setCustomView(tabContent))
+
+            val tabTeam = LayoutInflater.from(requireContext()).inflate(R.layout.about_us_custom_tab_text, null)
+            val tabTeamTextView_team = tabTeam.findViewById<TextView>(R.id.tabTextView)
+            tabTeamTextView_team.text = "Team"
+            aboutUsTabLayout.addTab(aboutUsTabLayout.newTab().setCustomView(tabTeam))
 
         val fragmentManager = childFragmentManager
         adapter = AboutUsAdapter(fragmentManager, lifecycle)
