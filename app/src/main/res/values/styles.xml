@@ -70,18 +70,7 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="MyTabLayout" parent="Widget.MaterialComponents.TabLayout">
-        <!-- Customize the selected and unselected tab text colors -->
-        <item name="tabTextColor">@color/gray_100</item>
-        <item name="tabSelectedTextColor">#FAFAFA</item>
 
-        <!-- Customize the tab indicator color and height -->
-<!--        <item name="tabIndicatorColor">@color/green_1000</item>-->
-<!--        <item name="tabIndicatorHeight">@dimen/my_tab_indicator_height</item>-->
-
-        <!-- Customize the tab background color -->
-        <item name="tabBackground">@drawable/about_us_tab_indicator</item>
-    </style>
 
 
 </resources>
