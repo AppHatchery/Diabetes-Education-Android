@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.calculator.newcalculator
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -8,6 +9,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import android.view.ViewTreeObserver
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
@@ -28,6 +31,7 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     if(carbRatioNew.text.toString().isNotEmpty()){
+                        carbRatioNew.hint = HINT_EMPTY
                         carbErrorText.visibility = View.GONE
                         carbRatioText.setTextColor( Color.parseColor("#565656"))
                         carbView.setBackgroundColor(Color.parseColor("#F4EFF9"))
@@ -41,11 +45,13 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
                 override fun afterTextChanged(p0: Editable?) {}
             })
 
-
+            val inputMethodManager = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             carbRatioNew.setOnFocusChangeListener { _, hasFocus ->
 
                 if (hasFocus) {
                     carbRatioNew.hint = HINT_EMPTY
+
+                    inputMethodManager.showSoftInput(carbRatioNew, InputMethodManager.SHOW_IMPLICIT)
                 } else {
                     if(carbRatioNew.text.isNullOrEmpty())
                     {
@@ -58,6 +64,7 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
 
                 if (hasFocus) {
                     totalCarbsNew.hint = HINT_EMPTY
+                    inputMethodManager.showSoftInput(totalCarbsNew, InputMethodManager.SHOW_IMPLICIT)
                 } else {
                     if(totalCarbsNew.text.isNullOrEmpty())
                     {

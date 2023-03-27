@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.calculator.newcalculator
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -9,6 +10,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
 import edu.emory.diabetes.education.R
@@ -63,10 +65,11 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                     handleEmptyFields(this)
                 }
             }
-
+            val inputMethodManager = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             bloodSugarNew.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     bloodSugarNew.hint = HINT_EMPTY
+                    inputMethodManager.showSoftInput(bloodSugarNew, InputMethodManager.SHOW_IMPLICIT)
                 } else {
                     if(bloodSugarNew.text.isNullOrEmpty())
                     {
@@ -78,6 +81,7 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
             targetBloodSugar.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     targetBloodSugar.hint = HINT_EMPTY
+                    inputMethodManager.showSoftInput(targetBloodSugar, InputMethodManager.SHOW_IMPLICIT)
                 } else {
                     if(targetBloodSugar.text.isNullOrEmpty())
                     {
@@ -90,6 +94,7 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
             correctionFactor.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     correctionFactor.hint = HINT_EMPTY
+                    inputMethodManager.showSoftInput(correctionFactor, InputMethodManager.SHOW_IMPLICIT)
                 } else {
                     if(correctionFactor.text.isNullOrEmpty())
                     {
