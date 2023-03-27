@@ -42,7 +42,7 @@
                             android:layout_marginEnd="20dp"
                             android:fontFamily="@font/avenir_roman"
                             android:text="About Apphatchery"
-                            android:textColor="@color/gray_200"
+                            android:textColor="#57585A"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -73,7 +73,7 @@
                             android:layout_margin="20dp"
                             android:fontFamily="@font/avenir_roman"
                             android:text="The AppHatchery is an interdisciplinary team of researchers, designers, and software software developers from Emory University, Georgia Tech, and the Global Health Informatics Institute(in Malawi) funded by the Georgia Clinical and Translational Science Alliance (Georgia CTSA). They work work on bring research ideas into the general public via mobile and web Apps."
-                            android:textColor="@color/gray_200"
+                            android:textColor="#57585A"
                             android:textSize="17sp"
                             app:fontFamily="@font/avenir_roman"
                             app:layout_constraintTop_toBottomOf="@+id/cardView"
@@ -87,7 +87,7 @@
                             android:layout_margin="20dp"
                             android:fontFamily="@font/avenir_roman"
                             android:text="About the Team"
-                            android:textColor="@color/gray_200"
+                            android:textColor="#57585A"
                             app:layout_constraintTop_toBottomOf="@+id/textView3"
                             tools:layout_editor_absoluteX="1dp" />
 
@@ -98,7 +98,7 @@
                             android:layout_margin="20dp"
                             android:fontFamily="@font/avenir_roman"
                             android:text="The team that brought this together includes:printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
-                            android:textColor="@color/gray_200"
+                            android:textColor="#57585A"
                             android:textSize="17sp"
                             app:fontFamily="@font/avenir_roman"
                             app:layout_constraintTop_toBottomOf="@+id/aboutteam"
@@ -113,7 +113,7 @@
                             android:layout_margin="20dp"
                             android:fontFamily="@font/avenir_roman"
                             android:text="Collaborators"
-                            android:textColor="@color/gray_200"
+                            android:textColor="#57585A"
                             app:layout_constraintTop_toBottomOf="@+id/textViewff"
                             tools:layout_editor_absoluteX="20dp" />
 
