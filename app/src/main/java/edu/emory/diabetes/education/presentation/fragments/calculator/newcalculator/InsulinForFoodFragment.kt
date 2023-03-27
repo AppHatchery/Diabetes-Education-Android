@@ -4,7 +4,10 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnTouchListener
+import android.view.ViewTreeObserver
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
@@ -13,6 +16,10 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 
 class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
     private val args: InsulinForFoodFragmentArgs by navArgs()
+
+    private val HINT_EMPTY = ""
+    private val HINT_DEFAULT_carbRatioNew = "15"
+    private val HINT_DEFAULT_totalCarbsNew = "0"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentInsulinForFoodBinding.bind(view)){
@@ -34,7 +41,36 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
                 override fun afterTextChanged(p0: Editable?) {}
             })
 
+
+            carbRatioNew.setOnFocusChangeListener { _, hasFocus ->
+
+                if (hasFocus) {
+                    carbRatioNew.hint = HINT_EMPTY
+                } else {
+                    if(carbRatioNew.text.isNullOrEmpty())
+                    {
+                        carbRatioNew.hint = HINT_DEFAULT_carbRatioNew
+                    }
+                }
+            }
+
+            totalCarbsNew.setOnFocusChangeListener { _, hasFocus ->
+
+                if (hasFocus) {
+                    totalCarbsNew.hint = HINT_EMPTY
+                } else {
+                    if(totalCarbsNew.text.isNullOrEmpty())
+                    {
+                        totalCarbsNew.hint = HINT_DEFAULT_totalCarbsNew
+                    }
+                }
+
+            }
+
+
+
             totalCarbsNew.addTextChangedListener(object : TextWatcher {
+
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     if(totalCarbsNew.text.toString().isNotEmpty()){

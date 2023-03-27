@@ -19,7 +19,10 @@ import androidx.navigation.fragment.navArgs
 
 class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
     private val args: InsulinForHbsFragmentArgs by navArgs()
-
+    private val HINT_EMPTY = ""
+    private val HINT_DEFAULT_bloodSugarNew = "160"
+    private val HINT_DEFAULT_targetBloodSugar = "100"
+    private val HINT_DEFAULT_correctionFactor = "2"
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentInsulinForHbsBinding.bind(view)) {
             val totalCarbs = args.totalCarbs
@@ -58,6 +61,40 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                         }
                 } else {
                     handleEmptyFields(this)
+                }
+            }
+
+            bloodSugarNew.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    bloodSugarNew.hint = HINT_EMPTY
+                } else {
+                    if(bloodSugarNew.text.isNullOrEmpty())
+                    {
+                        bloodSugarNew.hint = HINT_DEFAULT_bloodSugarNew
+                    }
+                }
+            }
+
+            targetBloodSugar.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    targetBloodSugar.hint = HINT_EMPTY
+                } else {
+                    if(targetBloodSugar.text.isNullOrEmpty())
+                    {
+                        targetBloodSugar.hint = HINT_DEFAULT_targetBloodSugar
+                    }
+                }
+            }
+
+
+            correctionFactor.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    correctionFactor.hint = HINT_EMPTY
+                } else {
+                    if(correctionFactor.text.isNullOrEmpty())
+                    {
+                        correctionFactor.hint = HINT_DEFAULT_correctionFactor
+                    }
                 }
             }
         }
