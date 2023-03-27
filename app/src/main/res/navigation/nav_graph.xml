@@ -659,6 +659,6 @@
     <fragment
         android:id="@+id/aboutUsHomeFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.aboutus.AboutUsHomeFragment"
-        android:label="About Us" />
+        android:label="About" />
 
 </navigation>

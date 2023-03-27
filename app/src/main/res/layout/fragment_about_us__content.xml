@@ -52,11 +52,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
 
-                            android:layout_marginStart="10dp"
+                            android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
                             android:layout_marginBottom="5dp"
                             android:fontFamily="@font/avenir_roman"
                             android:text="The content in the TypeU App has been created in conjunction with the Diabetes Education Team at Children’s Healthcare of Atlanta based off the Diabetes Education sessions for new onset patients. The educational content is informed by the 2023 Standards of Care in Diabetes that is regularly published by the American Diabetes Association."
+                            android:textAlignment="textStart"
                             android:textColor="@color/gray_200"
                             android:textSize="17sp"
                             app:fontFamily="@font/avenir_roman"

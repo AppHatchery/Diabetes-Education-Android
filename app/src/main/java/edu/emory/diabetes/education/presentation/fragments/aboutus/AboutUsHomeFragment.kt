@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.aboutus
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -52,11 +53,20 @@ class AboutUsHomeFragment : BaseFragment(R.layout.fragment_about_us__home) {
             override fun onPageSelected(position: Int) {
                 aboutUsTabLayout.selectTab(aboutUsTabLayout.getTabAt(position))
 
-                val selectedTabIndex = aboutUsTabLayout.selectedTabPosition
-                if (selectedTabIndex == 0) {
-                    aboutUsTabLayout.setSelectedTabIndicator(R.drawable.about_us_tab_indicator_left)
-                } else if (selectedTabIndex == 1) {
-                    aboutUsTabLayout.setSelectedTabIndicator(R.drawable.about_us_tab_indicator_right)
+                when (aboutUsTabLayout.selectedTabPosition) {
+                    0 -> {
+                        aboutUsTabLayout.setSelectedTabIndicator(R.drawable.about_us_tab_indicator_left)
+                        tabContentTextView_content.setTextColor(Color.WHITE)
+                        tabTeamTextView_team.setTextColor(Color.GRAY)
+                    }
+                    1 -> {
+                        aboutUsTabLayout.setSelectedTabIndicator(R.drawable.about_us_tab_indicator_right)
+                        tabContentTextView_content.setTextColor(Color.GRAY)
+                        tabTeamTextView_team.setTextColor(Color.WHITE)
+                    }
+                    else -> {
+
+                    }
                 }
             }
         })

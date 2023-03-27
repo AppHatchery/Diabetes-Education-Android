@@ -2,6 +2,6 @@
     android:id="@+id/tabTextView"
     android:layout_width="wrap_content"
     android:layout_height="50dp"
+    android:textAlignment="center"
     android:textSize="15sp"
-    android:textColor="@color/white_100"
     android:fontFamily="@font/avenir_roman" />
