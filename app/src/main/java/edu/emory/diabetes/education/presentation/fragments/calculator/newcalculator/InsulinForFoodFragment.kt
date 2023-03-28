@@ -26,76 +26,6 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentInsulinForFoodBinding.bind(view)){
-
-            carbRatioNew.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if(carbRatioNew.text.toString().isNotEmpty()){
-                        carbRatioNew.hint = HINT_EMPTY
-                        carbErrorText.visibility = View.GONE
-                        carbRatioText.setTextColor( Color.parseColor("#565656"))
-                        carbView.setBackgroundColor(Color.parseColor("#F4EFF9"))
-                    }else{
-                        carbErrorText.text = "Please enter Carb ratio"
-                        carbErrorText.visibility = View.VISIBLE
-                        carbRatioText.setTextColor( Color.RED)
-                        carbView.setBackgroundColor(Color.RED)
-                    }
-                }
-                override fun afterTextChanged(p0: Editable?) {}
-            })
-
-            val inputMethodManager = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            carbRatioNew.setOnFocusChangeListener { _, hasFocus ->
-
-                if (hasFocus) {
-                    carbRatioNew.hint = HINT_EMPTY
-
-                    inputMethodManager.showSoftInput(carbRatioNew, InputMethodManager.SHOW_IMPLICIT)
-                } else {
-                    if(carbRatioNew.text.isNullOrEmpty())
-                    {
-                        carbRatioNew.hint = HINT_DEFAULT_carbRatioNew
-                    }
-                }
-            }
-
-            totalCarbsNew.setOnFocusChangeListener { _, hasFocus ->
-
-                if (hasFocus) {
-                    totalCarbsNew.hint = HINT_EMPTY
-                    inputMethodManager.showSoftInput(totalCarbsNew, InputMethodManager.SHOW_IMPLICIT)
-                } else {
-                    if(totalCarbsNew.text.isNullOrEmpty())
-                    {
-                        totalCarbsNew.hint = HINT_DEFAULT_totalCarbsNew
-                    }
-                }
-
-            }
-
-
-
-            totalCarbsNew.addTextChangedListener(object : TextWatcher {
-
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if(totalCarbsNew.text.toString().isNotEmpty()){
-                        carbErrorText.visibility = View.GONE
-                        totalCarbsText.setTextColor( Color.parseColor("#565656"))
-                        totalCarbsView.setBackgroundColor(Color.parseColor("#F4EFF9"))
-                    }else{
-                        carbErrorText.text = "Please enter Total carbs"
-                        carbErrorText.visibility = View.VISIBLE
-                        totalCarbsText.setTextColor( Color.RED)
-                        totalCarbsView.setBackgroundColor(Color.RED)
-                    }
-                }
-                override fun afterTextChanged(p0: Editable?) {}
-            })
-
-
-
             val sectionId = args.id
 
             next.setOnClickListener {
@@ -126,96 +56,83 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
                             }
                     }
                 } else {
-                    carbErrorText.apply {
-                        when {
-                            carbRatioNew.text?.isEmpty() == true -> {
-                                visibility = View.VISIBLE
-                                carbRatioText.setTextColor(Color.RED)
-                                carbView.setBackgroundColor(Color.RED)
-                            }
-                            totalCarbsNew.text?.isEmpty() == true -> {
-                                carbErrorText.text = "Please enter your blood sugar"
-                                visibility = View.VISIBLE
-                                totalCarbsText.setTextColor(Color.RED)
-                                totalCarbsView.setBackgroundColor(Color.RED)
-                            }
-                            else -> visibility = View.GONE
-                        }
-                    }
+                    handleEmptyFields(this)
                 }
 
             }
+            val inputMethodManager = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            carbRatioNew.setOnFocusChangeListener { _, hasFocus ->
 
+                if (hasFocus) {
+                    carbRatioNew.hint = HINT_EMPTY
 
-
-           /* if(sectionId == 0) {
-                next.setOnClickListener {
-                    if (totalCarbsNew.text?.isNotEmpty() == true && carbRatioNew.text?.isNotEmpty() == true) {
-
-                        InsulinForFoodFragmentDirections
-                            .actionInsulinForFoodFragmentToTotalInsulinFragment(
-                                totalCarbsNew.text.toString(),
-                                carbRatioNew.text.toString(),
-                                correctionFactor = "0",
-                                bloodSugar = "0",
-                                targetBloodSugar = "0"
-                            ).also {
-                                findNavController().navigate(it)
-                            }
-                    }else{
-                        carbErrorText.apply {
-                            when {
-                                carbRatioNew.text?.isEmpty() == true -> {
-                                    visibility = View.VISIBLE
-                                    carbRatioText.setTextColor(Color.RED)
-                                    carbView.setBackgroundColor(Color.RED)
-                                }
-                                totalCarbsNew.text?.isEmpty() == true -> {
-                                    carbErrorText.text = "Please enter your blood sugar"
-                                    visibility = View.VISIBLE
-                                    totalCarbsText.setTextColor(Color.RED)
-                                    totalCarbsView.setBackgroundColor(Color.RED)
-                                }
-                                else -> visibility = View.GONE
-                            }
-                        }
+                    inputMethodManager.showSoftInput(carbRatioNew, InputMethodManager.SHOW_IMPLICIT)
+                } else {
+                    if(carbRatioNew.text.isNullOrEmpty())
+                    {
+                        carbRatioNew.hint = HINT_DEFAULT_carbRatioNew
                     }
                 }
-            } else{
-                next.setOnClickListener {
-                    if (totalCarbsNew.text?.isNotEmpty() == true && carbRatioNew.text?.isNotEmpty() == true) {
-                        InsulinForFoodFragmentDirections
-                            .actionInsulinForFoodFragmentToInsulinForHbsFragment(
-                                totalCarbs = totalCarbsNew.text.toString(),
-                                carbsRatio = carbRatioNew.text.toString(),
-                                id = 0
-                            ).also {
-                                findNavController().navigate(it)
-                            }
-                    }else{
-                        carbErrorText.apply {
-                            when {
-                                carbRatioNew.text?.isEmpty() == true -> {
-                                    visibility = View.VISIBLE
-                                    carbRatioText.setTextColor(Color.RED)
-                                    carbView.setBackgroundColor(Color.RED)
-                                }
-                                totalCarbsNew.text?.isEmpty() == true -> {
-                                    carbErrorText.text = "Please enter your blood sugar"
-                                    visibility = View.VISIBLE
-                                    totalCarbsText.setTextColor(Color.RED)
-                                    totalCarbsView.setBackgroundColor(Color.RED)
-                                }
-                                else -> visibility = View.GONE
-                            }
-                        }
+            }
+
+            totalCarbsNew.setOnFocusChangeListener { _, hasFocus ->
+
+                if (hasFocus) {
+                    totalCarbsNew.hint = HINT_EMPTY
+                    inputMethodManager.showSoftInput(totalCarbsNew, InputMethodManager.SHOW_IMPLICIT)
+                } else {
+                    if(totalCarbsNew.text.isNullOrEmpty())
+                    {
+                        totalCarbsNew.hint = HINT_DEFAULT_totalCarbsNew
                     }
                 }
-            }*/
+            }
+        }
+    }
+    private fun handleEmptyFields(bind: FragmentInsulinForFoodBinding){
+        val emptyFields = mutableListOf<String>()
 
+        if(bind.carbRatioNew.text?.isEmpty() == true){
+            emptyFields.add("carbRatioNew")
+            bind.carbRatioText.setTextColor(Color.RED)
+            bind.carbView.setBackgroundColor(Color.RED)
+        }else{
+            bind.carbRatioText.setTextColor(Color.parseColor("#565656"))
+            bind.carbView.setBackgroundColor(Color.parseColor("#F4EFF9"))
+        }
+        if (bind.totalCarbsNew.text?.isEmpty() == true) {
+            emptyFields.add("Blood sugar")
+            bind.totalCarbsText.setTextColor(Color.RED)
+            bind.totalCarbsView.setBackgroundColor(Color.RED)
+        } else {
+            bind.totalCarbsText.setTextColor(Color.parseColor("#565656"))
+            bind.totalCarbsView.setBackgroundColor(Color.parseColor("#F4EFF9"))
+        }
+        if (emptyFields.size > 1) {
+            bind.carbErrorText.text = "Please enter missing data."
+            bind. carbErrorText.visibility = View.VISIBLE
+        } else if (emptyFields.size == 1) {
+            bind.carbErrorText.text = "Please enter ${emptyFields[0]}."
+            bind.carbErrorText.visibility = View.VISIBLE
+        } else {
+            bind.carbErrorText.visibility = View.GONE
         }
 
+        bind.carbRatioNew.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun afterTextChanged(p0: Editable?) {
+                handleEmptyFields(bind)
+            }
+        })
 
+        bind.totalCarbsNew.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun afterTextChanged(p0: Editable?) {
+                handleEmptyFields(bind)
+            }
+        })
     }
 
 }
