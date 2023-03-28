@@ -66,7 +66,7 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
                 } else {
                     if(carbRatioNew.text.isNullOrEmpty())
                     {
-                        carbRatioNew.setHintTextColor(Color.GRAY)
+                        carbRatioNew.setHintTextColor(Color.parseColor("#e9e9e9"))
                     }
                 }
             }
@@ -79,7 +79,7 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
                 } else {
                     if(totalCarbsNew.text.isNullOrEmpty())
                     {
-                        totalCarbsNew.setHintTextColor(Color.GRAY)
+                        totalCarbsNew.setHintTextColor(Color.parseColor("#e9e9e9"))
                     }
                 }
             }

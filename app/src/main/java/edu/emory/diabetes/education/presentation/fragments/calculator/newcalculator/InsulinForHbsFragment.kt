@@ -73,7 +73,7 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                 } else {
                     if(bloodSugarNew.text.isNullOrEmpty())
                     {
-                        bloodSugarNew.setHintTextColor(Color.GRAY)
+                        bloodSugarNew.setHintTextColor(Color.parseColor("#e9e9e9"))
                     }
                 }
             }
@@ -85,7 +85,7 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                 } else {
                     if(targetBloodSugar.text.isNullOrEmpty())
                     {
-                        targetBloodSugar.setHintTextColor(Color.GRAY)
+                        targetBloodSugar.setHintTextColor(Color.parseColor("#e9e9e9"))
                     }
                 }
             }
