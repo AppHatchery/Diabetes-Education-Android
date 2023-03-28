@@ -59,6 +59,9 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                             totalCarbs = totalCarbs.toString(),
                             carbsRatio = carbRatio.toString()
                         ).also {
+                            correctionFactor.text?.clear()
+                            bloodSugarNew.text?.clear()
+                            targetBloodSugar.text?.clear()
                             findNavController().navigate(it)
                         }
                 } else {

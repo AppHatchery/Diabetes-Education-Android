@@ -109,6 +109,8 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
                                 bloodSugar = "0",
                                 targetBloodSugar = "0"
                             ).also {
+                                totalCarbsNew.text?.clear()
+                                carbRatioNew.text?.clear()
                                 findNavController().navigate(it)
                             }
                     } else {
@@ -118,6 +120,8 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
                                 carbRatioNew.text.toString(),
                                 sectionId
                             ).also {
+                                totalCarbsNew.text?.clear()
+                                carbRatioNew.text?.clear()
                                 findNavController().navigate(it)
                             }
                     }
@@ -141,6 +145,9 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
                 }
 
             }
+
+
+
            /* if(sectionId == 0) {
                 next.setOnClickListener {
                     if (totalCarbsNew.text?.isNotEmpty() == true && carbRatioNew.text?.isNotEmpty() == true) {
@@ -205,7 +212,10 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
                     }
                 }
             }*/
+
         }
+
+
     }
 
 }
