@@ -135,14 +135,33 @@ class QuizAdapter(
                 if (onSubmitStateClicked) onSubmitStateClicked = false
                 QuizUtils.answer.clear()
                 selectedIndexes.apply {
-                    if (contains(adapterPosition)) remove(adapterPosition)
-                    else if (size > maxAnswerSize.minus(1)) {
-                        if (maxAnswerSize > 1) onEvent.invoke(QuizAdapterEvent.MaximumLimit) else {
+                    if (contains(adapterPosition)) {
+                        if (wrongChoiceIndexes.size > 0) {
+                            wrongChoiceIndexes.clear()
+                            selectedIndexes.clear()
+                        }
+                        remove(adapterPosition)
+                    } else if (size > maxAnswerSize.minus(1)) {
+                        if (maxAnswerSize > 1) {
+                            onEvent.invoke(QuizAdapterEvent.MaximumLimit)
+                            if (wrongChoiceIndexes.size > 0) {
+                                selectedIndexes.clear()
+                                wrongChoiceIndexes.clear()
+                            }
+                        } else {
                             removeFirst()
+                            if (wrongChoiceIndexes.size > 0) {
+                                selectedIndexes.clear()
+                                wrongChoiceIndexes.clear()
+                            }
                             add(adapterPosition)
                         }
                     } else
                         add(adapterPosition)
+                    if (wrongChoiceIndexes.size > 0) {
+                        selectedIndexes.clear()
+                        wrongChoiceIndexes.clear()
+                    }
                 }.onEach {
                     QuizUtils.answer.add(QuizUtils.questions[0].choices[it].id)
                 }
