@@ -90,6 +90,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) ,Answ
                                 answerRecyclerView.apply {
                                     visibility = View.VISIBLE
                                     answerAdapter = AnswerAdapter().also {
+                                        
                                         it.submitList(answers)
                                     }
                                 }

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#E2E5DE"
+        tools:context=".presentation.fragments.aboutus.AboutUsTeamFragment">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="0dp"
+
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/about"
+                            style="@style/textTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="50dp"
+                            android:layout_marginEnd="20dp"
+                            android:fontFamily="@font/avenir_roman"
+                            android:text="About Apphatchery"
+                            android:textColor="#57585A"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            app:cardCornerRadius="6dp"
+                            app:layout_constraintTop_toBottomOf="@+id/about"
+                            tools:layout_editor_absoluteX="20dp">
+
+
+                            <ImageView
+                                android:id="@+id/img_apphatcherylink"
+                                android:layout_width="wrap_content"
+                                android:layout_height="102dp"
+                                android:layout_margin="0dp"
+                                android:padding="0dp"
+                                android:src="@drawable/about_us_apphatch" />
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:fontFamily="@font/avenir_roman"
+                            android:text="The AppHatchery is an interdisciplinary team of researchers, designers, and software software developers from Emory University, Georgia Tech, and the Global Health Informatics Institute(in Malawi) funded by the Georgia Clinical and Translational Science Alliance (Georgia CTSA). They work work on bring research ideas into the general public via mobile and web Apps."
+                            android:textColor="#57585A"
+                            android:textSize="17sp"
+                            app:fontFamily="@font/avenir_roman"
+                            app:layout_constraintTop_toBottomOf="@+id/cardView"
+                            tools:layout_editor_absoluteX="20dp" />
+
+                        <TextView
+                            android:id="@+id/aboutteam"
+                            style="@style/textTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:fontFamily="@font/avenir_roman"
+                            android:text="About the Team"
+                            android:textColor="#57585A"
+                            app:layout_constraintTop_toBottomOf="@+id/textView3"
+                            tools:layout_editor_absoluteX="1dp" />
+
+                        <TextView
+                            android:id="@+id/textViewff"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:fontFamily="@font/avenir_roman"
+                            android:text="The team that brought this together includes:printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
+                            android:textColor="#57585A"
+                            android:textSize="17sp"
+                            app:fontFamily="@font/avenir_roman"
+                            app:layout_constraintTop_toBottomOf="@+id/aboutteam"
+                            tools:layout_editor_absoluteX="20dp" />
+
+
+                        <TextView
+                            android:id="@+id/aboutteamcolab"
+                            style="@style/textTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:fontFamily="@font/avenir_roman"
+                            android:text="Collaborators"
+                            android:textColor="#57585A"
+                            app:layout_constraintTop_toBottomOf="@+id/textViewff"
+                            tools:layout_editor_absoluteX="20dp" />
+
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardView_childrens"
+                            android:layout_width="match_parent"
+                            android:layout_height="110dp"
+                            android:layout_margin="20dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintTop_toBottomOf="@+id/aboutteamcolab">
+                            <ImageView
+                                android:id="@+id/imageView__"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="20dp"
+                                android:padding="0dp"
+                                android:src="@drawable/about_us_emory" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardView_emory"
+                            android:layout_width="match_parent"
+                            android:layout_height="110dp"
+                            android:layout_margin="20dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginBottom="50dp"
+                            app:cardElevation="0dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/cardView_childrens">
+
+
+                            <ImageView
+                                android:id="@+id/img_childrens"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="20dp"
+                                android:padding="0dp"
+                                android:src="@drawable/about_us_childrens_health_of_atlanta"
+                                app:layout_constraintTop_toBottomOf="parent"
+                                tools:ignore="MissingConstraints" />
+                        </androidx.cardview.widget.CardView>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </LinearLayout>
+            </ScrollView>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

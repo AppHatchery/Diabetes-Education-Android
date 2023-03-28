@@ -656,5 +656,9 @@
             android:name="id"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutUsHomeFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.aboutus.AboutUsHomeFragment"
+        android:label="About" />
 
 </navigation>
