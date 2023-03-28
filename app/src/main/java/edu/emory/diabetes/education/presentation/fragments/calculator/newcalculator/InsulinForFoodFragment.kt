@@ -97,7 +97,7 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
             bind.carbView.setBackgroundColor(Color.parseColor("#F4EFF9"))
         }
         if (bind.totalCarbsNew.text?.isEmpty() == true) {
-            emptyFields.add("Blood sugar")
+            emptyFields.add("Total Carbs")
             bind.totalCarbsText.setTextColor(Color.RED)
             bind.totalCarbsView.setBackgroundColor(Color.RED)
         } else {
