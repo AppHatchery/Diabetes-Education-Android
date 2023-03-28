@@ -89,7 +89,7 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
         val emptyFields = mutableListOf<String>()
 
         if(bind.carbRatioNew.text?.isEmpty() == true){
-            emptyFields.add("carbRatioNew")
+            emptyFields.add("carb Ratio")
             bind.carbRatioText.setTextColor(Color.RED)
             bind.carbView.setBackgroundColor(Color.RED)
         }else{
