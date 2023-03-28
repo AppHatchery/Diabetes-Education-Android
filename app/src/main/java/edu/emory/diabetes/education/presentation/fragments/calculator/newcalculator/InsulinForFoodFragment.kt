@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
@@ -19,10 +20,6 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 
 class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
     private val args: InsulinForFoodFragmentArgs by navArgs()
-
-    private val HINT_EMPTY = ""
-    private val HINT_DEFAULT_carbRatioNew = "15"
-    private val HINT_DEFAULT_totalCarbsNew = "0"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentInsulinForFoodBinding.bind(view)){
@@ -64,13 +61,12 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
             carbRatioNew.setOnFocusChangeListener { _, hasFocus ->
 
                 if (hasFocus) {
-                    carbRatioNew.hint = HINT_EMPTY
-
+                    carbRatioNew.setHintTextColor(Color.TRANSPARENT)
                     inputMethodManager.showSoftInput(carbRatioNew, InputMethodManager.SHOW_IMPLICIT)
                 } else {
                     if(carbRatioNew.text.isNullOrEmpty())
                     {
-                        carbRatioNew.hint = HINT_DEFAULT_carbRatioNew
+                        carbRatioNew.setHintTextColor(Color.GRAY)
                     }
                 }
             }
@@ -78,12 +74,12 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
             totalCarbsNew.setOnFocusChangeListener { _, hasFocus ->
 
                 if (hasFocus) {
-                    totalCarbsNew.hint = HINT_EMPTY
+                    totalCarbsNew.setHintTextColor(Color.TRANSPARENT)
                     inputMethodManager.showSoftInput(totalCarbsNew, InputMethodManager.SHOW_IMPLICIT)
                 } else {
                     if(totalCarbsNew.text.isNullOrEmpty())
                     {
-                        totalCarbsNew.hint = HINT_DEFAULT_totalCarbsNew
+                        totalCarbsNew.setHintTextColor(Color.GRAY)
                     }
                 }
             }

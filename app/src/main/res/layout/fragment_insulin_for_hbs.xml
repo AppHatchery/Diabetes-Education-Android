@@ -80,6 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="64sp"
+                    android:textColorHint="@color/gray_100"
                     android:textColor="@color/green_900"
                     android:hint="160"
                     style="@style/editTextRightNewCalculatorStyle"/>
@@ -127,6 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="64sp"
+                    android:textColorHint="@color/gray_100"
                     android:textColor="@color/green_1000"
                     android:hint="100"
                     style="@style/editTextRightNewCalculatorStyle"/>
@@ -207,6 +209,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="48sp"
+                    android:textColorHint="@color/gray_100"
                     android:hint="2"
                     android:textColor="@color/green_1000"
                     android:layout_marginEnd="15dp"

@@ -21,10 +21,7 @@ import androidx.navigation.fragment.navArgs
 
 class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
     private val args: InsulinForHbsFragmentArgs by navArgs()
-    private val HINT_EMPTY = ""
-    private val HINT_DEFAULT_bloodSugarNew = "160"
-    private val HINT_DEFAULT_targetBloodSugar = "100"
-    private val HINT_DEFAULT_correctionFactor = "2"
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentInsulinForHbsBinding.bind(view)) {
             val totalCarbs = args.totalCarbs
@@ -71,24 +68,24 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
             val inputMethodManager = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             bloodSugarNew.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    bloodSugarNew.hint = HINT_EMPTY
+                    bloodSugarNew.setHintTextColor(Color.TRANSPARENT)
                     inputMethodManager.showSoftInput(bloodSugarNew, InputMethodManager.SHOW_IMPLICIT)
                 } else {
                     if(bloodSugarNew.text.isNullOrEmpty())
                     {
-                        bloodSugarNew.hint = HINT_DEFAULT_bloodSugarNew
+                        bloodSugarNew.setHintTextColor(Color.GRAY)
                     }
                 }
             }
 
             targetBloodSugar.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    targetBloodSugar.hint = HINT_EMPTY
+                    targetBloodSugar.setHintTextColor(Color.TRANSPARENT)
                     inputMethodManager.showSoftInput(targetBloodSugar, InputMethodManager.SHOW_IMPLICIT)
                 } else {
                     if(targetBloodSugar.text.isNullOrEmpty())
                     {
-                        targetBloodSugar.hint = HINT_DEFAULT_targetBloodSugar
+                        targetBloodSugar.setHintTextColor(Color.GRAY)
                     }
                 }
             }
@@ -96,12 +93,12 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
 
             correctionFactor.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    correctionFactor.hint = HINT_EMPTY
+                    correctionFactor.setHintTextColor(Color.TRANSPARENT)
                     inputMethodManager.showSoftInput(correctionFactor, InputMethodManager.SHOW_IMPLICIT)
                 } else {
                     if(correctionFactor.text.isNullOrEmpty())
                     {
-                        correctionFactor.hint = HINT_DEFAULT_correctionFactor
+                        correctionFactor.setHintTextColor(Color.GRAY)
                     }
                 }
             }
