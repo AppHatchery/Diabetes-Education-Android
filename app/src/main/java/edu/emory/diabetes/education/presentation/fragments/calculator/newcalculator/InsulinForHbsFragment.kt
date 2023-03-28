@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.calculator.newcalculator
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -9,6 +10,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
 import edu.emory.diabetes.education.R
@@ -54,10 +56,50 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                             totalCarbs = totalCarbs.toString(),
                             carbsRatio = carbRatio.toString()
                         ).also {
+                            correctionFactor.text?.clear()
+                            bloodSugarNew.text?.clear()
+                            targetBloodSugar.text?.clear()
                             findNavController().navigate(it)
                         }
                 } else {
                     handleEmptyFields(this)
+                }
+            }
+            val inputMethodManager = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            bloodSugarNew.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    bloodSugarNew.setHintTextColor(Color.TRANSPARENT)
+                    inputMethodManager.showSoftInput(bloodSugarNew, InputMethodManager.SHOW_IMPLICIT)
+                } else {
+                    if(bloodSugarNew.text.isNullOrEmpty())
+                    {
+                        bloodSugarNew.setHintTextColor(Color.parseColor("#e9e9e9"))
+                    }
+                }
+            }
+
+            targetBloodSugar.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    targetBloodSugar.setHintTextColor(Color.TRANSPARENT)
+                    inputMethodManager.showSoftInput(targetBloodSugar, InputMethodManager.SHOW_IMPLICIT)
+                } else {
+                    if(targetBloodSugar.text.isNullOrEmpty())
+                    {
+                        targetBloodSugar.setHintTextColor(Color.parseColor("#e9e9e9"))
+                    }
+                }
+            }
+
+
+            correctionFactor.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    correctionFactor.setHintTextColor(Color.TRANSPARENT)
+                    inputMethodManager.showSoftInput(correctionFactor, InputMethodManager.SHOW_IMPLICIT)
+                } else {
+                    if(correctionFactor.text.isNullOrEmpty())
+                    {
+                        correctionFactor.setHintTextColor(Color.GRAY)
+                    }
                 }
             }
         }
