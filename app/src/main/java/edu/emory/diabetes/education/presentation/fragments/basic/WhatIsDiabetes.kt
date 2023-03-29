@@ -1,6 +1,7 @@
 package edu.emory.diabetes.education.presentation.fragments.basic
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -39,8 +40,12 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterSearchAdapter
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterViewModel
 import edu.emory.diabetes.education.views.WebAppInterface
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
+import java.io.IOException
 
 
 class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabetes) {
@@ -86,7 +91,43 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                     override fun onPageFinished(view: WebView?, url: String?) {
                         binding.scrollIndicator.progress = 0
                         super.onPageFinished(view, url)
+
                         view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
+
+                        val html = readHtmlFromAssets(requireContext(), "pages/index.html")
+                        val doc = Jsoup.parse(html);
+                        val paragraphs = doc.select("p,li");
+                        val array = mutableListOf<String>()
+                        val img = doc.getElementsByTag("img");
+                        img.forEach { element ->
+                            //Log.e("IMG TAGS", element.attr("alt"))
+                        }
+                        paragraphs.forEach { it ->
+                            //Log.e("Occurences","${countOccurrences(it.text(),'.')}  ELEMENT ${it.tagName()}   ${it.text()}")
+                            if (countOccurrences(it.text(), '.') > 1) {
+                                val block = it.text().split(".")
+                                block.forEach { item ->
+                                    if (item.isNotEmpty()) array.add(item)
+                                }
+                            } else {
+                                array.add(it.text())
+                            }
+
+                        }
+                        val newArray = mutableListOf<String>()
+                        array.forEach {
+                            newArray.add(fixString(it))
+                            //Log.e("Elements", it)9
+                        }
+                        newArray.forEach {
+                            //Log.e("Elements2", it)
+                        }
+
+                        val finalString= newArray.joinToString("_")
+                        Log.e("javascript:window.INTERFACE",finalString)
+                        view?.loadUrl("javascript:window.INTERFACE.processContentNew('${finalString}');")
+
+
                     }
 
                     override fun shouldOverrideUrlLoading(
@@ -178,6 +219,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         fun searchAdapter(){
             recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
                 viewModel.searchResult.onEach {
+                    Log.e("Search adpater","$it")
                     searchResult?.visibility = View.GONE
                     adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
                         recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
@@ -202,6 +244,39 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
                 }
             }
+    }
+    fun readHtmlFromAssets(context: Context, fileName: String): String {
+        return context.assets.open(fileName).bufferedReader().use {
+            it.readText()
+        }
+    }
+
+
+    //Utitlity functions
+    fun countOccurrences(s: String, ch: Char): Int {
+        return s.filter { it == ch }.count()
+    }
+
+    private fun fixString(string: String): String {
+        return if (string.first() == ' ') {
+            Log.e("FOUND", "FOUND SPACE")
+            string.replaceRange(0, 1, "")
+        } else {
+            string
+        }
+    }
+
+    fun getHtmlFromAsset(fileName: String, context: Context): String {
+        val assetManager = context.assets
+        var html = ""
+        try {
+            val inputStream = assetManager.open(fileName)
+            html = inputStream.bufferedReader().use { it.readText() }
+            Log.e("getHtmlFromAsset", "$html some")
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return html
     }
 
 }
