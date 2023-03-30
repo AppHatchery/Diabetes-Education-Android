@@ -109,6 +109,7 @@
             android:id="@+id/resultInfoTextView"
             android:layout_width="311dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="36dp"
             android:layout_marginEnd="21dp"
             android:text="tetxtview"

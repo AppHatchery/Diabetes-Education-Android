@@ -96,6 +96,7 @@ class QuizAdapter(
 
         init {
             bind.root.setOnClickListener {
+                onEvent.invoke(QuizAdapterEvent.ItemClicked)
                 if (onSubmitStateClicked) onSubmitStateClicked = false
                 QuizUtils.answer.clear()
                 selectedIndexes.apply {
@@ -249,4 +250,9 @@ class QuizAdapter(
     /*fun arrayToString(answers:List<String>){
     }*/
     data class AnswerData(val choice: String, val choiceIndex: Int)
+
+
+    interface OnItemClickListener {
+        fun onItemClick(p: Int)
+    }
 }

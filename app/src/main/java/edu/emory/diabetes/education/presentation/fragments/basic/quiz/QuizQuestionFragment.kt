@@ -1,8 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.basic.quiz
 
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -10,12 +8,10 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.withStateAtLeast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentQuizQuestionBinding
-import edu.emory.diabetes.education.databinding.FragmentQuizQuestionItemBinding
 import edu.emory.diabetes.education.domain.model.Choice
 import edu.emory.diabetes.education.domain.model.Question
 import edu.emory.diabetes.education.presentation.AnswerAdapter
@@ -28,7 +24,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) ,Answ
     private val args: QuizQuestionFragmentArgs by navArgs()
     lateinit var choices:List<Choice>
     private lateinit var questionItem:Question
-    private lateinit var viewLayout: View
+    private var quizFinished: Boolean =false
     private lateinit var selectedChoices: AppCompatTextView
     private lateinit var root:FragmentQuizQuestionBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,12 +44,26 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) ,Answ
             viewModel.selectQuestions(args.quizId).onEach { questionEntity ->
                 adapter = QuizAdapter {
                     when (it) {
-                        QuizAdapterEvent.MaximumLimit ->
+                        QuizAdapterEvent.MaximumLimit ->{
                             Toast.makeText(
                                 requireContext(),
                                 "Maximum number of entries reached",
                                 Toast.LENGTH_SHORT
                             ).show()
+                        }
+                        QuizAdapterEvent.ItemClicked -> {
+                            if (quizFinished){
+                                Toast.makeText(requireContext(),"Item Clicked $quizFinished",Toast.LENGTH_SHORT).show()
+
+                                this.resultInfoTextView.apply {
+                                    //showView(this)
+                                }
+                            }
+                            //quizFinished=false
+
+
+
+                        }
                     }
                 }.also { adapter ->
                     with(questionEntity.first()) {
@@ -87,8 +97,13 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) ,Answ
                                         )
                                     )
                                 }
+                                resultInfoTextView.apply {
+                                    visibility =View.VISIBLE
+                                    text = answers.joinToString(separator = ", ")
+                                }
+
                                 answerRecyclerView.apply {
-                                    visibility = View.VISIBLE
+                                    //visibility = View.VISIBLE
                                     answerAdapter = AnswerAdapter().also {
                                         
                                         it.submitList(answers)
@@ -143,6 +158,8 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) ,Answ
         when(resultInfo){
             AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_ALL_CORRECT-> {
                 this@QuizQuestionFragment.root.apply {
+                    quizFinished =true
+                    hideView(answerRecyclerView)
 
                 }
             }
@@ -194,5 +211,13 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question) ,Answ
     }
     private fun showView(view:View){
         if (view.visibility == View.GONE) view.visibility= View.VISIBLE
+    }
+    private fun resetText(view:AppCompatTextView){
+        view.text =""
+    }
+
+
+    private fun refreshQuiz(finished:Boolean){
+        if (finished) this.quizFinished =false
     }
 }
