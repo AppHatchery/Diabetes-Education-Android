@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.search
 
+import android.text.BoringLayout
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +34,7 @@ class ChapterViewModel @Inject constructor(
 
         return flow {
             val result = WebAppInterface.webData2.split( "?", ":","_")
-                .filter { it.contains(searchQuery) }
+                .filter { it.contains(searchQuery,ignoreCase = true) }
             emit(result)
         }
     }

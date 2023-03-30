@@ -91,43 +91,27 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                     override fun onPageFinished(view: WebView?, url: String?) {
                         binding.scrollIndicator.progress = 0
                         super.onPageFinished(view, url)
-
+                        val filepath ="pages/${args.lesson.pageUrl}.html"
                         view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
-
-                        val html = readHtmlFromAssets(requireContext(), "pages/index.html")
+                        val html = readHtmlFromAssets(requireContext(), filepath)
                         val doc = Jsoup.parse(html);
-                        val paragraphs = doc.select("p,li");
+                        val paragraphs = doc.select("p,li")
                         val array = mutableListOf<String>()
-                        val img = doc.getElementsByTag("img");
-                        img.forEach { element ->
-                            //Log.e("IMG TAGS", element.attr("alt"))
-                        }
+                        val img = doc.select("img").first()
+
+                   //Consider the images
+
                         paragraphs.forEach { it ->
-                            //Log.e("Occurences","${countOccurrences(it.text(),'.')}  ELEMENT ${it.tagName()}   ${it.text()}")
                             if (countOccurrences(it.text(), '.') > 1) {
                                 val block = it.text().split(".")
-                                block.forEach { item ->
-                                    if (item.isNotEmpty()) array.add(item)
-                                }
-                            } else {
-                                array.add(it.text())
-                            }
-
+                                block.forEach { item -> if (item.isNotEmpty()) array.add(item) }
+                            } else { array.add(it.text()) }
                         }
                         val newArray = mutableListOf<String>()
-                        array.forEach {
-                            newArray.add(fixString(it))
-                            //Log.e("Elements", it)9
-                        }
-                        newArray.forEach {
-                            //Log.e("Elements2", it)
-                        }
+                        array.forEach { newArray.add(fixString(it))}
 
                         val finalString= newArray.joinToString("_")
-                        Log.e("javascript:window.INTERFACE",finalString)
                         view?.loadUrl("javascript:window.INTERFACE.processContentNew('${finalString}');")
-
-
                     }
 
                     override fun shouldOverrideUrlLoading(
