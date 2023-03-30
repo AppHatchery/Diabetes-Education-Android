@@ -1,8 +1,8 @@
 package edu.emory.diabetes.education.presentation.fragments.calculator.newcalculator
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,11 +17,11 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.text.DecimalFormat
 
-class TotalInsulinFragment: BaseFragment(R.layout.fragment_total_insulin) {
+class TotalInsulinFragment : BaseFragment(R.layout.fragment_total_insulin) {
     private val viewModel: CalculatorViewModel by viewModels()
     private val args: TotalInsulinFragmentArgs by navArgs()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with(FragmentTotalInsulinBinding.bind(view)){
+        with(FragmentTotalInsulinBinding.bind(view)) {
             //insulin for food and high blood sugar adapter
             bottomAdapter = TotalInsulinAdapter().also { adapter ->
                 viewModel.getInsulinData.onEach {
@@ -29,7 +29,7 @@ class TotalInsulinFragment: BaseFragment(R.layout.fragment_total_insulin) {
                 }.launchIn(lifecycleScope)
             }
             //total insulin adapter
-            topAdapter = TotalInsulinAdapter().also  { adapter ->
+            topAdapter = TotalInsulinAdapter().also { adapter ->
                 viewModel.getInsulinData.onEach {
                     adapter.submitList(it.subList(2, 3))
                 }.launchIn(lifecycleScope)
@@ -47,20 +47,20 @@ class TotalInsulinFragment: BaseFragment(R.layout.fragment_total_insulin) {
             var totalInsulin: Float = 0.0F
 
             //insulin for food calculation
-            if (carbRatio.toString().toFloat() != 0.0F){
+            if (carbRatio.toString().toFloat() != 0.0F && totalCarbs.toString().toFloat() != 0.0F) {
                 insulinFood = totalCarbs.toString().toFloat().div(carbRatio.toString().toFloat())
                 val insulinCalculator = CalculatorUtils.data[0].copy(
                     answer = DecimalFormat("#.#").format(insulinFood)
                 )
                 viewModel.onEvent(CalculatorEvent.CalculateInsulinForFood(insulinCalculator.toInsulinCalculator()))
-            }else{
+            } else {
                 insulinFood = 0.0F
                 val insulinFoodtest = CalculatorUtils.data[0].copy(answer = "--")
                 viewModel.onEvent(CalculatorEvent.CalculateInsulinForBloodSugar(insulinFoodtest.toInsulinCalculator()))
             }
 
             //insulin for high blood sugar calculation
-            if (correctionFactor.toString().toFloat() != 0.0F){
+            if (correctionFactor.toString().toFloat() != 0.0F) {
                 insulinHbs = (
                         bloodSugar.toString().toFloat() - targetBloodSugar.toString().toFloat())
                     .div(correctionFactor.toString().toFloat())
@@ -80,23 +80,26 @@ class TotalInsulinFragment: BaseFragment(R.layout.fragment_total_insulin) {
                 viewModel.onEvent(CalculatorEvent.CalculateInsulinForBloodSugar(insulinHbsTest.toInsulinCalculator()))
             }
 
+
+
+
             //total insulin calculation
             totalInsulin = insulinFood + insulinHbs
-            val  totalInsulinCalculator = CalculatorUtils.data[2].copy(
+            val totalInsulinCalculator = CalculatorUtils.data[2].copy(
                 answer = DecimalFormat("#.#").format(totalInsulin)
             )
             viewModel.onEvent(CalculatorEvent.CalculateTotalInsulin(totalInsulinCalculator.toInsulinCalculator()))
 
-
             newCalculator.setOnClickListener {
                 TotalInsulinFragmentDirections
-                    .actionTotalInsulinFragmentToInsulinCalculatorFragment().also {
-                        findNavController().navigate(it)
-                    }
+                findNavController().popBackStack(R.id.insulinCalculatorFragment, false)
             }
-
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        view?.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_left))
+    }
 
 }

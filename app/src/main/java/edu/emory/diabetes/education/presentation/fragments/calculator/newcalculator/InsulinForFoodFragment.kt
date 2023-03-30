@@ -30,8 +30,8 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
                     if (sectionId == 0) {
                         InsulinForFoodFragmentDirections
                             .actionInsulinForFoodFragmentToTotalInsulinFragment(
-                                totalCarbsNew.text.toString(),
-                                carbRatioNew.text.toString(),
+                                totalCarbs = totalCarbsNew.text.toString(),
+                                carbsRatio = carbRatioNew.text.toString(),
                                 correctionFactor = "0",
                                 bloodSugar = "0",
                                 targetBloodSugar = "0"
@@ -43,9 +43,9 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
                     } else {
                         InsulinForFoodFragmentDirections
                             .actionInsulinForFoodFragmentToInsulinForHbsFragment(
-                                totalCarbsNew.text.toString(),
-                                carbRatioNew.text.toString(),
-                                sectionId
+                                totalCarbs = totalCarbsNew.text.toString(),
+                                carbsRatio = carbRatioNew.text.toString(),
+                                id = sectionId
                             ).also {
                                 totalCarbsNew.text?.clear()
                                 carbRatioNew.text?.clear()
