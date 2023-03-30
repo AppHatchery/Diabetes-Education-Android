@@ -6,14 +6,11 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.view.inputmethod.EditorInfo
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
-import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
@@ -22,11 +19,9 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
@@ -40,11 +35,10 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterSearchAdapter
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterViewModel
 import edu.emory.diabetes.education.views.WebAppInterface
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
+import org.jsoup.select.Elements
 import java.io.IOException
 
 
@@ -91,26 +85,32 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                     override fun onPageFinished(view: WebView?, url: String?) {
                         binding.scrollIndicator.progress = 0
                         super.onPageFinished(view, url)
-                        val filepath ="pages/${args.lesson.pageUrl}.html"
+                        val filepath = "pages/${args.lesson.pageUrl}.html"
                         view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
                         val html = readHtmlFromAssets(requireContext(), filepath)
                         val doc = Jsoup.parse(html);
                         val paragraphs = doc.select("p,li")
                         val array = mutableListOf<String>()
-                        val img = doc.select("img").first()
+                        val altText = doc.select("img")
+                        altText.forEach {
+                            it.attr("alt")
 
-                   //Consider the images
+                        }
+                        //altText?.let { Log.e("image tag", it) }
+                        //Consider the images
 
                         paragraphs.forEach { it ->
                             if (countOccurrences(it.text(), '.') > 1) {
                                 val block = it.text().split(".")
                                 block.forEach { item -> if (item.isNotEmpty()) array.add(item) }
-                            } else { array.add(it.text()) }
+                            } else {
+                                array.add(it.text())
+                            }
                         }
                         val newArray = mutableListOf<String>()
-                        array.forEach { newArray.add(fixString(it))}
+                        array.forEach { newArray.add(fixString(it)) }
 
-                        val finalString= newArray.joinToString("_")
+                        val finalString = mergeElementArrays(altText,newArray).joinToString("_")
                         view?.loadUrl("javascript:window.INTERFACE.processContentNew('${finalString}');")
                     }
 
@@ -248,6 +248,13 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         } else {
             string
         }
+    }
+    fun mergeElementArrays(imageElement: Elements,stringList: List<String>):List<String>{
+        val imageStrings= mutableListOf<String>()
+        if (imageElement.isNotEmpty()){
+                imageElement.forEach { imageStrings.add(it.attr("alt")) }
+        }
+        return imageStrings+stringList
     }
 
     fun getHtmlFromAsset(fileName: String, context: Context): String {
