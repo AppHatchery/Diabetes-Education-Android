@@ -1,6 +1,7 @@
 package edu.emory.diabetes.education.presentation.fragments.basic
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -41,6 +42,9 @@ import edu.emory.diabetes.education.presentation.fragments.search.ChapterViewMod
 import edu.emory.diabetes.education.views.WebAppInterface
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.jsoup.Jsoup
+import org.jsoup.select.Elements
+import java.io.IOException
 
 
 class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabetes) {
@@ -86,7 +90,35 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                     override fun onPageFinished(view: WebView?, url: String?) {
                         binding.scrollIndicator.progress = 0
                         super.onPageFinished(view, url)
-                        view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
+                        //view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
+                        val filepath = "pages/${args.lesson.pageUrl}.html"
+                        val html = readHtmlFromAssets(requireContext(), filepath)
+                        val doc = Jsoup.parse(html);
+                        val paragraphs = doc.select("p,li,img");
+                        val array = mutableListOf<String>()
+                        val img = doc.getElementsByTag("img");
+
+
+                        paragraphs.forEach{element->
+                            if (element.tagName().equals("img")){
+                                array.add(element.attr("alt"))
+                            }else{
+                                if (countOccurrences(element.text(), '.') > 1) {
+                                    val block = element.text().split(".")
+                                    block.forEach { item ->
+                                        if (item.isNotEmpty()) array.add(item)
+                                    }
+                                } else {
+                                    array.add(element.text())
+                                }
+                            }
+                            //Log.e("Element "," ${element.tagName()}")
+                        }
+
+                        val newArray = mutableListOf<String>()
+                        array.forEach { newArray.add(fixString(it)) }
+                        val finalString = newArray.joinToString("_")
+                        view?.loadUrl("javascript:window.INTERFACE.parseHtml('${finalString}');")
                     }
 
                     override fun shouldOverrideUrlLoading(
@@ -202,6 +234,45 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
                 }
             }
+    }
+
+    //Utility functions
+
+    fun readHtmlFromAssets(context: Context, fileName: String): String {
+        return context.assets.open(fileName).bufferedReader().use {
+            it.readText()
+        }
+    }
+    fun countOccurrences(s: String, ch: Char): Int {
+        return s.filter { it == ch }.count()
+    }
+
+    private fun fixString(string: String): String {
+        return if (string.first() == ' ') {
+            Log.e("FOUND", "FOUND SPACE")
+            string.replaceRange(0, 1, "")
+        } else {
+            string
+        }
+    }
+    fun mergeElementArrays(imageElement: Elements, stringList: List<String>):List<String>{
+        val imageStrings= mutableListOf<String>()
+        if (imageElement.isNotEmpty()){
+            imageElement.forEach { imageStrings.add(it.attr("alt")) }
+        }
+        return imageStrings+stringList
+    }
+    fun getHtmlFromAsset(fileName: String, context: Context): String {
+        val assetManager = context.assets
+        var html = ""
+        try {
+            val inputStream = assetManager.open(fileName)
+            html = inputStream.bufferedReader().use { it.readText() }
+            //Log.e("getHtmlFromAsset", "$html some")
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return html
     }
 
 }
