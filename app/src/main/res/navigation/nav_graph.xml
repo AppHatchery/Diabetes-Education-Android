@@ -614,6 +614,9 @@
             android:name="correctionFactor"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
         <action
             android:id="@+id/action_totalInsulinFragment_to_insulinCalculatorFragment"
             app:destination="@id/insulinCalculatorFragment"

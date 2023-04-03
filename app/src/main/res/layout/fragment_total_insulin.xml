@@ -5,13 +5,6 @@
 
     <data>
 
-        <variable
-            name="TopAdapter"
-            type="edu.emory.diabetes.education.presentation.fragments.calculator.newcalculator.TotalInsulinAdapter" />
-
-        <variable
-            name="BottomAdapter"
-            type="edu.emory.diabetes.education.presentation.fragments.calculator.newcalculator.TotalInsulinAdapter" />
 
     </data>
 
@@ -30,30 +23,152 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
 
-        <androidx.recyclerview.widget.RecyclerView
+        <androidx.cardview.widget.CardView
             android:id="@+id/insulin_total"
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:adapter="@{TopAdapter}"
+            android:layout_margin="12dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/total_insulin_image"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="1"
-            tools:itemCount="1"
-            tools:listitem="@layout/fragment_total_insulin_item"/>
+            app:layout_constraintTop_toBottomOf="@+id/total_insulin_image">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_bottom"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/total_insulin_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#8A8A8A"
+                    android:text="Insulin for food"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/total_insulin_answer"
+                    style="@style/textTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/green_900"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/total_insulin_title"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintTop_toBottomOf="@+id/total_insulin_title"
+                    app:layout_constraintVertical_bias="1.0"
+                    android:text="--"
+                    android:textSize="25sp"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linear_totalInsulin"
             android:layout_width="match_parent"
-            android:layout_height="153dp"
-            android:adapter="@{BottomAdapter}"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/insulin_total"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:itemCount="2"
-            tools:listitem="@layout/fragment_total_insulin_item"/>
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="20dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:padding="5dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/insulin_food_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="#8A8A8A"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="Insulin for food" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/insulin_food_answer"
+                        style="@style/textTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:textColor="@color/green_900"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/insulin_food_title"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/insulin_food_title"
+                        app:layout_constraintVertical_bias="1.0"
+                        android:text="--"
+                        android:textSize="25sp"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="20dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:padding="5dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/insulin_hbs_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="#8A8A8A"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="Insulin for high blood sugar" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/insulin_hbs_answer"
+                        style="@style/textTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:textColor="@color/green_900"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/insulin_hbs_title"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/insulin_hbs_title"
+                        app:layout_constraintVertical_bias="1.0"
+                        android:text="--"
+                        android:textSize="25sp"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
 
         <androidx.appcompat.widget.AppCompatButton
@@ -72,7 +187,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_view_bottom"
+            app:layout_constraintTop_toBottomOf="@+id/linear_totalInsulin"
             app:layout_constraintVertical_bias="0.238" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isGone
 import androidx.core.widget.addTextChangedListener
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentInsulinForHbsBinding
@@ -24,6 +26,42 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentInsulinForHbsBinding.bind(view)) {
+
+            val context = root.context
+            val marginBottom = dpToPx(context, 16)
+
+            mainConstraint.viewTreeObserver.addOnGlobalLayoutListener {
+                val heightDiff = mainConstraint.rootView.height - mainConstraint.height
+                if (heightDiff > dpToPx(context, 200)) { // adjust the value to your needs
+                    // keyboard is open, scroll to the end of the view
+                    // replace with your scroll view id
+                    scrollView.postDelayed({
+                        scrollView.fullScroll(View.FOCUS_DOWN)
+                    }, 200) // adjust the delay time to your needs
+                }
+            }
+
+            /*scrollView.viewTreeObserver?.addOnGlobalLayoutListener {
+                val rect = Rect()
+                scrollView.getWindowVisibleDisplayFrame(rect)
+                val screenHeight = scrollView.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+                if (keypadHeight > screenHeight * 0.15) {
+                    scrollView.scrollBy(0, keypadHeight - (screenHeight * 0.15).toInt())
+                } else {
+                    scrollView.scrollBy(0, 0)
+                }
+            }*/
+            val bottomBar = activity?.findViewById<View>(R.id.bottomNavigationView)
+
+            activity?.window?.decorView?.setOnApplyWindowInsetsListener { view, insets ->
+                val insetsCompat = WindowInsetsCompat.toWindowInsetsCompat(insets, view)
+                if (bottomBar != null) {
+                    bottomBar.isGone = insetsCompat.isVisible(WindowInsetsCompat.Type.ime())
+                }
+                view.onApplyWindowInsets(insets)
+            }
+
             val totalCarbs = args.totalCarbs
             val carbRatio = args.carbsRatio
             val id = args.id
@@ -54,7 +92,8 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                             bloodSugar = bloodSugarNew.text.toString(),
                             targetBloodSugar = targetBloodSugar.text.toString(),
                             totalCarbs = totalCarbs.toString(),
-                            carbsRatio = carbRatio.toString()
+                            carbsRatio = carbRatio.toString(),
+                            id = 1
                         ).also {
                             correctionFactor.text?.clear()
                             bloodSugarNew.text?.clear()
@@ -103,6 +142,11 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                 }
             }
         }
+    }
+
+    private fun dpToPx(context: Context, dp: Int): Int {
+        val density = context.resources.displayMetrics.density
+        return (dp * density + 0.5f).toInt()
     }
 
     private fun handleEmptyFields(bind: FragmentInsulinForHbsBinding) {
