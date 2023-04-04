@@ -2,28 +2,91 @@ package edu.emory.diabetes.education.presentation.fragments.calculator.newcalcul
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.Gravity
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.view.View.OnTouchListener
-import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.ScrollView
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.view.WindowInsetsCompat.Type.ime
+import androidx.core.view.WindowInsetsCompat.toWindowInsetsCompat
+import androidx.core.view.isGone
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.internal.ViewUtils.dpToPx
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentInsulinForFoodBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
 
-class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
+class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) {
     private val args: InsulinForFoodFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with(FragmentInsulinForFoodBinding.bind(view)){
+        with(FragmentInsulinForFoodBinding.bind(view)) {
             val sectionId = args.id
+            val context = root.context
+            val marginBottom = dpToPx(context, 16)
+
+            /*scrollView.viewTreeObserver?.addOnGlobalLayoutListener {
+                val rect = Rect()
+                scrollView.getWindowVisibleDisplayFrame(rect)
+                val screenHeight = scrollView.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+                if (keypadHeight > screenHeight * 0.15) {
+                    scrollView.fullScroll(View.FOCUS_DOWN)
+                } else {
+                    scrollView.scrollBy(0, 0)
+                }
+            }*/
+
+            val editTextList = mutableListOf<EditText>()
+            editTextList.add(totalCarbsNew)
+            editTextList.add(carbRatioNew)
+
+            for (editText in editTextList) {
+                editText.setOnFocusChangeListener { _, hasFocus ->
+                    if (hasFocus) {
+                        scrollView.smoothScrollTo(0, editText.bottom)
+                       /* scrollView.postDelayed({
+                            scrollView.smoothScrollTo(0, editText.bottom)
+                        }, 0)*/
+                    }
+                }
+            }
+
+            val listener = ViewTreeObserver.OnGlobalLayoutListener {
+                val r = Rect()
+                scrollView.getWindowVisibleDisplayFrame(r)
+                val screenHeight = scrollView.rootView.height
+                val keypadHeight = screenHeight - r.bottom
+                if (keypadHeight > screenHeight * 0.15) {
+                    val currentFocus = activity?.currentFocus
+                    if (currentFocus is EditText) {
+                        scrollView.smoothScrollTo(0, scrollView.bottom)
+                        /*scrollView.postDelayed({
+                            scrollView.smoothScrollTo(0, scrollView.bottom)
+                        }, 200)*/
+                    }
+                }
+            }
+            scrollView.viewTreeObserver.addOnGlobalLayoutListener(listener)
+
+
+            val bottomBar = activity?.findViewById<View>(R.id.bottomNavigationView)
+
+            activity?.window?.decorView?.setOnApplyWindowInsetsListener { view, insets ->
+                val insetsCompat = toWindowInsetsCompat(insets, view)
+                if (bottomBar != null) {
+                    bottomBar.isGone = insetsCompat.isVisible(ime())
+                }
+                view.onApplyWindowInsets(insets)
+            }
 
             next.setOnClickListener {
                 if (totalCarbsNew.text?.isNotEmpty() == true && carbRatioNew.text?.isNotEmpty() == true) {
@@ -34,7 +97,8 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
                                 carbsRatio = carbRatioNew.text.toString(),
                                 correctionFactor = "0",
                                 bloodSugar = "0",
-                                targetBloodSugar = "0"
+                                targetBloodSugar = "0",
+                                id = sectionId
                             ).also {
                                 totalCarbsNew.text?.clear()
                                 carbRatioNew.text?.clear()
@@ -57,15 +121,15 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
                 }
 
             }
-            val inputMethodManager = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val inputMethodManager =
+                view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             carbRatioNew.setOnFocusChangeListener { _, hasFocus ->
 
                 if (hasFocus) {
                     carbRatioNew.setHintTextColor(Color.TRANSPARENT)
                     inputMethodManager.showSoftInput(carbRatioNew, InputMethodManager.SHOW_IMPLICIT)
                 } else {
-                    if(carbRatioNew.text.isNullOrEmpty())
-                    {
+                    if (carbRatioNew.text.isNullOrEmpty()) {
                         carbRatioNew.setHintTextColor(Color.parseColor("#e9e9e9"))
                     }
                 }
@@ -75,24 +139,32 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
 
                 if (hasFocus) {
                     totalCarbsNew.setHintTextColor(Color.TRANSPARENT)
-                    inputMethodManager.showSoftInput(totalCarbsNew, InputMethodManager.SHOW_IMPLICIT)
+                    inputMethodManager.showSoftInput(
+                        totalCarbsNew,
+                        InputMethodManager.SHOW_IMPLICIT
+                    )
                 } else {
-                    if(totalCarbsNew.text.isNullOrEmpty())
-                    {
+                    if (totalCarbsNew.text.isNullOrEmpty()) {
                         totalCarbsNew.setHintTextColor(Color.parseColor("#e9e9e9"))
                     }
                 }
             }
         }
     }
-    private fun handleEmptyFields(bind: FragmentInsulinForFoodBinding){
+
+    private fun dpToPx(context: Context, dp: Int): Int {
+        val density = context.resources.displayMetrics.density
+        return (dp * density + 0.5f).toInt()
+    }
+
+    private fun handleEmptyFields(bind: FragmentInsulinForFoodBinding) {
         val emptyFields = mutableListOf<String>()
 
-        if(bind.carbRatioNew.text?.isEmpty() == true){
+        if (bind.carbRatioNew.text?.isEmpty() == true) {
             emptyFields.add("carb Ratio")
             bind.carbRatioText.setTextColor(Color.RED)
             bind.carbView.setBackgroundColor(Color.RED)
-        }else{
+        } else {
             bind.carbRatioText.setTextColor(Color.parseColor("#565656"))
             bind.carbView.setBackgroundColor(Color.parseColor("#F4EFF9"))
         }
@@ -106,7 +178,7 @@ class InsulinForFoodFragment: BaseFragment(R.layout.fragment_insulin_for_food) {
         }
         if (emptyFields.size > 1) {
             bind.carbErrorText.text = "Please enter missing data."
-            bind. carbErrorText.visibility = View.VISIBLE
+            bind.carbErrorText.visibility = View.VISIBLE
         } else if (emptyFields.size == 1) {
             bind.carbErrorText.text = "Please enter ${emptyFields[0]}."
             bind.carbErrorText.visibility = View.VISIBLE
