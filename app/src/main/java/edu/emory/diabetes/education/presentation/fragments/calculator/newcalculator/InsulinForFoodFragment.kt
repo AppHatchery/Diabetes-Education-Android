@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.view.*
 import android.view.View.OnTouchListener
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ScrollView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getSystemService
@@ -32,28 +33,51 @@ class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) 
             val context = root.context
             val marginBottom = dpToPx(context, 16)
 
-            mainConstraint.viewTreeObserver.addOnGlobalLayoutListener {
-                val heightDiff = mainConstraint.rootView.height - mainConstraint.height
-                if (heightDiff > dpToPx(context, 200)) { // adjust the value to your needs
-                    // keyboard is open, scroll to the end of the view
-                    // replace with your scroll view id
-                    scrollView.postDelayed({
-                        scrollView.fullScroll(View.FOCUS_DOWN)
-                    }, 200) // adjust the delay time to your needs
-                }
-            }
-
             /*scrollView.viewTreeObserver?.addOnGlobalLayoutListener {
                 val rect = Rect()
                 scrollView.getWindowVisibleDisplayFrame(rect)
                 val screenHeight = scrollView.rootView.height
                 val keypadHeight = screenHeight - rect.bottom
                 if (keypadHeight > screenHeight * 0.15) {
-                    scrollView.scrollBy(0, keypadHeight - (screenHeight * 0.15).toInt())
+                    scrollView.fullScroll(View.FOCUS_DOWN)
                 } else {
                     scrollView.scrollBy(0, 0)
                 }
             }*/
+
+            val editTextList = mutableListOf<EditText>()
+            editTextList.add(totalCarbsNew)
+            editTextList.add(carbRatioNew)
+
+            for (editText in editTextList) {
+                editText.setOnFocusChangeListener { _, hasFocus ->
+                    if (hasFocus) {
+                        scrollView.smoothScrollTo(0, editText.bottom)
+                       /* scrollView.postDelayed({
+                            scrollView.smoothScrollTo(0, editText.bottom)
+                        }, 0)*/
+                    }
+                }
+            }
+
+            val listener = ViewTreeObserver.OnGlobalLayoutListener {
+                val r = Rect()
+                scrollView.getWindowVisibleDisplayFrame(r)
+                val screenHeight = scrollView.rootView.height
+                val keypadHeight = screenHeight - r.bottom
+                if (keypadHeight > screenHeight * 0.15) {
+                    val currentFocus = activity?.currentFocus
+                    if (currentFocus is EditText) {
+                        scrollView.smoothScrollTo(0, scrollView.bottom)
+                        /*scrollView.postDelayed({
+                            scrollView.smoothScrollTo(0, scrollView.bottom)
+                        }, 200)*/
+                    }
+                }
+            }
+            scrollView.viewTreeObserver.addOnGlobalLayoutListener(listener)
+
+
             val bottomBar = activity?.findViewById<View>(R.id.bottomNavigationView)
 
             activity?.window?.decorView?.setOnApplyWindowInsetsListener { view, insets ->
@@ -63,15 +87,6 @@ class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) 
                 }
                 view.onApplyWindowInsets(insets)
             }
-
-            /*activity?.window?.setFlags(
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-            )*/
-
-
-
-
 
             next.setOnClickListener {
                 if (totalCarbsNew.text?.isNotEmpty() == true && carbRatioNew.text?.isNotEmpty() == true) {
@@ -187,15 +202,5 @@ class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) 
             }
         })
     }
-
-    /*@RequiresApi(Build.VERSION_CODES.R)
-    override fun onResume() {
-        super.onResume()
-        val decorView = requireActivity().window.decorView
-        decorView.windowInsetsController?.let { controller ->
-            controller.hide(WindowInsets.Type.navigationBars() or WindowInsets.Type.statusBars())
-            controller.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        }
-    }*/
 
 }

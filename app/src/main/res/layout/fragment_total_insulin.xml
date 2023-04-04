@@ -8,6 +8,12 @@
 
     </data>
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cine_100">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -175,7 +181,7 @@
             android:id="@+id/new_calculator"
             android:layout_width="330dp"
             android:layout_height="48dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="14dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/shape_rectangle_stroke_radius_50px"
             android:drawablePadding="4dp"
@@ -188,7 +194,9 @@
             app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linear_totalInsulin"
-            app:layout_constraintVertical_bias="0.238" />
+            app:layout_constraintVertical_bias="0.102" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 </layout>

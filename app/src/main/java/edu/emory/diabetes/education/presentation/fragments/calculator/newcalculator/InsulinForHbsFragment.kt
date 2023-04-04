@@ -2,6 +2,7 @@ package edu.emory.diabetes.education.presentation.fragments.calculator.newcalcul
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,6 +11,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.view.WindowInsetsCompat
@@ -27,31 +29,33 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentInsulinForHbsBinding.bind(view)) {
 
-            val context = root.context
-            val marginBottom = dpToPx(context, 16)
+            val editTextList = mutableListOf<EditText>()
+            editTextList.add(bloodSugarNew)
+            editTextList.add(targetBloodSugar)
+            editTextList.add(correctionFactor)
 
-            mainConstraint.viewTreeObserver.addOnGlobalLayoutListener {
-                val heightDiff = mainConstraint.rootView.height - mainConstraint.height
-                if (heightDiff > dpToPx(context, 200)) { // adjust the value to your needs
-                    // keyboard is open, scroll to the end of the view
-                    // replace with your scroll view id
-                    scrollView.postDelayed({
-                        scrollView.fullScroll(View.FOCUS_DOWN)
-                    }, 200) // adjust the delay time to your needs
+            for (editText in editTextList) {
+                editText.setOnFocusChangeListener { _, hasFocus ->
+                    if (hasFocus) {
+                        scrollView.smoothScrollTo(0, editText.bottom)
+                    }
                 }
             }
 
-            /*scrollView.viewTreeObserver?.addOnGlobalLayoutListener {
-                val rect = Rect()
-                scrollView.getWindowVisibleDisplayFrame(rect)
+            val listener = ViewTreeObserver.OnGlobalLayoutListener {
+                val r = Rect()
+                scrollView.getWindowVisibleDisplayFrame(r)
                 val screenHeight = scrollView.rootView.height
-                val keypadHeight = screenHeight - rect.bottom
+                val keypadHeight = screenHeight - r.bottom
                 if (keypadHeight > screenHeight * 0.15) {
-                    scrollView.scrollBy(0, keypadHeight - (screenHeight * 0.15).toInt())
-                } else {
-                    scrollView.scrollBy(0, 0)
+                    val currentFocus = activity?.currentFocus
+                    if (currentFocus is EditText) {
+                        scrollView.smoothScrollTo(0, scrollView.bottom)
+                    }
                 }
-            }*/
+            }
+            scrollView.viewTreeObserver.addOnGlobalLayoutListener(listener)
+
             val bottomBar = activity?.findViewById<View>(R.id.bottomNavigationView)
 
             activity?.window?.decorView?.setOnApplyWindowInsetsListener { view, insets ->
@@ -129,7 +133,6 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                 }
             }
 
-
             correctionFactor.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     correctionFactor.setHintTextColor(Color.TRANSPARENT)
@@ -137,13 +140,12 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                 } else {
                     if(correctionFactor.text.isNullOrEmpty())
                     {
-                        correctionFactor.setHintTextColor(Color.GRAY)
+                        correctionFactor.setHintTextColor(Color.parseColor("#e9e9e9"))
                     }
                 }
             }
         }
     }
-
     private fun dpToPx(context: Context, dp: Int): Int {
         val density = context.resources.displayMetrics.density
         return (dp * density + 0.5f).toInt()
