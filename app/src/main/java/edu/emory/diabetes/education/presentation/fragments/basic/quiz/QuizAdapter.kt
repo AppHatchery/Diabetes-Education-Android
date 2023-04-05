@@ -19,12 +19,14 @@ import edu.emory.diabetes.education.databinding.FragmentQuizQuestionItemBinding
 import edu.emory.diabetes.education.domain.model.Answer
 import edu.emory.diabetes.education.domain.model.Choice
 import edu.emory.diabetes.education.domain.model.Question
+import edu.emory.diabetes.education.domain.model.QuizUserResponse
 import edu.emory.diabetes.education.presentation.fragments.basic.quiz.QuizAdapter.ViewHolder
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-class QuizAdapter(
-    val onEvent: (QuizAdapterEvent) -> Unit
+class QuizAdapter @Inject constructor(private val viewModel: QuizQuestionViewModel,
+                                      val onEvent: (QuizAdapterEvent) -> Unit
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     private var quizId: Int? = null
@@ -35,6 +37,9 @@ class QuizAdapter(
     private var wrongChoiceIndexes: MutableList<AnswerData> = ArrayList()
     private var onSubmitStateClicked = false
     var listener: AnswerProcessorUtil.OnSubmitResultStateListener? = null
+    var trialCount:Int = 0
+    var pos = ""
+
 
     @SuppressLint("NotifyDataSetChanged")
     inner class ViewHolder(
@@ -42,7 +47,11 @@ class QuizAdapter(
     ) : RecyclerView.ViewHolder(bind.root) {
         fun bind(choice: Choice) = bind.apply {
             when (!onSubmitStateClicked) {
+
                 true -> {
+                    val results =viewModel.userResponse.value
+                    //Log.e("Submit state is false","false sel $selectedIndexes res ${results?.answerData}")
+
                     question = choice
                     bind.constraintLayoutItem.apply {
                         asyncListDiffer.currentList.forEach { _ ->
@@ -56,6 +65,66 @@ class QuizAdapter(
                                 setBackgroundResource(R.drawable.shape_rectangle_stroke_radius_10px)
                                 bind.checkBox.isChecked = true
                             }
+                            results?.let {res->
+                                val iterator = res.answerData.iterator()
+                                while (iterator.hasNext()){
+                                    val element = iterator.next()
+                                    if (element.choiceIndex == it){
+                                        if (choice.id == element.choice) {
+                                            bind.checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.red_900))
+                                            setBackgroundResource(R.drawable.shape_rectangle_wrong_choice_stroke_radius_10px)
+                                            bind.checkBox.isChecked = true
+                                            if(pos.isNotEmpty()){
+                                                if (element.choiceIndex == Integer.parseInt(pos)){
+                                                    Log.e("Adapter position selected ","Its $pos")
+
+                                                    bind.checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green_900))
+                                                    setBackgroundResource(R.drawable.shape_rectangle_stroke_radius_10px)
+                                                    bind.checkBox.isChecked = true
+                                                    iterator.remove()
+
+                                                }
+                                            }
+
+                                            //Log.e("haha","haha ${choice.id} item ${itemData.choiceIndex} count $trialCount  pos $pos")
+                                            // if (itemData.choiceIndex ==adapterPosition)
+
+                                        }
+
+                                    }
+                                }
+                                /*
+                                res.answerData.forEach { itemData->
+                                    if (itemData.choiceIndex == it){
+                                        if (choice.id == itemData.choice) {
+                                            bind.checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.red_900))
+                                            setBackgroundResource(R.drawable.shape_rectangle_wrong_choice_stroke_radius_10px)
+                                            bind.checkBox.isChecked = true
+                                           if(pos.isNotEmpty()){
+                                               if (itemData.choiceIndex == Integer.parseInt(pos)){
+                                                   Log.e("Adapter position selected ","Its $pos")
+
+                                                   bind.checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green_900))
+                                                   setBackgroundResource(R.drawable.shape_rectangle_stroke_radius_10px)
+                                                   bind.checkBox.isChecked = true
+                                                   viewModel.userResponse.value?.let { ur->
+                                                    ur.answerData.remove(itemData)
+                                                   }
+
+                                               }
+                                           }
+
+                                            //Log.e("haha","haha ${choice.id} item ${itemData.choiceIndex} count $trialCount  pos $pos")
+                                           // if (itemData.choiceIndex ==adapterPosition)
+
+                                        }
+
+                                    }
+                                }*/
+                            }
+                            //val quizUserResponse=QuizUserResponse(listOf(), listOf())
+                            //viewModel.setUserResponse(quizUserResponse)
+
                         }
                         wrongChoiceIndexes.forEach {
                             if (selectedIndexes.contains(it.choiceIndex)) {
@@ -63,10 +132,17 @@ class QuizAdapter(
                                 wrongChoiceIndexes.remove(it)
                             }
                         }
+                        if(wrongChoiceIndexes.size>0){
+                            Log.e("how big is wr" ,"${wrongChoiceIndexes.size} ")
+                        }
                     }
                     executePendingBindings()
                 }
                 false -> {
+                    val results =viewModel.userResponse.value
+                    //Log.e("Submit state is false","true ${viewModel.userResponse.value?.answerData?.size}")
+
+
                     question = choice
                     bind.constraintLayoutItem.apply {
                         asyncListDiffer.currentList.forEach { _ ->
@@ -81,13 +157,18 @@ class QuizAdapter(
                                 bind.checkBox.isChecked = true
                             }
                         }
-                        wrongChoiceIndexes.forEach {
-                            if (choice.id == it.choice) {
-                                bind.checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.red_900))
-                                setBackgroundResource(R.drawable.shape_rectangle_wrong_choice_stroke_radius_10px)
-                                bind.checkBox.isChecked = true
+
+                        results?.let { quizUserResponse ->
+                            quizUserResponse.answerData.forEach {
+                                if (choice.id == it.choice) {
+                                    bind.checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.red_900))
+                                    setBackgroundResource(R.drawable.shape_rectangle_wrong_choice_stroke_radius_10px)
+                                    bind.checkBox.isChecked = true
+                                    //quizUserResponse.answerData.remove(it)
+                                }
                             }
                         }
+
                     }
                     executePendingBindings()
                 }
@@ -106,6 +187,7 @@ class QuizAdapter(
                             selectedIndexes.clear()
                         }
                         remove(adapterPosition)
+                        pos =""
                     } else if (size > maxAnswerSize.minus(1)) {
                         if (maxAnswerSize > 1) {
                             onEvent.invoke(QuizAdapterEvent.MaximumLimit)
@@ -120,12 +202,16 @@ class QuizAdapter(
                                 wrongChoiceIndexes.clear()
                             }
                             add(adapterPosition)
+                            pos ="$adapterPosition"
                         }
                     } else
                         add(adapterPosition)
+                        pos ="$adapterPosition"
                     if (wrongChoiceIndexes.size > 0) {
-                        selectedIndexes.clear()
-                        wrongChoiceIndexes.clear()
+                        //selectedIndexes.clear()
+                        //wrongChoiceIndexes.clear()
+                        TODO("if you encounter an error un comment these")
+
                     }
                 }.onEach {
                     QuizUtils.answer.add(QuizUtils.questions[0].choices[it].id)
@@ -133,13 +219,12 @@ class QuizAdapter(
                 notifyDataSetChanged()
             }
             bind.checkBox.setOnClickListener {
+                //viewModel.setItemPosition("$adapterPosition")
                 if (onSubmitStateClicked) onSubmitStateClicked = false
                 QuizUtils.answer.clear()
                 selectedIndexes.apply {
                     if (contains(adapterPosition)) {
                         if (wrongChoiceIndexes.size > 0) {
-                            wrongChoiceIndexes.clear()
-                            selectedIndexes.clear()
                         }
                         remove(adapterPosition)
                     } else if (size > maxAnswerSize.minus(1)) {
@@ -160,8 +245,6 @@ class QuizAdapter(
                     } else
                         add(adapterPosition)
                     if (wrongChoiceIndexes.size > 0) {
-                        selectedIndexes.clear()
-                        wrongChoiceIndexes.clear()
                     }
                 }.onEach {
                     QuizUtils.answer.add(QuizUtils.questions[0].choices[it].id)
@@ -187,6 +270,9 @@ class QuizAdapter(
     override fun getItemCount() = asyncListDiffer.currentList.size
 
     fun setAnswers(question: Question, quizId: Int, submittedAns: List<String>) {
+        trialCount ++
+        Log.e("Quizcount","count $trialCount")
+        Log.e("SELECTED indexes" ,"$selectedIndexes  wr ${wrongChoiceIndexes.size}")
         if (!onSubmitStateClicked) onSubmitStateClicked = true
         this@QuizAdapter.quizId = quizId
         answers = submittedAns
@@ -224,7 +310,17 @@ class QuizAdapter(
                         count++
                     }
                 }
-                this.wrongChoiceIndexes = wrongChoiceIndexes
+                if (trialCount>0){
+                    if (this.wrongChoiceIndexes.size!=0){
+                        this.wrongChoiceIndexes = wrongChoiceIndexes
+                    }
+                }else{
+                    this.wrongChoiceIndexes = wrongChoiceIndexes
+                }
+                val userResponse= QuizUserResponse(selectedIndexes,wrongChoiceIndexes)
+                viewModel.setUserResponse(userResponse)
+                Log.e("wrong indexes---" ,"${wrongChoiceIndexes.size}")
+
             } else {
                 val wrongChoice = answers.subtract(question.answers.toSet())
                 val wrongChoiceIndexes = mutableListOf<AnswerData>()
@@ -242,7 +338,17 @@ class QuizAdapter(
                         count++
                     }
                 }
-                this.wrongChoiceIndexes = wrongChoiceIndexes
+                Log.e("wrong indexes---" ,"${wrongChoiceIndexes.size}")
+                if (trialCount>0){
+                    if (this.wrongChoiceIndexes.size!=0){
+                        this.wrongChoiceIndexes = wrongChoiceIndexes
+                    }
+                }else{
+                    this.wrongChoiceIndexes = wrongChoiceIndexes
+                }
+                val userResponse= QuizUserResponse(selectedIndexes,wrongChoiceIndexes)
+                viewModel.setUserResponse(userResponse)
+
             }
         }
         notifyDataSetChanged()
