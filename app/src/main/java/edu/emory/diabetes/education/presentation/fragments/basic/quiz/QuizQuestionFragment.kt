@@ -49,7 +49,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
         with(FragmentQuizQuestionBinding.bind(view)) {
             this@QuizQuestionFragment.root = this
             viewModel.selectQuestions(args.quizId).onEach { questionEntity ->
-                adapter = QuizAdapter {
+                adapter = QuizAdapter(viewModel) {
                     when (it) {
                         QuizAdapterEvent.MaximumLimit -> {
                             Toast.makeText(

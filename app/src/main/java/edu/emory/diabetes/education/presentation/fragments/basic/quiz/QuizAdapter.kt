@@ -1,6 +1,7 @@
 package edu.emory.diabetes.education.presentation.fragments.basic.quiz
 
 import android.annotation.SuppressLint
+import android.bluetooth.BluetoothClass.Device
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources.Theme
@@ -22,8 +23,9 @@ import edu.emory.diabetes.education.domain.model.Question
 import edu.emory.diabetes.education.presentation.fragments.basic.quiz.QuizAdapter.ViewHolder
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-class QuizAdapter(
+class QuizAdapter @Inject constructor(private val viewModel: QuizQuestionViewModel,
     val onEvent: (QuizAdapterEvent) -> Unit
 ) : RecyclerView.Adapter<ViewHolder>() {
 
@@ -41,6 +43,7 @@ class QuizAdapter(
         private val bind: FragmentQuizQuestionItemBinding
     ) : RecyclerView.ViewHolder(bind.root) {
         fun bind(choice: Choice) = bind.apply {
+            Log.e("current submit state","${onSubmitStateClicked}")
             when (!onSubmitStateClicked) {
                 true -> {
                     question = choice
@@ -58,11 +61,24 @@ class QuizAdapter(
                             }
                         }
                         wrongChoiceIndexes.forEach {
+                            if (choice.id == it.choice) {
+                                Log.e("at choice in wr","${onSubmitStateClicked}")
+                                bind.checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.red_900))
+                                setBackgroundResource(R.drawable.shape_rectangle_wrong_choice_stroke_radius_10px)
+                                bind.checkBox.isChecked = true
+                            }
+                        }
+                        wrongChoiceIndexes.forEach {
                             if (selectedIndexes.contains(it.choiceIndex)) {
                                 selectedIndexes.remove(it.choiceIndex)
                                 wrongChoiceIndexes.remove(it)
                             }
+
+
+                            Log.e("Size of wrong arraylist","${wrongChoiceIndexes.size}")
                         }
+
+
                     }
                     executePendingBindings()
                 }
@@ -79,6 +95,7 @@ class QuizAdapter(
                                 bind.checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green_900))
                                 setBackgroundResource(R.drawable.shape_rectangle_stroke_radius_10px)
                                 bind.checkBox.isChecked = true
+
                             }
                         }
                         wrongChoiceIndexes.forEach {
@@ -88,6 +105,12 @@ class QuizAdapter(
                                 bind.checkBox.isChecked = true
                             }
                         }
+                        Log.e("Viewmodel value", "Viewmodel ${viewModel.quizFinished.value}")
+                        if(viewModel.quizFinished.value){
+
+                        }
+                        //Log.e("Wrong choice ","$wrongChoiceIndexes submited clicked  $onSubmitStateClicked")
+
                     }
                     executePendingBindings()
                 }
@@ -98,12 +121,21 @@ class QuizAdapter(
             bind.root.setOnClickListener {
                 onEvent.invoke(QuizAdapterEvent.ItemClicked)
                 if (onSubmitStateClicked) onSubmitStateClicked = false
+                Log.e("Submitted value"," $onSubmitStateClicked before selected $selectedIndexes  wr arr ${wrongChoiceIndexes.size}")
+
                 QuizUtils.answer.clear()
                 selectedIndexes.apply {
                     if (contains(adapterPosition)) {
                         if (wrongChoiceIndexes.size > 0) {
-                            wrongChoiceIndexes.clear()
-                            selectedIndexes.clear()
+                            /*wrongChoiceIndexes.forEach {wrongChoice->
+                                if (wrongChoice.choiceIndex == adapterPosition){
+                                    wrongChoiceIndexes.remove(wrongChoice)
+                                }
+                            }*/
+                            //wrongChoiceIndexes.clear()
+                            //selectedIndexes.clear()
+                            Log.e("wrong elements size"," ${wrongChoiceIndexes.size} sel $selectedIndexes")
+
                         }
                         remove(adapterPosition)
                     } else if (size > maxAnswerSize.minus(1)) {
@@ -112,10 +144,13 @@ class QuizAdapter(
                             if (wrongChoiceIndexes.size > 0) {
                                 selectedIndexes.clear()
                                 wrongChoiceIndexes.clear()
+                                Log.e("onr clearing all","ya")
                             }
                         } else {
                             removeFirst()
                             if (wrongChoiceIndexes.size > 0) {
+                                Log.e("STATEMENT","FOUTH")
+
                                 selectedIndexes.clear()
                                 wrongChoiceIndexes.clear()
                             }
@@ -124,13 +159,14 @@ class QuizAdapter(
                     } else
                         add(adapterPosition)
                     if (wrongChoiceIndexes.size > 0) {
-                        selectedIndexes.clear()
-                        wrongChoiceIndexes.clear()
+                        //selectedIndexes.clear()
+                        //wrongChoiceIndexes.clear()
                     }
                 }.onEach {
                     QuizUtils.answer.add(QuizUtils.questions[0].choices[it].id)
                 }
                 notifyDataSetChanged()
+                Log.e("Submitted value"," $onSubmitStateClicked after selected $selectedIndexes wr arr ${wrongChoiceIndexes.size}")
             }
             bind.checkBox.setOnClickListener {
                 if (onSubmitStateClicked) onSubmitStateClicked = false
@@ -187,6 +223,7 @@ class QuizAdapter(
     override fun getItemCount() = asyncListDiffer.currentList.size
 
     fun setAnswers(question: Question, quizId: Int, submittedAns: List<String>) {
+        Log.e("Submitted answers","$submittedAns")
         if (!onSubmitStateClicked) onSubmitStateClicked = true
         this@QuizAdapter.quizId = quizId
         answers = submittedAns

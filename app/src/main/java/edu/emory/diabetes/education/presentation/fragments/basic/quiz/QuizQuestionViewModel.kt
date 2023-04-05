@@ -13,6 +13,7 @@ class QuizQuestionViewModel : ViewModel() {
     val quizFinished: MutableStateFlow<Boolean>
         get() = _quizFinished
 
+
     fun setQuizFinished(quizFinished: Boolean) {
         _quizFinished.value = quizFinished
     }
