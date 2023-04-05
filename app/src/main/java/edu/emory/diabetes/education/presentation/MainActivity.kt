@@ -72,17 +72,6 @@ class MainActivity : AppCompatActivity(), EventNavigator {
             supportActionBar?.title = destination.label
             negotiator(destination.label.toString())
         }
-
-        val crashButton = Button(this)
-        crashButton.text = "Test Crash"
-        crashButton.setOnClickListener {
-            throw RuntimeException("Test Crash") // Force a crash
-        }
-
-        addContentView(crashButton, ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT))
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
