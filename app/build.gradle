@@ -10,13 +10,27 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('/Users/morgangreenleaf/dev/keystore')
+            storePassword '24$n*e74hv$JBVSg'
+            keyAlias 'key0'
+            keyPassword '24$n*e74hv$JBVSg'
+        }
+        release {
+            storeFile file('/Users/morgangreenleaf/dev/keystore')
+            storePassword '24$n*e74hv$JBVSg'
+            keyAlias 'key0'
+            keyPassword '24$n*e74hv$JBVSg'
+        }
+    }
     compileSdk 33
 
     defaultConfig {
         applicationId "edu.emory.diabetes.education"
         minSdk 29
         targetSdk 33
-        versionCode 2
+        versionCode 5
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -25,6 +39,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
