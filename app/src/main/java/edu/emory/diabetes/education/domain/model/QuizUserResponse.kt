@@ -4,5 +4,5 @@ import edu.emory.diabetes.education.presentation.fragments.basic.quiz.QuizAdapte
 
 data class QuizUserResponse (
     val userSelection: List<Int>,
-    val answerData: MutableList<QuizAdapter.AnswerData>
+    val answerData: MutableList<AnswerData>
         )

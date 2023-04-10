@@ -16,10 +16,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentQuizQuestionItemBinding
-import edu.emory.diabetes.education.domain.model.Answer
-import edu.emory.diabetes.education.domain.model.Choice
-import edu.emory.diabetes.education.domain.model.Question
-import edu.emory.diabetes.education.domain.model.QuizUserResponse
+import edu.emory.diabetes.education.domain.model.*
 import edu.emory.diabetes.education.presentation.fragments.basic.quiz.QuizAdapter.ViewHolder
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onEach
@@ -204,8 +201,8 @@ class QuizAdapter @Inject constructor(private val viewModel: QuizQuestionViewMod
                             add(adapterPosition)
                             pos ="$adapterPosition"
                         }
-                    } else
-                        add(adapterPosition)
+                    } else{
+                        add(adapterPosition)}
                         pos ="$adapterPosition"
                     if (wrongChoiceIndexes.size > 0) {
                         //selectedIndexes.clear()
@@ -271,7 +268,7 @@ class QuizAdapter @Inject constructor(private val viewModel: QuizQuestionViewMod
 
     fun setAnswers(question: Question, quizId: Int, submittedAns: List<String>) {
         trialCount ++
-        Log.e("Quizcount","count $trialCount")
+
         Log.e("SELECTED indexes" ,"$selectedIndexes  wr ${wrongChoiceIndexes.size}")
         if (!onSubmitStateClicked) onSubmitStateClicked = true
         this@QuizAdapter.quizId = quizId
@@ -355,7 +352,7 @@ class QuizAdapter @Inject constructor(private val viewModel: QuizQuestionViewMod
     }
     /*fun arrayToString(answers:List<String>){
     }*/
-    data class AnswerData(val choice: String, val choiceIndex: Int)
+
 
 
     interface OnItemClickListener {

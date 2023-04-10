@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import edu.emory.diabetes.education.domain.model.Answer
+import edu.emory.diabetes.education.domain.model.AnswerData
 import edu.emory.diabetes.education.domain.model.Quiz
 import edu.emory.diabetes.education.domain.model.QuizUserResponse
 import edu.emory.diabetes.education.presentation.fragments.basic.BasicUtils
@@ -29,11 +30,11 @@ class QuizQuestionViewModel : ViewModel() {
         _userResponse.value = userResponse
     }
 
-    private var _itemPos= MutableLiveData<QuizAdapter.AnswerData>()
-    val itemPos: MutableLiveData<QuizAdapter.AnswerData>
+    private var _itemPos= MutableLiveData<AnswerData>()
+    val itemPos: MutableLiveData<AnswerData>
         get() = _itemPos
 
-    fun setItemPosition(itemPosition: QuizAdapter.AnswerData) {
+    fun setItemPosition(itemPosition: AnswerData) {
         _itemPos.value = itemPosition
     }
 

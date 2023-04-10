@@ -33,13 +33,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
         super.onCreate(savedInstanceState)
         QuizUtils.answer.clear()
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        /*lifecycleScope.launch {
-            viewModel.quizFinished.collect {
-
-            }
-        }*/
         selectedChoices = view.findViewById(R.id.selectedChoices)
         viewModel.getQuizCode(args.quizId).onEach {
             (requireActivity() as AppCompatActivity)
@@ -52,11 +46,11 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
                 adapter = QuizAdapter(viewModel) {
                     when (it) {
                         QuizAdapterEvent.MaximumLimit -> {
-                            Toast.makeText(
+                            /*Toast.makeText(
                                 requireContext(),
                                 "Maximum number of entries reached",
                                 Toast.LENGTH_SHORT
-                            ).show()
+                            ).show()*/
                         }
                         QuizAdapterEvent.ItemClicked -> {
                             if (viewModel.quizFinished.value) {
@@ -86,10 +80,6 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
                         questionItem = this
                     }
                 }
-                val listenerObject = OnClickListener {
-                    // Define the code to be executed when the view is clicked
-                }
-
                 val listener = getListener(this, questionEntity)
                 next.setOnClickListener(listener)
 
@@ -97,7 +87,6 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
 
         }
     }
-
     override fun onSubmitResultState(
         resultInfo: AnswerProcessorUtil.RESULTS_ON_SUBMIT,
         answerChoices: String, hasSomeAllCorrect: Boolean
@@ -128,8 +117,6 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
                         showView(iconAnswer)
                         showView(resultInfoTextView)
                         resultInfoTextView.text = answerChoices
-                        selectedChoices.apply {
-                        }
                     }
                 }
             }
