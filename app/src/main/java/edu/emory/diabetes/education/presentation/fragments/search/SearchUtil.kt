@@ -21,6 +21,18 @@ class SearchUtil {
                     string
                 }
             }
+
+            fun borrowChar(char:String,string: String):String{
+                return if (string.contains(char)) {
+                    string.replace(char,"∧")
+                } else{
+                    string
+                }
+            }
+            fun resetChar(char:String,string: String):String{
+                return if (string.contains("∧")) string.replace("∧","'")
+                else string
+            }
         }
         object ResultSearch{
             fun countOccurrences(s: String, ch: Char): Int {

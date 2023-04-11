@@ -7,10 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
@@ -39,9 +36,14 @@ import edu.emory.diabetes.education.domain.model.ChapterSearch
 import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterSearchAdapter
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterViewModel
+import edu.emory.diabetes.education.presentation.fragments.search.SearchUtil
 import edu.emory.diabetes.education.views.WebAppInterface
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 import java.io.IOException
@@ -91,34 +93,52 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                         binding.scrollIndicator.progress = 0
                         super.onPageFinished(view, url)
                         //view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
-                        val filepath = "pages/${args.lesson.pageUrl}.html"
-                        val html = readHtmlFromAssets(requireContext(), filepath)
-                        val doc = Jsoup.parse(html);
-                        val paragraphs = doc.select("p,li,img");
-                        val array = mutableListOf<String>()
-                        val img = doc.getElementsByTag("img");
+                        GlobalScope.launch(Dispatchers.Main){
+                            val filepath = "pages/${args.lesson.pageUrl}.html"
+                            val html = readHtmlFromAssets(requireContext(), filepath)
+                            val doc = Jsoup.parse(html);
+                            val paragraphs = doc.select("p,li,img");
+                            val array = mutableListOf<String>()
 
-
-                        paragraphs.forEach{element->
-                            if (element.tagName().equals("img")){
-                                array.add(element.attr("alt"))
-                            }else{
-                                if (countOccurrences(element.text(), '.') > 1) {
-                                    val block = element.text().split(".")
-                                    block.forEach { item ->
-                                        if (item.isNotEmpty()) array.add(item)
+                            paragraphs.forEach{element->
+                                if (element.tagName().equals("img")){
+                                    array.add(element.attr("alt"))
+                                }else{
+                                    if (countOccurrences(element.text(), '.') > 1) {
+                                        val block = element.text().split(".")
+                                        block.forEach { item ->
+                                            if (item.isNotEmpty()) array.add(item)
+                                        }
+                                    } else {
+                                        array.add(element.text())
                                     }
-                                } else {
-                                    array.add(element.text())
                                 }
                             }
-                            //Log.e("Element "," ${element.tagName()}")
+                            //For code improvement and formatting this functionality can be added Util classes to make the code more readable
+                            //Removing apostrophe in strings as it crashed with functions passing through the javascript interface
+                            val newArray = mutableListOf<String>()
+                            array.forEach {
+                                if (it.isNotEmpty()){
+
+                                    var string =""
+                                    if(fixString(it).contains("'")){
+                                        string = fixString(it).replace("'","∧")
+                                        newArray.add(string)
+                                        Log.e("Contains",string)
+                                    }else{
+                                        string =fixString(it)
+                                        newArray.add(string)
+                                    }
+                                }
+                            }
+
+                            val finalString =newArray.joinToString("_")
+                            view?.loadUrl("javascript:window.INTERFACE.parseHtml('${finalString}');")
+                            Log.e("fiNAL Sdtring",finalString)
                         }
 
-                        val newArray = mutableListOf<String>()
-                        array.forEach { newArray.add(fixString(it)) }
-                        val finalString = newArray.joinToString("_")
-                        view?.loadUrl("javascript:window.INTERFACE.parseHtml('${finalString}');")
+
+
                     }
 
                     override fun shouldOverrideUrlLoading(
@@ -151,7 +171,10 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                             fullscreenContainer.visibility = View.VISIBLE
                         }
                     }
-
+                    override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
+                        consoleMessage?.message()?.let { Log.e("console log", it) }
+                        return super.onConsoleMessage(consoleMessage)
+                    }
                     override fun onHideCustomView() {
                         super.onHideCustomView()
                         fullscreenContainer.visibility = View.GONE

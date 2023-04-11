@@ -1,8 +1,10 @@
 package edu.emory.diabetes.education.presentation.fragments.nutrition
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -32,8 +34,13 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterSearchAdapter
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterViewModel
 import edu.emory.diabetes.education.views.WebAppInterface
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
 
 class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_view_apps) {
 
@@ -73,7 +80,38 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                     override fun onPageFinished(view: WebView?, url: String?) {
                         binding.scrollIndicator.progress = 0
                         super.onPageFinished(view, url)
-                        view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
+                        GlobalScope.launch(Dispatchers.Main){
+                            val filepath = "pages/${args.lesson.pageUrl}.html"
+                            val html = readHtmlFromAssets(requireContext(), filepath)
+                            val doc = Jsoup.parse(html);
+                            val paragraphs = doc.select("p,li,img");
+                            val array = mutableListOf<String>()
+
+                            paragraphs.forEach{element->
+                                if (element.tagName().equals("img")){
+                                    array.add(element.attr("alt"))
+                                }else{
+                                    if (countOccurrences(element.text(), '.') > 1) {
+                                        val block = element.text().split(".")
+                                        block.forEach { item ->
+                                            if (item.isNotEmpty()) array.add(item)
+                                        }
+                                    } else {
+                                        array.add(element.text())
+                                    }
+                                }
+                            }
+
+                            val newArray = mutableListOf<String>()
+                            array.forEach {
+                                if (it.isNotEmpty()){ newArray.add(fixString(it))}
+                            }
+                            val finalString =newArray.joinToString("_")
+
+                            view?.loadUrl("javascript:window.INTERFACE.parseHtml('${finalString}');")
+                        }
+
+                        //view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
                     }
 
                     override fun shouldOverrideUrlLoading(
@@ -185,4 +223,26 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
             }
         }
     }
+
+    fun readHtmlFromAssets(context: Context, fileName: String): String {
+        return context.assets.open(fileName).bufferedReader().use {
+            it.readText()
+        }
+    }
+    fun countOccurrences(s: String, ch: Char): Int {
+        return s.filter { it == ch }.count()
+    }
+
+    private fun fixString(string: String): String {
+        return if (string.first() == ' ') {
+            Log.e("FOUND", "FOUND SPACE")
+            string.replaceRange(0, 1, "")
+        } else {
+            string
+        }
+    }
+
+
+
+
 }
