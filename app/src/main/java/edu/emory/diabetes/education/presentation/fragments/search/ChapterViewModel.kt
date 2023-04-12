@@ -17,15 +17,8 @@ class ChapterViewModel @Inject constructor(
     private val searchFlow = searchQuery.flatMapLatest {
         search(it)
     }
-
     val searchResult = searchFlow
     fun search(searchQuery: String): Flow<List<String>> {
-        /*return flow {
-            val result = WebAppInterface.parsedData.split( "?", ":","_")
-                .filter { it.trim().contains(searchQuery,ignoreCase = true) }
-            emit(result)
-        }*/
-
         return flow {
             val res = mutableListOf<String>()
             WebAppInterface.parsedData.split( "?", ":","_").forEach {

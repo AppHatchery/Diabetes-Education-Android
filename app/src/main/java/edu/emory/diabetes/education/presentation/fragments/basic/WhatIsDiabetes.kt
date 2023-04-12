@@ -50,12 +50,10 @@ import java.io.IOException
 
 
 class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabetes) {
-
     private val args: WhatIsDiabetesArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var fullScreenView: FrameLayout
     private lateinit var binding: FragmentOrientationWhatIsDiabetesBinding
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -64,8 +62,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         binding = FragmentOrientationWhatIsDiabetesBinding.inflate(inflater, container, false)
         return binding.root
     }
-
-
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
@@ -84,7 +80,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                 }
 
             }
-
             webView.apply {
                 loadUrl(Ext.getPathUrl(args.lesson.pageUrl))
                 addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
@@ -119,22 +114,18 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                             val newArray = mutableListOf<String>()
                             array.forEach {
                                 if (it.isNotEmpty()){
-
                                     var string =""
                                     if(fixString(it).contains("'")){
                                         string = fixString(it).replace("'","∧")
                                         newArray.add(string)
-                                        Log.e("Contains",string)
                                     }else{
                                         string =fixString(it)
                                         newArray.add(string)
                                     }
                                 }
                             }
-
                             val finalString =newArray.joinToString("_")
                             view?.loadUrl("javascript:window.INTERFACE.parseHtml('${finalString}');")
-                            Log.e("fiNAL Sdtring",finalString)
                         }
 
 
@@ -195,7 +186,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             menuInflater.inflate(R.menu.global_search_menu, menu)
 
         }
-
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             return when (menuItem.itemId) {
                 R.id.action_search -> {
@@ -260,7 +250,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     }
 
     //Utility functions
-
     fun readHtmlFromAssets(context: Context, fileName: String): String {
         return context.assets.open(fileName).bufferedReader().use {
             it.readText()
@@ -269,34 +258,12 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     fun countOccurrences(s: String, ch: Char): Int {
         return s.filter { it == ch }.count()
     }
-
     private fun fixString(string: String): String {
         return if (string.first() == ' ') {
-            Log.e("FOUND", "FOUND SPACE")
             string.replaceRange(0, 1, "")
         } else {
             string
         }
     }
-    fun mergeElementArrays(imageElement: Elements, stringList: List<String>):List<String>{
-        val imageStrings= mutableListOf<String>()
-        if (imageElement.isNotEmpty()){
-            imageElement.forEach { imageStrings.add(it.attr("alt")) }
-        }
-        return imageStrings+stringList
-    }
-    fun getHtmlFromAsset(fileName: String, context: Context): String {
-        val assetManager = context.assets
-        var html = ""
-        try {
-            val inputStream = assetManager.open(fileName)
-            html = inputStream.bufferedReader().use { it.readText() }
-            //Log.e("getHtmlFromAsset", "$html some")
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return html
-    }
-
 }
 

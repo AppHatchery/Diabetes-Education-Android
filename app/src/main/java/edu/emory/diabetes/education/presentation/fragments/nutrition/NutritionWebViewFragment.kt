@@ -43,7 +43,6 @@ import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
 class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_view_apps) {
-
     private val args: NutritionWebViewFragmentArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var binding: FragmentBloodSugarMonitoringBinding
@@ -54,7 +53,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentBloodSugarMonitoringBinding.inflate(inflater, container, false)
-        return  binding.root
+        return binding.root
     }
 
     @SuppressLint("JavascriptInterface")
@@ -80,17 +79,17 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                     override fun onPageFinished(view: WebView?, url: String?) {
                         binding.scrollIndicator.progress = 0
                         super.onPageFinished(view, url)
-                        GlobalScope.launch(Dispatchers.Main){
+                        GlobalScope.launch(Dispatchers.Main) {
                             val filepath = "pages/${args.lesson.pageUrl}.html"
                             val html = readHtmlFromAssets(requireContext(), filepath)
                             val doc = Jsoup.parse(html);
                             val paragraphs = doc.select("p,li,img");
                             val array = mutableListOf<String>()
 
-                            paragraphs.forEach{element->
-                                if (element.tagName().equals("img")){
+                            paragraphs.forEach { element ->
+                                if (element.tagName().equals("img")) {
                                     array.add(element.attr("alt"))
-                                }else{
+                                } else {
                                     if (countOccurrences(element.text(), '.') > 1) {
                                         val block = element.text().split(".")
                                         block.forEach { item ->
@@ -104,14 +103,21 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
 
                             val newArray = mutableListOf<String>()
                             array.forEach {
-                                if (it.isNotEmpty()){ newArray.add(fixString(it))}
+                                if (it.isNotEmpty()) {
+                                    var string = ""
+                                    if (fixString(it).contains("'")) {
+                                        string = fixString(it).replace("'", "∧")
+                                        newArray.add(string)
+                                    } else {
+                                        string = fixString(it)
+                                        newArray.add(string)
+                                    }
+                                }
                             }
-                            val finalString =newArray.joinToString("_")
+                            val finalString = newArray.joinToString("_")
 
                             view?.loadUrl("javascript:window.INTERFACE.parseHtml('${finalString}');")
                         }
-
-                        //view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
                     }
 
                     override fun shouldOverrideUrlLoading(
@@ -144,7 +150,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                                         findNavController().navigate(it)
                                     }
 
-                                else ->  {
+                                else -> {
                                     val navController = findNavController()
                                     navController.popBackStack(R.id.nutritionFragment, false)
                                 }
@@ -190,12 +196,11 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
         val recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
         val clearTextButton = bottomSheetDialog.findViewById<AppCompatImageView>(R.id.clear_button)
 
-
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
         }
 
-        fun searchAdapter(){
+        fun searchAdapter() {
             recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
                 viewModel.searchResult.onEach {
                     searchResult?.visibility = View.GONE
@@ -229,20 +234,16 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
             it.readText()
         }
     }
+
     fun countOccurrences(s: String, ch: Char): Int {
         return s.filter { it == ch }.count()
     }
 
     private fun fixString(string: String): String {
         return if (string.first() == ' ') {
-            Log.e("FOUND", "FOUND SPACE")
             string.replaceRange(0, 1, "")
         } else {
             string
         }
     }
-
-
-
-
 }
