@@ -71,7 +71,42 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                     }
                 }
             }
-
+            lifecycleScope.launch(Dispatchers.IO) {
+                val filepath = "pages/${args.lesson.pageUrl}.html"
+                val html = readHtmlFromAssets(requireContext(), filepath)
+                val doc = Jsoup.parse(html);
+                val paragraphs = doc.select("p,li,img");
+                val array = mutableListOf<String>()
+                paragraphs.forEach { element ->
+                    if (element.tagName().equals("img")) {
+                        array.add(element.attr("alt"))
+                    } else {
+                        if (countOccurrences(element.text(), '.') > 1) {
+                            val block = element.text().split(".")
+                            block.forEach { item ->
+                                if (item.isNotEmpty()) array.add(item)
+                            }
+                        } else {
+                            array.add(element.text())
+                        }
+                    }
+                }
+                val newArray = mutableListOf<String>()
+                array.forEach {
+                    if (it.isNotEmpty()) {
+                        var string = ""
+                        if (fixString(it).contains("'")) {
+                            string = fixString(it).replace("'", "∧")
+                            newArray.add(string)
+                        } else {
+                            string = fixString(it)
+                            newArray.add(string)
+                        }
+                    }
+                }
+                val finalString = newArray.joinToString("_")
+                WebAppInterface.parsedData = finalString
+            }
             webView.apply {
                 loadUrl(Ext.getPathUrl(args.lesson.pageUrl))
                 addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
@@ -79,45 +114,6 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                     override fun onPageFinished(view: WebView?, url: String?) {
                         binding.scrollIndicator.progress = 0
                         super.onPageFinished(view, url)
-                        GlobalScope.launch(Dispatchers.Main) {
-                            val filepath = "pages/${args.lesson.pageUrl}.html"
-                            val html = readHtmlFromAssets(requireContext(), filepath)
-                            val doc = Jsoup.parse(html);
-                            val paragraphs = doc.select("p,li,img");
-                            val array = mutableListOf<String>()
-
-                            paragraphs.forEach { element ->
-                                if (element.tagName().equals("img")) {
-                                    array.add(element.attr("alt"))
-                                } else {
-                                    if (countOccurrences(element.text(), '.') > 1) {
-                                        val block = element.text().split(".")
-                                        block.forEach { item ->
-                                            if (item.isNotEmpty()) array.add(item)
-                                        }
-                                    } else {
-                                        array.add(element.text())
-                                    }
-                                }
-                            }
-
-                            val newArray = mutableListOf<String>()
-                            array.forEach {
-                                if (it.isNotEmpty()) {
-                                    var string = ""
-                                    if (fixString(it).contains("'")) {
-                                        string = fixString(it).replace("'", "∧")
-                                        newArray.add(string)
-                                    } else {
-                                        string = fixString(it)
-                                        newArray.add(string)
-                                    }
-                                }
-                            }
-                            val finalString = newArray.joinToString("_")
-
-                            view?.loadUrl("javascript:window.INTERFACE.parseHtml('${finalString}');")
-                        }
                     }
 
                     override fun shouldOverrideUrlLoading(
@@ -166,21 +162,16 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
     private fun addMenuProvider() = requireActivity().addMenuProvider(object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.global_search_menu, menu)
-
         }
-
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             return when (menuItem.itemId) {
                 R.id.action_search -> {
                     showBottomSheetDialog()
-
                     true
                 }
                 else -> false
             }
-
         }
-
     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
     private fun showBottomSheetDialog() {
@@ -228,17 +219,14 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
             }
         }
     }
-
-    fun readHtmlFromAssets(context: Context, fileName: String): String {
+    private fun readHtmlFromAssets(context: Context, fileName: String): String {
         return context.assets.open(fileName).bufferedReader().use {
             it.readText()
         }
     }
-
-    fun countOccurrences(s: String, ch: Char): Int {
+    private fun countOccurrences(s: String, ch: Char): Int {
         return s.filter { it == ch }.count()
     }
-
     private fun fixString(string: String): String {
         return if (string.first() == ' ') {
             string.replaceRange(0, 1, "")

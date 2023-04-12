@@ -62,9 +62,10 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         binding = FragmentOrientationWhatIsDiabetesBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-       val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
         actionBar?.title = "Basics"
         binding.apply {
             title.text = args.lesson.title
@@ -78,58 +79,51 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                         scrollIndicator.progress = it
                     }
                 }
-
+            }
+            lifecycleScope.launch(Dispatchers.IO) {
+                val filepath = "pages/${args.lesson.pageUrl}.html"
+                val html = readHtmlFromAssets(requireContext(), filepath)
+                val doc = Jsoup.parse(html);
+                val paragraphs = doc.select("p,li,img");
+                val array = mutableListOf<String>()
+                paragraphs.forEach { element ->
+                    if (element.tagName().equals("img")) {
+                        array.add(element.attr("alt"))
+                    } else {
+                        if (countOccurrences(element.text(), '.') > 1) {
+                            val block = element.text().split(".")
+                            block.forEach { item ->
+                                if (item.isNotEmpty()) array.add(item)
+                            }
+                        } else {
+                            array.add(element.text())
+                        }
+                    }
+                }
+                val newArray = mutableListOf<String>()
+                array.forEach {
+                    if (it.isNotEmpty()) {
+                        var string = ""
+                        if (fixString(it).contains("'")) {
+                            string = fixString(it).replace("'", "∧")
+                            newArray.add(string)
+                        } else {
+                            string = fixString(it)
+                            newArray.add(string)
+                        }
+                    }
+                }
+                val finalString = newArray.joinToString("_")
+                WebAppInterface.parsedData = finalString
             }
             webView.apply {
                 loadUrl(Ext.getPathUrl(args.lesson.pageUrl))
                 addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
+
                 webViewClient = object : WebViewClient() {
                     override fun onPageFinished(view: WebView?, url: String?) {
                         binding.scrollIndicator.progress = 0
                         super.onPageFinished(view, url)
-                        //view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
-                        GlobalScope.launch(Dispatchers.Main){
-                            val filepath = "pages/${args.lesson.pageUrl}.html"
-                            val html = readHtmlFromAssets(requireContext(), filepath)
-                            val doc = Jsoup.parse(html);
-                            val paragraphs = doc.select("p,li,img");
-                            val array = mutableListOf<String>()
-
-                            paragraphs.forEach{element->
-                                if (element.tagName().equals("img")){
-                                    array.add(element.attr("alt"))
-                                }else{
-                                    if (countOccurrences(element.text(), '.') > 1) {
-                                        val block = element.text().split(".")
-                                        block.forEach { item ->
-                                            if (item.isNotEmpty()) array.add(item)
-                                        }
-                                    } else {
-                                        array.add(element.text())
-                                    }
-                                }
-                            }
-                            //For code improvement and formatting this functionality can be added Util classes to make the code more readable
-                            //Removing apostrophe in strings as it crashed with functions passing through the javascript interface
-                            val newArray = mutableListOf<String>()
-                            array.forEach {
-                                if (it.isNotEmpty()){
-                                    var string =""
-                                    if(fixString(it).contains("'")){
-                                        string = fixString(it).replace("'","∧")
-                                        newArray.add(string)
-                                    }else{
-                                        string =fixString(it)
-                                        newArray.add(string)
-                                    }
-                                }
-                            }
-                            val finalString =newArray.joinToString("_")
-                            view?.loadUrl("javascript:window.INTERFACE.parseHtml('${finalString}');")
-                        }
-
-
-
                     }
 
                     override fun shouldOverrideUrlLoading(
@@ -162,10 +156,12 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                             fullscreenContainer.visibility = View.VISIBLE
                         }
                     }
+
                     override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
                         consoleMessage?.message()?.let { Log.e("console log", it) }
                         return super.onConsoleMessage(consoleMessage)
                     }
+
                     override fun onHideCustomView() {
                         super.onHideCustomView()
                         fullscreenContainer.visibility = View.GONE
@@ -175,17 +171,14 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                     }
                 }
             }
-
         }
-
-
     }
 
     private fun addMenuProvider() = requireActivity().addMenuProvider(object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.global_search_menu, menu)
-
         }
+
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             return when (menuItem.itemId) {
                 R.id.action_search -> {
@@ -202,7 +195,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
     private fun showBottomSheetDialog() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
-
         bottomSheetDialog.setContentView(R.layout.fragment_search_chapter)
         bottomSheetDialog.window
             ?.findViewById<View>(R.id.bottomSheet)
@@ -215,12 +207,11 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         val recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
         val clearTextButton = bottomSheetDialog.findViewById<AppCompatImageView>(R.id.clear_button)
 
-
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
         }
 
-        fun searchAdapter(){
+        fun searchAdapter() {
             recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
                 viewModel.searchResult.onEach {
                     searchResult?.visibility = View.GONE
@@ -230,23 +221,23 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                     if (it.isEmpty()) searchResult?.visibility = View.VISIBLE
                 }.launchIn(lifecycleScope)
             }
+
             if (searchKeyword?.text.toString().isNotEmpty()) {
                 searchBtn?.setTextColor(Color.parseColor("#00A94F"))
                 clearTextButton?.visibility = View.VISIBLE
             }
         }
-
-            searchKeyword?.setOnTextWatcher {
-                viewModel.searchQuery.value = it
-                searchKeyword.onSearch {
-                    searchAdapter()
-                     }
-                    searchBtn?.setOnClickListener {
-                        searchAdapter()
-                        it.hideKeyboard()
-
-                }
+        searchKeyword?.setOnTextWatcher {
+            viewModel.searchQuery.value = it
+            searchKeyword.onSearch {
+                searchAdapter()
             }
+
+            searchBtn?.setOnClickListener {
+                searchAdapter()
+                it.hideKeyboard()
+            }
+        }
     }
 
     //Utility functions
