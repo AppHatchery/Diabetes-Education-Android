@@ -21,10 +21,21 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("PATH_TO_KEYSTORE_FILE")
+            storePassword System.getenv("APP_HATCHERY_STORE_PASSWORD")
+            keyAlias "key0"
+            keyPassword System.getenv("APP_HATCHERY_KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
