@@ -1,13 +1,12 @@
 package edu.emory.diabetes.education.presentation.fragments.management
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
@@ -33,12 +32,16 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterSearchAdapter
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterViewModel
 import edu.emory.diabetes.education.views.WebAppInterface
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
 import java.util.zip.Inflater
 
 class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_monitoring) {
-
     private val args: BloodSugarMonitoringFragmentArgs by navArgs()
     private lateinit var fullScreenView: FrameLayout
     private val viewModel: ChapterViewModel by viewModels()
@@ -57,7 +60,7 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
-        "Management"
+            "Management"
         binding.apply {
             addMenuProvider()
             title.text = args.managementLesson.title
@@ -70,6 +73,42 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                     }
                 }
             }
+            lifecycleScope.launch(Dispatchers.IO) {
+                val filepath = "pages/${args.managementLesson.pageUrl}.html"
+                val html = readHtmlFromAssets(requireContext(), filepath)
+                val doc = Jsoup.parse(html);
+                val paragraphs = doc.select("p,li,img");
+                val array = mutableListOf<String>()
+                paragraphs.forEach { element ->
+                    if (element.tagName().equals("img")) {
+                        array.add(element.attr("alt"))
+                    } else {
+                        if (countOccurrences(element.text(), '.') > 1) {
+                            val block = element.text().split(".")
+                            block.forEach { item ->
+                                if (item.isNotEmpty()) array.add(item)
+                            }
+                        } else {
+                            array.add(element.text())
+                        }
+                    }
+                }
+                val newArray = mutableListOf<String>()
+                array.forEach {
+                    if (it.isNotEmpty()) {
+                        var string = ""
+                        if (fixString(it).contains("'")) {
+                            string = fixString(it).replace("'", "∧")
+                            newArray.add(string)
+                        } else {
+                            string = fixString(it)
+                            newArray.add(string)
+                        }
+                    }
+                }
+                val finalString = newArray.joinToString("_")
+                WebAppInterface.parsedData = finalString
+            }
             webView.apply {
                 loadUrl(Ext.getPathUrl(args.managementLesson.pageUrl))
                 addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
@@ -77,7 +116,6 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                     override fun onPageFinished(view: WebView?, url: String?) {
                         binding.scrollIndicator.progress = 0
                         super.onPageFinished(view, url)
-                        view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
                     }
 
                     override fun shouldOverrideUrlLoading(
@@ -120,6 +158,16 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
                         }
                     }
 
+                    override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
+                        consoleMessage?.let {
+                            Log.e(
+                                "Console Error",
+                                "${it.message()} on line ${it.lineNumber()}"
+                            )
+                        }
+                        return super.onConsoleMessage(consoleMessage)
+                    }
+
                     override fun onHideCustomView() {
                         super.onHideCustomView()
                         fullscreenContainer.visibility = View.GONE
@@ -132,7 +180,6 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
             }
         }
     }
-
     private fun addMenuProvider() = requireActivity().addMenuProvider(object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.global_search_menu, menu)
@@ -171,7 +218,7 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
             searchKeyword?.text?.clear()
         }
 
-        fun searchAdapter(){
+        fun searchAdapter() {
             recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
                 viewModel.searchResult.onEach {
                     searchResult?.visibility = View.GONE
@@ -199,6 +246,21 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
             }
         }
 
+    }
+    fun readHtmlFromAssets(context: Context, fileName: String): String {
+        return context.assets.open(fileName).bufferedReader().use {
+            it.readText()
+        }
+    }
+    fun countOccurrences(s: String, ch: Char): Int {
+        return s.filter { it == ch }.count()
+    }
+    private fun fixString(string: String): String {
+        return if (string.first() == ' ') {
+            string.replaceRange(0, 1, "")
+        } else {
+            string
+        }
     }
 }
 

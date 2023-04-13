@@ -102,6 +102,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-analytics'
 
+
+    //Jsoup (html parser)
+    implementation 'org.jsoup:jsoup:1.15.4'
+
     //Crashlytics and Analytics libraries
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'

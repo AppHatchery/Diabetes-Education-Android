@@ -1,8 +1,10 @@
 package edu.emory.diabetes.education.presentation.fragments.nutrition
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -32,11 +34,15 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterSearchAdapter
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterViewModel
 import edu.emory.diabetes.education.views.WebAppInterface
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
 
 class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_view_apps) {
-
     private val args: NutritionWebViewFragmentArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var binding: FragmentBloodSugarMonitoringBinding
@@ -47,7 +53,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentBloodSugarMonitoringBinding.inflate(inflater, container, false)
-        return  binding.root
+        return binding.root
     }
 
     @SuppressLint("JavascriptInterface")
@@ -65,7 +71,42 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                     }
                 }
             }
-
+            lifecycleScope.launch(Dispatchers.IO) {
+                val filepath = "pages/${args.lesson.pageUrl}.html"
+                val html = readHtmlFromAssets(requireContext(), filepath)
+                val doc = Jsoup.parse(html);
+                val paragraphs = doc.select("p,li,img");
+                val array = mutableListOf<String>()
+                paragraphs.forEach { element ->
+                    if (element.tagName().equals("img")) {
+                        array.add(element.attr("alt"))
+                    } else {
+                        if (countOccurrences(element.text(), '.') > 1) {
+                            val block = element.text().split(".")
+                            block.forEach { item ->
+                                if (item.isNotEmpty()) array.add(item)
+                            }
+                        } else {
+                            array.add(element.text())
+                        }
+                    }
+                }
+                val newArray = mutableListOf<String>()
+                array.forEach {
+                    if (it.isNotEmpty()) {
+                        var string = ""
+                        if (fixString(it).contains("'")) {
+                            string = fixString(it).replace("'", "∧")
+                            newArray.add(string)
+                        } else {
+                            string = fixString(it)
+                            newArray.add(string)
+                        }
+                    }
+                }
+                val finalString = newArray.joinToString("_")
+                WebAppInterface.parsedData = finalString
+            }
             webView.apply {
                 loadUrl(Ext.getPathUrl(args.lesson.pageUrl))
                 addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
@@ -73,7 +114,6 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                     override fun onPageFinished(view: WebView?, url: String?) {
                         binding.scrollIndicator.progress = 0
                         super.onPageFinished(view, url)
-                        view?.loadUrl("javascript:window.INTERFACE.processContent(document.getElementsByTagName('body')[0].innerText);")
                     }
 
                     override fun shouldOverrideUrlLoading(
@@ -106,7 +146,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                                         findNavController().navigate(it)
                                     }
 
-                                else ->  {
+                                else -> {
                                     val navController = findNavController()
                                     navController.popBackStack(R.id.nutritionFragment, false)
                                 }
@@ -122,21 +162,16 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
     private fun addMenuProvider() = requireActivity().addMenuProvider(object : MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.global_search_menu, menu)
-
         }
-
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             return when (menuItem.itemId) {
                 R.id.action_search -> {
                     showBottomSheetDialog()
-
                     true
                 }
                 else -> false
             }
-
         }
-
     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
     private fun showBottomSheetDialog() {
@@ -152,12 +187,11 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
         val recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
         val clearTextButton = bottomSheetDialog.findViewById<AppCompatImageView>(R.id.clear_button)
 
-
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
         }
 
-        fun searchAdapter(){
+        fun searchAdapter() {
             recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
                 viewModel.searchResult.onEach {
                     searchResult?.visibility = View.GONE
@@ -183,6 +217,21 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                 it.hideKeyboard()
 
             }
+        }
+    }
+    private fun readHtmlFromAssets(context: Context, fileName: String): String {
+        return context.assets.open(fileName).bufferedReader().use {
+            it.readText()
+        }
+    }
+    private fun countOccurrences(s: String, ch: Char): Int {
+        return s.filter { it == ch }.count()
+    }
+    private fun fixString(string: String): String {
+        return if (string.first() == ' ') {
+            string.replaceRange(0, 1, "")
+        } else {
+            string
         }
     }
 }
