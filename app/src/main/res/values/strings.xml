@@ -17,4 +17,5 @@
     <string name="link"><a >View in browser</a></string>
     <string name="step_one">STEP 1</string>
     <string name="step_two">STEP 2</string>
+    <string name="pendo_visitor_id">Tester-Apr-%s</string>
 </resources>
