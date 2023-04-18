@@ -1,6 +1,7 @@
 package edu.emory.diabetes.education.presentation.fragments.basic.quiz
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Toast
@@ -34,7 +35,6 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
         QuizUtils.answer.clear()
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        selectedChoices = view.findViewById(R.id.selectedChoices)
         viewModel.getQuizCode(args.quizId).onEach {
             (requireActivity() as AppCompatActivity)
                 .supportActionBar?.title = "${it.title} : Questions"
@@ -46,11 +46,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
                 adapter = QuizAdapter(viewModel) {
                     when (it) {
                         QuizAdapterEvent.MaximumLimit -> {
-                            /*Toast.makeText(
-                                requireContext(),
-                                "Maximum number of entries reached",
-                                Toast.LENGTH_SHORT
-                            ).show()*/
+
                         }
                         QuizAdapterEvent.ItemClicked -> {
                             if (viewModel.quizFinished.value) {
@@ -75,6 +71,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
                         if (description.isEmpty()) subtitle.visibility = View.GONE
                         subtitle.text = description
                         adapter.maxAnswerSize = maxAnswerSize
+                        adapter.maxChoicesSize = choices.size
                         adapter.asyncListDiffer.submitList(choices)
                         adapter.listener = this@QuizQuestionFragment
                         questionItem = this
@@ -95,26 +92,42 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
             AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_ALL_CORRECT -> {
                 this@QuizQuestionFragment.root.apply {
                     quizFinished = true
-                    hideView(answerRecyclerView)
+                    iconAnswer.apply {
+                        setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_correct_answer
+                            )
+                        )
+                        showView(this)
+                    }
+                    resultInfoTextView.apply {
+                        showView(this)
+                        text =answerChoices
+                    }
+                    showView(resultInfoTextView)
                 }
             }
             AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT -> {
                 this@QuizQuestionFragment.root.apply {
                     if (hasSomeAllCorrect) {
-                        answerRecyclerView.apply {
-                            visibility = View.GONE
-                            iconAnswer.visibility = View.GONE
-                            resultInfoTextView.visibility = View.GONE
-                            selectedChoices.apply {
-                                setTextColor(ContextCompat.getColor(context, R.color.red_900))
-                                visibility = View.VISIBLE
-                                text = answerChoices
-                            }
+                        selectedChoices.apply {
+                            setTextColor(ContextCompat.getColor(context, R.color.red_900))
+                            visibility = View.VISIBLE
+                            text = answerChoices
                         }
                     } else {
-                        hideView(answerRecyclerView)
+                        iconAnswer.apply {
+                            //visibility = View.VISIBLE
+                            setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.ic_wrong_answer
+                                )
+                            )
+                            showView(this)
+                        }
                         hideView(selectedChoices)
-                        showView(iconAnswer)
                         showView(resultInfoTextView)
                         resultInfoTextView.text = answerChoices
                     }
@@ -122,7 +135,15 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
             }
             AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_NONE_CORRECT -> {
                 this@QuizQuestionFragment.root.apply {
-                    hideView(answerRecyclerView)
+                    iconAnswer.apply {
+                        //visibility = View.VISIBLE
+                        setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.ic_wrong_answer
+                            )
+                        )
+                    }
                     showView(resultInfoTextView)
                     showView(iconAnswer)
                     resultInfoTextView.text = answerChoices
@@ -131,17 +152,13 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
 
         }
     }
-
-    private fun clearPreviousState(resultView: View, answerView: View, selectedView: View) {
+    private fun clearPreviousState(resultView: View, selectedView: View) {
         resultView.visibility = View.GONE
-        answerView.visibility = View.GONE
         selectedView.visibility = View.GONE
     }
-
     private fun hideView(view: View) {
         if (view.visibility == View.VISIBLE) view.visibility = View.GONE
     }
-
     private fun showView(view: View) {
         if (view.visibility == View.GONE) view.visibility = View.VISIBLE
     }
@@ -152,39 +169,17 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
         val listener = OnClickListener {
             binding.apply {
                 val answers = QuizUtils.answer
-                clearPreviousState(resultInfoTextView, answerRecyclerView, selectedChoices)
+                clearPreviousState(resultInfoTextView,selectedChoices)
                 answers.isNotEmpty().also {
                     if (it) {
-                        if (questionEntity.first().answers.all { answers.contains(it) }) {
+                        if (AnswerProcessorUtil.hasAllAnswers(answers,questionEntity.first().answers)) {
                             val answerList = answers as List<String>
                             if (adapter != null) {
                                 (adapter as? QuizAdapter)?.apply {
                                     setAnswers(questionItem, args.quizId, answerList)
                                 }
                             }
-                            iconAnswer.apply {
-                                visibility = View.VISIBLE
-                                setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        requireContext(),
-                                        R.drawable.ic_correct_answer
-                                    )
-                                )
-                            }
-                            resultInfoTextView.apply {
-                                visibility = View.VISIBLE
-                                text = answers.joinToString(separator = ", ")
-                            }
-
-                            answerRecyclerView.apply {
-                                //visibility = View.VISIBLE
-                                answerAdapter = AnswerAdapter().also {
-
-                                    it.submitList(answers)
-                                }
-                            }
-                            viewModel.setQuizFinished(true)
-                            if (viewModel.quizFinished.value) {
+                            viewModel.setQuizFinished(true).also {
                                 next.text = "Next"
                                 next.setOnClickListener {
                                     QuizQuestionFragmentDirections
@@ -200,21 +195,6 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
                             if (adapter != null) {
                                 (adapter as? QuizAdapter)?.apply {
                                     setAnswers(questionItem, args.quizId, answerList)
-                                }
-                            }
-                            iconAnswer.apply {
-                                //visibility = View.VISIBLE
-                                setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                        requireContext(),
-                                        R.drawable.ic_wrong_answer
-                                    )
-                                )
-                            }
-                            answerRecyclerView.apply {
-                                //visibility = View.VISIBLE
-                                answerAdapter = AnswerAdapter().also {
-                                    it.submitList(answers)
                                 }
                             }
                             next.text = "Submit"

@@ -2,12 +2,16 @@ package edu.emory.diabetes.education.presentation.fragments.basic.quiz
 
 object AnswerProcessorUtil {
     fun hasAllAnswers(submittedAnswers: List<String>,answers: List<String>): Boolean {
-        for (element in answers) {
-            if (!submittedAnswers.contains(element)) {
-                return false
+        if (submittedAnswers.size>answers.size){
+            return false
+        }else{
+            for (element in answers) {
+                if (!submittedAnswers.contains(element)) {
+                    return false
+                }
             }
+            return true
         }
-        return true
     }
     fun hasSomeAnswers(submittedAnswers: List<String>,answers: List<String>,maximumAnswers:Int):Boolean{
         val found=answers.intersect(submittedAnswers.toSet())
