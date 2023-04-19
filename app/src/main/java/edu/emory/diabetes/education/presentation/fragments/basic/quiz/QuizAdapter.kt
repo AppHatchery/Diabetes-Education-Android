@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.FragmentQuizQuestionItemBinding
 import edu.emory.diabetes.education.domain.model.*
 import edu.emory.diabetes.education.presentation.fragments.basic.quiz.QuizAdapter.ViewHolder
@@ -26,7 +27,7 @@ class QuizAdapter @Inject constructor(private val viewModel: QuizQuestionViewMod
     private lateinit var answers: List<String>
     private var wrongChoiceIndexes: MutableList<AnswerData> = ArrayList()
     private var onSubmitStateClicked = false
-    var listener: AnswerProcessorUtil.OnSubmitResultStateListener? = null
+    var listener: Utils.OnSubmitResultStateListener? = null
     var quizTrialCount:Int = 0
     var itemClickPosition = ""
 
@@ -221,26 +222,26 @@ class QuizAdapter @Inject constructor(private val viewModel: QuizQuestionViewMod
         this@QuizAdapter.quizId = quizId
         answers = submittedAns
 
-        if (AnswerProcessorUtil.hasAllAnswers(submittedAns, question.answers)) {
+        if (Utils.hasAllAnswers(submittedAns, question.answers)) {
             if (onSubmitStateClicked) onSubmitStateClicked = false
             listener?.onSubmitResultState(
-                AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_ALL_CORRECT,
+                Utils.RESULTS_ON_SUBMIT.HAS_ALL_CORRECT,
                 answers.sorted().joinToString(", "),
                 false
             )
         } else {
-            if (AnswerProcessorUtil.hasSomeAnswers(submittedAns, question.answers, 5)) {
+            if (Utils.hasSomeAnswers(submittedAns, question.answers, 5)) {
                 val wrongChoice = answers.subtract(question.answers.toSet())
                 val wrongChoiceIndexes = mutableListOf<AnswerData>()
                 if (wrongChoice.isEmpty()) {
                     listener?.onSubmitResultState(
-                        AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT,
+                        Utils.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT,
                         "Please choose all answers that apply.",
                         hasSomeAllCorrect = true
                     )
                 } else {
                     listener?.onSubmitResultState(
-                        AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT,
+                        Utils.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT,
                         "${answers.sorted().joinToString(separator = ", ")} is not right. Please choose again.",
                         hasSomeAllCorrect = false
                     )
@@ -264,7 +265,7 @@ class QuizAdapter @Inject constructor(private val viewModel: QuizQuestionViewMod
                 val wrongChoice = answers.subtract(question.answers.toSet())
                 val wrongChoiceIndexes = mutableListOf<AnswerData>()
                 listener?.onSubmitResultState(
-                    AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_NONE_CORRECT,
+                    Utils.RESULTS_ON_SUBMIT.HAS_NONE_CORRECT,
                     "${answers.sorted().joinToString(separator = ", ")} is not right. Please choose again.",
                     false
                 )

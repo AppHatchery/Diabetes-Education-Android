@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.FragmentNutritionQuizQuestionsBinding
 import edu.emory.diabetes.education.databinding.FragmentQuizQuestionBinding
 import edu.emory.diabetes.education.domain.model.Choice
@@ -23,7 +24,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_quiz_questions),
-    AnswerProcessorUtil.OnSubmitResultStateListener {
+    Utils.OnSubmitResultStateListener {
     private val viewModel: NutritionQuizQuestionViewModel by viewModels()
     private val args: NutritionQuizQuestionsFragmentArgs by navArgs()
     lateinit var choices: List<Choice>
@@ -89,11 +90,11 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
     }
 
     override fun onSubmitResultState(
-        resultInfo: AnswerProcessorUtil.RESULTS_ON_SUBMIT,
+        resultInfo: Utils.RESULTS_ON_SUBMIT,
         answerChoices: String, hasSomeAllCorrect: Boolean
     ) {
         when (resultInfo) {
-            AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_ALL_CORRECT -> {
+            Utils.RESULTS_ON_SUBMIT.HAS_ALL_CORRECT -> {
                 this@NutritionQuizQuestionsFragment.root.apply {
                     quizFinished = true
                     iconAnswer.apply {
@@ -112,7 +113,7 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
                     showView(resultInfoTextView)
                 }
             }
-            AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT -> {
+            Utils.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT -> {
                 this@NutritionQuizQuestionsFragment.root.apply {
                     if (hasSomeAllCorrect) {
                         selectedChoices.apply {
@@ -137,7 +138,7 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
                     }
                 }
             }
-            AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_NONE_CORRECT -> {
+            Utils.RESULTS_ON_SUBMIT.HAS_NONE_CORRECT -> {
                 this@NutritionQuizQuestionsFragment.root.apply {
                     iconAnswer.apply {
                         setImageDrawable(
@@ -176,7 +177,7 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
                 answers.isNotEmpty().also {
                     if (it) {
 
-                        if (AnswerProcessorUtil.hasAllAnswers(answers,questionEntity.first().answers)) {
+                        if (Utils.hasAllAnswers(answers,questionEntity.first().answers)) {
                             val answerList = answers as List<String>
                             if (adapter != null) {
                                 (adapter as? QuizNutritionAdapter)?.apply {

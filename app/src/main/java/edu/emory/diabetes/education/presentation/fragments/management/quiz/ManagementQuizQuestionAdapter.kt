@@ -9,14 +9,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.ManagementQuizQuestionItemBinding
 import edu.emory.diabetes.education.domain.model.AnswerData
 import edu.emory.diabetes.education.domain.model.Choice
 import edu.emory.diabetes.education.domain.model.Question
 import edu.emory.diabetes.education.domain.model.QuizUserResponse
-import edu.emory.diabetes.education.presentation.fragments.basic.quiz.AnswerProcessorUtil
 import edu.emory.diabetes.education.presentation.fragments.basic.quiz.QuizAdapterEvent
-import edu.emory.diabetes.education.presentation.fragments.basic.quiz.QuizUtils
 import javax.inject.Inject
 
 class ManagementQuizQuestionAdapter @Inject constructor(
@@ -32,7 +31,7 @@ class ManagementQuizQuestionAdapter @Inject constructor(
     private lateinit var answers: List<String>
     private var wrongChoiceIndexes: MutableList<AnswerData> = ArrayList()
     private var onSubmitStateClicked = false
-    var listener: AnswerProcessorUtil.OnSubmitResultStateListener? = null
+    var listener: Utils.OnSubmitResultStateListener? = null
     var trialCount: Int = 0
     var pos = ""
     //CONTINUE WITH MANAGEMENT
@@ -257,26 +256,26 @@ class ManagementQuizQuestionAdapter @Inject constructor(
         this@ManagementQuizQuestionAdapter.quizId = quizId
         answers = submittedAns
 
-        if (AnswerProcessorUtil.hasAllAnswers(submittedAns, question.answers)) {
+        if (Utils.hasAllAnswers(submittedAns, question.answers)) {
             if (onSubmitStateClicked) onSubmitStateClicked = false
             listener?.onSubmitResultState(
-                AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_ALL_CORRECT,
+                Utils.RESULTS_ON_SUBMIT.HAS_ALL_CORRECT,
                 answers.sorted().joinToString(", "),
                 false
             )
         } else {
-            if (AnswerProcessorUtil.hasSomeAnswers(submittedAns, question.answers, 5)) {
+            if (Utils.hasSomeAnswers(submittedAns, question.answers, 5)) {
                 val wrongChoice = answers.subtract(question.answers.toSet())
                 val wrongChoiceIndexes = mutableListOf<AnswerData>()
                 if (wrongChoice.isEmpty()) {
                     listener?.onSubmitResultState(
-                        AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT,
+                        Utils.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT,
                         "Please choose all answers that apply.",
                         hasSomeAllCorrect = true
                     )
                 } else {
                     listener?.onSubmitResultState(
-                        AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT,
+                        Utils.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT,
                         "${
                             answers.sorted().joinToString(separator = ", ")
                         } is not right. Please choose again.",
@@ -308,7 +307,7 @@ class ManagementQuizQuestionAdapter @Inject constructor(
                 val wrongChoice = answers.subtract(question.answers.toSet())
                 val wrongChoiceIndexes = mutableListOf<AnswerData>()
                 listener?.onSubmitResultState(
-                    AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_NONE_CORRECT,
+                    Utils.RESULTS_ON_SUBMIT.HAS_NONE_CORRECT,
                     "${
                         answers.sorted().joinToString(separator = ", ")
                     } is not right. Please choose again.",

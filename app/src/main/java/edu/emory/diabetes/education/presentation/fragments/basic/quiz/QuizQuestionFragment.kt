@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.FragmentQuizQuestionBinding
 import edu.emory.diabetes.education.domain.model.Choice
 import edu.emory.diabetes.education.domain.model.Question
@@ -22,7 +23,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
-    AnswerProcessorUtil.OnSubmitResultStateListener {
+    Utils.OnSubmitResultStateListener {
     val viewModel: QuizQuestionViewModel by viewModels()
     private val args: QuizQuestionFragmentArgs by navArgs()
     lateinit var choices: List<Choice>
@@ -85,11 +86,11 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
         }
     }
     override fun onSubmitResultState(
-        resultInfo: AnswerProcessorUtil.RESULTS_ON_SUBMIT,
+        resultInfo: Utils.RESULTS_ON_SUBMIT,
         answerChoices: String, hasSomeAllCorrect: Boolean
     ) {
         when (resultInfo) {
-            AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_ALL_CORRECT -> {
+            Utils.RESULTS_ON_SUBMIT.HAS_ALL_CORRECT -> {
                 this@QuizQuestionFragment.root.apply {
                     quizFinished = true
                     iconAnswer.apply {
@@ -108,7 +109,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
                     showView(resultInfoTextView)
                 }
             }
-            AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT -> {
+            Utils.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT -> {
                 this@QuizQuestionFragment.root.apply {
                     if (hasSomeAllCorrect) {
                         selectedChoices.apply {
@@ -133,7 +134,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
                     }
                 }
             }
-            AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_NONE_CORRECT -> {
+            Utils.RESULTS_ON_SUBMIT.HAS_NONE_CORRECT -> {
                 this@QuizQuestionFragment.root.apply {
                     iconAnswer.apply {
                         //visibility = View.VISIBLE
@@ -172,7 +173,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
                 clearPreviousState(resultInfoTextView,selectedChoices)
                 answers.isNotEmpty().also {
                     if (it) {
-                        if (AnswerProcessorUtil.hasAllAnswers(answers,questionEntity.first().answers)) {
+                        if (Utils.hasAllAnswers(answers,questionEntity.first().answers)) {
                             val answerList = answers as List<String>
                             if (adapter != null) {
                                 (adapter as? QuizAdapter)?.apply {

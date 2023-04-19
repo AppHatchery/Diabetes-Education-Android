@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.FragmentManagementQuizQuestionBinding
 import edu.emory.diabetes.education.databinding.FragmentQuizQuestionBinding
 import edu.emory.diabetes.education.domain.model.Choice
@@ -21,7 +22,7 @@ import edu.emory.diabetes.education.presentation.fragments.basic.quiz.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class ManagementQuizQuestionFragment : BaseFragment(R.layout.fragment_management_quiz_question),AnswerProcessorUtil.OnSubmitResultStateListener {
+class ManagementQuizQuestionFragment : BaseFragment(R.layout.fragment_management_quiz_question),Utils.OnSubmitResultStateListener {
     private val viewModel: ManagementQuizQuestionViewModel by viewModels()
     private val args: ManagementQuizQuestionFragmentArgs by navArgs()
     private lateinit var root: FragmentManagementQuizQuestionBinding
@@ -85,11 +86,11 @@ class ManagementQuizQuestionFragment : BaseFragment(R.layout.fragment_management
     }
 
     override fun onSubmitResultState(
-        resultInfo: AnswerProcessorUtil.RESULTS_ON_SUBMIT,
+        resultInfo: Utils.RESULTS_ON_SUBMIT,
         answerChoices: String, hasSomeAllCorrect: Boolean
     ) {
         when (resultInfo) {
-            AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_ALL_CORRECT -> {
+            Utils.RESULTS_ON_SUBMIT.HAS_ALL_CORRECT -> {
                 this@ManagementQuizQuestionFragment.root.apply {
                     quizFinished = true
                     iconAnswer.apply {
@@ -108,7 +109,7 @@ class ManagementQuizQuestionFragment : BaseFragment(R.layout.fragment_management
                     showView(resultInfoTextView)
                 }
             }
-            AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT -> {
+            Utils.RESULTS_ON_SUBMIT.HAS_SOME_CORRECT -> {
                 this@ManagementQuizQuestionFragment.root.apply {
                     if (hasSomeAllCorrect) {
                         selectedChoices.apply {
@@ -132,7 +133,7 @@ class ManagementQuizQuestionFragment : BaseFragment(R.layout.fragment_management
                     }
                 }
             }
-            AnswerProcessorUtil.RESULTS_ON_SUBMIT.HAS_NONE_CORRECT -> {
+            Utils.RESULTS_ON_SUBMIT.HAS_NONE_CORRECT -> {
                 this@ManagementQuizQuestionFragment.root.apply {
                     iconAnswer.apply {
                         setImageDrawable(
@@ -170,7 +171,7 @@ class ManagementQuizQuestionFragment : BaseFragment(R.layout.fragment_management
                 clearPreviousState(resultInfoTextView, selectedChoices)
                 answers.isNotEmpty().also {
                     if (it) {
-                        if (AnswerProcessorUtil.hasAllAnswers(
+                        if (Utils.hasAllAnswers(
                                 answers,
                                 questionEntity.first().answers
                             )
