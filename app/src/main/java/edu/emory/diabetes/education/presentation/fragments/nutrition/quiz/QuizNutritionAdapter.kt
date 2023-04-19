@@ -135,7 +135,6 @@ class QuizNutritionAdapter @Inject constructor(private val viewModel:NutritionQu
                         pos =""
                     } else if (size > maxChoicesSize.minus(1)) {
                         if (maxChoicesSize > 1) {
-                            onEvent.invoke(QuizAdapterEvent.MaximumLimit)
                             if (wrongChoiceIndexes.size > 0) {
                                 selectedIndexes.clear()
                                 wrongChoiceIndexes.clear()
@@ -174,7 +173,6 @@ class QuizNutritionAdapter @Inject constructor(private val viewModel:NutritionQu
                         pos =""
                     } else if (size > maxChoicesSize.minus(1)) {
                         if (maxChoicesSize > 1) {
-                            onEvent.invoke(QuizAdapterEvent.MaximumLimit)
                             if (wrongChoiceIndexes.size > 0) {
                                 selectedIndexes.clear()
                                 wrongChoiceIndexes.clear()

@@ -82,9 +82,6 @@ class QuizAdapter @Inject constructor(private val viewModel: QuizQuestionViewMod
                                 wrongChoiceIndexes.remove(it)
                             }
                         }
-                        if(wrongChoiceIndexes.size>0){
-                            Log.e("how big is wr" ,"${wrongChoiceIndexes.size} ")
-                        }
                     }
                     executePendingBindings()
                 }
@@ -135,7 +132,6 @@ class QuizAdapter @Inject constructor(private val viewModel: QuizQuestionViewMod
                         itemClickPosition =""
                     } else if (size > maxChoicesSize.minus(1)) {
                         if (maxChoicesSize > 1) {
-                            onEvent.invoke(QuizAdapterEvent.MaximumLimit)
                             if (wrongChoiceIndexes.size > 0) {
                                 selectedIndexes.clear()
                                 wrongChoiceIndexes.clear()
@@ -157,7 +153,6 @@ class QuizAdapter @Inject constructor(private val viewModel: QuizQuestionViewMod
                     itemClickPosition ="$adapterPosition"
                 }.onEach {
                     QuizUtils.answer.add(QuizUtils.questions[0].choices[it].id)
-                    Log.e("Selected indexes ","$selectedIndexes")
                 }
                 notifyDataSetChanged()
             }
@@ -175,7 +170,6 @@ class QuizAdapter @Inject constructor(private val viewModel: QuizQuestionViewMod
                         itemClickPosition =""
                     } else if (size > maxChoicesSize.minus(1)) {
                         if (maxChoicesSize > 1) {
-                            onEvent.invoke(QuizAdapterEvent.MaximumLimit)
                             if (wrongChoiceIndexes.size > 0) {
                                 selectedIndexes.clear()
                                 wrongChoiceIndexes.clear()

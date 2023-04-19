@@ -49,9 +49,6 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
             viewModel.selectQuestions(args.quizId).onEach { questionEntity ->
                 adapter = QuizNutritionAdapter(viewModel) {
                     when (it) {
-                        QuizAdapterEvent.MaximumLimit -> {
-
-                        }
                         QuizAdapterEvent.ItemClicked -> {
                             if (viewModel.quizFinished.value) {
                                 val listener = getListener(this, questionEntity)

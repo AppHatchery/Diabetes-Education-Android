@@ -46,9 +46,6 @@ class ManagementQuizQuestionFragment : BaseFragment(R.layout.fragment_management
             viewModel.selectQuestions(args.quizId).onEach { questionEntity ->
                 adapter = ManagementQuizQuestionAdapter(viewModel) {
                     when (it) {
-                        QuizAdapterEvent.MaximumLimit -> {
-
-                        }
                         QuizAdapterEvent.ItemClicked -> {
                             if (viewModel.quizFinished.value) {
                                 val listener = getListener(this, questionEntity)

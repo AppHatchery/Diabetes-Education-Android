@@ -168,7 +168,6 @@ class ManagementQuizQuestionAdapter @Inject constructor(
                         pos = ""
                     } else if (size > maxChoicesSize.minus(1)) {
                         if (maxChoicesSize > 1) {
-                            onEvent.invoke(QuizAdapterEvent.MaximumLimit)
                             if (wrongChoiceIndexes.size > 0) {
                                 selectedIndexes.clear()
                                 wrongChoiceIndexes.clear()
@@ -207,7 +206,6 @@ class ManagementQuizQuestionAdapter @Inject constructor(
                         pos = ""
                     } else if (size > maxChoicesSize.minus(1)) {
                         if (maxChoicesSize > 1) {
-                            onEvent.invoke(QuizAdapterEvent.MaximumLimit)
                             if (wrongChoiceIndexes.size > 0) {
                                 selectedIndexes.clear()
                                 wrongChoiceIndexes.clear()
@@ -229,7 +227,6 @@ class ManagementQuizQuestionAdapter @Inject constructor(
                     pos = "$adapterPosition"
                 }.onEach {
                     ManagementQuizUtils.answer.add(ManagementQuizUtils.questions[0].choices[it].id)
-                    Log.e("Selected indexes ", "$selectedIndexes")
                 }
                 notifyDataSetChanged()
             }

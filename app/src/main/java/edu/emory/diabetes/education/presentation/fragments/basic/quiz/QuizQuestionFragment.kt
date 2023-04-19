@@ -1,12 +1,10 @@
 package edu.emory.diabetes.education.presentation.fragments.basic.quiz
 
 import android.os.Bundle
-import android.util.Log
+
 import android.view.View
 import android.view.View.OnClickListener
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,7 +15,6 @@ import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.FragmentQuizQuestionBinding
 import edu.emory.diabetes.education.domain.model.Choice
 import edu.emory.diabetes.education.domain.model.Question
-import edu.emory.diabetes.education.presentation.AnswerAdapter
 import edu.emory.diabetes.education.presentation.BaseFragment
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -29,7 +26,6 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
     lateinit var choices: List<Choice>
     private lateinit var questionItem: Question
     private var quizFinished: Boolean = false
-    private lateinit var selectedChoices: AppCompatTextView
     private lateinit var root: FragmentQuizQuestionBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +42,6 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
             viewModel.selectQuestions(args.quizId).onEach { questionEntity ->
                 adapter = QuizAdapter(viewModel) {
                     when (it) {
-                        QuizAdapterEvent.MaximumLimit -> {
-
-                        }
                         QuizAdapterEvent.ItemClicked -> {
                             if (viewModel.quizFinished.value) {
                                 val listener = getListener(this, questionEntity)
