@@ -4,29 +4,25 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.view.inputmethod.EditorInfo
+import android.view.animation.DecelerateInterpolator
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
-import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
@@ -55,7 +51,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentOrientationWhatIsDiabetesBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -63,7 +59,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-       val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
         actionBar?.title = "Basics"
         binding.apply {
             title.text = args.lesson.title
@@ -172,99 +168,129 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         val recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
         val clearTextButton = bottomSheetDialog.findViewById<AppCompatImageView>(R.id.clear_button)
         val recyclerContainer = bottomSheetDialog.findViewById<View>(R.id.bottomSheet)
+        val mainContainer = bottomSheetDialog.findViewById<View>(R.id.fragment_search_chapter)
+
+        //Search
+        val searchLinear = bottomSheetDialog.findViewById<LinearLayoutCompat>(R.id.search_linear)
 
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
         }
 
-        fun searchAdapter(){
+        fun searchAdapter() {
             recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
                 viewModel.searchResult.onEach {
-                    if(it.isNotEmpty()) searchResult?.visibility = View.GONE
+                    if (it.isNotEmpty()) searchResult?.visibility = View.GONE
                     adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
-                        //Reason why the recycler scrolls to the bottom?
-                        //recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
+                        //Q: is there a reason why the recycler scrolls to the bottom?
+                        recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
                     }
                     if (it.isEmpty()) searchResult?.visibility = View.VISIBLE
                 }.launchIn(lifecycleScope)
             }
-            //Observe if there are any changes
-            recyclerView?.viewTreeObserver?.addOnGlobalLayoutListener (object: ViewTreeObserver.OnGlobalLayoutListener{
+            //Observe if there are any changes in the recycler view
+            recyclerView?.viewTreeObserver?.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    //Measure the changes
+                    //Measure the changes in the recycler view
                     recyclerView.measure(
-                        View.MeasureSpec.makeMeasureSpec(recyclerView.width, View.MeasureSpec.EXACTLY),
+                        View.MeasureSpec.makeMeasureSpec(
+                            recyclerView.width,
+                            View.MeasureSpec.EXACTLY
+                        ),
                         View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
                     )
 
-                    //Get min height of recycler
-                    val minViewHeight = if (recyclerView.minimumHeight <= 0) 450 else recyclerView.minimumHeight
-                    //Get current height of bottom sheet
+                    //get measured height
+                    val measuredHeight = recyclerView.measuredHeight
+
+                    //current container height
+                    //val currentHeight = bottomSheetBehavior.peekHeight
+
+                    //current container height
                     val currentHeight = recyclerContainer?.height
-                    //Get desired height of the
-                    val targetHeight = if (recyclerView.measuredHeight < minViewHeight) recyclerView.measuredHeight + minViewHeight else recyclerView.measuredHeight
-                    //If the heights don't match animate to the targeted height
-                    if(currentHeight != targetHeight){
-                        val animator = ValueAnimator.ofInt(currentHeight!!, targetHeight)
-                        animator.addUpdateListener { valueAnimator->
+
+                    //get desired height < add the linear search with the measured height >
+                    val targetHeight = searchLinear?.let { it1 -> measuredHeight.plus(it1.height) }
+
+                    // only animate if heights don't match
+                    if (targetHeight != currentHeight) {
+                        val animator = ValueAnimator.ofInt(currentHeight!!, targetHeight!!)
+                        animator.addUpdateListener { valueAnimator ->
                             val height = valueAnimator.animatedValue as Int
                             val layoutParams = recyclerContainer.layoutParams
-                            layoutParams.height = height
-                            //recyclerContainer.layoutParams = layoutParams
-                            recyclerView.minimumHeight = (height * 0.75).toInt()
+                            layoutParams?.height = height
+                            recyclerContainer.layoutParams = layoutParams
+
                         }
-                        animator.duration = 300
+                        animator.duration = 2000L
+                        animator.interpolator = DecelerateInterpolator()
                         animator.start()
                     }
                 }
             })
         }
 
-            searchKeyword?.setOnTextWatcher {
-                viewModel.searchQuery.value = it
-                if (searchKeyword.text.toString().isNotEmpty()) {
-                    searchBtn?.setTextColor(Color.parseColor("#00A94F"))
-                    clearTextButton?.visibility = View.VISIBLE
-                }
-                recyclerView?.viewTreeObserver?.addOnGlobalLayoutListener (object: ViewTreeObserver.OnGlobalLayoutListener{
-                    override fun onGlobalLayout() {
-                        recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        recyclerView.measure(
-                            View.MeasureSpec.makeMeasureSpec(recyclerView.width, View.MeasureSpec.EXACTLY),
-                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-                        )
+        searchKeyword?.setOnTextWatcher {
 
-                        val minViewHeight = if (recyclerView.minimumHeight <= 0) 450 else recyclerView.minimumHeight
-                        val currentHeight = recyclerContainer?.height
+            recyclerView?.viewTreeObserver?.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    //Measure the changes in the recycler view
+                    recyclerView.measure(
+                        View.MeasureSpec.makeMeasureSpec(
+                            recyclerView.width,
+                            View.MeasureSpec.EXACTLY
+                        ),
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+                    )
 
-                        val targetHeight = if (recyclerView.measuredHeight < minViewHeight) recyclerView.measuredHeight + minViewHeight else recyclerView.measuredHeight
-                        if(currentHeight != targetHeight){
-                            val animator = ValueAnimator.ofInt(currentHeight!!, targetHeight)
-                            animator.addUpdateListener { valueAnimator->
-                                val height = valueAnimator.animatedValue as Int
-                                val layoutParams = recyclerContainer.layoutParams
-                                layoutParams.height = height
-                                //recyclerContainer.layoutParams = layoutParams
-                                recyclerView.minimumHeight = (height * 0.75).toInt()
-                                // Don't set height for recycler but the dialog
-                                //bottomSheetDialog.window?.setLayout(bottomSheetDialog.window?.decorView?.width!!, height)
+                    //get measured height
+                    val measuredHeight = recyclerView.measuredHeight
 
-                            }
-                            animator.duration = 500
-                            animator.start()
+                    //current container height
+                    //val currentHeight = bottomSheetBehavior.peekHeight
+
+                    //current container height
+                    val currentHeight = recyclerContainer?.height
+
+                    //get desired height < add the linear search with the measured height >
+                    val targetHeight = searchLinear?.let { it1 -> measuredHeight.plus(it1.height) }
+
+                    // only animate if heights don't match
+                    if (targetHeight != currentHeight) {
+                        val animator = ValueAnimator.ofInt(currentHeight!!, targetHeight!!)
+                        animator.addUpdateListener { valueAnimator ->
+                            val height = valueAnimator.animatedValue as Int
+                            val layoutParams = recyclerContainer.layoutParams
+                            layoutParams?.height = height
+                            recyclerContainer.layoutParams = layoutParams
+
                         }
+                        animator.duration = 2000L
+                        animator.interpolator = DecelerateInterpolator()
+                        animator.start()
                     }
-                })
-                searchKeyword.onSearch {
-                    searchAdapter()
-                     }
-                    searchBtn?.setOnClickListener {
-                        searchAdapter()
-                        it.hideKeyboard()
 
                 }
+            })
+            viewModel.searchQuery.value = it
+
+            if (searchKeyword.text.toString().isNotEmpty()) {
+                searchBtn?.setTextColor(Color.parseColor("#00A94F"))
+                clearTextButton?.visibility = View.VISIBLE
             }
+            searchKeyword.onSearch {
+                searchAdapter()
+            }
+            searchBtn?.setOnClickListener {
+                searchAdapter()
+                it.hideKeyboard()
+
+            }
+        }
     }
 
 }
