@@ -22,7 +22,6 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                 MainFragmentDirections
                     .actionMainFragmentToOrientationFragment()
                     .also { findNavController().navigate(it) }
-                Log.e("TAG", "onViewCreated: " + BrowseUtils.bookMarkData.toList())
             }
 
             appCompatImageButton.setOnClickListener {
