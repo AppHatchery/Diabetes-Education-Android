@@ -46,6 +46,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
+import sdk.pendo.io.Pendo
 import java.io.IOException
 
 
@@ -236,6 +237,11 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             searchBtn?.setOnClickListener {
                 searchAdapter()
                 it.hideKeyboard()
+                val webView: WebView = binding.webView
+                val properties = hashMapOf<String, Any>()
+                properties["searchTerm"] = searchKeyword.text.toString()
+                properties["page"] =  webView.url ?: "${webView.title}"
+                Pendo.track("searchQuery", properties)
             }
         }
     }

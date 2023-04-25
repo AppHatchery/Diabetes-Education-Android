@@ -16,6 +16,7 @@ import edu.emory.diabetes.education.presentation.fragments.calculator.Calculator
 import edu.emory.diabetes.education.presentation.fragments.calculator.CalculatorViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import sdk.pendo.io.Pendo
 import java.text.DecimalFormat
 
 class TotalInsulinFragment : BaseFragment(R.layout.fragment_total_insulin) {
@@ -60,6 +61,13 @@ class TotalInsulinFragment : BaseFragment(R.layout.fragment_total_insulin) {
             //Total insulin
             totalInsulin = insulinFood + insulinHbs
             totalInsulinAnswer.text = DecimalFormat("#.#").format(totalInsulin)
+
+            //pendo tracking
+            val properties = hashMapOf<String, Any>()
+            properties["for_food"] = insulinFood
+            properties["for_hbs"] = insulinHbs
+            properties["total"] = totalInsulin
+            Pendo.track("Calculator_results", properties)
 
             //new calculator button
             newCalculator.setOnClickListener {
