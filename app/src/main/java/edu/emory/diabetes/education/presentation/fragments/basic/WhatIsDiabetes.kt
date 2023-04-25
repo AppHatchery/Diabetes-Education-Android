@@ -232,12 +232,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         }
         searchKeyword?.setOnTextWatcher {
             viewModel.searchQuery.value = it
-
-           // binding.parent.scrollY  = 30
-
-
-
-
             searchKeyword.onSearch {
                 searchAdapter()
             }
