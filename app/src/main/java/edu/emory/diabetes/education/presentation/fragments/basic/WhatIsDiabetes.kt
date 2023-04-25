@@ -3,12 +3,14 @@ package edu.emory.diabetes.education.presentation.fragments.basic
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.webkit.*
 import android.widget.FrameLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -229,6 +231,12 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         }
         searchKeyword?.setOnTextWatcher {
             viewModel.searchQuery.value = it
+
+           // binding.parent.scrollY  = 30
+
+
+
+
             searchKeyword.onSearch {
                 searchAdapter()
             }
@@ -236,6 +244,20 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             searchBtn?.setOnClickListener {
                 searchAdapter()
                 it.hideKeyboard()
+                binding.parent.smoothScrollTo(0, 0)
+                viewModel.searchQuery.value.let { searchQuery ->
+                    if (searchQuery.isNotEmpty()) {
+                        binding.webView.findAllAsync(viewModel.searchQuery.value)
+                        binding.webView.setFindListener { activeMatchOrdinal, _, _ ->
+                            if (activeMatchOrdinal == -1) {
+                                binding.webView.clearMatches()
+                                binding.webView.setFindListener(null)
+                            } else {
+                                binding.parent.smoothScrollTo(0, binding.webView.contentHeight * activeMatchOrdinal)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
