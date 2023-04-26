@@ -70,8 +70,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Morning"
                     android:fontFamily="@font/gotham_rounded"
+                    android:text="Morning"
                     android:textColor="@color/yellow_500"
                     app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -109,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:fontFamily="@font/avenir_roman"
-                        android:text="1.  What is Diabetes?\n2. Types of Insulin\n3. How to calculate insulin dosing\n4. How to give insulin shot"
+                        android:text="@string/fa_orientation_agenda_first_day_morning"
                         android:textColor="@color/gray_200"
                         app:fontFamily="@font/gotham_rounded" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -130,11 +130,11 @@
                     android:id="@+id/appCompatImageView10"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/shape_rectangle_radius_50px"
                     android:backgroundTint="@android:color/white"
-                    android:padding="8dp"
                     android:drawableStart="@drawable/ic_vector__1_"
+                    android:padding="8dp"
                     app:layout_constraintStart_toStartOf="@+id/appCompatImageView3"
                     app:layout_constraintTop_toBottomOf="@+id/view2" />
 
@@ -152,28 +152,16 @@
                     app:layout_constraintStart_toEndOf="@+id/appCompatImageView10"
                     app:layout_constraintTop_toTopOf="@+id/appCompatImageView10" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/appCompatTextView9"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="@font/gotham_rounded"
-                    android:text="• Prep meal with diabetes educators"
-                    app:layout_constraintEnd_toEndOf="@+id/linearLayoutCompat5"
-                    app:layout_constraintStart_toStartOf="@+id/appCompatImageView10"
-                    app:layout_constraintTop_toBottomOf="@+id/appCompatImageView10" />
-
 
                 <View
                     android:id="@+id/view3"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:background="@color/green_50"
                     app:layout_constraintEnd_toEndOf="@+id/linearLayoutCompat5"
                     app:layout_constraintStart_toStartOf="@+id/linearLayoutCompat5"
-                    app:layout_constraintTop_toBottomOf="@+id/appCompatTextView9" />
+                    app:layout_constraintTop_toBottomOf="@+id/appCompatImageView10" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/appCompatImageView12"
@@ -182,8 +170,8 @@
                     android:layout_marginTop="16dp"
                     android:background="@drawable/shape_rectangle_radius_50px"
                     android:backgroundTint="@android:color/white"
-                    android:padding="10dp"
                     android:drawableStart="@drawable/ic_afternoon_sun"
+                    android:padding="10dp"
                     app:layout_constraintStart_toStartOf="@+id/appCompatImageView3"
                     app:layout_constraintTop_toBottomOf="@+id/view3" />
 
@@ -227,8 +215,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:fontFamily="@font/avenir_roman"
-                        android:text="1. Types of food\n2. How to count carbs\n3. Carbs counting Apps
-"
+                        android:text="@string/fa_orientation_agenda_first_day_afternoon"
                         android:textColor="@color/gray_200"
                         app:fontFamily="@font/gotham_rounded" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
