@@ -134,7 +134,8 @@
                     android:background="@drawable/shape_rectangle_radius_50px"
                     android:backgroundTint="@android:color/white"
                     android:drawableStart="@drawable/ic_vector__1_"
-                    android:padding="8dp"
+                    android:gravity="center"
+                    android:padding="12dp"
                     app:layout_constraintStart_toStartOf="@+id/appCompatImageView3"
                     app:layout_constraintTop_toBottomOf="@+id/view2" />
 
@@ -145,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/gotham_rounded"
-                    android:text="Lunch"
+                    android:text="Lunch Break"
                     android:textColor="@color/yellow_500"
                     app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView10"
                     app:layout_constraintEnd_toEndOf="parent"
