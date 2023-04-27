@@ -3,113 +3,107 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
-        tools:context=".presentation.fragments.aboutus.AboutAsContentFragment">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
 
 
-        <ScrollView
-            android:id="@+id/scrollView2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/about"
+                style="@style/textTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:orientation="vertical">
+                android:fontFamily="@font/avenir_roman"
+                android:text="About the App"
+                android:textColor="#57585A" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/avenir_roman"
+                android:text="The content in the TypeU App has been created in conjunction with the Diabetes Education Team at Children’s Healthcare of Atlanta based off the Diabetes Education sessions for new onset patients. The educational content is informed by the 2023 Standards of Care in Diabetes that is regularly published by the American Diabetes Association."
+                android:textAlignment="textStart"
+                android:textColor="@color/gray_200"
+                android:textSize="17sp"
+                app:fontFamily="@font/avenir_roman" />
+
+            <TextView
+                android:id="@+id/ada"
+                style="@style/textTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/avenir_roman"
+                android:text="American Diabetes Association"
+                android:textColor="#57585A" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_about_us_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/ada"
+                tools:layout_editor_absoluteX="20dp">
 
 
-                <TextView
-                    android:id="@+id/about"
-                    style="@style/textTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/avenir_roman"
-                    android:text="About the App"
-                    android:textColor="#57585A" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="102dp"
+                    android:layout_margin="20dp"
+                    android:padding="0dp"
+                    android:src="@drawable/about_us_american_diabetes_association" />
+            </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/avenir_roman"
-                    android:text="The content in the TypeU App has been created in conjunction with the Diabetes Education Team at Children’s Healthcare of Atlanta based off the Diabetes Education sessions for new onset patients. The educational content is informed by the 2023 Standards of Care in Diabetes that is regularly published by the American Diabetes Association."
-                    android:textAlignment="textStart"
-                    android:textColor="@color/gray_200"
-                    android:textSize="17sp"
-                    app:fontFamily="@font/avenir_roman" />
-
-                <TextView
-                    android:id="@+id/ada"
-                    style="@style/textTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/avenir_roman"
-                    android:text="American Diabetes Association"
-                    android:textColor="#57585A" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView_about_us_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/ada"
-                    tools:layout_editor_absoluteX="20dp">
+            <TextView
+                android:id="@+id/textVils"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="20dp"
+                android:fontFamily="@font/avenir_roman"
+                android:text="The American Diabetes Association (ADA) is a United States-based nonprofit that seeks to educate the public about diabetes and to help those affected by it through funding research to manage, cure and prevent diabetes."
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/gray_200"
+                android:textSize="17sp"
+                app:fontFamily="@font/avenir_roman" />
 
 
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="102dp"
-                        android:layout_margin="20dp"
-                        android:padding="0dp"
-                        android:src="@drawable/about_us_american_diabetes_association" />
-                </androidx.cardview.widget.CardView>
+            <TextView
+                style="@style/textTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_roman"
+                android:text="Support"
+                android:textColor="#57585A" />
 
-                <TextView
-                    android:id="@+id/textVils"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="20dp"
-                    android:fontFamily="@font/avenir_roman"
-                    android:text="The American Diabetes Association (ADA) is a United States-based nonprofit that seeks to educate the public about diabetes and to help those affected by it through funding research to manage, cure and prevent diabetes."
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/gray_200"
-                    android:textSize="17sp"
-                    app:fontFamily="@font/avenir_roman" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/sendMail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:text="@string/fa_about_us_support"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/gray_200"
+                android:textSize="17sp"
+                app:fontFamily="@font/avenir_roman" />
 
 
-                <TextView
-                    style="@style/textTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/avenir_roman"
-                    android:text="Support"
-                    android:textColor="#57585A" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/sendMail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autoLink="all"
-                    android:text="@string/fa_about_us_support"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/gray_200"
-                    android:textSize="17sp"
-                    app:fontFamily="@font/avenir_roman" />
+        </LinearLayout>
+    </ScrollView>
 
 
-            </LinearLayout>
-        </ScrollView>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -23,6 +23,8 @@ class AboutAsContentFragment : BaseFragment(R.layout.fragment_about_us__content)
                 startActivity(chooser)
             }
         }
+
+            /*Attach click event on the anchor tags in the html string resource*/
             sendMail.movementMethod = LinkMovementMethod.getInstance()
 
        }
