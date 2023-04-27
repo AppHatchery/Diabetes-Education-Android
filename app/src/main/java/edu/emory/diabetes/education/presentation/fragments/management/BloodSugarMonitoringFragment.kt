@@ -243,10 +243,9 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
             searchBtn?.setOnClickListener {
                 searchAdapter()
                 it.hideKeyboard()
-                val webView: WebView = binding.webView
                 val properties = hashMapOf<String, Any>()
                 properties["searchTerm"] = searchKeyword.text.toString()
-                properties["page"] =  webView.url ?: "${webView.title}"
+                properties["page"] =  args.managementLesson.title
                 Pendo.track("searchQuery", properties)
 
             }

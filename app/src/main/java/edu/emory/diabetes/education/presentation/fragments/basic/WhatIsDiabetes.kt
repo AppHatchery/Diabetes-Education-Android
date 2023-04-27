@@ -237,10 +237,9 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             searchBtn?.setOnClickListener {
                 searchAdapter()
                 it.hideKeyboard()
-                val webView: WebView = binding.webView
                 val properties = hashMapOf<String, Any>()
                 properties["searchTerm"] = searchKeyword.text.toString()
-                properties["page"] =  webView.url ?: "${webView.title}"
+                properties["page"] =  args.lesson.title
                 Pendo.track("searchQuery", properties)
             }
         }

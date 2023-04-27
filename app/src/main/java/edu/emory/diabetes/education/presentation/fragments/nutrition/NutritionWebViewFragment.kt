@@ -216,10 +216,9 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
             searchBtn?.setOnClickListener {
                 searchAdapter()
                 it.hideKeyboard()
-                val webView: WebView = binding.webView
                 val properties = hashMapOf<String, Any>()
                 properties["searchTerm"] = searchKeyword.text.toString()
-                properties["page"] =  webView.url ?: "${webView.title}"
+                properties["page"] =  args.lesson.title
                 Pendo.track("searchQuery", properties)
 
             }
