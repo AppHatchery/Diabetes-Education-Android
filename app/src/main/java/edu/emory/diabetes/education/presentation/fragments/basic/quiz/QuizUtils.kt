@@ -56,7 +56,7 @@ object QuizUtils {
             "Long-acting insulin should be given:",
             "",
             choices = listOf(
-                Choice("A", "A. 1-2 times daily"),
+                Choice("A", "A. Once a day"),
                 Choice("B", "B. With every meal"),
                 Choice("C", "C. Weekly"),
                 Choice("D", "D. Only at bedtime")
