@@ -1,12 +1,11 @@
 package edu.emory.diabetes.education.presentation.fragments.resources
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.util.Log
+import android.view.*
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -23,27 +22,45 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.SearchUtils
 import edu.emory.diabetes.education.Utils.hideKeyboard
 import edu.emory.diabetes.education.Utils.onSearch
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
+import edu.emory.diabetes.education.databinding.FragmentOrientationWhatIsDiabetesBinding
 import edu.emory.diabetes.education.databinding.FragmentResourceWebViewAppsBinding
 import edu.emory.diabetes.education.domain.model.ChapterSearch
 import edu.emory.diabetes.education.htmlExt
 import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterSearchAdapter
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterViewModel
+import edu.emory.diabetes.education.presentation.fragments.search.SearchUtil.Companion.ParseHtml.readHtmlFromAssets
+import edu.emory.diabetes.education.presentation.fragments.search.SearchUtil.Companion.ResultSearch.countOccurrences
 import edu.emory.diabetes.education.views.WebAppInterface
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
+import edu.emory.diabetes.education.presentation.fragments.basic.WhatIsDiabetes
 
 class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view_apps) {
     private val args: ResourceWebViewFragmentArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
+    private lateinit var binding: FragmentResourceWebViewAppsBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentResourceWebViewAppsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = "Food Diary"
-        with(FragmentResourceWebViewAppsBinding.bind(view)) {
+        binding.apply {
             addMenuProvider()
             parent.viewTreeObserver.addOnScrollChangedListener {
                 if (parent.scrollY > 0) {
@@ -54,6 +71,11 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
                     }
                 }
             }
+
+            val htmlParser = SearchUtils.HtmlParser(requireContext(), args.foodDiary.pageUrl)
+            val parsedData = htmlParser.parseHtml()
+            WebAppInterface.parsedData = parsedData
+
             webView.apply {
                 loadUrl(Ext.getPathUrl(args.foodDiary.pageUrl))
                 addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
@@ -119,6 +141,7 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
 
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
+            binding.webView.clearMatches()
         }
 
         fun searchAdapter(){
@@ -145,6 +168,22 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
             searchBtn?.setOnClickListener {
                 searchAdapter()
                 it.hideKeyboard()
+                viewModel?.searchQuery?.value.let { searchQuery ->
+                    if (searchQuery.isNotEmpty()) {
+                        binding.apply {
+                            webView.findAllAsync(viewModel.searchQuery.value)
+                            webView.setFindListener { activeMatchOrdinal, _, _ ->
+                                if (activeMatchOrdinal == -1) {
+                                    webView.clearMatches()
+                                    webView.setFindListener(null)
+                                } else {
+                                   parent.smoothScrollTo(0, webView.contentHeight * activeMatchOrdinal)
+                                }
+                           }
+
+                        }
+                    }
+                }
 
             }
         }
