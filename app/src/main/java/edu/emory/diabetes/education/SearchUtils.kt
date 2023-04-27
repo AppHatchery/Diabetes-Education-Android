@@ -1,10 +1,6 @@
 package edu.emory.diabetes.education
 
 import android.content.Context
-import android.view.View
-import android.webkit.WebView
-import android.widget.ScrollView
-import kotlinx.coroutines.NonDisposableHandle.parent
 import org.jsoup.Jsoup
 
 object SearchUtils {
