@@ -101,6 +101,9 @@
                 android:textSize="17sp"
                 app:fontFamily="@font/avenir_roman" />
 
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="120dp" />
 
         </LinearLayout>
     </ScrollView>
