@@ -41,6 +41,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
+import sdk.pendo.io.Pendo
 
 class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_view_apps) {
     private val args: NutritionWebViewFragmentArgs by navArgs()
@@ -215,6 +216,10 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
             searchBtn?.setOnClickListener {
                 searchAdapter()
                 it.hideKeyboard()
+                val properties = hashMapOf<String, Any>()
+                properties["searchTerm"] = searchKeyword.text.toString()
+                properties["page"] =  args.lesson.title
+                Pendo.track("searchQuery", properties)
 
             }
         }

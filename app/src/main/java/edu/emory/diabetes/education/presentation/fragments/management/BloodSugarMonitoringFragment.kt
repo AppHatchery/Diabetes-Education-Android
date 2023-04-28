@@ -39,6 +39,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
+import sdk.pendo.io.Pendo
 import java.util.zip.Inflater
 
 class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_monitoring) {
@@ -242,6 +243,10 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
             searchBtn?.setOnClickListener {
                 searchAdapter()
                 it.hideKeyboard()
+                val properties = hashMapOf<String, Any>()
+                properties["searchTerm"] = searchKeyword.text.toString()
+                properties["page"] =  args.managementLesson.title
+                Pendo.track("searchQuery", properties)
 
             }
         }

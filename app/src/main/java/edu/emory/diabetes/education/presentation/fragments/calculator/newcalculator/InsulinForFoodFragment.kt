@@ -23,6 +23,7 @@ import com.google.android.material.internal.ViewUtils.dpToPx
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentInsulinForFoodBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
+import sdk.pendo.io.Pendo
 
 class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) {
     private val args: InsulinForFoodFragmentArgs by navArgs()
@@ -88,8 +89,14 @@ class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) 
                 view.onApplyWindowInsets(insets)
             }
 
+
             next.setOnClickListener {
                 if (totalCarbsNew.text?.isNotEmpty() == true && carbRatioNew.text?.isNotEmpty() == true) {
+                    //pendo tracking
+                    val properties = hashMapOf<String, Any>()
+                    properties["carbs"] = totalCarbsNew.text.toString()
+                    properties["ratio"] = carbRatioNew.text.toString()
+                    Pendo.track("Calculate_insulin_for_food", properties)
                     if (sectionId == 0) {
                         InsulinForFoodFragmentDirections
                             .actionInsulinForFoodFragmentToTotalInsulinFragment(

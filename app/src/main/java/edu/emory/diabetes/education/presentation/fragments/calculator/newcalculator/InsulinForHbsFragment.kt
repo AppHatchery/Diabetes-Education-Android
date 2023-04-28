@@ -22,6 +22,7 @@ import edu.emory.diabetes.education.databinding.FragmentInsulinForHbsBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import sdk.pendo.io.Pendo
 
 class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
     private val args: InsulinForHbsFragmentArgs by navArgs()
@@ -90,6 +91,14 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
 
             next.setOnClickListener {
                 if (correctionFactor.text?.isNotEmpty() == true && bloodSugarNew.text?.isNotEmpty() == true && targetBloodSugar.text?.isNotEmpty() == true) {
+                    //pendo tracking
+                    val properties = hashMapOf<String, Any>()
+                    properties["correction_factor"] = correctionFactor.text.toString()
+                    properties["blood_sugar"] = bloodSugarNew.text.toString()
+                    properties["target_blood_sugar"] = targetBloodSugar.text.toString()
+                    properties["carb"] = totalCarbs.toString()
+                    properties["ratio"] = carbRatio.toString()
+                    Pendo.track("Calculate_insulin_for_hbs", properties)
                     InsulinForHbsFragmentDirections
                         .actionInsulinForHbsFragmentToTotalInsulinFragment(
                             correctionFactor = correctionFactor.text.toString(),
