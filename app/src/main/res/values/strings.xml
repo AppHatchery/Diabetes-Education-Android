@@ -21,4 +21,8 @@
     <string name="fa_orientation_agenda_first_day_afternoon">1. Nutritional Food Group – Carbohydrates, Fats, and Proteins\n2. How to count carbohydrates\n3. How to calculate insulin dosages</string>
     <string name="fa_orientation_agenda_second_day_morning">1. Review insulin dosing\n2. Low blood sugar treatment – Rule of 15 and Emergency Glucagon Kit\n3. Bedtime Rules\n4. Exercise\n5. School Management</string>
     <string name="fa_orientation_medical_team">They say it “takes a village” and when it comes to diabetes, it certainly does! Your Diabetes Care Team at Children’s involves three main components.</string>
+
+    <string name="fa_about_us_support">For general inquiries about the TypeU App please email <a href="mailto:support@apphatchery.org">support@apphatchery.org</a>. If you have Diabetes specific questions as a Children\'s Healthcare of Atlanta patient, please contact Anna Albritton at <a href="mailto:Anna.Albritton@choa.org">Anna.Albritton@choa.org</a>
+    </string>
+
 </resources>
