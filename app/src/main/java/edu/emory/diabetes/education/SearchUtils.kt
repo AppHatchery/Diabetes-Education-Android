@@ -1,7 +1,16 @@
 package edu.emory.diabetes.education
 
 import android.content.Context
+import android.view.View
+import android.webkit.WebView
+import android.widget.ScrollView
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.FragmentComponent
+import dagger.hilt.components.SingletonComponent
 import org.jsoup.Jsoup
+import javax.inject.Inject
 
 object SearchUtils {
 
@@ -62,4 +71,31 @@ object SearchUtils {
             return newArray.joinToString("_")
         }
     }
+
+    class WebViewSearchHelper {
+        fun searchAndScroll(webView: WebView, searchQuery: String, parent: ScrollView) {
+            if (searchQuery.isNotEmpty()) {
+                webView.findAllAsync(searchQuery)
+                webView.setFindListener { activeMatchOrdinal, numberOfMatches, _ ->
+                    if (activeMatchOrdinal == -1) {
+                        webView.clearMatches()
+                        webView.setFindListener(null)
+                    } else {
+                        val matchPositionFraction = activeMatchOrdinal.toFloat() / numberOfMatches.toFloat()
+                        val scrollY = webView.contentHeight * matchPositionFraction
+                        parent.scrollTo(0, scrollY.toInt())
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Module
+@InstallIn(FragmentComponent::class)
+object MyModule {
+
+    @Provides
+    fun provideWebViewSearchHelper() = SearchUtils.WebViewSearchHelper()
+
 }

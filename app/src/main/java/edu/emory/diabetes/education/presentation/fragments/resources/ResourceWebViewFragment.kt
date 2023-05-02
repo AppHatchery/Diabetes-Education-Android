@@ -42,11 +42,13 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import edu.emory.diabetes.education.presentation.fragments.basic.WhatIsDiabetes
+import javax.inject.Inject
 
 class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view_apps) {
     private val args: ResourceWebViewFragmentArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var binding: FragmentResourceWebViewAppsBinding
+    private val webViewSearchHelper by lazy { SearchUtils.WebViewSearchHelper() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -168,27 +170,10 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
             searchBtn?.setOnClickListener {
                 searchAdapter()
                 it.hideKeyboard()
-                viewModel?.searchQuery?.value.let { searchQuery ->
-                    if (searchQuery.isNotEmpty()) {
-                        binding.apply {
-                            webView.findAllAsync(viewModel.searchQuery.value)
-                            webView.setFindListener { activeMatchOrdinal, _, _ ->
-                                if (activeMatchOrdinal == -1) {
-                                    webView.clearMatches()
-                                    webView.setFindListener(null)
-                                } else {
-                                   parent.smoothScrollTo(0, webView.contentHeight * activeMatchOrdinal)
-                                }
-                           }
-
-                        }
-                    }
+                binding.apply {
+                    webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value, parent)
                 }
-
             }
         }
-
-
-
     }
 }
