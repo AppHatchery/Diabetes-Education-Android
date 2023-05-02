@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.SearchUtils
 import edu.emory.diabetes.education.Utils.hideKeyboard
 import edu.emory.diabetes.education.Utils.onSearch
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
@@ -46,7 +47,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
     private val args: NutritionWebViewFragmentArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var binding: FragmentBloodSugarMonitoringBinding
-
+    private val webViewSearchHelper by lazy { SearchUtils.WebViewSearchHelper() }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -71,42 +72,47 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                     }
                 }
             }
-            lifecycleScope.launch(Dispatchers.IO) {
-                val filepath = "pages/${args.lesson.pageUrl}.html"
-                val html = readHtmlFromAssets(requireContext(), filepath)
-                val doc = Jsoup.parse(html);
-                val paragraphs = doc.select("p,li,img");
-                val array = mutableListOf<String>()
-                paragraphs.forEach { element ->
-                    if (element.tagName().equals("img")) {
-                        array.add(element.attr("alt"))
-                    } else {
-                        if (countOccurrences(element.text(), '.') > 1) {
-                            val block = element.text().split(".")
-                            block.forEach { item ->
-                                if (item.isNotEmpty()) array.add(item)
-                            }
-                        } else {
-                            array.add(element.text())
-                        }
-                    }
-                }
-                val newArray = mutableListOf<String>()
-                array.forEach {
-                    if (it.isNotEmpty()) {
-                        var string = ""
-                        if (fixString(it).contains("'")) {
-                            string = fixString(it).replace("'", "∧")
-                            newArray.add(string)
-                        } else {
-                            string = fixString(it)
-                            newArray.add(string)
-                        }
-                    }
-                }
-                val finalString = newArray.joinToString("_")
-                WebAppInterface.parsedData = finalString
-            }
+
+            val htmlParser = SearchUtils.HtmlParser(requireContext(), args.lesson.pageUrl)
+            val parsedData = htmlParser.parseHtml()
+            WebAppInterface.parsedData = parsedData
+
+//            lifecycleScope.launch(Dispatchers.IO) {
+//                val filepath = "pages/${args.lesson.pageUrl}.html"
+//                val html = readHtmlFromAssets(requireContext(), filepath)
+//                val doc = Jsoup.parse(html);
+//                val paragraphs = doc.select("p,li,img");
+//                val array = mutableListOf<String>()
+//                paragraphs.forEach { element ->
+//                    if (element.tagName().equals("img")) {
+//                        array.add(element.attr("alt"))
+//                    } else {
+//                        if (countOccurrences(element.text(), '.') > 1) {
+//                            val block = element.text().split(".")
+//                            block.forEach { item ->
+//                                if (item.isNotEmpty()) array.add(item)
+//                            }
+//                        } else {
+//                            array.add(element.text())
+//                        }
+//                    }
+//                }
+//                val newArray = mutableListOf<String>()
+//                array.forEach {
+//                    if (it.isNotEmpty()) {
+//                        var string = ""
+//                        if (fixString(it).contains("'")) {
+//                            string = fixString(it).replace("'", "∧")
+//                            newArray.add(string)
+//                        } else {
+//                            string = fixString(it)
+//                            newArray.add(string)
+//                        }
+//                    }
+//                }
+//                val finalString = newArray.joinToString("_")
+//                WebAppInterface.parsedData = finalString
+//            }
             webView.apply {
                 loadUrl(Ext.getPathUrl(args.lesson.pageUrl))
                 addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")

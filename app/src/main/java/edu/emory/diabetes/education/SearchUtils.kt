@@ -1,6 +1,8 @@
 package edu.emory.diabetes.education
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.webkit.WebView
 import android.widget.ScrollView
@@ -80,13 +82,25 @@ object SearchUtils {
                     if (activeMatchOrdinal == -1) {
                         webView.clearMatches()
                         webView.setFindListener(null)
+                    } else if (activeMatchOrdinal == numberOfMatches) {
+                        // Scroll to the bottom of the page
+                        val scrollY = webView.contentHeight
+                        val handler = Handler(Looper.getMainLooper())
+                        handler.postDelayed({
+                            parent.smoothScrollBy(0, scrollY.toInt())
+                        }, 100)
                     } else {
                         val matchPositionFraction = activeMatchOrdinal.toFloat() / numberOfMatches.toFloat()
                         val scrollY = webView.contentHeight * matchPositionFraction
-                        parent.scrollTo(0, scrollY.toInt())
+                        // Use a handler to post a runnable that scrolls the parent view
+                        val handler = Handler(Looper.getMainLooper())
+                        handler.postDelayed({
+                            parent.smoothScrollBy(0, scrollY.toInt())
+                        }, 100) // Adjust the delay as needed
                     }
                 }
             }
+
         }
     }
 }
