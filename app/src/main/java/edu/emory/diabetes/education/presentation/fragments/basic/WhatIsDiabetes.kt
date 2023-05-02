@@ -57,6 +57,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var fullScreenView: FrameLayout
     private lateinit var binding: FragmentOrientationWhatIsDiabetesBinding
+    private val webViewSearchHelper by lazy { SearchUtils.WebViewSearchHelper() }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -210,19 +211,8 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             searchBtn?.setOnClickListener {
                 searchAdapter()
                 it.hideKeyboard()
-                binding.parent.smoothScrollTo(0, 0)
-                viewModel.searchQuery.value.let { searchQuery ->
-                    if (searchQuery.isNotEmpty()) {
-                        binding.webView.findAllAsync(viewModel.searchQuery.value)
-                        binding.webView.setFindListener { activeMatchOrdinal, _, _ ->
-                            if (activeMatchOrdinal == -1) {
-                                binding.webView.clearMatches()
-                                binding.webView.setFindListener(null)
-                            } else {
-                                binding.parent.smoothScrollTo(0, binding.webView.contentHeight * activeMatchOrdinal)
-                            }
-                        }
-                    }
+                binding.apply {
+                    webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value, parent)
                 }
             }
         }
