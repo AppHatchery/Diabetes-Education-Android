@@ -3,14 +3,12 @@ package edu.emory.diabetes.education.presentation.fragments.basic
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.webkit.*
 import android.widget.FrameLayout
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +27,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
-import edu.emory.diabetes.education.SearchUtils
 import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.Utils.hideKeyboard
 import edu.emory.diabetes.education.Utils.onSearch
@@ -49,6 +46,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
+import sdk.pendo.io.Pendo
 import java.io.IOException
 
 
@@ -57,7 +55,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var fullScreenView: FrameLayout
     private lateinit var binding: FragmentOrientationWhatIsDiabetesBinding
-    private val webViewSearchHelper by lazy { SearchUtils.WebViewSearchHelper() }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -84,12 +81,42 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                     }
                 }
             }
-
-            val htmlParser = SearchUtils.HtmlParser(requireContext(), args.lesson.pageUrl)
-            val parsedData = htmlParser.parseHtml()
-            WebAppInterface.parsedData = parsedData
-
-
+            lifecycleScope.launch(Dispatchers.IO) {
+                val filepath = "pages/${args.lesson.pageUrl}.html"
+                val html = readHtmlFromAssets(requireContext(), filepath)
+                val doc = Jsoup.parse(html);
+                val paragraphs = doc.select("p,li,img");
+                val array = mutableListOf<String>()
+                paragraphs.forEach { element ->
+                    if (element.tagName().equals("img")) {
+                        array.add(element.attr("alt"))
+                    } else {
+                        if (countOccurrences(element.text(), '.') > 1) {
+                            val block = element.text().split(".")
+                            block.forEach { item ->
+                                if (item.isNotEmpty()) array.add(item)
+                            }
+                        } else {
+                            array.add(element.text())
+                        }
+                    }
+                }
+                val newArray = mutableListOf<String>()
+                array.forEach {
+                    if (it.isNotEmpty()) {
+                        var string = ""
+                        if (fixString(it).contains("'")) {
+                            string = fixString(it).replace("'", "∧")
+                            newArray.add(string)
+                        } else {
+                            string = fixString(it)
+                            newArray.add(string)
+                        }
+                    }
+                }
+                val finalString = newArray.joinToString("_")
+                WebAppInterface.parsedData = finalString
+            }
             webView.apply {
                 loadUrl(Ext.getPathUrl(args.lesson.pageUrl))
                 addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
@@ -183,7 +210,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
-            binding.webView.clearMatches()
         }
 
         fun searchAdapter() {
@@ -211,10 +237,28 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             searchBtn?.setOnClickListener {
                 searchAdapter()
                 it.hideKeyboard()
-                binding.apply {
-                    webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value, parent)
-                }
+                val properties = hashMapOf<String, Any>()
+                properties["searchTerm"] = searchKeyword.text.toString()
+                properties["page"] =  args.lesson.title
+                Pendo.track("searchQuery", properties)
             }
+        }
+    }
+
+    //Utility functions
+    fun readHtmlFromAssets(context: Context, fileName: String): String {
+        return context.assets.open(fileName).bufferedReader().use {
+            it.readText()
+        }
+    }
+    fun countOccurrences(s: String, ch: Char): Int {
+        return s.filter { it == ch }.count()
+    }
+    private fun fixString(string: String): String {
+        return if (string.first() == ' ') {
+            string.replaceRange(0, 1, "")
+        } else {
+            string
         }
     }
 }

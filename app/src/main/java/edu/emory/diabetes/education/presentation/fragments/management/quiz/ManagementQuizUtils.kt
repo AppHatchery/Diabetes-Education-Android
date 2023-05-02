@@ -10,22 +10,6 @@ object ManagementQuizUtils {
 
     val questions = listOf(
         Question(
-            0,
-            "Ketones indicate:",
-            "",
-            choices = listOf(
-                Choice("A", "A. BG is well managed"),
-                Choice("B", "B. Diabetes is out of balance"),
-                Choice("C", "C. BG is high"),
-                Choice("D", "D. There is enough insulin to carry glucose (sugar) into cells"),
-            ),
-            answers = listOf(
-                "B"
-            ),
-            ChapterName(0, "Check for Ketones"),
-            maxAnswerSize = 1
-        ),
-        Question(
             1,
             "How is routine hypoglycemia best treated?",
             "",

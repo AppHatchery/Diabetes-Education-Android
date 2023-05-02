@@ -97,7 +97,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="20dp"
                             android:fontFamily="@font/avenir_roman"
-                            android:text="The team that brought this together includes:printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
+                            android:text="The team that brought this together includes the Georgia CTSA and the Global Health Informatics Institute"
                             android:textColor="#57585A"
                             android:textSize="17sp"
                             app:fontFamily="@font/avenir_roman"

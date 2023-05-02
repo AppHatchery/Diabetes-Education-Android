@@ -8,13 +8,6 @@ object ManagementUtils {
 
     val managementLessonData = listOf(
         LessonEntity(
-            0,
-            R.drawable.ic_injection_needle,
-            "Check for Ketones",
-            "Symptoms of hyperglycemia, when and how to check for ketones.",
-            "check_for_ketones"
-        ),
-        LessonEntity(
             1,
             R.drawable.ic_beaker,
             "Treatment For Low Blood Sugar",
@@ -24,7 +17,7 @@ object ManagementUtils {
         LessonEntity(
             2,
             R.drawable.ic_dropper,
-            "When To Call Doctor",
+            "When to call diabetes doctor",
             "Sick day, missed insulin dose, ketones or other challenges.",
             "when_to_call_diabetes_doctor"
         )
@@ -32,18 +25,10 @@ object ManagementUtils {
 
     val managementQuizData = listOf(
         QuizEntity(
-            0,
-            R.drawable.ic_help,
-            R.drawable.ic_quiz_complete,
-            "Quiz 1",
-            "Check for Ketones",
-            ""
-        ),
-        QuizEntity(
             1,
             R.drawable.ic_help,
             R.drawable.ic_arrow_forward_filled,
-            "Quiz 2",
+            "Quiz 1",
             "Treatment for Low Blood Sugar",
             ""
         ),
@@ -51,7 +36,7 @@ object ManagementUtils {
             2,
             R.drawable.ic_help,
             R.drawable.ic_arrow_forward_filled,
-            "Quiz 3",
+            "Quiz 2",
             "How to give insulin shot",
             ""
         ),
