@@ -227,20 +227,6 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
         }
 
     }
-    fun readHtmlFromAssets(context: Context, fileName: String): String {
-        return context.assets.open(fileName).bufferedReader().use {
-            it.readText()
-        }
-    }
-    fun countOccurrences(s: String, ch: Char): Int {
-        return s.filter { it == ch }.count()
-    }
-    private fun fixString(string: String): String {
-        return if (string.first() == ' ') {
-            string.replaceRange(0, 1, "")
-        } else {
-            string
-        }
-    }
+
 }
 

@@ -78,42 +78,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
             val parsedData = htmlParser.parseHtml()
             WebAppInterface.parsedData = parsedData
 
-//            lifecycleScope.launch(Dispatchers.IO) {
-//                val filepath = "pages/${args.lesson.pageUrl}.html"
-//                val html = readHtmlFromAssets(requireContext(), filepath)
-//                val doc = Jsoup.parse(html);
-//                val paragraphs = doc.select("p,li,img");
-//                val array = mutableListOf<String>()
-//                paragraphs.forEach { element ->
-//                    if (element.tagName().equals("img")) {
-//                        array.add(element.attr("alt"))
-//                    } else {
-//                        if (countOccurrences(element.text(), '.') > 1) {
-//                            val block = element.text().split(".")
-//                            block.forEach { item ->
-//                                if (item.isNotEmpty()) array.add(item)
-//                            }
-//                        } else {
-//                            array.add(element.text())
-//                        }
-//                    }
-//                }
-//                val newArray = mutableListOf<String>()
-//                array.forEach {
-//                    if (it.isNotEmpty()) {
-//                        var string = ""
-//                        if (fixString(it).contains("'")) {
-//                            string = fixString(it).replace("'", "∧")
-//                            newArray.add(string)
-//                        } else {
-//                            string = fixString(it)
-//                            newArray.add(string)
-//                        }
-//                    }
-//                }
-//                val finalString = newArray.joinToString("_")
-//                WebAppInterface.parsedData = finalString
-//            }
+
             webView.apply {
                 loadUrl(Ext.getPathUrl(args.lesson.pageUrl))
                 addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
@@ -223,6 +188,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                 searchAdapter()
                 it.hideKeyboard()
                 binding.apply {
+                    parent.smoothScrollTo(0, 0)
                     webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value, parent)
                 }
                 val properties = hashMapOf<String, Any>()
@@ -231,21 +197,6 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                 Pendo.track("searchQuery", properties)
 
             }
-        }
-    }
-    private fun readHtmlFromAssets(context: Context, fileName: String): String {
-        return context.assets.open(fileName).bufferedReader().use {
-            it.readText()
-        }
-    }
-    private fun countOccurrences(s: String, ch: Char): Int {
-        return s.filter { it == ch }.count()
-    }
-    private fun fixString(string: String): String {
-        return if (string.first() == ' ') {
-            string.replaceRange(0, 1, "")
-        } else {
-            string
         }
     }
 }

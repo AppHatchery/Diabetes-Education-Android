@@ -209,7 +209,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                 searchAdapter()
                 it.hideKeyboard()
                 binding.apply {
-                    parent.smoothScrollTo(0, 0);
+                    parent.smoothScrollTo(0, 0)
                     webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value, parent)
                 }
 
@@ -221,21 +221,5 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         }
     }
 
-    //Utility functions
-    fun readHtmlFromAssets(context: Context, fileName: String): String {
-        return context.assets.open(fileName).bufferedReader().use {
-            it.readText()
-        }
-    }
-    fun countOccurrences(s: String, ch: Char): Int {
-        return s.filter { it == ch }.count()
-    }
-    private fun fixString(string: String): String {
-        return if (string.first() == ' ') {
-            string.replaceRange(0, 1, "")
-        } else {
-            string
-        }
-    }
 }
 

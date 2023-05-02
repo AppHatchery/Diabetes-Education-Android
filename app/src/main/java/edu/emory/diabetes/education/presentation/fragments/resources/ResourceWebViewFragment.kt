@@ -171,7 +171,7 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
                 searchAdapter()
                 it.hideKeyboard()
                 binding.apply {
-                    parent.smoothScrollTo(0, 0);
+                    parent.smoothScrollTo(0, 0)
                     webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value, parent)
                 }
             }
