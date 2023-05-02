@@ -222,6 +222,9 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
             searchBtn?.setOnClickListener {
                 searchAdapter()
                 it.hideKeyboard()
+                binding.apply {
+                    webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value, parent)
+                }
                 val properties = hashMapOf<String, Any>()
                 properties["searchTerm"] = searchKeyword.text.toString()
                 properties["page"] =  args.lesson.title
