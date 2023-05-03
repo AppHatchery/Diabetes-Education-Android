@@ -44,7 +44,7 @@ import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import sdk.pendo.io.Pendo
 
-class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_view_apps) {
+class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_view_apps),ChapterSearchAdapter.OnClickListener {
     private val args: NutritionWebViewFragmentArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var binding: FragmentBloodSugarMonitoringBinding
@@ -165,7 +165,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
         }
 
         fun searchAdapter() {
-            recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
+            recyclerView?.adapter = ChapterSearchAdapter(this).also { adapter ->
                 viewModel.searchResult.onEach {
                     searchResult?.visibility = View.GONE
                     adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
@@ -197,6 +197,12 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                 Pendo.track("searchQuery", properties)
 
             }
+        }
+    }
+
+    override fun onItemClick(chapterSearch: ChapterSearch) {
+        binding.apply {
+            webViewSearchHelper.searchAndScroll(webView, chapterSearch.bodyText)
         }
     }
 }

@@ -43,7 +43,7 @@ import org.jsoup.Jsoup
 import sdk.pendo.io.Pendo
 import java.util.zip.Inflater
 
-class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_monitoring) {
+class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_monitoring),ChapterSearchAdapter.OnClickListener {
     private val args: BloodSugarMonitoringFragmentArgs by navArgs()
     private lateinit var fullScreenView: FrameLayout
     private val viewModel: ChapterViewModel by viewModels()
@@ -191,8 +191,9 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
             binding.webView.clearMatches()
         }
 
+
         fun searchAdapter() {
-            recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
+            recyclerView?.adapter = ChapterSearchAdapter(this).also { adapter ->
                 viewModel.searchResult.onEach {
                     searchResult?.visibility = View.GONE
                     adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
@@ -226,6 +227,12 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
             }
         }
 
+    }
+
+    override fun onItemClick(chapterSearch: ChapterSearch) {
+        binding.apply {
+            webViewSearchHelper.searchAndScroll(webView, chapterSearch.bodyText)
+        }
     }
 
 }

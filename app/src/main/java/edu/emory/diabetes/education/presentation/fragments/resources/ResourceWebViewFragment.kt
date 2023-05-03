@@ -44,7 +44,7 @@ import org.jsoup.Jsoup
 import edu.emory.diabetes.education.presentation.fragments.basic.WhatIsDiabetes
 import javax.inject.Inject
 
-class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view_apps) {
+class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view_apps),ChapterSearchAdapter.OnClickListener {
     private val args: ResourceWebViewFragmentArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var binding: FragmentResourceWebViewAppsBinding
@@ -147,7 +147,7 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
         }
 
         fun searchAdapter(){
-            recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
+            recyclerView?.adapter = ChapterSearchAdapter(this).also { adapter ->
                 viewModel.searchResult.onEach {
                     searchResult?.visibility = View.GONE
                     adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
@@ -174,6 +174,12 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
                     webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value)
                 }
             }
+        }
+    }
+
+    override fun onItemClick(chapterSearch: ChapterSearch) {
+        binding.apply {
+            webViewSearchHelper.searchAndScroll(webView, chapterSearch.bodyText)
         }
     }
 }

@@ -13,6 +13,10 @@ import javax.inject.Inject
 class ChapterViewModel @Inject constructor(
 
 ) : ViewModel() {
+
+    val selectedBody = MutableStateFlow("")
+
+
     val searchQuery = MutableStateFlow("")
     private val searchFlow = searchQuery.flatMapLatest {
         search(it)

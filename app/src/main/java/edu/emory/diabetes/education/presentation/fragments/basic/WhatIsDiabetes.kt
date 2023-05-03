@@ -9,6 +9,7 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.webkit.*
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -17,6 +18,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.MenuProvider
+import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -52,7 +54,8 @@ import sdk.pendo.io.Pendo
 import java.io.IOException
 
 
-class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabetes) {
+class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabetes),ChapterSearchAdapter.OnClickListener
+{
     private val args: WhatIsDiabetesArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var fullScreenView: FrameLayout
@@ -181,13 +184,15 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         val recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
         val clearTextButton = bottomSheetDialog.findViewById<AppCompatImageView>(R.id.clear_button)
 
+
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
             binding.webView.clearMatches()
         }
 
+
         fun searchAdapter() {
-            recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
+            recyclerView?.adapter = ChapterSearchAdapter(this).also { adapter ->
                 viewModel.searchResult.onEach {
                     searchResult?.visibility = View.GONE
                     adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
@@ -221,6 +226,12 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                 properties["page"] =  args.lesson.title
                 Pendo.track("searchQuery", properties)
             }
+        }
+    }
+
+    override fun onItemClick(chapterSearch: ChapterSearch) {
+        binding.apply {
+            webViewSearchHelper.searchAndScroll(webView, chapterSearch.bodyText)
         }
     }
 
