@@ -60,7 +60,7 @@ object SearchUtils {
             val newArray = mutableListOf<String>()
             array.forEach {
                 if (it.isNotEmpty()) {
-                    var string = ""
+                    val string: String
                     if (fixString(it).contains("'")) {
                         string = fixString(it).replace("'", "∧")
                         newArray.add(string)
