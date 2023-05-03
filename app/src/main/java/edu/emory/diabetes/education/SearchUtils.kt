@@ -78,7 +78,7 @@ object SearchUtils {
         fun searchAndScroll(webView: WebView, searchQuery: String) {
             if (searchQuery.isNotEmpty()) {
                 webView.findAllAsync(searchQuery)
-                webView.setFindListener { _, _, _ ->
+                webView.setFindListener { activeMatchOrdinal, numberOfMatches, isDone ->
 
             }
         }
