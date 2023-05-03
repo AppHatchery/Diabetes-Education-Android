@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChapterViewModel @Inject constructor(
 
-) : ViewModel() {z
+) : ViewModel() {
     val searchQuery = MutableStateFlow("")
     private val searchFlow = searchQuery.flatMapLatest {
         search(it)
