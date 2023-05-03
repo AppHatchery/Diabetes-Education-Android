@@ -72,16 +72,16 @@ object QuizUtils {
         ),
         Question(
             3,
-            "Insulin may be administered in each of the following areas:",
+            "Insulin may be given via:",
             "Check all that apply",
             choices = listOf(
-                Choice("A", "A. Stomach"),
-                Choice("B", "B. Buttocks"),
-                Choice("C", "C. Fingers"),
-                Choice("D", "D. Legs")
+                Choice("A", "A. Intramuscular injection"),
+                Choice("B", "B. Subcutaneous injection   "),
+                Choice("C", "C. Insulin pump"),
+                Choice("D", "D. Central line")
             ),
             answers = listOf(
-                "A", "B", "D"
+                "B", "C"
             ),
             ChapterName(3, "Insulin Administration"),
             maxAnswerSize = 2,
@@ -102,7 +102,7 @@ object QuizUtils {
             ChapterName(4, "Checking for ketones"),
             maxAnswerSize = 1
         ),
-    )
+        )
 
 }
 
