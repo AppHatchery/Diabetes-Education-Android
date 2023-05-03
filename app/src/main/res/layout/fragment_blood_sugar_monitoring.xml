@@ -52,14 +52,11 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ScrollView
-                android:id="@+id/parent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+
                 <LinearLayout
                     android:id="@+id/webViewContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
                     <ProgressBar
                         android:id="@+id/pageLoadProgressBar"
@@ -72,7 +69,7 @@
                         android:layout_height="match_parent"
                         android:padding="16dp" />
                 </LinearLayout>
-            </ScrollView>
+
                 <FrameLayout
                     android:id="@+id/fullscreenContainer"
                     android:visibility="gone"

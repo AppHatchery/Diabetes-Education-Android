@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import android.webkit.*
 import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
@@ -73,16 +74,17 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         binding.apply {
             title.text = args.lesson.title
             addMenuProvider()
-            parent.viewTreeObserver.addOnScrollChangedListener {
+
+            webView.viewTreeObserver.addOnScrollChangedListener {
                 scrollIndicator.progress = 0
-                if (parent.scrollY > 0) {
-                    var height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
-                    (parent.scrollY / height).times(100).toInt().also {
-                        scrollIndicatorText.text = "$it%"
-                        scrollIndicator.progress = it
-                    }
+                if (webView.scrollY > 0) {
+                    val height = webView.contentHeight.toFloat()
+                    val percentage = (webView.scrollY / height).times(100).toInt().coerceAtMost(100)
+                    scrollIndicatorText.text = "$percentage%"
+                    scrollIndicator.progress = percentage
                 }
             }
+
 
             val htmlParser = SearchUtils.HtmlParser(requireContext(), args.lesson.pageUrl)
             val parsedData = htmlParser.parseHtml()
@@ -208,9 +210,9 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             searchBtn?.setOnClickListener {
                 searchAdapter()
                 it.hideKeyboard()
+
                 binding.apply {
-                    parent.smoothScrollTo(0, 0)
-                    webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value, parent)
+                    webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value)
                 }
 
                 val properties = hashMapOf<String, Any>()

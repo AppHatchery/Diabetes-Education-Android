@@ -64,13 +64,13 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
         (requireActivity() as AppCompatActivity).supportActionBar?.title = "Food Diary"
         binding.apply {
             addMenuProvider()
-            parent.viewTreeObserver.addOnScrollChangedListener {
-                if (parent.scrollY > 0) {
-                    val height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
-                    (parent.scrollY / height).times(100).toInt().also {
-                        scrollIndicatorText.text = "${it}%"
-                        scrollIndicator.progress = it
-                    }
+            webView.viewTreeObserver.addOnScrollChangedListener {
+                scrollIndicator.progress = 0
+                if (webView.scrollY > 0) {
+                    val height = webView.contentHeight.toFloat()
+                    val percentage = (webView.scrollY / height).times(100).toInt().coerceAtMost(100)
+                    scrollIndicatorText.text = "$percentage%"
+                    scrollIndicator.progress = percentage
                 }
             }
 
@@ -171,8 +171,7 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
                 searchAdapter()
                 it.hideKeyboard()
                 binding.apply {
-                    parent.smoothScrollTo(0, 0)
-                    webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value, parent)
+                    webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value)
                 }
             }
         }

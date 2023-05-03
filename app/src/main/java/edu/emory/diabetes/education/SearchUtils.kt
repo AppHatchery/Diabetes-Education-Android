@@ -75,32 +75,14 @@ object SearchUtils {
     }
 
     class WebViewSearchHelper {
-        fun searchAndScroll(webView: WebView, searchQuery: String, parent: ScrollView) {
+        fun searchAndScroll(webView: WebView, searchQuery: String) {
             if (searchQuery.isNotEmpty()) {
                 webView.findAllAsync(searchQuery)
-                webView.setFindListener { activeMatchOrdinal, numberOfMatches, _ ->
-                    if (activeMatchOrdinal == -1) {
-                        webView.clearMatches()
-                        webView.setFindListener(null)
-                    } else if (activeMatchOrdinal == numberOfMatches) {
-                        // Scroll to the bottom of the page
-                        val scrollY = webView.contentHeight
-                        val handler = Handler(Looper.getMainLooper())
-                        handler.postDelayed({
-                            parent.smoothScrollBy(0, scrollY.toInt())
-                        }, 100)
-                    } else {
-                        val matchPositionFraction = activeMatchOrdinal.toFloat() / numberOfMatches.toFloat()
-                        val scrollY = webView.contentHeight * matchPositionFraction
-                        // Use a handler to post a runnable that scrolls the parent view
-                        val handler = Handler(Looper.getMainLooper())
-                        handler.postDelayed({
-                            parent.smoothScrollBy(0, scrollY.toInt())
-                        }, 100) // Adjust the delay as needed
-                    }
+                webView.setFindListener { activeMatchOrdinal, numberOfMatches, isDone ->
+                    if (numberOfMatches > 0) {
+
                 }
             }
-
         }
     }
 }
@@ -112,4 +94,4 @@ object MyModule {
     @Provides
     fun provideWebViewSearchHelper() = SearchUtils.WebViewSearchHelper()
 
-}
+}}
