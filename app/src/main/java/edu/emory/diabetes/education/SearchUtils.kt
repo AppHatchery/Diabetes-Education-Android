@@ -109,10 +109,20 @@ SearchUtils {
 //            val secondHalf = string.substring(halfLength)
 //            return firstHalf
 //        }
-        fun halfString(string: String): String {
-            val threeQuartersLength = (string.length * 0.75).toInt()
-            return string.substring(0, threeQuartersLength)
+        fun halfString(string: String, word: String): String {
+            val index = string.lastIndexOf(word)
+            if (index == -1) {
+                // If the word is not found in the string, return an empty string
+                return ""
+            } else {
+                // Return the substring starting from the last occurrence of the word
+                return string.substring(index)
+            }
         }
+//        fun halfString(string: String): String {
+//            val threeQuartersLength = (string.length * 0.75).toInt()
+//            return string.substring(0, threeQuartersLength)
+//        }
 
     }
 
