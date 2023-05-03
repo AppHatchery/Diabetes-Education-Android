@@ -161,6 +161,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
 
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
+            binding.webView.clearMatches()
         }
 
         fun searchAdapter() {

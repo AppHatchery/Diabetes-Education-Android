@@ -188,6 +188,7 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
 
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
+            binding.webView.clearMatches()
         }
 
         fun searchAdapter() {

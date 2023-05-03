@@ -183,6 +183,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
+            binding.webView.clearMatches()
         }
 
         fun searchAdapter() {
