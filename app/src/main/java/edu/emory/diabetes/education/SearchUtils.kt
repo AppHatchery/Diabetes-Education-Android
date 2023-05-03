@@ -14,7 +14,8 @@ import dagger.hilt.components.SingletonComponent
 import org.jsoup.Jsoup
 import javax.inject.Inject
 
-object SearchUtils {
+object
+SearchUtils {
 
     //Utility functions
     fun readHtmlFromAssets(context: Context, fileName: String): String {
@@ -38,7 +39,7 @@ object SearchUtils {
             val filepath = "pages/$pageUrl.html"
             val html = readHtmlFromAssets(context, filepath)
             val doc = Jsoup.parse(html)
-            val paragraphs = doc.select("p,li,img,tbody")
+            val paragraphs = doc.select("p,li,img,tbody,span,a")
             val array = mutableListOf<String>()
             paragraphs.forEach { element ->
                 if (element.tagName().equals("tbody")) {
@@ -74,16 +75,28 @@ object SearchUtils {
         }
     }
 
-    class WebViewSearchHelper {
-        fun searchAndScroll(webView: WebView, searchQuery: String) {
-            if (searchQuery.isNotEmpty()) {
-                webView.findAllAsync(searchQuery)
-                webView.setFindListener { activeMatchOrdinal, numberOfMatches, isDone ->
 
+    class WebViewSearchHelper {
+            fun searchAndScroll(webView: WebView, searchQuery: String) {
+                if (searchQuery.isNotEmpty()) {
+                    webView.findAllAsync(searchQuery)
+                    webView.setFindListener { activeMatchOrdinal, numberOfMatches, isDone ->
+
+                }
             }
         }
+//        fun halfString(string: String):String{
+//            val halfLength = string.length / 3
+//            val firstHalf = string.substring(0, halfLength)
+//            val secondHalf = string.substring(halfLength)
+//            return firstHalf
+//        }
+        fun halfString(string: String): String {
+            val threeQuartersLength = (string.length * 0.75).toInt() // calculate 75% of the string length
+            return string.substring(0, threeQuartersLength) // get the first 75% of the string
+        }
+
     }
-}
 
 @Module
 @InstallIn(FragmentComponent::class)
