@@ -39,12 +39,10 @@ SearchUtils {
             val filepath = "pages/$pageUrl.html"
             val html = readHtmlFromAssets(context, filepath)
             val doc = Jsoup.parse(html)
-            val paragraphs = doc.select("p,li,img,tbody,span,a")
+            val paragraphs = doc.select("p,li,img,tbody")
             val array = mutableListOf<String>()
             paragraphs.forEach { element ->
-                if (element.tagName().equals("tbody")) {
 
-                }
                 if (element.tagName().equals("img")) {
                     array.add(element.attr("alt"))
                 } else {
@@ -58,19 +56,39 @@ SearchUtils {
                     }
                 }
             }
-            val newArray = mutableListOf<String>()
+        //  val newArray = mutableListOf<String>()
+//            array.forEach {
+//                if (it.isNotEmpty()) {
+//                    val string: String
+//                    if (fixString(it).contains("'")) {
+//                        string = fixString(it).replace("'", "∧")
+//                        newArray.add(string)
+//                    } else {
+//                        string = fixString(it)
+//                        newArray.add(string)
+//
+//                    }
+//                }
+//            }
+
+            val hashSet = HashSet<String>()
             array.forEach {
                 if (it.isNotEmpty()) {
-                    val string: String
-                    if (fixString(it).contains("'")) {
-                        string = fixString(it).replace("'", "∧")
-                        newArray.add(string)
+                    var string: String = if (fixString(it).contains("'")) {
+                        fixString(it).replace("'", "∧")
                     } else {
-                        string = fixString(it)
-                        newArray.add(string)
+                        fixString(it)
                     }
+                    // Trim whitespace and periods from end of string
+                    while (string.isNotEmpty() && (string.last() == ' ' || string.last() == '.')) {
+                        string = string.substring(0, string.length - 1)
+                    }
+                    hashSet.add(string)
                 }
             }
+            val newArray = hashSet.toList()
+
+
             return newArray.joinToString("_")
         }
     }
@@ -92,8 +110,8 @@ SearchUtils {
 //            return firstHalf
 //        }
         fun halfString(string: String): String {
-            val threeQuartersLength = (string.length * 0.75).toInt() // calculate 75% of the string length
-            return string.substring(0, threeQuartersLength) // get the first 75% of the string
+            val threeQuartersLength = (string.length * 0.75).toInt()
+            return string.substring(0, threeQuartersLength)
         }
 
     }

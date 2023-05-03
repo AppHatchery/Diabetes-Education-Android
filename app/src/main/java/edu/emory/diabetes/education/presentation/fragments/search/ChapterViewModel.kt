@@ -20,6 +20,7 @@ class ChapterViewModel @Inject constructor(
     val searchResult = searchFlow
     fun search(searchQuery: String): Flow<List<String>> {
         return flow {
+
             val res = mutableListOf<String>()
             WebAppInterface.parsedData.split( "?", ":","_").forEach {
                 if (it.contains("∧")){
@@ -28,7 +29,7 @@ class ChapterViewModel @Inject constructor(
                     if (it.contains(searchQuery,ignoreCase = true)) res.add(it)
                 }
             }
-            emit(res)
+            emit(res.distinct())
         }
     }
 
