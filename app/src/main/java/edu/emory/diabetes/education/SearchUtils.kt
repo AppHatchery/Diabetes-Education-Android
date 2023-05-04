@@ -45,6 +45,8 @@ SearchUtils {
 
                 if (element.tagName().equals("img")) {
                     array.add(element.attr("alt"))
+                }else if (element.tagName().equals("a")){
+
                 } else {
                     if (countOccurrences(element.text(), '.') > 1) {
                         val block = element.text().split(".")
@@ -103,26 +105,26 @@ SearchUtils {
                 }
             }
         }
-//        fun halfString(string: String):String{
-//            val halfLength = string.length / 3
-//            val firstHalf = string.substring(0, halfLength)
-//            val secondHalf = string.substring(halfLength)
-//            return firstHalf
-//        }
-        fun halfString(string: String, word: String): String {
-            val index = string.lastIndexOf(word)
-            if (index == -1) {
-                // If the word is not found in the string, return an empty string
-                return ""
-            } else {
-                // Return the substring starting from the last occurrence of the word
-                return string.substring(index)
-            }
+        fun halfString(string: String):String{
+            val halfLength = string.length
+            val firstHalf = string.substring(0, halfLength)
+            val secondHalf = string.substring(halfLength)
+            return firstHalf
         }
-//        fun halfString(string: String): String {
-//            val threeQuartersLength = (string.length * 0.75).toInt()
-//            return string.substring(0, threeQuartersLength)
+//        fun halfString(string: String, word: String): String {
+//            val index = string.lastIndexOf(word)
+//            if (index == -1) {
+//                // If the word is not found in the string, return an empty string
+//                return ""
+//            } else {
+//                // Return the substring starting from the last occurrence of the word
+//                return string.substring(index-3)
+//            }
 //        }
+        fun halfStringForTable(string: String): String {
+            val threeQuartersLength = (string.length * 0.75).toInt()
+            return string.substring(0, threeQuartersLength)
+        }
 
     }
 

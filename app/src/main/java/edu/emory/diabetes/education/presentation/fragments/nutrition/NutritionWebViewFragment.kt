@@ -203,7 +203,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
 
     override fun onItemClick(chapterSearch: ChapterSearch) {
         binding.apply {
-            webViewSearchHelper.searchAndScroll(webView, webViewSearchHelper.halfString(chapterSearch.bodyText,viewModel.searchQuery.value))
+            webViewSearchHelper.searchAndScroll(webView, webViewSearchHelper.halfString(chapterSearch.bodyText))
         }
     }
 }
