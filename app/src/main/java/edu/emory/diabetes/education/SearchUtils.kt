@@ -84,22 +84,25 @@ SearchUtils {
     class WebViewSearchHelper {
             fun searchAndScroll(webView: WebView, searchQuery: String) {
                 if (searchQuery.isNotEmpty()) {
-                    webView.findAllAsync(searchQuery)
+                    webView.findAllAsync(removeHtmlTags(searchQuery))
                     webView.setFindListener { activeMatchOrdinal, numberOfMatches, isDone ->
 
                 }
             }
         }
+        fun removeHtmlTags(string: String): String {
+            return string.replace(Regex("<[^>]+>"), "")
+        }
         fun halfString(string: String):String{
-            val halfLength = string.length
-            val firstHalf = string.substring(0, halfLength)
-            val secondHalf = string.substring(halfLength)
+            val halfLength = removeHtmlTags(string).length
+            val firstHalf = removeHtmlTags(string).substring(0, halfLength)
+            val secondHalf = removeHtmlTags(string).substring(halfLength)
             return firstHalf
         }
 
         fun halfStringForTable(string: String): String {
-            val threeQuartersLength = (string.length * 0.75).toInt()
-            return string.substring(0, threeQuartersLength)
+            val threeQuartersLength = (removeHtmlTags(string).length * 0.75).toInt()
+            return removeHtmlTags(string).substring(0, threeQuartersLength)
         }
 
     }

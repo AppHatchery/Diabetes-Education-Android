@@ -61,6 +61,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     private lateinit var fullScreenView: FrameLayout
     private lateinit var binding: FragmentOrientationWhatIsDiabetesBinding
     private val webViewSearchHelper by lazy { SearchUtils.WebViewSearchHelper() }
+    private lateinit var bottomSheetDialog: BottomSheetDialog
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -171,7 +172,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
     private fun showBottomSheetDialog() {
-        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(R.layout.fragment_search_chapter)
         bottomSheetDialog.window
             ?.findViewById<View>(R.id.bottomSheet)
@@ -217,9 +218,9 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                 searchAdapter()
                 it.hideKeyboard()
 
-                binding.apply {
-                    webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value)
-                }
+//                binding.apply {
+//                    webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value)
+//                }
 
                 val properties = hashMapOf<String, Any>()
                 properties["searchTerm"] = searchKeyword.text.toString()
@@ -233,6 +234,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         binding.apply {
 
             webViewSearchHelper.searchAndScroll(webView,webViewSearchHelper.halfString(chapterSearch.bodyText))
+            bottomSheetDialog.dismiss()
         }
     }
 

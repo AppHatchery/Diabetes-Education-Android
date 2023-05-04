@@ -49,6 +49,7 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var binding: FragmentResourceWebViewAppsBinding
     private val webViewSearchHelper by lazy { SearchUtils.WebViewSearchHelper() }
+    private lateinit var bottomSheetDialog: BottomSheetDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -127,7 +128,7 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
     private fun showBottomSheetDialog() {
-        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(R.layout.fragment_search_chapter)
         bottomSheetDialog.window
             ?.findViewById<View>(R.id.bottomSheet)
@@ -180,6 +181,7 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
     override fun onItemClick(chapterSearch: ChapterSearch) {
         binding.apply {
             webViewSearchHelper.searchAndScroll(webView, webViewSearchHelper.halfStringForTable(chapterSearch.bodyText))
+            bottomSheetDialog.dismiss()
         }
     }
 }

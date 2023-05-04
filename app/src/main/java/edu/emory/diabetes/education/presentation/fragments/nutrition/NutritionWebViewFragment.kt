@@ -49,6 +49,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var binding: FragmentBloodSugarMonitoringBinding
     private val webViewSearchHelper by lazy { SearchUtils.WebViewSearchHelper() }
+    private lateinit var bottomSheetDialog: BottomSheetDialog
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -147,7 +148,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
     private fun showBottomSheetDialog() {
-        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(R.layout.fragment_search_chapter)
         bottomSheetDialog.window
             ?.findViewById<View>(R.id.bottomSheet)
@@ -204,6 +205,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
     override fun onItemClick(chapterSearch: ChapterSearch) {
         binding.apply {
             webViewSearchHelper.searchAndScroll(webView, webViewSearchHelper.halfString(chapterSearch.bodyText))
+            bottomSheetDialog.dismiss()
         }
     }
 }
