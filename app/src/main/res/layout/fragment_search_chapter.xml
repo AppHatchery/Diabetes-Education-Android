@@ -67,7 +67,7 @@
             android:layout_marginEnd="5dp"
             android:background="?attr/selectableItemBackground"
             android:text="Search"
-            android:textColor="@color/gray_100"
+            android:textColor="@color/green_900"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/search_linear"
             app:layout_constraintEnd_toEndOf="parent"
