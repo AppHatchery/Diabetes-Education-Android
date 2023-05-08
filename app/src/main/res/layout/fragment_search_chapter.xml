@@ -81,14 +81,34 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_weight="1"
+            android:textSize="16sp"
             android:text="Sorry! No result found :("
-            android:textColor="@color/gray_200"
+            android:textColor="#ff0000"
             android:visibility="gone"
             app:fontFamily="@font/gotham_rounded_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_linear"
             tools:text="Sorry! No result found :(" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/try_something_else"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:textSize="13sp"
+            android:text="Please try something else"
+            android:textColor="@color/gray_200"
+            android:visibility="gone"
+            app:fontFamily="@font/gotham_rounded_medium"
+            app:layout_constraintBottom_toTopOf="@+id/adapter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/not_found"
+            tools:text="Try something else" />
 
 
         <androidx.recyclerview.widget.RecyclerView
