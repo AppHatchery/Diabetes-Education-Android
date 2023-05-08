@@ -185,6 +185,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
         val searchKeyword = bottomSheetDialog.findViewById<AppCompatEditText>(R.id.search)
         val searchBtn = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.search_text)
         val searchResult = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.not_found)
+        val searchResultTryElse = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.try_something_else)
         val recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
         val clearTextButton = bottomSheetDialog.findViewById<AppCompatImageView>(R.id.clear_button)
 
@@ -196,10 +197,12 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
             recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
                 viewModel.searchResult.onEach {
                     searchResult?.visibility = View.GONE
+                    searchResultTryElse?.visibility = View.GONE
                     adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
                         recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
                     }
                     if (it.isEmpty()) searchResult?.visibility = View.VISIBLE
+                    if (it.isEmpty()) searchResultTryElse?.visibility = View.VISIBLE
                 }.launchIn(lifecycleScope)
             }
             if (searchKeyword?.text.toString().isNotEmpty()) {
