@@ -9,6 +9,7 @@ import android.view.*
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
@@ -49,7 +50,7 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var binding: FragmentBloodSugarMonitoringBinding
     private val webViewSearchHelper by lazy { SearchUtils.WebViewSearchHelper() }
-    private lateinit var bottomSheetDialog: BottomSheetDialog
+    private var bottomSheetDialog: BottomSheetDialog? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -74,7 +75,10 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                     scrollIndicator.progress = percentage
                 }
             }
-
+            hideFab()
+            fab.setOnClickListener {
+                showBottomSheetDialog()
+            }
             val htmlParser = SearchUtils.HtmlParser(requireContext(), args.lesson.pageUrl)
             val parsedData = htmlParser.parseHtml()
             WebAppInterface.parsedData = parsedData
@@ -148,22 +152,49 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
     private fun showBottomSheetDialog() {
-        bottomSheetDialog = BottomSheetDialog(requireContext())
-        bottomSheetDialog.setContentView(R.layout.fragment_search_chapter)
-        bottomSheetDialog.window
-            ?.findViewById<View>(R.id.bottomSheet)
-            ?.setBackgroundColor(Color.TRANSPARENT)
-        bottomSheetDialog.show()
-        val searchKeyword = bottomSheetDialog.findViewById<AppCompatEditText>(R.id.search)
-        val searchBtn = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.search_text)
-        val searchResult = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.not_found)
-        val recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
-        val clearTextButton = bottomSheetDialog.findViewById<AppCompatImageView>(R.id.clear_button)
+        if (bottomSheetDialog == null) {
+            bottomSheetDialog = BottomSheetDialog(requireContext())
+            bottomSheetDialog?.setContentView(R.layout.fragment_search_chapter)
+            bottomSheetDialog?.window?.findViewById<View>(R.id.bottomSheet)
+                ?.setBackgroundColor(Color.TRANSPARENT)
+            bottomSheetDialog?.window?.setDimAmount(0f)
+        }
+
+        bottomSheetDialog?.show()
+
+        val searchKeyword = bottomSheetDialog!!.findViewById<AppCompatEditText>(R.id.search)
+        val searchBtn = bottomSheetDialog!!.findViewById<AppCompatTextView>(R.id.search_text)
+        val searchResult = bottomSheetDialog!!.findViewById<AppCompatTextView>(R.id.not_found)
+        val recyclerView = bottomSheetDialog!!.findViewById<RecyclerView>(R.id.adapter)
+        val clearTextButton = bottomSheetDialog!!.findViewById<AppCompatImageView>(R.id.clear_button)
+
 
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
             binding.webView.clearMatches()
         }
+
+        bottomSheetDialog?.setOnDismissListener {
+            showFab()
+            if (searchKeyword?.text.isNullOrBlank()) {
+                // Dismiss the BottomSheetDialog and set its reference to null
+                bottomSheetDialog?.dismiss()
+                bottomSheetDialog = null
+                hideFab()
+            }
+            binding.webView.setFindListener { activeMatchOrdinal, numberOfMatches, _ ->
+                // Check if there are matches
+                if (numberOfMatches > 0) {
+                    // Matches found, do something
+                } else {
+                    // No matches found, do something else
+                    bottomSheetDialog?.dismiss()
+                    bottomSheetDialog = null
+                    hideFab()
+                }
+            }
+        }
+
 
         fun searchAdapter() {
             recyclerView?.adapter = ChapterSearchAdapter(this).also { adapter ->
@@ -204,8 +235,30 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
 
     override fun onItemClick(chapterSearch: ChapterSearch) {
         binding.apply {
-            webViewSearchHelper.searchAndScroll(webView, webViewSearchHelper.halfString(chapterSearch.bodyText))
-            bottomSheetDialog.dismiss()
+            repeat(2) {
+                webViewSearchHelper.searchAndScroll(webView, webViewSearchHelper.halfString(chapterSearch.bodyText))
+            }
+            bottomSheetDialog?.hide()
+            showFab()
         }
+    }
+    private fun showFab(){
+        binding.fab.scaleX = 0f
+        binding.fab.scaleY = 0f
+        binding.fab.visibility = View.VISIBLE
+        binding.fab.animate()
+            .scaleX(1f)
+            .scaleY(1f)
+            .setDuration(300)
+            .start()
+    }
+    private fun hideFab(){
+        binding.fab.animate()
+            .scaleX(0f)
+            .scaleY(0f)
+            .setDuration(300)
+            .withEndAction {
+                binding.fab.visibility = View.GONE
+            }
     }
 }

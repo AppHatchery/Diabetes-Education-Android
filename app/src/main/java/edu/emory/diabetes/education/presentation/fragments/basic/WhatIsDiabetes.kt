@@ -3,9 +3,13 @@ package edu.emory.diabetes.education.presentation.fragments.basic
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
+import android.view.animation.AnimationUtils
+import android.view.animation.BounceInterpolator
 import android.view.inputmethod.EditorInfo
 import android.webkit.*
 import android.widget.FrameLayout
@@ -61,7 +65,10 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     private lateinit var fullScreenView: FrameLayout
     private lateinit var binding: FragmentOrientationWhatIsDiabetesBinding
     private val webViewSearchHelper by lazy { SearchUtils.WebViewSearchHelper() }
-    private lateinit var bottomSheetDialog: BottomSheetDialog
+    private var bottomSheetDialog: BottomSheetDialog? = null
+    private var dX: Float = 0F
+    private var dY: Float = 0F
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -89,6 +96,10 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                 }
             }
 
+            hideFab()
+            fab.setOnClickListener {
+                showBottomSheetDialog()
+            }
 
             val htmlParser = SearchUtils.HtmlParser(requireContext(), args.lesson.pageUrl)
             val parsedData = htmlParser.parseHtml()
@@ -172,23 +183,49 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
     private fun showBottomSheetDialog() {
-        bottomSheetDialog = BottomSheetDialog(requireContext())
-        bottomSheetDialog.setContentView(R.layout.fragment_search_chapter)
-        bottomSheetDialog.window
-            ?.findViewById<View>(R.id.bottomSheet)
-            ?.setBackgroundColor(Color.TRANSPARENT)
-        bottomSheetDialog.show()
 
-        val searchKeyword = bottomSheetDialog.findViewById<AppCompatEditText>(R.id.search)
-        val searchBtn = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.search_text)
-        val searchResult = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.not_found)
-        val recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
-        val clearTextButton = bottomSheetDialog.findViewById<AppCompatImageView>(R.id.clear_button)
+        if (bottomSheetDialog == null) {
+            // If there is no existing instance of BottomSheetDialog, create a new one
+            bottomSheetDialog = BottomSheetDialog(requireContext())
+            bottomSheetDialog?.setContentView(R.layout.fragment_search_chapter)
+            bottomSheetDialog?.window?.findViewById<View>(R.id.bottomSheet)
+                ?.setBackgroundColor(Color.TRANSPARENT)
+            bottomSheetDialog?.window?.setDimAmount(0f)
+        }
 
+        bottomSheetDialog?.show()
+        binding.fab.bringToFront()
+
+        val searchKeyword = bottomSheetDialog!!.findViewById<AppCompatEditText>(R.id.search)
+        val searchBtn = bottomSheetDialog!!.findViewById<AppCompatTextView>(R.id.search_text)
+        val searchResult = bottomSheetDialog!!.findViewById<AppCompatTextView>(R.id.not_found)
+        val recyclerView = bottomSheetDialog!!.findViewById<RecyclerView>(R.id.adapter)
+        val clearTextButton = bottomSheetDialog!!.findViewById<AppCompatImageView>(R.id.clear_button)
 
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
             binding.webView.clearMatches()
+        }
+
+        bottomSheetDialog?.setOnDismissListener {
+            showFab()
+            if (searchKeyword?.text.isNullOrBlank()) {
+                // Dismiss the BottomSheetDialog and set its reference to null
+                bottomSheetDialog?.dismiss()
+                bottomSheetDialog = null
+                hideFab()
+            }
+            binding.webView.setFindListener { activeMatchOrdinal, numberOfMatches, _ ->
+                // Check if there are matches
+                if (numberOfMatches > 0) {
+                    // Matches found, do something
+                } else {
+                    // No matches found, do something else
+                    bottomSheetDialog?.dismiss()
+                    bottomSheetDialog = null
+                    hideFab()
+                }
+            }
         }
 
 
@@ -218,9 +255,9 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                 searchAdapter()
                 it.hideKeyboard()
 
-//                binding.apply {
-//                    webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value)
-//                }
+                binding.apply {
+                    webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value)
+                }
 
                 val properties = hashMapOf<String, Any>()
                 properties["searchTerm"] = searchKeyword.text.toString()
@@ -230,13 +267,40 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         }
     }
 
+
     override fun onItemClick(chapterSearch: ChapterSearch) {
         binding.apply {
 
-            webViewSearchHelper.searchAndScroll(webView,webViewSearchHelper.halfString(chapterSearch.bodyText))
-            bottomSheetDialog.dismiss()
+            repeat(2) {
+                webViewSearchHelper.searchAndScroll(webView, webViewSearchHelper.halfString(chapterSearch.bodyText))
+            }
+            bottomSheetDialog?.hide()
+           // binding.fab.visibility = View.VISIBLE
+            showFab()
+
+
         }
     }
+    private fun showFab(){
+        binding.fab.scaleX = 0f
+        binding.fab.scaleY = 0f
+        binding.fab.visibility = View.VISIBLE
+        binding.fab.animate()
+            .scaleX(1f)
+            .scaleY(1f)
+            .setDuration(300)
+            .start()
+    }
+    private fun hideFab(){
+        binding.fab.animate()
+            .scaleX(0f)
+            .scaleY(0f)
+            .setDuration(300)
+            .withEndAction {
+                binding.fab.visibility = View.GONE
+            }
+    }
+
 
 }
 

@@ -86,13 +86,18 @@ SearchUtils {
                 if (searchQuery.isNotEmpty()) {
                     webView.findAllAsync(removeHtmlTags(searchQuery))
                     webView.setFindListener { activeMatchOrdinal, numberOfMatches, isDone ->
-
                 }
             }
         }
-        fun removeHtmlTags(string: String): String {
-            return string.replace(Regex("<[^>]+>"), "")
+        fun removeHtmlTags(text: String): String {
+            return text
+                .replace(Regex("<br>|<p>"), " ")
+                .replace(Regex("<.*?>"), "")
+                .replace(Regex("<[^>]+>"), "")
         }
+//        fun removeHtmlTags(string: String): String {
+//            return string.replace(Regex("<[^>]+>"), "")
+//        }
         fun halfString(string: String):String{
             val halfLength = removeHtmlTags(string).length
             val firstHalf = removeHtmlTags(string).substring(0, halfLength)
@@ -104,6 +109,7 @@ SearchUtils {
             val threeQuartersLength = (removeHtmlTags(string).length * 0.75).toInt()
             return removeHtmlTags(string).substring(0, threeQuartersLength)
         }
+
 
     }
 
