@@ -160,7 +160,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             ?.findViewById<View>(R.id.bottomSheet)
             ?.setBackgroundColor(Color.TRANSPARENT)
         bottomSheetDialog.show()
-        //bottomSheetDialog.window?.setWindowAnimations(R.style.dialogAnimate)
+
 
         val searchKeyword = bottomSheetDialog.findViewById<AppCompatEditText>(R.id.search)
         val searchBtn = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.search_text)
@@ -168,9 +168,9 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         val recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
         val clearTextButton = bottomSheetDialog.findViewById<AppCompatImageView>(R.id.clear_button)
         val recyclerContainer = bottomSheetDialog.findViewById<View>(R.id.bottomSheet)
-        val mainContainer = bottomSheetDialog.findViewById<View>(R.id.fragment_search_chapter)
 
-        //Search
+
+        //Search linear bar
         val searchLinear = bottomSheetDialog.findViewById<LinearLayoutCompat>(R.id.search_linear)
 
         clearTextButton?.setOnClickListener {
