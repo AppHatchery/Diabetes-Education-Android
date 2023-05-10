@@ -5,6 +5,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
+import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 
@@ -31,5 +33,6 @@ fun setImageIcon(view: ImageView, image: Int) {
 
 @BindingAdapter("searchText")
 fun searchText(view: TextView, search: String) {
-    view.text = String.format("%s %s", "•", search.trim())
+
+    view.text = HtmlCompat.fromHtml(String.format("%s %s", "•", search.trim()),FROM_HTML_MODE_LEGACY)
 }
