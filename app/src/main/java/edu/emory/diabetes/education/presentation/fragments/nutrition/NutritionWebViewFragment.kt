@@ -214,9 +214,11 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
             searchKeyword.doAfterTextChanged { editable ->
                 if (editable != null) {
                     if (editable.isBlank()) {
-                        searchBtn?.setTextColor(Color.parseColor("#57585A"))
+                        searchBtn?.setTextColor(Color.parseColor("#57585A"))//gray
+                        searchBtn?.isClickable = false
                     }else{
-                        searchBtn?.setTextColor(Color.parseColor("#00A94F"))
+                        searchBtn?.setTextColor(Color.parseColor("#00A94F"))//green
+                        searchBtn?.isClickable = true
                     }
                 }
             }
