@@ -1,5 +1,9 @@
 package edu.emory.diabetes.education.presentation.fragments.search
 
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.emory.diabetes.education.views.WebAppInterface
@@ -20,6 +24,7 @@ class ChapterViewModel @Inject constructor(
     val searchResult = searchFlow
     fun search(searchQuery: String): Flow<List<String>> {
         return flow {
+
             val res = mutableListOf<String>()
             WebAppInterface.parsedData.split( "?", ":","_").forEach {
                 if (it.contains("∧")){
@@ -28,7 +33,13 @@ class ChapterViewModel @Inject constructor(
                     if (it.contains(searchQuery,ignoreCase = true)) res.add(it)
                 }
             }
-            emit(res)
+            val colorTag ="<span style='background-color: yellow; color: black; font-weight: bold;'>${searchQuery}</span>"
+            for (i in res.indices) {
+                if (res[i].contains(searchQuery,ignoreCase = true)) {
+                    res[i] = res[i].replace(searchQuery, colorTag,ignoreCase = true)
+                }
+            }
+            emit(res.distinct())
         }
     }
 
