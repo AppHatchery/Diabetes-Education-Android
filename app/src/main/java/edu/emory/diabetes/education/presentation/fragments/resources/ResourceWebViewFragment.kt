@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.MenuProvider
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -194,6 +195,17 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
 
         searchKeyword?.setOnTextWatcher {
             viewModel.searchQuery.value = it
+            searchKeyword.doAfterTextChanged { editable ->
+                if (editable != null) {
+                    if (editable.isBlank()) {
+                        searchBtn?.setTextColor(Color.parseColor("#57585A"))//gray
+                        searchBtn?.isClickable = false
+                    }else{
+                        searchBtn?.setTextColor(Color.parseColor("#00A94F"))//green
+                        searchBtn?.isClickable = true
+                    }
+                }
+            }
             searchKeyword.onSearch {
                 searchAdapter()
             }
