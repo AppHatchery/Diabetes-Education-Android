@@ -10,12 +10,14 @@ import android.view.inputmethod.EditorInfo
 import android.webkit.*
 import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.MenuProvider
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -230,6 +232,16 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         }
         searchKeyword?.setOnTextWatcher {
             viewModel.searchQuery.value = it
+            searchKeyword.doAfterTextChanged { editable ->
+                if (editable != null) {
+                    if (editable.isBlank()) {
+                        searchBtn?.setTextColor(Color.parseColor("#57585A"))
+                    }else{
+                        searchBtn?.setTextColor(Color.parseColor("#00A94F"))
+                    }
+                }
+            }
+
             searchKeyword.onSearch {
                 searchAdapter()
             }
