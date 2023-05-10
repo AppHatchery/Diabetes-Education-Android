@@ -3,19 +3,26 @@ package edu.emory.diabetes.education.presentation.fragments.basic
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
+import android.view.animation.AnimationUtils
+import android.view.animation.BounceInterpolator
 import android.view.inputmethod.EditorInfo
 import android.webkit.*
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.MenuProvider
+import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +34,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.SearchUtils
 import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.Utils.hideKeyboard
 import edu.emory.diabetes.education.Utils.onSearch
@@ -50,11 +58,17 @@ import sdk.pendo.io.Pendo
 import java.io.IOException
 
 
-class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabetes) {
+class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabetes),ChapterSearchAdapter.OnClickListener
+{
     private val args: WhatIsDiabetesArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var fullScreenView: FrameLayout
     private lateinit var binding: FragmentOrientationWhatIsDiabetesBinding
+    private val webViewSearchHelper by lazy { SearchUtils.WebViewSearchHelper() }
+    private var bottomSheetDialog: BottomSheetDialog? = null
+    private var dX: Float = 0F
+    private var dY: Float = 0F
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -71,52 +85,26 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         binding.apply {
             title.text = args.lesson.title
             addMenuProvider()
-            parent.viewTreeObserver.addOnScrollChangedListener {
+
+            webView.viewTreeObserver.addOnScrollChangedListener {
                 scrollIndicator.progress = 0
-                if (parent.scrollY > 0) {
-                    var height = (parent.getChildAt(0).height.toFloat().minus(parent.height))
-                    (parent.scrollY / height).times(100).toInt().also {
-                        scrollIndicatorText.text = "$it%"
-                        scrollIndicator.progress = it
-                    }
+                if (webView.scrollY > 0) {
+                    val height = webView.contentHeight.toFloat()
+                    val percentage = (webView.scrollY / height).times(100).toInt().coerceAtMost(100)
+                    scrollIndicatorText.text = "$percentage%"
+                    scrollIndicator.progress = percentage
                 }
             }
-            lifecycleScope.launch(Dispatchers.IO) {
-                val filepath = "pages/${args.lesson.pageUrl}.html"
-                val html = readHtmlFromAssets(requireContext(), filepath)
-                val doc = Jsoup.parse(html);
-                val paragraphs = doc.select("p,li,img");
-                val array = mutableListOf<String>()
-                paragraphs.forEach { element ->
-                    if (element.tagName().equals("img")) {
-                        array.add(element.attr("alt"))
-                    } else {
-                        if (countOccurrences(element.text(), '.') > 1) {
-                            val block = element.text().split(".")
-                            block.forEach { item ->
-                                if (item.isNotEmpty()) array.add(item)
-                            }
-                        } else {
-                            array.add(element.text())
-                        }
-                    }
-                }
-                val newArray = mutableListOf<String>()
-                array.forEach {
-                    if (it.isNotEmpty()) {
-                        var string = ""
-                        if (fixString(it).contains("'")) {
-                            string = fixString(it).replace("'", "∧")
-                            newArray.add(string)
-                        } else {
-                            string = fixString(it)
-                            newArray.add(string)
-                        }
-                    }
-                }
-                val finalString = newArray.joinToString("_")
-                WebAppInterface.parsedData = finalString
+
+            hideFab()
+            fab.setOnClickListener {
+                showBottomSheetDialog()
             }
+
+            val htmlParser = SearchUtils.HtmlParser(requireContext(), args.lesson.pageUrl)
+            val parsedData = htmlParser.parseHtml()
+            WebAppInterface.parsedData = parsedData
+
             webView.apply {
                 loadUrl(Ext.getPathUrl(args.lesson.pageUrl))
                 addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
@@ -195,39 +183,65 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
     private fun showBottomSheetDialog() {
-        val bottomSheetDialog = BottomSheetDialog(requireContext())
-        bottomSheetDialog.setContentView(R.layout.fragment_search_chapter)
-        bottomSheetDialog.window
-            ?.findViewById<View>(R.id.bottomSheet)
-            ?.setBackgroundColor(Color.TRANSPARENT)
-        bottomSheetDialog.show()
 
-        val searchKeyword = bottomSheetDialog.findViewById<AppCompatEditText>(R.id.search)
-        val searchBtn = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.search_text)
-        val searchResult = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.not_found)
-        val searchResultTryElse = bottomSheetDialog.findViewById<AppCompatTextView>(R.id.try_something_else)
-        val recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.adapter)
-        val clearTextButton = bottomSheetDialog.findViewById<AppCompatImageView>(R.id.clear_button)
+        if (bottomSheetDialog == null) {
+            // If there is no existing instance of BottomSheetDialog, create a new one
+            bottomSheetDialog = BottomSheetDialog(requireContext())
+            bottomSheetDialog?.setContentView(R.layout.fragment_search_chapter)
+            bottomSheetDialog?.window?.findViewById<View>(R.id.bottomSheet)
+                ?.setBackgroundColor(Color.TRANSPARENT)
+            bottomSheetDialog?.window?.setDimAmount(0f)
+        }
+
+        bottomSheetDialog?.show()
+        binding.fab.bringToFront()
+
+        val searchKeyword = bottomSheetDialog!!.findViewById<AppCompatEditText>(R.id.search)
+        val searchBtn = bottomSheetDialog!!.findViewById<AppCompatTextView>(R.id.search_text)
+        val searchResult = bottomSheetDialog!!.findViewById<AppCompatTextView>(R.id.not_found)
+        val recyclerView = bottomSheetDialog!!.findViewById<RecyclerView>(R.id.adapter)
+        val clearTextButton = bottomSheetDialog!!.findViewById<AppCompatImageView>(R.id.clear_button)
 
         clearTextButton?.setOnClickListener {
             searchKeyword?.text?.clear()
+            binding.webView.clearMatches()
         }
 
+        bottomSheetDialog?.setOnDismissListener {
+            showFab()
+            if (searchKeyword?.text.isNullOrBlank()) {
+                // Dismiss the BottomSheetDialog and set its reference to null
+                bottomSheetDialog?.dismiss()
+                bottomSheetDialog = null
+                hideFab()
+            }
+            binding.webView.setFindListener { activeMatchOrdinal, numberOfMatches, _ ->
+                // Check if there are matches
+                if (numberOfMatches > 0) {
+                    // Matches found, do something
+                } else {
+                    // No matches found, do something else
+                    bottomSheetDialog?.dismiss()
+                    bottomSheetDialog = null
+                    hideFab()
+                }
+            }
+        }
+
+
         fun searchAdapter() {
-            recyclerView?.adapter = ChapterSearchAdapter().also { adapter ->
+            recyclerView?.adapter = ChapterSearchAdapter(this).also { adapter ->
                 viewModel.searchResult.onEach {
                     searchResult?.visibility = View.GONE
-                    searchResultTryElse?.visibility = View.GONE
                     adapter.submitList(it.map { ChapterSearch(bodyText = it) }) {
                         recyclerView?.scrollToPosition(adapter.currentList.lastIndex)
                     }
                     if (it.isEmpty()) searchResult?.visibility = View.VISIBLE
-                    if (it.isEmpty()) searchResultTryElse?.visibility = View.VISIBLE
                 }.launchIn(lifecycleScope)
             }
 
             if (searchKeyword?.text.toString().isNotEmpty()) {
-               // searchBtn?.setTextColor(Color.parseColor("#00A94F"))
+                searchBtn?.setTextColor(Color.parseColor("#00A94F"))
                 clearTextButton?.visibility = View.VISIBLE
             }
         }
@@ -240,6 +254,11 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             searchBtn?.setOnClickListener {
                 searchAdapter()
                 it.hideKeyboard()
+
+//                binding.apply {
+//                    webViewSearchHelper.searchAndScroll(webView, viewModel.searchQuery.value)
+//                }
+
                 val properties = hashMapOf<String, Any>()
                 properties["searchTerm"] = searchKeyword.text.toString()
                 properties["page"] =  args.lesson.title
@@ -248,21 +267,40 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
         }
     }
 
-    //Utility functions
-    fun readHtmlFromAssets(context: Context, fileName: String): String {
-        return context.assets.open(fileName).bufferedReader().use {
-            it.readText()
+
+    override fun onItemClick(chapterSearch: ChapterSearch) {
+        binding.apply {
+
+            repeat(2) {
+                webViewSearchHelper.searchAndScroll(webView, webViewSearchHelper.halfString(chapterSearch.bodyText))
+            }
+            bottomSheetDialog?.hide()
+            // binding.fab.visibility = View.VISIBLE
+            showFab()
+
+
         }
     }
-    fun countOccurrences(s: String, ch: Char): Int {
-        return s.filter { it == ch }.count()
+    private fun showFab(){
+        binding.fab.scaleX = 0f
+        binding.fab.scaleY = 0f
+        binding.fab.visibility = View.VISIBLE
+        binding.fab.animate()
+            .scaleX(1f)
+            .scaleY(1f)
+            .setDuration(300)
+            .start()
     }
-    private fun fixString(string: String): String {
-        return if (string.first() == ' ') {
-            string.replaceRange(0, 1, "")
-        } else {
-            string
-        }
+    private fun hideFab(){
+        binding.fab.animate()
+            .scaleX(0f)
+            .scaleY(0f)
+            .setDuration(300)
+            .withEndAction {
+                binding.fab.visibility = View.GONE
+            }
     }
+
+
 }
 
