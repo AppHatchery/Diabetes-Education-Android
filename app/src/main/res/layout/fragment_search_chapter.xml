@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:id="@+id/fragment_search_chapter"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottomSheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"
         android:background="@drawable/shape_rectangle_top_radius_10px"
         android:backgroundTint="@color/cine_100"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:id="@+id/bottomSheet"
+        app:behavior_hideable="true"
+
+        app:behavior_peekHeight="90dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        >
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/search_linear"
