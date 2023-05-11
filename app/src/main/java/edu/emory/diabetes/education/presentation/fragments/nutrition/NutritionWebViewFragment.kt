@@ -210,7 +210,6 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
             }
 
             if (searchKeyword?.text.toString().isNotEmpty()) {
-                searchBtn?.setTextColor(Color.parseColor("#00A94F"))
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
                 clearTextButton?.visibility = View.VISIBLE
             }

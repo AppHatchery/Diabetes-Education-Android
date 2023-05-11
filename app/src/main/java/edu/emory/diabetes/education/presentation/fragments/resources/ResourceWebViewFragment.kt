@@ -186,9 +186,7 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
                 }.launchIn(lifecycleScope)
             }
 
-
             if (searchKeyword?.text.toString().isNotEmpty()) {
-                searchBtn?.setTextColor(Color.parseColor("#00A94F"))
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
                 clearTextButton?.visibility = View.VISIBLE
             }

@@ -237,7 +237,6 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
 
 
             if (searchKeyword?.text.toString().isNotEmpty()) {
-                searchBtn?.setTextColor(Color.parseColor("#00A94F"))
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
                 clearTextButton?.visibility = View.VISIBLE
             }
