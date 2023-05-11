@@ -88,7 +88,7 @@ SearchUtils {
 
         fun removeHtmlTags(text: String): String {
             return text
-                .replace(Regex("<br>|<p>"), " ")
+                .replace(Regex("<br>|<p>|<div>"), " ")
                 .replace(Regex("<.*?>"), "")
                 .replace(Regex("<[^>]+>"), "")
         }
