@@ -7,7 +7,7 @@
 
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -18,8 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:paddingHorizontal="16dp"
-            android:textSize="20sp"
-            android:text="Title" />
+            android:text="Title"
+            android:textSize="20sp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/scrollIndicatorParent"
@@ -52,46 +52,34 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="30dp"
-                app:backgroundTint="@color/green_200"
-                android:src="@drawable/ic_search"
-                app:elevation="5dp"
-                app:fabSize="normal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/webViewContainer"
-                />
-                <LinearLayout
-                    android:id="@+id/webViewContainer"
+
+            <LinearLayout
+                android:id="@+id/webViewContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ProgressBar
+                    android:id="@+id/pageLoadProgressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <edu.emory.diabetes.education.views.BaseWebView
+                    android:id="@+id/webView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <ProgressBar
-                        android:id="@+id/pageLoadProgressBar"
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                    android:padding="16dp" />
+            </LinearLayout>
 
-                    <edu.emory.diabetes.education.views.BaseWebView
-                        android:id="@+id/webView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="16dp" />
-                </LinearLayout>
-
-                <FrameLayout
-                    android:id="@+id/fullscreenContainer"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </FrameLayout>
+            <FrameLayout
+                android:id="@+id/fullscreenContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"></FrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        <include layout="@layout/fragment_search_chapter" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
