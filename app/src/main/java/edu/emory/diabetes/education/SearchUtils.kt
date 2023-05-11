@@ -78,7 +78,8 @@ SearchUtils {
 
 
     class WebViewSearchHelper {
-        fun searchAndScroll(webView: WebView, searchQuery: String) {
+
+        fun searchWebView(webView: WebView, searchQuery: String) {
             if (searchQuery.isNotEmpty()) {
                 webView.findAllAsync(removeHtmlTags(searchQuery))
                 webView.setFindListener { activeMatchOrdinal, numberOfMatches, isDone ->

@@ -218,7 +218,7 @@ class ResourceWebViewFragment : BaseFragment(R.layout.fragment_resource_web_view
     override fun onItemClick(chapterSearch: ChapterSearch) {
         binding.apply {
             repeat(2) {
-                webViewSearchHelper.searchAndScroll(
+                webViewSearchHelper.searchWebView(
                     webView,
                     webViewSearchHelper.halfStringForTable(chapterSearch.bodyText)
                 )

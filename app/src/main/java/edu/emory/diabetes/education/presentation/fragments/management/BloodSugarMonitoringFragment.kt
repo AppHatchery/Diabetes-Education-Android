@@ -273,7 +273,7 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
     override fun onItemClick(chapterSearch: ChapterSearch) {
         binding.apply {
             repeat(2) {
-                webViewSearchHelper.searchAndScroll(
+                webViewSearchHelper.searchWebView(
                     webView,
                     webViewSearchHelper.halfString(chapterSearch.bodyText)
                 )

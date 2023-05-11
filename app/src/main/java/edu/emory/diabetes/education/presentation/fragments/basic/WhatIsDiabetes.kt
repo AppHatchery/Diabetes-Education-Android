@@ -261,7 +261,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     override fun onItemClick(chapterSearch: ChapterSearch) {
         binding.apply {
             repeat(2) {
-                webViewSearchHelper.searchAndScroll(
+                webViewSearchHelper.searchWebView(
                     webView,
                     webViewSearchHelper.halfString(chapterSearch.bodyText)
                 )
