@@ -11,6 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/title"
@@ -76,9 +80,9 @@
                 android:id="@+id/fullscreenContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"></FrameLayout>
+                android:visibility="gone"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </androidx.appcompat.widget.LinearLayoutCompat>
         <include layout="@layout/fragment_search_chapter" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
