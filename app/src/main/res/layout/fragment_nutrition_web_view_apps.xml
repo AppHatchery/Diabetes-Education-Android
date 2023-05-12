@@ -7,23 +7,18 @@
 
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:paddingHorizontal="16dp"
-            android:text="Title"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:text="Title" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -59,15 +54,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <edu.emory.diabetes.education.views.BaseWebView
-                android:id="@+id/webView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp" />
+                <edu.emory.diabetes.education.views.BaseWebView
+                    android:id="@+id/webView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="16dp" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-        <include layout="@layout/fragment_search_chapter" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
