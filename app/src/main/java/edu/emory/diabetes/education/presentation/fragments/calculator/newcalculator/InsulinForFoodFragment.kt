@@ -9,6 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import android.view.View.OnTouchListener
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ScrollView
@@ -34,18 +35,6 @@ class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) 
             val context = root.context
             val marginBottom = dpToPx(context, 16)
 
-            /*scrollView.viewTreeObserver?.addOnGlobalLayoutListener {
-                val rect = Rect()
-                scrollView.getWindowVisibleDisplayFrame(rect)
-                val screenHeight = scrollView.rootView.height
-                val keypadHeight = screenHeight - rect.bottom
-                if (keypadHeight > screenHeight * 0.15) {
-                    scrollView.fullScroll(View.FOCUS_DOWN)
-                } else {
-                    scrollView.scrollBy(0, 0)
-                }
-            }*/
-
             val editTextList = mutableListOf<EditText>()
             editTextList.add(totalCarbsNew)
             editTextList.add(carbRatioNew)
@@ -54,9 +43,6 @@ class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) 
                 editText.setOnFocusChangeListener { _, hasFocus ->
                     if (hasFocus) {
                         scrollView.smoothScrollTo(0, editText.bottom)
-                       /* scrollView.postDelayed({
-                            scrollView.smoothScrollTo(0, editText.bottom)
-                        }, 0)*/
                     }
                 }
             }
@@ -70,9 +56,6 @@ class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) 
                     val currentFocus = activity?.currentFocus
                     if (currentFocus is EditText) {
                         scrollView.smoothScrollTo(0, scrollView.bottom)
-                        /*scrollView.postDelayed({
-                            scrollView.smoothScrollTo(0, scrollView.bottom)
-                        }, 200)*/
                     }
                 }
             }
@@ -92,6 +75,9 @@ class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) 
 
             next.setOnClickListener {
                 if (totalCarbsNew.text?.isNotEmpty() == true && carbRatioNew.text?.isNotEmpty() == true) {
+                    //hide keyboard
+                    val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
                     //pendo tracking
                     val properties = hashMapOf<String, Any>()
                     properties["carbs"] = totalCarbsNew.text.toString()
@@ -107,8 +93,6 @@ class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) 
                                 targetBloodSugar = "0",
                                 id = sectionId
                             ).also {
-                                totalCarbsNew.text?.clear()
-                                carbRatioNew.text?.clear()
                                 findNavController().navigate(it)
                             }
                     } else {
@@ -118,8 +102,6 @@ class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) 
                                 carbsRatio = carbRatioNew.text.toString(),
                                 id = sectionId
                             ).also {
-                                totalCarbsNew.text?.clear()
-                                carbRatioNew.text?.clear()
                                 findNavController().navigate(it)
                             }
                     }
@@ -157,6 +139,12 @@ class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) 
                 }
             }
         }
+    }
+
+    // animation
+    override fun onStop() {
+        super.onStop()
+        view?.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_left))
     }
 
     private fun dpToPx(context: Context, dp: Int): Int {

@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.core.view.WindowInsetsCompat
@@ -29,7 +30,7 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentInsulinForHbsBinding.bind(view)) {
-
+            //scrolling up when keyboard is shown
             val editTextList = mutableListOf<EditText>()
             editTextList.add(bloodSugarNew)
             editTextList.add(targetBloodSugar)
@@ -57,6 +58,7 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
             }
             scrollView.viewTreeObserver.addOnGlobalLayoutListener(listener)
 
+            //hiding bottom nav bar when keyboard is shown
             val bottomBar = activity?.findViewById<View>(R.id.bottomNavigationView)
 
             activity?.window?.decorView?.setOnApplyWindowInsetsListener { view, insets ->
@@ -67,6 +69,7 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                 view.onApplyWindowInsets(insets)
             }
 
+            // nav args
             val totalCarbs = args.totalCarbs
             val carbRatio = args.carbsRatio
             val id = args.id
@@ -91,6 +94,9 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
 
             next.setOnClickListener {
                 if (correctionFactor.text?.isNotEmpty() == true && bloodSugarNew.text?.isNotEmpty() == true && targetBloodSugar.text?.isNotEmpty() == true) {
+                    //hide keyboard
+                    val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
                     //pendo tracking
                     val properties = hashMapOf<String, Any>()
                     properties["correction_factor"] = correctionFactor.text.toString()
@@ -108,9 +114,6 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                             carbsRatio = carbRatio.toString(),
                             id = 1
                         ).also {
-                            correctionFactor.text?.clear()
-                            bloodSugarNew.text?.clear()
-                            targetBloodSugar.text?.clear()
                             findNavController().navigate(it)
                         }
                 } else {
@@ -154,6 +157,11 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                 }
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        view?.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_left))
     }
     private fun dpToPx(context: Context, dp: Int): Int {
         val density = context.resources.displayMetrics.density
