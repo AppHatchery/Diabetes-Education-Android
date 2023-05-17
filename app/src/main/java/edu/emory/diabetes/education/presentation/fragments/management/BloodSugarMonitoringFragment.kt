@@ -48,7 +48,7 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
     private val webViewSearchHelper by lazy { SearchUtils.WebViewSearchHelper() }
     private var bottomSheetDialog: BottomSheetDialog? = null
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
-
+    private var isExecuted = false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -281,6 +281,16 @@ class BloodSugarMonitoringFragment : BaseFragment(R.layout.fragment_blood_sugar_
             bottomSheetDialog?.hide()
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
+        if (!isExecuted) {
+            val javascriptCode = "var whiteSpace = document.createElement('div'); " +
+                    "whiteSpace.style.height = '100px'; " + // Adjust the height as needed
+                    "document.body.appendChild(whiteSpace);"
+            binding.webView.evaluateJavascript(javascriptCode, null)
+            isExecuted = true
+        }
+        val scrollAmount = 200 // Scroll amount in pixels
+        val script = "window.scrollBy(0, $scrollAmount);"
+        binding.webView.evaluateJavascript(script, null)
     }
 
     private fun hideSheet() {

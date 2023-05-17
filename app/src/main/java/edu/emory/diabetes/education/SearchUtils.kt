@@ -1,11 +1,13 @@
 package edu.emory.diabetes.education
 
 import android.content.Context
+import android.util.Log
 import android.webkit.WebView
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.FragmentComponent
+import org.json.JSONObject
 import org.jsoup.Jsoup
 
 object
@@ -85,6 +87,8 @@ SearchUtils {
                 webView.setFindListener { activeMatchOrdinal, numberOfMatches, isDone ->
                 }
             }
+
+
         }
 
         fun removeHtmlTags(text: String): String {
