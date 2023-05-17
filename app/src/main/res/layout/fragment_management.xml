@@ -15,7 +15,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/orientation"
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -27,6 +27,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginEnd="12dp"
+                android:foregroundGravity="top"
                 android:padding="4dp"
                 android:src="@drawable/im_knowledge_idea"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -39,13 +40,14 @@
                 style="@style/textTitle"
                 android:layout_width="0dp"
                 android:layout_marginStart="12dp"
+                android:foregroundGravity="top"
                 android:text="Diabetes Self-Management"
                 app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
                 app:layout_constraintEnd_toStartOf="@+id/appCompatImageView"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/appCompatImageView"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.079" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/appCompatTextView2"
@@ -61,6 +63,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearLayoutCompat9"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@drawable/shape_rectangle_top_radius_50px"
