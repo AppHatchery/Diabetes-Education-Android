@@ -1,15 +1,13 @@
 package edu.emory.diabetes.education.presentation.fragments.nutrition
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Toast
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
@@ -30,21 +28,16 @@ import edu.emory.diabetes.education.Utils.hideKeyboard
 import edu.emory.diabetes.education.Utils.onSearch
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
 import edu.emory.diabetes.education.databinding.FragmentBloodSugarMonitoringBinding
-import edu.emory.diabetes.education.databinding.FragmentNutritionWebViewAppsBinding
 import edu.emory.diabetes.education.domain.model.ChapterSearch
 import edu.emory.diabetes.education.htmlExt
 import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterSearchAdapter
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterViewModel
 import edu.emory.diabetes.education.views.WebAppInterface
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
-import org.jsoup.Jsoup
 import sdk.pendo.io.Pendo
+
 
 class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_view_apps),ChapterSearchAdapter.OnClickListener {
     private val args: NutritionWebViewFragmentArgs by navArgs()
@@ -76,6 +69,8 @@ class NutritionWebViewFragment : BaseFragment(R.layout.fragment_nutrition_web_vi
                     scrollIndicator.progress = percentage
                 }
             }
+
+
             hideFab()
             fab.setOnClickListener {
                 showBottomSheetDialog()
