@@ -282,7 +282,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
             binding.webView.evaluateJavascript(javascriptCode, null)
             isExecuted = true
         }
-        val scrollAmount = 200 // Scroll amount in pixels
+        val scrollAmount = 100 // Scroll amount in pixels
         val script = "window.scrollBy(0, $scrollAmount);"
         binding.webView.evaluateJavascript(script, null)
 
