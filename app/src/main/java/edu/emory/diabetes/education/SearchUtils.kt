@@ -1,18 +1,14 @@
 package edu.emory.diabetes.education
 
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
-import android.view.View
+import android.util.Log
 import android.webkit.WebView
-import android.widget.ScrollView
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.FragmentComponent
-import dagger.hilt.components.SingletonComponent
+import org.json.JSONObject
 import org.jsoup.Jsoup
-import javax.inject.Inject
 
 object
 SearchUtils {
@@ -23,9 +19,11 @@ SearchUtils {
             it.readText()
         }
     }
+
     fun countOccurrences(s: String, ch: Char): Int {
         return s.filter { it == ch }.count()
     }
+
     fun fixString(string: String): String {
         return if (string.first() == ' ') {
             string.replaceRange(0, 1, "")
@@ -45,7 +43,7 @@ SearchUtils {
 
                 if (element.tagName().equals("img")) {
                     array.add(element.attr("alt"))
-                }else if (element.tagName().equals("a")){
+                } else if (element.tagName().equals("a")) {
 
                 } else {
                     if (countOccurrences(element.text(), '.') > 1) {
@@ -82,23 +80,25 @@ SearchUtils {
 
 
     class WebViewSearchHelper {
-            fun searchAndScroll(webView: WebView, searchQuery: String) {
-                if (searchQuery.isNotEmpty()) {
-                    webView.findAllAsync(removeHtmlTags(searchQuery))
-                    webView.setFindListener { activeMatchOrdinal, numberOfMatches, isDone ->
+
+        fun searchWebView(webView: WebView, searchQuery: String) {
+            if (searchQuery.isNotEmpty()) {
+                webView.findAllAsync(removeHtmlTags(searchQuery))
+                webView.setFindListener { activeMatchOrdinal, numberOfMatches, isDone ->
                 }
             }
+
+
         }
+
         fun removeHtmlTags(text: String): String {
             return text
-                .replace(Regex("<br>|<p>"), " ")
+                .replace(Regex("<br>|<p>|<div>"), " ")
                 .replace(Regex("<.*?>"), "")
                 .replace(Regex("<[^>]+>"), "")
         }
-//        fun removeHtmlTags(string: String): String {
-//            return string.replace(Regex("<[^>]+>"), "")
-//        }
-        fun halfString(string: String):String{
+
+        fun halfString(string: String): String {
             val halfLength = removeHtmlTags(string).length
             val firstHalf = removeHtmlTags(string).substring(0, halfLength)
             val secondHalf = removeHtmlTags(string).substring(halfLength)
@@ -113,11 +113,12 @@ SearchUtils {
 
     }
 
-@Module
-@InstallIn(FragmentComponent::class)
-object MyModule {
+    @Module
+    @InstallIn(FragmentComponent::class)
+    object MyModule {
 
-    @Provides
-    fun provideWebViewSearchHelper() = SearchUtils.WebViewSearchHelper()
+        @Provides
+        fun provideWebViewSearchHelper() = SearchUtils.WebViewSearchHelper()
 
-}}
+    }
+}
