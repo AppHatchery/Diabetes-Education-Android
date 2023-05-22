@@ -16,13 +16,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp"
         android:background="@color/cine_100">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/total_insulin_image"
-            android:layout_width="match_parent"
-            android:layout_height="222dp"
+            android:layout_width="450dp"
+            android:layout_height="170dp"
             android:src="@drawable/im_insulin_total"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,6 +37,7 @@
             android:layout_margin="12dp"
             android:layout_weight="1"
             app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/total_insulin_image">
 
@@ -51,7 +53,7 @@
                     android:layout_marginHorizontal="8dp"
                     android:layout_marginTop="8dp"
                     android:textColor="#8A8A8A"
-                    android:text="Insulin for food"
+                    android:text="Total insulin"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -89,6 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
                 android:layout_weight="1"
+                app:cardElevation="0dp"
                 app:cardCornerRadius="20dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -134,6 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
                 android:layout_weight="1"
+                app:cardElevation="0dp"
                 app:cardCornerRadius="20dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
