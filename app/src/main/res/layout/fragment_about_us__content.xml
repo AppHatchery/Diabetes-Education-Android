@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_roman"
-                android:text="About the App"
+                android:text="@string/about_the_app"
                 android:textColor="#57585A" />
 
             <TextView
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/avenir_roman"
-                android:text="The content in the TypeU App has been created in conjunction with the Diabetes Education Team at Children’s Healthcare of Atlanta based off the Diabetes Education sessions for new onset patients. The educational content is informed by the 2023 Standards of Care in Diabetes that is regularly published by the American Diabetes Association."
+                android:text="@string/about_the_app_content"
                 android:textAlignment="textStart"
                 android:textColor="@color/gray_200"
                 android:textSize="17sp"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/avenir_roman"
-                android:text="American Diabetes Association"
+                android:text="@string/american_diabetes_association"
                 android:textColor="#57585A" />
 
             <androidx.cardview.widget.CardView
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="20dp"
                 android:fontFamily="@font/avenir_roman"
-                android:text="The American Diabetes Association (ADA) is a United States-based nonprofit that seeks to educate the public about diabetes and to help those affected by it through funding research to manage, cure and prevent diabetes."
+                android:text="@string/american_diabetes_association_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/gray_200"
                 android:textSize="17sp"
@@ -87,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_roman"
-                android:text="Support"
+                android:text="@string/support"
                 android:textColor="#57585A" />
 
             <androidx.appcompat.widget.AppCompatTextView
