@@ -3,7 +3,6 @@ package edu.emory.diabetes.education.presentation.fragments.basic
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.*
 import android.webkit.*
@@ -33,22 +32,20 @@ import edu.emory.diabetes.education.Utils.onSearch
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
 import edu.emory.diabetes.education.databinding.FragmentOrientationWhatIsDiabetesBinding
 import edu.emory.diabetes.education.domain.model.ChapterSearch
+import edu.emory.diabetes.education.domain.model.Lesson
 import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterSearchAdapter
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterViewModel
 import edu.emory.diabetes.education.views.WebAppInterface
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import sdk.pendo.io.Pendo
 import kotlin.collections.set
 
 
 class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabetes),
     ChapterSearchAdapter.OnClickListener {
-    private val args: WhatIsDiabetesArgs by navArgs()
+    //private val args: WhatIsDiabetesArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var fullScreenView: FrameLayout
     private lateinit var binding: FragmentOrientationWhatIsDiabetesBinding
@@ -56,6 +53,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     private var bottomSheetDialog: BottomSheetDialog? = null
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private var isExecuted = false
+    private var lesson = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -68,11 +66,18 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
-        actionBar?.title = "Basics"
+       // actionBar?.title = "Basics"
+        val arguments = arguments
+        val lesson = arguments?.getParcelable<Lesson>("lesson")
+
 
         binding.apply {
             addMenuProvider()
-            title.text = args.lesson.title
+            //title.text = args.lesson.title
+            title.text = lesson?.title
+            actionBar?.title = lesson?.title
+            Toast.makeText(context, lesson?.title, Toast.LENGTH_SHORT).show()
+
             webView.viewTreeObserver.addOnScrollChangedListener {
                 scrollIndicator.progress = 0
                 if (webView.scrollY > 0) {
@@ -83,13 +88,17 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                 }
             }
 
-            val htmlParser = SearchUtils.HtmlParser(requireContext(), args.lesson.pageUrl)
-            val parsedData = htmlParser.parseHtml()
-            WebAppInterface.parsedData = parsedData
+            val htmlParser = lesson?.pageUrl?.let { SearchUtils.HtmlParser(requireContext(), it) }
+            val parsedData = htmlParser?.parseHtml()
+            if (parsedData != null) {
+                WebAppInterface.parsedData = parsedData
+            }
             hideSheet()
 
             webView.apply {
-                loadUrl(Ext.getPathUrl(args.lesson.pageUrl))
+                if (lesson != null) {
+                    loadUrl(Ext.getPathUrl(lesson.pageUrl))
+                }
                 addJavascriptInterface(WebAppInterface(requireContext()), "INTERFACE")
 
                 webViewClient = object : WebViewClient() {
@@ -107,10 +116,12 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                                 Utils.launchUrl(context, this)
                             }
                             if (this.contains("next")) {
-                                WhatIsDiabetesDirections
-                                    .actionWhatIsDiabetesToChapterFinishFragment(args.lesson).also {
-                                        findNavController().navigate(it)
-                                    }
+                                if (lesson != null) {
+                                    WhatIsDiabetesDirections
+                                        .actionWhatIsDiabetesToChapterFinishFragment(lesson).also {
+                                            findNavController().navigate(it)
+                                        }
+                                }
                             }
                         }
                         return true
@@ -256,9 +267,9 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                 searchAdapter()
                 it.hideKeyboard()
                 val properties = hashMapOf<String, Any>()
-                properties["searchTerm"] = searchKeyword.text.toString()
-                properties["page"] = args.lesson.title
-                Pendo.track("searchQuery", properties)
+//                properties["searchTerm"] = searchKeyword.text.toString()
+//                properties["page"] = lesson.title
+//                Pendo.track("searchQuery", properties)
             }
         }
     }
@@ -294,4 +305,3 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     }
 
 }
-

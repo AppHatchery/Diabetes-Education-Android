@@ -40,10 +40,10 @@ class ResourceFragment : BaseFragment(R.layout.fragment_resource) {
     }
 
 
-    fun toResourceMustHaveFragment(view: View) {
-        ResourceFragmentDirections
-            .actionResourceFragmentToResourceMustHaveFragment()
-            .also { findNavController().navigate(it) }
-    }
+//    fun toResourceMustHaveFragment(view: View) {
+//        ResourceFragmentDirections
+//            .actionResourceFragmentToResourceMustHaveFragment()
+//            .also { findNavController().navigate(it) }
+//    }
 
 }

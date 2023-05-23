@@ -12,25 +12,26 @@ import edu.emory.diabetes.education.databinding.FragmentManagementFinishChapterB
 import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.basic.BasicUtils
 import edu.emory.diabetes.education.presentation.fragments.basic.ChapterFinishFragmentDirections
+import edu.emory.diabetes.education.presentation.fragments.basic.WhatIsDiabetesArgs
 import edu.emory.diabetes.education.presentation.fragments.nutrition.ChapterFinishNutritionFragmentDirections
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class ChapterFinishManagementFragment : BaseFragment(R.layout.fragment_management_finish_chapter) {
-    private val args: BloodSugarMonitoringFragmentArgs by navArgs()
+    private val args: WhatIsDiabetesArgs by navArgs()
     private val viewModel: ManagementEndChapterViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentManagementFinishChapterBinding.bind(view)) {
-            viewModel.getNextChapterMngt(args.managementLesson.id).onEach { lesson ->
-                if (args.managementLesson.id == ManagementUtils.managementLessonData.size.minus(1)){
+            viewModel.getNextChapterMngt(args.lesson.id).onEach { lesson ->
+                if (args.lesson.id == ManagementUtils.managementLessonData.size.minus(1)){
                     next.visibility = View.GONE
                     nextChapter.visibility = View.GONE
                 }else{
                     nextChapter.text = if (lesson.isEmpty()) "Go to overviews" else  lesson.first().title
                     next.setOnClickListener {
                         ChapterFinishManagementFragmentDirections
-                            .actionChapterFinishManagementFragmentToBloodSugarMonitoringFragment3(
+                            .actionChapterFinishManagementFragmentToWhatIsDiabetes(
                                 lesson.first()
                             )
                             .also {
@@ -42,14 +43,14 @@ class ChapterFinishManagementFragment : BaseFragment(R.layout.fragment_managemen
             }.launchIn(lifecycleScope)
 
             orientation.setOnClickListener {
-                ChapterFinishManagementFragmentDirections.actionChapterFinishManagementFragmentToManagementQuizQuestionFragment(args.managementLesson.id)
+                ChapterFinishManagementFragmentDirections.actionChapterFinishManagementFragmentToManagementQuizQuestionFragment(args.lesson.id)
                     .also {
                         findNavController().navigate(it)
                     }
             }
 
             takeQuiz.setOnClickListener {
-                ChapterFinishManagementFragmentDirections.actionChapterFinishManagementFragmentToManagementQuizQuestionFragment(args.managementLesson.id)
+                ChapterFinishManagementFragmentDirections.actionChapterFinishManagementFragmentToManagementQuizQuestionFragment(args.lesson.id)
                     .also {
                         findNavController().navigate(it)
                     }
