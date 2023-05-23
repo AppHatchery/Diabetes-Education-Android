@@ -42,6 +42,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@+id/food_diary_icon1"
                 android:text="@{data.title}"
+                app:fontFamily="@font/gotham_rounded_bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/food_diary_icon1"
                 app:layout_constraintTop_toTopOf="@+id/food_diary_icon1"
