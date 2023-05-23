@@ -34,7 +34,7 @@
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mainFragment_to_bloodSugarMonitoringFragment3"
-            app:destination="@id/bloodSugarMonitoringFragment3"
+            app:destination="@id/whatIsDiabetes"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -122,6 +122,10 @@
         <argument
             android:name="lesson"
             app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
+        <!--        -->
+        <argument
+            android:name="managementLesson"
+            app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
         <action
             android:id="@+id/action_whatIsDiabetes_to_chapterFinishFragment"
             app:destination="@id/chapterFinishFragment"
@@ -136,6 +140,29 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_left" />
+<!--        blood sugar-->
+
+        <action
+            android:id="@+id/action_whatIsDiabetes_to_chapterFinishManagementFragment"
+            app:destination="@id/chapterFinishManagementFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_whatIsDiabetes_to_managementFragment"
+            app:destination="@id/managementFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_whatIsDiabetes_to_managementLessonFragment"
+            app:destination="@id/managementLessonFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/typesOfInsulin"
@@ -241,36 +268,36 @@
         android:name="edu.emory.diabetes.education.presentation.fragments.resources.ResourceMustHaveAppsFragment"
         android:label="Must-Have Apps"
         tools:layout="@layout/fragment_resource_must_have_apps" />
-    <fragment
-        android:id="@+id/bloodSugarMonitoringFragment3"
-        android:name="edu.emory.diabetes.education.presentation.fragments.management.BloodSugarMonitoringFragment"
-        android:label="Blood Sugar Monitoring"
-        tools:layout="@layout/fragment_blood_sugar_monitoring">
-        <argument
-            android:name="managementLesson"
-            app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
-        <action
-            android:id="@+id/action_bloodSugarMonitoringFragment3_to_chapterFinishManagementFragment"
-            app:destination="@id/chapterFinishManagementFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-        <action
-            android:id="@+id/action_bloodSugarMonitoringFragment3_to_managementFragment"
-            app:destination="@id/managementFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_bloodSugarMonitoringFragment3_to_managementLessonFragment"
-            app:destination="@id/managementLessonFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/bloodSugarMonitoringFragment3"-->
+<!--        android:name="edu.emory.diabetes.education.presentation.fragments.management.BloodSugarMonitoringFragment"-->
+<!--        android:label="Blood Sugar Monitoring"-->
+<!--        tools:layout="@layout/fragment_blood_sugar_monitoring">-->
+<!--        <argument-->
+<!--            android:name="managementLesson"-->
+<!--            app:argType="edu.emory.diabetes.education.domain.model.Lesson" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_bloodSugarMonitoringFragment3_to_chapterFinishManagementFragment"-->
+<!--            app:destination="@id/chapterFinishManagementFragment"-->
+<!--            app:enterAnim="@anim/slide_in_right"-->
+<!--            app:exitAnim="@anim/slide_out_left"-->
+<!--            app:popEnterAnim="@anim/slide_in_left"-->
+<!--            app:popExitAnim="@anim/slide_out_right"/>-->
+<!--        <action-->
+<!--            android:id="@+id/action_bloodSugarMonitoringFragment3_to_managementFragment"-->
+<!--            app:destination="@id/managementFragment"-->
+<!--            app:enterAnim="@anim/slide_in_left"-->
+<!--            app:exitAnim="@anim/slide_out_left"-->
+<!--            app:popEnterAnim="@anim/slide_in_left"-->
+<!--            app:popExitAnim="@anim/slide_out_left"/>-->
+<!--        <action-->
+<!--            android:id="@+id/action_bloodSugarMonitoringFragment3_to_managementLessonFragment"-->
+<!--            app:destination="@id/managementLessonFragment"-->
+<!--            app:enterAnim="@anim/slide_in_right"-->
+<!--            app:exitAnim="@anim/slide_out_left"-->
+<!--            app:popEnterAnim="@anim/slide_in_left"-->
+<!--            app:popExitAnim="@anim/slide_out_right"/>-->
+<!--    </fragment>-->
     <fragment
         android:id="@+id/whenToCallDoctorFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.management.WhenToCallDoctorFragment"
@@ -408,17 +435,25 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             />
+<!--        <action-->
+<!--            android:id="@+id/action_managementFragment_to_bloodSugarMonitoringFragment3"-->
+<!--            app:destination="@id/bloodSugarMonitoringFragment3"-->
+<!--            app:enterAnim="@anim/slide_in_right"-->
+<!--            app:exitAnim="@anim/slide_out_left"-->
+<!--            app:popEnterAnim="@anim/slide_in_left"-->
+<!--            app:popExitAnim="@anim/slide_out_right"-->
+<!--            />-->
         <action
-            android:id="@+id/action_managementFragment_to_bloodSugarMonitoringFragment3"
-            app:destination="@id/bloodSugarMonitoringFragment3"
+            android:id="@+id/action_managementFragment_to_managementQuizFragment2"
+            app:destination="@id/managementQuizFragment2"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             />
         <action
-            android:id="@+id/action_managementFragment_to_managementQuizFragment2"
-            app:destination="@id/managementQuizFragment2"
+            android:id="@+id/action_managementFragment_to_whatIsDiabetes"
+            app:destination="@id/whatIsDiabetes"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -446,8 +481,8 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_chapterFinishManagementFragment_to_bloodSugarMonitoringFragment3"
-            app:destination="@id/bloodSugarMonitoringFragment3"
+            android:id="@+id/action_chapterFinishManagementFragment_to_whatIsDiabetes"
+            app:destination="@id/whatIsDiabetes"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
