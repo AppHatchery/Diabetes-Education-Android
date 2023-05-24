@@ -15,14 +15,14 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class ChapterFinishFragment : BaseFragment(R.layout.fragment_finish_chapter) {
-    private val args: WhatIsDiabetesArgs by navArgs()
+    private val args: ChapterFinishFragmentArgs by navArgs()
     private val viewModel: ChapterFinishViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentFinishChapterBinding.bind(view)) {
-            args.lesson?.let {
+            args.lesson.let {
                 viewModel.getNextChapter(it.id).onEach { lesson ->
-                    if (args.lesson!!.id == BasicUtils.lessonData.size.minus(1)){
+                    if (args.lesson.id == BasicUtils.lessonData.size.minus(1)){
                         next.visibility = View.GONE
                         nextChapter.visibility = View.GONE
                     }else{
@@ -38,7 +38,7 @@ class ChapterFinishFragment : BaseFragment(R.layout.fragment_finish_chapter) {
             }
 
             orientation.setOnClickListener {
-                args.lesson?.let { it1 ->
+                args.lesson.let { it1 ->
                     ChapterFinishFragmentDirections.actionChapterFinishFragmentToQuizQuestionFragment2(
                         it1.id)
                         .also {
@@ -46,18 +46,18 @@ class ChapterFinishFragment : BaseFragment(R.layout.fragment_finish_chapter) {
                         }
                 }
             }
-                takeQuiz.setOnClickListener {
-                    args.lesson?.let { it1 ->
-                        ChapterFinishFragmentDirections.actionChapterFinishFragmentToQuizQuestionFragment2(
-                            it1.id)
-                            .also {
-                                findNavController().navigate(it)
-                            }
-                    }
+            takeQuiz.setOnClickListener {
+                args.lesson.let { it1 ->
+                    ChapterFinishFragmentDirections.actionChapterFinishFragmentToQuizQuestionFragment2(
+                        it1.id)
+                        .also {
+                            findNavController().navigate(it)
+                        }
+                }
             }
             backHome.setOnClickListener {
                 val navController = findNavController()
-                    navController.popBackStack(R.id.diabetesBasicsFragment, false)
+                navController.popBackStack(R.id.diabetesBasicsFragment, false)
             }
 
         }

@@ -13,11 +13,6 @@ class BasicLessonFragment : BaseFragment(R.layout.fragment_diabetes_basics_lesso
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentDiabetesBasicsLessonBinding.bind(view)) {
             adapter = BasicLessonAdapter {
-                val arguments = Bundle()
-                arguments.putParcelable("lesson", it)
-                val fragment = BasicLessonFragment()
-                fragment.arguments = arguments
-
                 (requireActivity() as EventNavigator)
                     .invoke(
                         EventNav.OnEvent(

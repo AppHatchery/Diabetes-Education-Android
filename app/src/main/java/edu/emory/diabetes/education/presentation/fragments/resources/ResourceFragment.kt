@@ -23,11 +23,6 @@ class ResourceFragment : BaseFragment(R.layout.fragment_resource) {
                 it.submitList(ResourceUtil.mustHaveApp)
             }
             foodDiaryAdapter = ResourceFoodDiaryAdapter {
-                val arguments = Bundle()
-                arguments.putParcelable("lesson", it)
-                val fragment = BasicLessonFragment()
-                fragment.arguments = arguments
-
                 ResourceFragmentDirections
                     .actionResourceFragmentToWhatIsDiabetes2(null,it).also {
                         findNavController().navigate(it)

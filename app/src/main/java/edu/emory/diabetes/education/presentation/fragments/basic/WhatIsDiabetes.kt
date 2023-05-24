@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.*
 import android.webkit.*
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
@@ -29,7 +28,6 @@ import edu.emory.diabetes.education.Utils.onSearch
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
 import edu.emory.diabetes.education.databinding.FragmentOrientationWhatIsDiabetesBinding
 import edu.emory.diabetes.education.domain.model.ChapterSearch
-import edu.emory.diabetes.education.domain.model.Lesson
 import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.nutrition.NutritionUtils
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterSearchAdapter
@@ -64,26 +62,14 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
     @SuppressLint("JavascriptInterface")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
-       // actionBar?.title = "Basics"
-       // val arguments = arguments
-       // val lesson = arguments?.getParcelable<Lesson>("lesson")
-
-
         binding.apply {
             addMenuProvider()
-            //title.text = args.lesson.title
 
             val lessonTitle = args.lesson?.title
             val foodDiaryTitle = args.foodDiary?.title
-
             title.text = lessonTitle ?: foodDiaryTitle
-            actionBar?.title = lessonTitle ?: foodDiaryTitle
-
-            if (args.lesson != null)
-            {
-                Toast.makeText(context, args.lesson?.title, Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(context, args.foodDiary?.title, Toast.LENGTH_SHORT).show()
+            actionBar?.title = (args.lesson?.title ?: args.foodDiary?.title)?.let {
+                Utils.determineActivePageName(it)
             }
 
             webView.viewTreeObserver.addOnScrollChangedListener {
@@ -96,9 +82,9 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                 }
             }
 
-            val htmlParser = args.lesson?.pageUrl?.let { SearchUtils.HtmlParser(requireContext(), it) }
-                ?: args.foodDiary?.pageUrl?.let { SearchUtils.HtmlParser(requireContext(), it) }
-
+            val htmlParser =
+                args.lesson?.pageUrl?.let { SearchUtils.HtmlParser(requireContext(), it) }
+                    ?: args.foodDiary?.pageUrl?.let { SearchUtils.HtmlParser(requireContext(), it) }
             val parsedData = htmlParser?.parseHtml()
             if (parsedData != null) {
                 WebAppInterface.parsedData = parsedData
@@ -125,21 +111,33 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                             if (this.startsWith("http")) {
                                 Utils.launchUrl(context, this)
                             }
-                            if (this.contains("next")) {
-                                args.lesson?.let {
-                                    WhatIsDiabetesDirections
-                                        .actionWhatIsDiabetesToChapterFinishManagementFragment(
-                                            it
-                                        )
-                                        .also {
-                                            findNavController().navigate(it)
-                                        }
+                            if (this.contains("next") &&
+                                args.lesson?.title == "Treatment For Low Blood Sugar" ||
+                                args.lesson?.title == "When to call diabetes doctor"
+                            ) {
+
+                                args.lesson.let {
+                                    if (it != null) {
+                                        WhatIsDiabetesDirections
+                                            .actionWhatIsDiabetesToChapterFinishManagementFragment(
+                                                it
+                                            )
+                                            .also {
+                                                findNavController().navigate(it)
+                                            }
+                                    }
                                 }
                             }
 
-                            if (this.contains("next")) {
-                                if (args.lesson != null)
-                                {
+                            if (this.contains("next") &&
+                                args.lesson?.title == "What is diabetes?" ||
+                                args.lesson?.title == "Blood sugar monitoring" ||
+                                args.lesson?.title == "Types of insulin" ||
+                                args.lesson?.title == "Types of insulin" ||
+                                args.lesson?.title == "Insulin Administration" ||
+                                args.lesson?.title == "Checking for Ketones"
+                            ) {
+                                if (args.lesson != null) {
                                     args.lesson?.let {
                                         WhatIsDiabetesDirections
                                             .actionWhatIsDiabetesToChapterFinishFragment(it).also {
@@ -155,34 +153,46 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                                     .plus(1), length
                             ).replace(htmlExt, "")
                         }.also {
-                            when (it) {
-                                "food_lists" ->
-                                    WhatIsDiabetesDirections
-                                        .actionWhatIsDiabetesSelf(NutritionUtils.otherPages[1].toLesson(),null)
-                                        .also {
-                                            findNavController().navigate(it)
-                                        }
+                            if (args.lesson?.title == "Nutritional Food Groups - Carbohydrates, Fats, and Proteins" ||
+                                args.lesson?.title == "How to count carbohydrates" ||
+                                args.lesson?.title == "Carbs counting Apps" ||
+                                args.lesson?.title == "How to calculate insulin dosages"
+                            ) {
+                                when (it) {
+                                    "food_lists" ->
+                                        WhatIsDiabetesDirections
+                                            .actionWhatIsDiabetesSelf(
+                                                NutritionUtils.otherPages[1].toLesson(),
+                                                null
+                                            )
+                                            .also {
+                                                findNavController().navigate(it)
+                                            }
 //                                "recommended_apps" ->
 //                                    WhatIsDiabetesDirections
 //                                        .actionNutritionWebViewFragmentToResourceMustHaveFragment()
 //                                        .also {
 //                                            findNavController().navigate(it)
 //                                        }
-                                "next" -> args.lesson?.let { it1 ->
-                                    WhatIsDiabetesDirections
-                                        .actionWhatIsDiabetesToChapterFinishFragment(
-                                            it1
-                                        ).also {
-                                            findNavController().navigate(it)
-                                        }
-                                }
+                                    "next" -> args.lesson?.let { it1 ->
+                                        WhatIsDiabetesDirections
+                                            .actionWhatIsDiabetesToChapterFinishFragment(
+                                                it1
+                                            ).also {
+                                                findNavController().navigate(it)
+                                            }
+                                    }
 
-                                else -> {
-                                    val navController = findNavController()
-                                    navController.popBackStack(R.id.nutritionFragment, false)
+                                    else -> {
+                                        val navController = findNavController()
+                                        navController.popBackStack(R.id.nutritionFragment, false)
+                                    }
                                 }
                             }
+
                         }
+
+
 
                         return true
                     }
@@ -328,10 +338,9 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                 it.hideKeyboard()
                 val properties = hashMapOf<String, Any>()
                 properties["searchTerm"] = searchKeyword.text.toString()
-                if (args.lesson != null)
-                {
+                if (args.lesson != null) {
                     properties["page"] = args.lesson!!.title
-                }else{
+                } else {
                     properties["page"] = args.foodDiary!!.title
                 }
                 Pendo.track("searchQuery", properties)

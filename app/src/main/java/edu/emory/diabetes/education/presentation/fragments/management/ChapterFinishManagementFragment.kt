@@ -18,14 +18,14 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class ChapterFinishManagementFragment : BaseFragment(R.layout.fragment_management_finish_chapter) {
-    private val args: WhatIsDiabetesArgs by navArgs()
+    private val args: ChapterFinishManagementFragmentArgs by navArgs()
     private val viewModel: ManagementEndChapterViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentManagementFinishChapterBinding.bind(view)) {
-            args.lesson?.let {
+            args.managementLesson.let {
                 viewModel.getNextChapterMngt(it.id).onEach { lesson ->
-                    if (args.lesson!!.id == ManagementUtils.managementLessonData.size.minus(1)){
+                    if (args.managementLesson.id == ManagementUtils.managementLessonData.size.minus(1)){
                         next.visibility = View.GONE
                         nextChapter.visibility = View.GONE
                     }else{
@@ -45,7 +45,7 @@ class ChapterFinishManagementFragment : BaseFragment(R.layout.fragment_managemen
             }
 
             orientation.setOnClickListener {
-                args.lesson?.let { it1 ->
+                args.managementLesson.let { it1 ->
                     ChapterFinishManagementFragmentDirections.actionChapterFinishManagementFragmentToManagementQuizQuestionFragment(
                         it1.id)
                         .also {
@@ -55,7 +55,7 @@ class ChapterFinishManagementFragment : BaseFragment(R.layout.fragment_managemen
             }
 
             takeQuiz.setOnClickListener {
-                args.lesson?.let { it1 ->
+                args.managementLesson.let { it1 ->
                     ChapterFinishManagementFragmentDirections.actionChapterFinishManagementFragmentToManagementQuizQuestionFragment(
                         it1.id)
                         .also {

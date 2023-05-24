@@ -146,13 +146,7 @@
             app:popExitAnim="@anim/slide_out_left" />
 <!--        blood sugar-->
 
-        <action
-            android:id="@+id/action_whatIsDiabetes_to_chapterFinishManagementFragment"
-            app:destination="@id/chapterFinishManagementFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+
         <action
             android:id="@+id/action_whatIsDiabetes_to_managementFragment"
             app:destination="@id/managementFragment"
@@ -190,13 +184,15 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
-<!--        <action-->
-<!--            android:id="@+id/action_whatIsDiabetes_to_resourceMustHaveFragment"-->
-<!--            app:destination="@id/resourceMustHaveFragment"-->
-<!--            app:enterAnim="@anim/slide_in_right"-->
-<!--            app:exitAnim="@anim/slide_out_left"-->
-<!--            app:popEnterAnim="@anim/slide_in_left"-->
-<!--            app:popExitAnim="@anim/slide_out_right"/>-->
+        <action
+            android:id="@+id/action_whatIsDiabetes_to_chapterFinishManagementFragment"
+            app:destination="@id/chapterFinishManagementFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+
     </fragment>
     <fragment
         android:id="@+id/typesOfInsulin"
