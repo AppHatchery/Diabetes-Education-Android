@@ -584,10 +584,18 @@
         android:label="Insulin Calculator" >
         <action
             android:id="@+id/action_insulinCalculatorFragment_to_insulinForHbsFragment"
-            app:destination="@id/insulinForHbsFragment" />
+            app:destination="@id/insulinForHbsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_insulinCalculatorFragment_to_insulinForFoodFragment"
-            app:destination="@id/insulinForFoodFragment" />
+            app:destination="@id/insulinForFoodFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/totalInsulinFragment"
@@ -621,7 +629,10 @@
             android:id="@+id/action_totalInsulinFragment_to_insulinCalculatorFragment"
             app:destination="@id/insulinCalculatorFragment"
             app:exitAnim="@anim/slide_out_right"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            />
 
     </fragment>
     <fragment
@@ -631,13 +642,21 @@
         android:label="Insulin Calculator" >
         <action
             android:id="@+id/action_insulinForFoodFragment_to_totalInsulinFragment"
-            app:destination="@id/totalInsulinFragment" />
+            app:destination="@id/totalInsulinFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <argument
             android:name="id"
             app:argType="integer" />
         <action
             android:id="@+id/action_insulinForFoodFragment_to_insulinForHbsFragment"
-            app:destination="@id/insulinForHbsFragment" />
+            app:destination="@id/insulinForHbsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/insulinForHbsFragment"
@@ -646,7 +665,11 @@
         android:label="Insulin Calculator" >
         <action
             android:id="@+id/action_insulinForHbsFragment_to_totalInsulinFragment"
-            app:destination="@id/totalInsulinFragment" />
+            app:destination="@id/totalInsulinFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <argument
             android:name="carbsRatio"
             app:argType="string"
