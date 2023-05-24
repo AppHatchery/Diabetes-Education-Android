@@ -40,7 +40,7 @@ class NutritionFragment : BaseFragment(R.layout.fragment_diabetes_nutrition), Nu
             Event.Lesson ->
                 lesson?.let {
                     NutritionFragmentDirections
-                        .actionNutritionFragmentToWhatIsDiabetes(lesson).apply {
+                        .actionNutritionFragmentToWhatIsDiabetes(lesson,null).apply {
                             findNavController().navigate(this)
                         }
                 }

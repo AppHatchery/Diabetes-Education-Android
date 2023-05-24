@@ -23,37 +23,45 @@ class ChapterFinishManagementFragment : BaseFragment(R.layout.fragment_managemen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentManagementFinishChapterBinding.bind(view)) {
-            viewModel.getNextChapterMngt(args.lesson.id).onEach { lesson ->
-                if (args.lesson.id == ManagementUtils.managementLessonData.size.minus(1)){
-                    next.visibility = View.GONE
-                    nextChapter.visibility = View.GONE
-                }else{
-                    nextChapter.text = if (lesson.isEmpty()) "Go to overviews" else  lesson.first().title
-                    next.setOnClickListener {
-                        ChapterFinishManagementFragmentDirections
-                            .actionChapterFinishManagementFragmentToWhatIsDiabetes(
-                                lesson.first()
-                            )
-                            .also {
-                                findNavController().navigate(it)
-                            }
-                    }
+            args.lesson?.let {
+                viewModel.getNextChapterMngt(it.id).onEach { lesson ->
+                    if (args.lesson!!.id == ManagementUtils.managementLessonData.size.minus(1)){
+                        next.visibility = View.GONE
+                        nextChapter.visibility = View.GONE
+                    }else{
+                        nextChapter.text = if (lesson.isEmpty()) "Go to overviews" else  lesson.first().title
+                        next.setOnClickListener {
+                            ChapterFinishManagementFragmentDirections
+                                .actionChapterFinishManagementFragmentToWhatIsDiabetes(
+                                    lesson.first(),null
+                                )
+                                .also {
+                                    findNavController().navigate(it)
+                                }
+                        }
 
-                }
-            }.launchIn(lifecycleScope)
+                    }
+                }.launchIn(lifecycleScope)
+            }
 
             orientation.setOnClickListener {
-                ChapterFinishManagementFragmentDirections.actionChapterFinishManagementFragmentToManagementQuizQuestionFragment(args.lesson.id)
-                    .also {
-                        findNavController().navigate(it)
-                    }
+                args.lesson?.let { it1 ->
+                    ChapterFinishManagementFragmentDirections.actionChapterFinishManagementFragmentToManagementQuizQuestionFragment(
+                        it1.id)
+                        .also {
+                            findNavController().navigate(it)
+                        }
+                }
             }
 
             takeQuiz.setOnClickListener {
-                ChapterFinishManagementFragmentDirections.actionChapterFinishManagementFragmentToManagementQuizQuestionFragment(args.lesson.id)
-                    .also {
-                        findNavController().navigate(it)
-                    }
+                args.lesson?.let { it1 ->
+                    ChapterFinishManagementFragmentDirections.actionChapterFinishManagementFragmentToManagementQuizQuestionFragment(
+                        it1.id)
+                        .also {
+                            findNavController().navigate(it)
+                        }
+                }
             }
 
 

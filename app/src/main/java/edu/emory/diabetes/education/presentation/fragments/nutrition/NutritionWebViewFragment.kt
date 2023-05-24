@@ -32,6 +32,7 @@ import edu.emory.diabetes.education.databinding.FragmentBloodSugarMonitoringBind
 import edu.emory.diabetes.education.domain.model.ChapterSearch
 import edu.emory.diabetes.education.htmlExt
 import edu.emory.diabetes.education.presentation.BaseFragment
+import edu.emory.diabetes.education.presentation.fragments.basic.WhatIsDiabetesDirections
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterSearchAdapter
 import edu.emory.diabetes.education.presentation.fragments.search.ChapterViewModel
 import edu.emory.diabetes.education.views.WebAppInterface
@@ -99,19 +100,19 @@ import sdk.pendo.io.Pendo
 //                        }.also {
 //                            when (it) {
 //                                "food_lists" ->
-//                                    NutritionWebViewFragmentDirections
-//                                        .actionNutritionWebViewFragmentSelf(NutritionUtils.otherPages[1].toLesson())
+//                                    WhatIsDiabetesDirections
+//                                        .actionWhatIsDiabetesSelf(NutritionUtils.otherPages[1].toLesson(),null)
 //                                        .also {
 //                                            findNavController().navigate(it)
 //                                        }
-//                                "recommended_apps" ->
-//                                    NutritionWebViewFragmentDirections
-//                                        .actionNutritionWebViewFragmentToResourceMustHaveFragment()
-//                                        .also {
-//                                            findNavController().navigate(it)
-//                                        }
-//                                "next" -> NutritionWebViewFragmentDirections
-//                                    .actionNutritionWebViewFragmentToChapterFinishNutritionFragment(
+////                                "recommended_apps" ->
+////                                    WhatIsDiabetesDirections
+////                                        .actionNutritionWebViewFragmentToResourceMustHaveFragment()
+////                                        .also {
+////                                            findNavController().navigate(it)
+////                                        }
+//                                "next" -> WhatIsDiabetesDirections
+//                                    .actionWhatIsDiabetesToChapterFinishFragment(
 //                                        args.lesson
 //                                    ).also {
 //                                        findNavController().navigate(it)

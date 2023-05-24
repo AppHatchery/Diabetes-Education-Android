@@ -20,22 +20,24 @@ class ChapterFinishNutritionFragment : BaseFragment(R.layout.fragment_nutrition_
     private val viewModel: NutritionEndChapterViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentNutritionFinishChapterBinding.bind(view)) {
-            viewModel.getNextChapterNtrn(args.lesson.id).onEach { lesson ->
-                if(args.lesson.id == NutritionUtils.lessonData.size.minus(1)){
-                    next.visibility = View.GONE
-                    nextChapter.visibility = View.GONE
-                }else{
-                    nextChapter.text =  if (lesson.isEmpty()) "Go to overviews" else  lesson.first().title
-                    next.setOnClickListener {
-                        ChapterFinishNutritionFragmentDirections
-                            .actionChapterFinishNutritionFragmentToNutritionWebViewFragment(lesson.first() )
-                            .also {
-                                findNavController().navigate(it)
-                            }
+            args.lesson?.let {
+                viewModel.getNextChapterNtrn(it.id).onEach { lesson ->
+                    if(args.lesson!!.id == NutritionUtils.lessonData.size.minus(1)){
+                        next.visibility = View.GONE
+                        nextChapter.visibility = View.GONE
+                    }else{
+                        nextChapter.text =  if (lesson.isEmpty()) "Go to overviews" else  lesson.first().title
+                        next.setOnClickListener {
+                            ChapterFinishNutritionFragmentDirections
+                                .actionChapterFinishNutritionFragmentToNutritionWebViewFragment(lesson.first(),null )
+                                .also {
+                                    findNavController().navigate(it)
+                                }
+                        }
                     }
-                }
 
-            }.launchIn(lifecycleScope)
+                }.launchIn(lifecycleScope)
+            }
 
             orientation.setOnClickListener {
                 ChapterFinishNutritionFragmentDirections.actionChapterFinishNutritionFragmentToNutritionQuizQuestionsFragment(0)
