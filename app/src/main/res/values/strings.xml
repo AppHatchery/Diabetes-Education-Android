@@ -22,7 +22,17 @@
     <string name="fa_orientation_agenda_second_day_morning">1. Review insulin dosing\n2. Low blood sugar treatment – Rule of 15 and Emergency Glucagon Kit\n3. Bedtime Rules\n4. Exercise\n5. School Management</string>
     <string name="fa_orientation_medical_team">They say it “takes a village” and when it comes to diabetes, it certainly does! Your Diabetes Care Team at Children’s involves three main components.</string>
 
-    <string name="fa_about_us_support">For general inquiries about the TypeU App please email <a href="mailto:support@apphatchery.org">support@apphatchery.org</a>. If you have Diabetes specific questions as a Children\'s Healthcare of Atlanta patient, please contact Anna Albritton at <a href="mailto:Anna.Albritton@choa.org">Anna.Albritton@choa.org</a>
-    </string>
+
+
+    <string name="about_the_app">About the App</string>
+    <string name="about_the_app_content">The content in the TypeU App has been created in conjunction with the Diabetes Education Team at Children’s Healthcare of Atlanta based off the Diabetes Education sessions for new onset patients. The educational content is informed by the 2023 Standards of Care in Diabetes that is regularly published by the American Diabetes Association.</string>
+    <string name="american_diabetes_association">American Diabetes Association</string>
+    <string name="american_diabetes_association_content">The American Diabetes Association (ADA) is a United States-based nonprofit that seeks to educate the public about diabetes and to help those affected by it through funding research to manage, cure and prevent diabetes.</string>
+    <string name="support">Support</string>
+    <string name="fa_about_us_support">For general inquiries about the TypeU App please email <a href="mailto:support@apphatchery.org">support@apphatchery.org</a>. If you have Diabetes specific questions as a Children\'s Healthcare of Atlanta patient, please contact Anna Albritton at <a href="mailto:Anna.Albritton@choa.org">Anna.Albritton@choa.org</a></string>
+    <string name="About_AppHatchery">About AppHatchery</string>
+    <string name="AppHatchery_content">The AppHatchery is an interdisciplinary team of researchers, designers, and software developers from Emory University, Georgia Tech, and the Global Health Informatics Institute (in Malawi) funded by the Georgia Clinical and Traslational Science Alliance (Georgia CTSA). They work on bringing research ideas into the general public via mobile and web apps.</string>
+    <string name="about_team">About the Team</string>
+    <string name="about_team_content">The team that built this app includes: Freja Zhang, Innocent Kumwenda, Wiza Munthali, Kennedy Linzie, Naomi Nyama, Comfort Mwalija, Morgan Greenleaf, Maren Parsell, and Santiago Arconada Alvarez. We would also like to thank Dina Alsalih, PhD, MBA, PharmD for her work on the educational illustrations.</string>
 
 </resources>
