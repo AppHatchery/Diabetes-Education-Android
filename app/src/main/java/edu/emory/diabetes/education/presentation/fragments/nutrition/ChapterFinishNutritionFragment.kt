@@ -9,27 +9,29 @@ import androidx.navigation.fragment.navArgs
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentNutritionFinishChapterBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
-import edu.emory.diabetes.education.presentation.fragments.basic.ChapterFinishFragmentDirections
-import edu.emory.diabetes.education.presentation.fragments.basic.WhatIsDiabetesArgs
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class ChapterFinishNutritionFragment : BaseFragment(R.layout.fragment_nutrition_finish_chapter) {
 
-    private val args: WhatIsDiabetesArgs by navArgs()
+    private val args: ChapterFinishNutritionFragmentArgs by navArgs()
     private val viewModel: NutritionEndChapterViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val mm_1 = args
         with(FragmentNutritionFinishChapterBinding.bind(view)) {
-            args.lesson?.let {
+            args.lesson.let {
+                val mm_2 = it
                 viewModel.getNextChapterNtrn(it.id).onEach { lesson ->
-                    if(args.lesson!!.id == NutritionUtils.lessonData.size.minus(1)){
+                    if(args.lesson.id == NutritionUtils.lessonData.size.minus(1)){
                         next.visibility = View.GONE
                         nextChapter.visibility = View.GONE
                     }else{
+
                         nextChapter.text =  if (lesson.isEmpty()) "Go to overviews" else  lesson.first().title
                         next.setOnClickListener {
+                            val mm_3 = lesson
                             ChapterFinishNutritionFragmentDirections
-                                .actionChapterFinishNutritionFragmentToNutritionWebViewFragment(lesson.first(),null )
+                                .actionChapterFinishNutritionFragmentToWhatIsDiabetes(lesson.first(),null )
                                 .also {
                                     findNavController().navigate(it)
                                 }

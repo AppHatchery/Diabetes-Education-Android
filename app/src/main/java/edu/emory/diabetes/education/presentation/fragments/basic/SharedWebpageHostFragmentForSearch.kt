@@ -39,9 +39,9 @@ import sdk.pendo.io.Pendo
 import kotlin.collections.set
 
 
-class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabetes),
+class SharedWebpageHostFragmentForSearch : BaseFragment(R.layout.fragment_orientation_what_is_diabetes),
     ChapterSearchAdapter.OnClickListener {
-    private val args: WhatIsDiabetesArgs by navArgs()
+    private val args: SharedWebpageHostFragmentForSearchArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var fullScreenView: FrameLayout
     private lateinit var binding: FragmentOrientationWhatIsDiabetesBinding
@@ -118,7 +118,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 
                                 args.lesson.let {
                                     if (it != null) {
-                                        WhatIsDiabetesDirections
+                                        SharedWebpageHostFragmentForSearchDirections
                                             .actionWhatIsDiabetesToChapterFinishManagementFragment(
                                                 it
                                             )
@@ -139,7 +139,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                             ) {
                                 if (args.lesson != null) {
                                     args.lesson?.let {
-                                        WhatIsDiabetesDirections
+                                        SharedWebpageHostFragmentForSearchDirections
                                             .actionWhatIsDiabetesToChapterFinishFragment(it).also {
                                                 findNavController().navigate(it)
                                             }
@@ -160,7 +160,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                             ) {
                                 when (it) {
                                     "food_lists" ->
-                                        WhatIsDiabetesDirections
+                                        SharedWebpageHostFragmentForSearchDirections
                                             .actionWhatIsDiabetesSelf(
                                                 NutritionUtils.otherPages[1].toLesson(),
                                                 null
@@ -175,7 +175,7 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
 //                                            findNavController().navigate(it)
 //                                        }
                                     "next" -> args.lesson?.let { it1 ->
-                                        WhatIsDiabetesDirections
+                                        SharedWebpageHostFragmentForSearchDirections
                                             .actionWhatIsDiabetesToChapterFinishFragment(
                                                 it1
                                             ).also {
@@ -191,8 +191,6 @@ class WhatIsDiabetes : BaseFragment(R.layout.fragment_orientation_what_is_diabet
                             }
 
                         }
-
-
 
                         return true
                     }
