@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.*
 import android.webkit.*
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
@@ -71,7 +72,6 @@ class SharedWebpageHostFragmentForSearch : BaseFragment(R.layout.fragment_orient
             actionBar?.title = (args.lesson?.title ?: args.foodDiary?.title)?.let {
                 Utils.determineActivePageName(it)
             }
-
             webView.viewTreeObserver.addOnScrollChangedListener {
                 scrollIndicator.progress = 0
                 if (webView.scrollY > 0) {
@@ -348,12 +348,23 @@ class SharedWebpageHostFragmentForSearch : BaseFragment(R.layout.fragment_orient
 
     override fun onItemClick(chapterSearch: ChapterSearch) {
         binding.apply {
-            repeat(2) {
-                webViewSearchHelper.searchWebView(
-                    webView,
-                    webViewSearchHelper.halfString(chapterSearch.bodyText)
-                )
-            }
+            
+                if(args.lesson != null){
+                    repeat(2) {
+                        webViewSearchHelper.searchWebView(webView, webViewSearchHelper.halfString(chapterSearch.bodyText))
+                    }
+                }else{
+                    if (args.foodDiary?.title == "Know your carbs"){
+                        repeat(2) {
+                            webViewSearchHelper.searchWebView(webView, webViewSearchHelper.halfStringForTable(chapterSearch.bodyText))
+                        }
+                    }else{
+                        repeat(2) {
+                            webViewSearchHelper.searchWebView(webView, webViewSearchHelper.halfString(chapterSearch.bodyText))
+                        }
+                    }
+                }
+
             bottomSheetDialog?.hide()
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
