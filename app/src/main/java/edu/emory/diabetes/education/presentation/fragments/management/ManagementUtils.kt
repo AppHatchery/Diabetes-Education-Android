@@ -8,14 +8,14 @@ object ManagementUtils {
 
     val managementLessonData = listOf(
         LessonEntity(
-            0,
+            1,
             R.drawable.ic_beaker,
             "Treatment For Low Blood Sugar",
             "Symptoms hypoglycemia, how to treat mild and severe low blood sugar, glucagon administration.",
             "treatment_for_low_blood_sugar"
         ),
         LessonEntity(
-            1,
+            2,
             R.drawable.ic_dropper,
             "When to call diabetes doctor",
             "Sick day, missed insulin dose, ketones or other challenges.",
