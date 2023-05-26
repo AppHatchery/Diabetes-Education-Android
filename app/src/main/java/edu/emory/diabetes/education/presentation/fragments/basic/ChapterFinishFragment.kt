@@ -19,17 +19,15 @@ class ChapterFinishFragment : BaseFragment(R.layout.fragment_finish_chapter) {
     private val viewModel: ChapterFinishViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val mm = args
+
         with(FragmentFinishChapterBinding.bind(view)) {
             args.lesson.let {
-                val mm = it
                 viewModel.getNextChapter(it.id).onEach { lesson ->
                     if (args.lesson.id == BasicUtils.lessonData.size.minus(1)){
                         next.visibility = View.GONE
                         nextChapter.visibility = View.GONE
                     }else{
                         nextChapter.text =  if (lesson.isEmpty()) "Go to overviews" else  lesson.first().title
-                        val mm = lesson
                         next.setOnClickListener {
                             ChapterFinishFragmentDirections
                                 .actionChapterFinishFragmentToWhatIsDiabetes(lesson[0],null).also {

@@ -22,7 +22,7 @@ class ChapterFinishManagementFragment : BaseFragment(R.layout.fragment_managemen
         with(FragmentManagementFinishChapterBinding.bind(view)) {
             args.Lesson.let {
                 viewModel.getNextChapterMngt(it.id).onEach { lesson ->
-                    if (args.Lesson.id == ManagementUtils.managementLessonData.size.minus(1)){
+                    if (args.Lesson.id == ManagementUtils.managementLessonData.size){
                         next.visibility = View.GONE
                         nextChapter.visibility = View.GONE
                     }else{
