@@ -24,6 +24,7 @@
             android:layout_marginBottom="8dp"
             app:cardBackgroundColor="@color/cine_100"
             app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,13 +41,14 @@
                     setImageIcon="@{lesson.image}"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
                     android:background="@drawable/shape_rectangle_radius_50px"
                     android:backgroundTint="@android:color/white"
                     android:padding="8dp"
                     app:layout_constraintBottom_toBottomOf="@+id/title"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/title"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:src="@drawable/ic_stethoscope" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -60,24 +62,25 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/cardIcon"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/cardIcon"
                     tools:text="What is Diabetes?" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/appCompatTextView14"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="6dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="12dp"
                     android:maxLines="3"
                     android:text="@{lesson.description}"
                     android:textColor="@color/gray_200"
-                    app:fontFamily="@font/gotham_rounded"
+                    style="@style/subtitle"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    app:layout_constraintTop_toBottomOf="@+id/cardIcon"
                     app:layout_constraintVertical_bias="0.294"
                     tools:text="@string/lorem" />
 
