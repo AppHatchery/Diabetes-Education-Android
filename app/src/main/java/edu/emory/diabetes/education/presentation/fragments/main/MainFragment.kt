@@ -4,12 +4,14 @@ import BrowseUtils
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.FragmentMainBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
+import kotlin.math.roundToInt
 
 class MainFragment : BaseFragment(R.layout.fragment_main) {
 
@@ -23,12 +25,25 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                     .actionMainFragmentToOrientationFragment()
                     .also { findNavController().navigate(it) }
             }
-
-            appCompatImageButton.setOnClickListener {
-                MainFragmentDirections.actionMainFragmentToOrientationFragment()
-                    .also {
-                        findNavController().navigate(it)
-                    }
+            cardView.apply {
+                val cornerRadius = 15 * resources.displayMetrics.density
+                val yShift = (2 * resources.displayMetrics.density).roundToInt()
+                outlineProvider = Utils.CustomOutlineProvider(cornerRadius, 1f, 1f,yShift)
+                outlineSpotShadowColor = ContextCompat.getColor(context, R.color.green_1000)
+                outlineAmbientShadowColor = ContextCompat.getColor(context, R.color.green_1000)
+            }
+            appCompatImageButton.apply {
+                setOnClickListener {
+                    MainFragmentDirections.actionMainFragmentToOrientationFragment()
+                        .also {
+                            findNavController().navigate(it)
+                        }
+                }
+                val cornerRadius = 5 * resources.displayMetrics.density
+                val yShift = (2 * resources.displayMetrics.density).roundToInt()
+                outlineProvider = Utils.CustomOutlineProvider(cornerRadius, 1f, 1f,yShift)
+                outlineSpotShadowColor = ContextCompat.getColor(context, R.color.green_1000)
+                outlineAmbientShadowColor = ContextCompat.getColor(context, R.color.green_1000)
             }
 
         }

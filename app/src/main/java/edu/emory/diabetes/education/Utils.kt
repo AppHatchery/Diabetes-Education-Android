@@ -5,15 +5,19 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Outline
+import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewOutlineProvider
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.annotation.FloatRange
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.Toolbar
@@ -52,21 +56,24 @@ object Utils {
         ChapterEntity(
             "Diabetes Basics",
             R.color.orange_500,
+            R.color.orange_500,
             R.color.gold_100,
             R.drawable.im_knowledge_ladder,
             1,
         ),
         ChapterEntity(
             "Nutrition and Carbs Counting",
-            R.color.green_200,
-            R.color.green_150,
+            R.color.pink_300,
+            R.color.pink_300,
+            R.color.pink_200,
             R.drawable.im_taco_and_avocado_food,
             2,
         ),
         ChapterEntity(
             "Diabetes Self-Management",
-            R.color.pink_300,
-            R.color.pink_200,
+            R.color.green_200,
+            R.color.green_200,
+            R.color.green_150,
             R.drawable.im_knowledge_idea,
             3
         ),
@@ -158,7 +165,31 @@ object Utils {
         fun onSubmitResultState(resultInfo:RESULTS_ON_SUBMIT,answerChoice:String,hasSomeAllCorrect:Boolean)
     }
 
+    class CustomOutlineProvider(private val radius: Float,
+                                var scaleX: Float = 1f,
+                                var scaleY: Float = 1f,
+                                var yShift: Int = 0) : ViewOutlineProvider() {
 
+        private val rect: Rect = Rect()
+        override fun getOutline(view: View, outline: Outline) {
+            view.background.copyBounds(rect)
+            rect.scale(scaleX, scaleY)
+            rect.offset(0, yShift)
+            outline.setRoundRect(rect, radius)
+        }
+
+        private fun Rect.scale(
+            @FloatRange(from = -1.0, to = 1.0) scaleX: Float,
+            @FloatRange(from = -1.0, to = 1.0) scaleY: Float
+        ) {
+            val newWidth = width() * scaleX
+            val newHeight = height() * scaleY
+            val deltaX = (width() - newWidth) / 2
+            val deltaY = (height() - newHeight) / 2
+
+            set((left + deltaX).toInt(), (top + deltaY).toInt(), (right - deltaX).toInt(), (bottom - deltaY).toInt())
+        }
+    }
 }
 
 
