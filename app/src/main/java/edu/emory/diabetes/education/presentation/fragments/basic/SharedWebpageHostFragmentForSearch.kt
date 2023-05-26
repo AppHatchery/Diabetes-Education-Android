@@ -176,7 +176,7 @@ class SharedWebpageHostFragmentForSearch : BaseFragment(R.layout.fragment_orient
 //                                        }
                                     "next" -> args.lesson?.let { it1 ->
                                         SharedWebpageHostFragmentForSearchDirections
-                                            .actionWhatIsDiabetesToChapterFinishFragment(
+                                            .actionWhatIsDiabetesToChapterFinishNutritionFragment(
                                                 it1
                                             ).also {
                                                 findNavController().navigate(it)

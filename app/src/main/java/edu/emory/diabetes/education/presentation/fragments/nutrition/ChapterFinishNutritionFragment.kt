@@ -17,10 +17,9 @@ class ChapterFinishNutritionFragment : BaseFragment(R.layout.fragment_nutrition_
     private val args: ChapterFinishNutritionFragmentArgs by navArgs()
     private val viewModel: NutritionEndChapterViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val mm_1 = args
+       // FragmentNutritionFinishChapterBinding
         with(FragmentNutritionFinishChapterBinding.bind(view)) {
             args.lesson.let {
-                val mm_2 = it
                 viewModel.getNextChapterNtrn(it.id).onEach { lesson ->
                     if(args.lesson.id == NutritionUtils.lessonData.size.minus(1)){
                         next.visibility = View.GONE
