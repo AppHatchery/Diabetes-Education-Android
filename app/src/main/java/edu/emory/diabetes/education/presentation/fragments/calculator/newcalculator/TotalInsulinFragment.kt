@@ -78,7 +78,7 @@ class TotalInsulinFragment : BaseFragment(R.layout.fragment_total_insulin) {
     }
     override fun onStop() {
         super.onStop()
-        view?.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_left))
+        view?.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_right))
     }
 
 }

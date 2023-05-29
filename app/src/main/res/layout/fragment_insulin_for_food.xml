@@ -28,7 +28,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/insulin_food_image"
                 android:layout_width="match_parent"
-                android:layout_height="332dp"
+                android:layout_height="270dp"
                 android:src="@drawable/im_food_insulin"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

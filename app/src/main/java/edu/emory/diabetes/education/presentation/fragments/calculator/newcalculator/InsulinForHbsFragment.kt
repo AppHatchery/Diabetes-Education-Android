@@ -159,10 +159,6 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        view?.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_left))
-    }
     private fun dpToPx(context: Context, dp: Int): Int {
         val density = context.resources.displayMetrics.density
         return (dp * density + 0.5f).toInt()

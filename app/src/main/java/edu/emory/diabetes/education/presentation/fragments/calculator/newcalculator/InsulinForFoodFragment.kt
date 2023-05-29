@@ -141,12 +141,6 @@ class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) 
         }
     }
 
-    // animation
-    override fun onStop() {
-        super.onStop()
-        view?.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_left))
-    }
-
     private fun dpToPx(context: Context, dp: Int): Int {
         val density = context.resources.displayMetrics.density
         return (dp * density + 0.5f).toInt()
