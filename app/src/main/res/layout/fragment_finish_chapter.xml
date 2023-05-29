@@ -7,178 +7,184 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingHorizontal="16dp">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/appCompatTextView20"
-            style="@style/textTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Congrats!"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/appCompatTextView19"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="You have finished the chapter"
-            android:textColor="@color/green_900"
-            app:layout_constraintEnd_toEndOf="@+id/appCompatTextView20"
-            app:layout_constraintStart_toStartOf="@+id/appCompatTextView20"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView20" />
-
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@id/image"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="32dp"
-            android:src="@drawable/im_quiz_end"
-            app:layout_constraintEnd_toEndOf="@+id/appCompatTextView19"
-            app:layout_constraintStart_toStartOf="@+id/appCompatTextView19"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView19" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/chectText"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:gravity="center"
-            android:text="Check yourself"
-            app:layout_constraintStart_toStartOf="@+id/image"
-            app:layout_constraintTop_toBottomOf="@+id/image" />
+            android:paddingHorizontal="16dp">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/cine_100"
-            app:cardCornerRadius="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chectText">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView20"
+                style="@style/textTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Congrats!"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/orientation"
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/appCompatTextView19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="You have finished the chapter"
+                android:textColor="@color/green_900"
+                app:layout_constraintEnd_toEndOf="@+id/appCompatTextView20"
+                app:layout_constraintStart_toStartOf="@+id/appCompatTextView20"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView20" />
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@id/image"
                 android:layout_width="match_parent"
-                android:layout_height="74dp"
-                android:background="?attr/selectableItemBackground"
-                android:padding="8dp">
+                android:layout_height="200dp"
+                android:layout_marginTop="32dp"
+                android:src="@drawable/im_quiz_end"
+                app:layout_constraintEnd_toEndOf="@+id/appCompatTextView19"
+                app:layout_constraintStart_toStartOf="@+id/appCompatTextView19"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView19" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/appCompatImageView"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:padding="4dp"
-                    android:backgroundTint="@android:color/white"
-                    android:background="@drawable/shape_rectangle_radius_10px"
-                    android:src="@drawable/ic_help"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/chectText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:text="Check yourself"
+                app:layout_constraintStart_toStartOf="@+id/image"
+                app:layout_constraintTop_toBottomOf="@+id/image" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/cine_100"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chectText">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/orientation"
+                    android:layout_width="match_parent"
+                    android:layout_height="74dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="8dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/appCompatImageView"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/shape_rectangle_radius_10px"
+                        android:backgroundTint="@android:color/white"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_help"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/appCompatTextView"
-                    style="@style/textTitle"
-                    android:layout_width="0dp"
-                    android:layout_marginStart="8dp"
-                    android:text="Quiz"
-                    app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
-                    app:layout_constraintEnd_toStartOf="@+id/takeQuiz"
-                    app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
-                    app:layout_constraintTop_toTopOf="@+id/appCompatImageView"
-                    app:layout_constraintVertical_bias="0.35" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/appCompatTextView"
+                        style="@style/textTitle"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="8dp"
+                        android:text="Quiz"
+                        app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
+                        app:layout_constraintEnd_toStartOf="@+id/takeQuiz"
+                        app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
+                        app:layout_constraintTop_toTopOf="@+id/appCompatImageView"
+                        app:layout_constraintVertical_bias="0.35" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/appCompatTextView2"
-                    android:layout_width="0dp"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/appCompatTextView2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="1 question, 5 mins."
+                        app:layout_constraintEnd_toEndOf="@+id/appCompatTextView"
+                        app:layout_constraintStart_toStartOf="@+id/appCompatTextView"
+                        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView" />
+
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/takeQuiz"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/shape_rectangle_radius_5px"
+                        android:backgroundTint="@color/green_900"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_keyboard_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardView">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/next"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="1 question, 5 mins."
-                    app:layout_constraintEnd_toEndOf="@+id/appCompatTextView"
-                    app:layout_constraintStart_toStartOf="@+id/appCompatTextView"
-                    app:layout_constraintTop_toBottomOf="@+id/appCompatTextView" />
-
-
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/takeQuiz"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/shape_rectangle_radius_5px"
+                    android:background="@drawable/shape_rectangle_stroke_green_radius_50px"
+                    android:drawableEnd="@drawable/ic_arrow_forward_small"
+                    android:drawablePadding="4dp"
+                    android:drawableTint="#FFFFFF"
                     android:foreground="?attr/selectableItemBackground"
-                    android:backgroundTint="@color/green_900"
-                    android:src="@drawable/ic_keyboard_arrow_right"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:gravity="center"
+                    android:paddingHorizontal="24dp"
+                    android:text="Next Chapter"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/nextChapter"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:text="Next Chapter"
+                    app:layout_constraintEnd_toEndOf="@+id/next"
+                    app:layout_constraintStart_toStartOf="@+id/next"
+                    app:layout_constraintTop_toBottomOf="@+id/next" />
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/backHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/shape_rectangle_stroke_radius_50px"
+                    android:drawablePadding="4dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingHorizontal="24dp"
+                    android:text="Back to chapter list"
+                    android:textSize="16sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/backHome"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-
-            android:layout_marginTop="40dp"
-            android:background="@drawable/shape_rectangle_radius_10px"
-            android:backgroundTint="@android:color/white"
-            android:padding="4dp"
-            android:src="@drawable/im_bullets_points"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/backToChapter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="10dp"
-            android:text="Back to chapter list"
-            app:layout_constraintStart_toStartOf="@+id/backHome"
-            app:layout_constraintTop_toBottomOf="@+id/backHome" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/shape_rectangle_stroke_radius_50px"
-            android:drawableEnd="@drawable/ic_arrow_forward_small"
-            android:drawablePadding="4dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:gravity="center"
-            android:paddingHorizontal="24dp"
-            android:text="Next"
-            app:layout_constraintBottom_toBottomOf="@+id/backHome"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/backHome" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/nextChapter"
-            android:layout_width="200dp"
-            android:gravity="end"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:maxLines="3"
-            android:text="Next Chapter"
-            app:layout_constraintEnd_toEndOf="@+id/next"
-            app:layout_constraintTop_toBottomOf="@+id/next" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>
