@@ -1,18 +1,11 @@
 package edu.emory.diabetes.education.presentation
 
-import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -21,9 +14,6 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.ActivityMainBinding
-import edu.emory.diabetes.education.presentation.fragments.aboutus.AboutUsHomeFragment
-import edu.emory.diabetes.education.presentation.fragments.aboutus.AboutUsHomeFragmentDirections
-import edu.emory.diabetes.education.presentation.fragments.main.MainFragment
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), EventNavigator {
@@ -42,16 +32,16 @@ class MainActivity : AppCompatActivity(), EventNavigator {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.whatIsDiabetes,
+                R.id.SharedWebpageHostFragmentForSearch,
                 R.id.quizQuestionFragment,
-                R.id.resourceMustHaveFragment,
+              //  R.id.resourceMustHaveFragment,
                 R.id.orientationFragment,
                 R.id.agendaFragment,
                 R.id.medicalTeamFragment,
                 R.id.lifeIsFragment,
-                R.id.bloodSugarMonitoringFragment3,
+               // R.id.bloodSugarMonitoringFragment3,
                 R.id.quizFragment,
-                R.id.nutritionWebViewFragment,
+              //  R.id.nutritionWebViewFragment,
                 R.id.chapterFinishFragment,
                 R.id.chapterFinishManagementFragment,
                 R.id.chapterFinishNutritionFragment,
@@ -59,7 +49,7 @@ class MainActivity : AppCompatActivity(), EventNavigator {
                 R.id.managementQuizFragment2,
                 R.id.nutritionQuizQuestionsFragment,
                 R.id.quizNutritionFragment,
-                R.id.resourceWebViewFragment,
+                //R.id.resourceWebViewFragment,
                 R.id.quizManagementFinishFragment,
                 R.id.quizNutritionFinishFragment,
                 R.id.quizFinishFragment

@@ -5,7 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
 
-
     <fragment
         android:id="@+id/mainFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.main.MainFragment"
@@ -34,7 +33,7 @@
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_mainFragment_to_bloodSugarMonitoringFragment3"
-            app:destination="@id/bloodSugarMonitoringFragment3"
+            app:destination="@id/SharedWebpageHostFragmentForSearch"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -115,13 +114,21 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
-        android:id="@+id/whatIsDiabetes"
-        android:name="edu.emory.diabetes.education.presentation.fragments.basic.WhatIsDiabetes"
+        android:id="@+id/SharedWebpageHostFragmentForSearch"
+        android:name="edu.emory.diabetes.education.presentation.fragments.basic.SharedWebpageHostFragmentForSearch"
         android:label="What is Diabetes?"
         tools:layout="@layout/fragment_orientation_what_is_diabetes">
         <argument
             android:name="lesson"
-            app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
+            app:argType="edu.emory.diabetes.education.domain.model.Lesson"
+            app:nullable="true"
+            />
+
+        <argument
+            android:name="foodDiary"
+            app:argType="edu.emory.diabetes.education.domain.model.FoodDiary"
+            app:nullable="true"
+            />
         <action
             android:id="@+id/action_whatIsDiabetes_to_chapterFinishFragment"
             app:destination="@id/chapterFinishFragment"
@@ -136,6 +143,55 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_left" />
+<!--        blood sugar-->
+
+
+        <action
+            android:id="@+id/action_whatIsDiabetes_to_managementFragment"
+            app:destination="@id/managementFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_whatIsDiabetes_to_managementLessonFragment"
+            app:destination="@id/managementLessonFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+<!--        nutrition-->
+        <action
+            android:id="@+id/action_whatIsDiabetes_to_chapterFinishNutritionFragment"
+            app:destination="@id/chapterFinishNutritionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+        <action
+            android:id="@+id/action_whatIsDiabetes_to_nutritionFragment"
+            app:destination="@id/nutritionFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_whatIsDiabetes_self"
+            app:destination="@id/SharedWebpageHostFragmentForSearch"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_whatIsDiabetes_to_chapterFinishManagementFragment"
+            app:destination="@id/chapterFinishManagementFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+
     </fragment>
     <fragment
         android:id="@+id/typesOfInsulin"
@@ -144,7 +200,7 @@
         tools:layout="@layout/fragment_orientation_types_of_insulin" />
     <action
         android:id="@+id/action_global_whatIsDiabetes"
-        app:destination="@id/whatIsDiabetes"
+        app:destination="@id/SharedWebpageHostFragmentForSearch"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
@@ -156,7 +212,7 @@
         tools:layout="@layout/fragment_diabetes_basics">
         <action
             android:id="@+id/action_diabetesBasicsFragment_to_whatIsDiabetes"
-            app:destination="@id/whatIsDiabetes"
+            app:destination="@id/SharedWebpageHostFragmentForSearch"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -176,7 +232,7 @@
         tools:layout="@layout/fragment_diabetes_basics_lesson">
         <action
             android:id="@+id/action_lessonFragment_to_whatIsDiabetes"
-            app:destination="@id/whatIsDiabetes" />
+            app:destination="@id/SharedWebpageHostFragmentForSearch" />
     </fragment>
     <fragment
         android:id="@+id/browseFragment"
@@ -221,56 +277,49 @@
         android:label="Resources"
         tools:layout="@layout/fragment_resource">
         <action
-            android:id="@+id/action_resourceFragment_to_resourceMustHaveFragment"
-            app:destination="@id/resourceMustHaveFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_resourceFragment_to_resourceWebViewFragment"
-            app:destination="@id/resourceWebViewFragment"
+            android:id="@+id/action_resourceFragment_to_whatIsDiabetes2"
+            app:destination="@id/SharedWebpageHostFragmentForSearch"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             />
     </fragment>
-    <fragment
-        android:id="@+id/resourceMustHaveFragment"
-        android:name="edu.emory.diabetes.education.presentation.fragments.resources.ResourceMustHaveAppsFragment"
-        android:label="Must-Have Apps"
-        tools:layout="@layout/fragment_resource_must_have_apps" />
-    <fragment
-        android:id="@+id/bloodSugarMonitoringFragment3"
-        android:name="edu.emory.diabetes.education.presentation.fragments.management.BloodSugarMonitoringFragment"
-        android:label="Blood Sugar Monitoring"
-        tools:layout="@layout/fragment_blood_sugar_monitoring">
-        <argument
-            android:name="managementLesson"
-            app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
-        <action
-            android:id="@+id/action_bloodSugarMonitoringFragment3_to_chapterFinishManagementFragment"
-            app:destination="@id/chapterFinishManagementFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-        <action
-            android:id="@+id/action_bloodSugarMonitoringFragment3_to_managementFragment"
-            app:destination="@id/managementFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_bloodSugarMonitoringFragment3_to_managementLessonFragment"
-            app:destination="@id/managementLessonFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/resourceMustHaveFragment"-->
+<!--        android:name="edu.emory.diabetes.education.presentation.fragments.resources.ResourceMustHaveAppsFragment"-->
+<!--        android:label="Must-Have Apps"-->
+<!--        tools:layout="@layout/fragment_resource_must_have_apps" />-->
+<!--    <fragment-->
+<!--        android:id="@+id/bloodSugarMonitoringFragment3"-->
+<!--        android:name="edu.emory.diabetes.education.presentation.fragments.management.BloodSugarMonitoringFragment"-->
+<!--        android:label="Blood Sugar Monitoring"-->
+<!--        tools:layout="@layout/fragment_blood_sugar_monitoring">-->
+<!--        <argument-->
+<!--            android:name="managementLesson"-->
+<!--            app:argType="edu.emory.diabetes.education.domain.model.Lesson" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_bloodSugarMonitoringFragment3_to_chapterFinishManagementFragment"-->
+<!--            app:destination="@id/chapterFinishManagementFragment"-->
+<!--            app:enterAnim="@anim/slide_in_right"-->
+<!--            app:exitAnim="@anim/slide_out_left"-->
+<!--            app:popEnterAnim="@anim/slide_in_left"-->
+<!--            app:popExitAnim="@anim/slide_out_right"/>-->
+<!--        <action-->
+<!--            android:id="@+id/action_bloodSugarMonitoringFragment3_to_managementFragment"-->
+<!--            app:destination="@id/managementFragment"-->
+<!--            app:enterAnim="@anim/slide_in_left"-->
+<!--            app:exitAnim="@anim/slide_out_left"-->
+<!--            app:popEnterAnim="@anim/slide_in_left"-->
+<!--            app:popExitAnim="@anim/slide_out_left"/>-->
+<!--        <action-->
+<!--            android:id="@+id/action_bloodSugarMonitoringFragment3_to_managementLessonFragment"-->
+<!--            app:destination="@id/managementLessonFragment"-->
+<!--            app:enterAnim="@anim/slide_in_right"-->
+<!--            app:exitAnim="@anim/slide_out_left"-->
+<!--            app:popEnterAnim="@anim/slide_in_left"-->
+<!--            app:popExitAnim="@anim/slide_out_right"/>-->
+<!--    </fragment>-->
     <fragment
         android:id="@+id/whenToCallDoctorFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.management.WhenToCallDoctorFragment"
@@ -309,7 +358,7 @@
             app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
         <action
             android:id="@+id/action_chapterFinishFragment_to_whatIsDiabetes"
-            app:destination="@id/whatIsDiabetes"
+            app:destination="@id/SharedWebpageHostFragmentForSearch"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -329,16 +378,16 @@
         android:label="Section 2"
         tools:layout="@layout/fragment_diabetes_nutrition">
         <action
-            android:id="@+id/action_nutritionFragment_to_nutritionWebViewFragment"
-            app:destination="@id/nutritionWebViewFragment"
+            android:id="@+id/action_nutritionFragment_to_quizNutritionFragment"
+            app:destination="@id/quizNutritionFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             />
         <action
-            android:id="@+id/action_nutritionFragment_to_quizNutritionFragment"
-            app:destination="@id/quizNutritionFragment"
+            android:id="@+id/action_nutritionFragment_to_whatIsDiabetes"
+            app:destination="@id/SharedWebpageHostFragmentForSearch"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -351,50 +400,14 @@
         android:label="NutritionLessonFragment">
         <action
             android:id="@+id/action_nutritionLessonFragment_to_nutritionWebViewFragment"
-            app:destination="@id/nutritionWebViewFragment"
+            app:destination="@id/SharedWebpageHostFragmentForSearch"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             />
     </fragment>
-    <fragment
-        android:id="@+id/nutritionWebViewFragment"
-        android:name="edu.emory.diabetes.education.presentation.fragments.nutrition.NutritionWebViewFragment"
-        android:label="NutritionWebViewFragment">
-        <argument
-            android:name="lesson"
-            app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
-        <action
-            android:id="@+id/action_nutritionWebViewFragment_to_chapterFinishNutritionFragment"
-            app:destination="@id/chapterFinishNutritionFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            />
-        <action
-            android:id="@+id/action_nutritionWebViewFragment_to_nutritionFragment"
-            app:destination="@id/nutritionFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_nutritionWebViewFragment_self"
-            app:destination="@id/nutritionWebViewFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-        <action
-            android:id="@+id/action_nutritionWebViewFragment_to_resourceMustHaveFragment"
-            app:destination="@id/resourceMustHaveFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-    </fragment>
+
     <fragment
         android:id="@+id/managementFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.management.ManagementFragment"
@@ -409,16 +422,16 @@
             app:popExitAnim="@anim/slide_out_right"
             />
         <action
-            android:id="@+id/action_managementFragment_to_bloodSugarMonitoringFragment3"
-            app:destination="@id/bloodSugarMonitoringFragment3"
+            android:id="@+id/action_managementFragment_to_managementQuizFragment2"
+            app:destination="@id/managementQuizFragment2"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             />
         <action
-            android:id="@+id/action_managementFragment_to_managementQuizFragment2"
-            app:destination="@id/managementQuizFragment2"
+            android:id="@+id/action_managementFragment_to_whatIsDiabetes"
+            app:destination="@id/SharedWebpageHostFragmentForSearch"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -439,15 +452,12 @@
         android:label="End of Chapter"
         tools:layout="@layout/fragment_management_finish_chapter">
         <argument
-            android:name="managementLesson"
+            android:name="Lesson"
             app:argType="edu.emory.diabetes.education.domain.model.Lesson"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            />
         <action
-            android:id="@+id/action_chapterFinishManagementFragment_to_bloodSugarMonitoringFragment3"
-            app:destination="@id/bloodSugarMonitoringFragment3"
+            android:id="@+id/action_chapterFinishManagementFragment_to_whatIsDiabetes"
+            app:destination="@id/SharedWebpageHostFragmentForSearch"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -468,13 +478,7 @@
         <argument
             android:name="lesson"
             app:argType="edu.emory.diabetes.education.domain.model.Lesson" />
-        <action
-            android:id="@+id/action_chapterFinishNutritionFragment_to_nutritionWebViewFragment"
-            app:destination="@id/nutritionWebViewFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+
         <action
             android:id="@+id/action_chapterFinishNutritionFragment_to_nutritionQuizQuestionsFragment"
             app:destination="@id/nutritionQuizQuestionsFragment"
@@ -482,21 +486,20 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
-    </fragment>
-    <fragment
-        android:id="@+id/baseFragment"
-        android:name="edu.emory.diabetes.education.presentation.BaseFragment"
-        android:label="BaseFragment" />
-    <fragment
-        android:id="@+id/resourceWebViewFragment"
-        android:name="edu.emory.diabetes.education.presentation.fragments.resources.ResourceWebViewFragment"
-        android:label="Resource"
-        tools:layout="@layout/fragment_resource_web_view_apps"
-        >
-        <argument
-            android:name="foodDiary"
-            app:argType="edu.emory.diabetes.education.domain.model.FoodDiary" />
-    </fragment>
+        <action
+            android:id="@+id/action_chapterFinishNutritionFragment_to_whatIsDiabetes"
+            app:destination="@id/SharedWebpageHostFragmentForSearch"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+                />
+        </fragment>
+        <fragment
+            android:id="@+id/baseFragment"
+            android:name="edu.emory.diabetes.education.presentation.BaseFragment"
+            android:label="BaseFragment" />
+
     <fragment
         android:id="@+id/managementQuizQuestionFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.management.quiz.ManagementQuizQuestionFragment"

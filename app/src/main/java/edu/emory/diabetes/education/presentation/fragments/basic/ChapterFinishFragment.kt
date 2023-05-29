@@ -15,41 +15,50 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class ChapterFinishFragment : BaseFragment(R.layout.fragment_finish_chapter) {
-    private val args: WhatIsDiabetesArgs by navArgs()
+    private val args: ChapterFinishFragmentArgs by navArgs()
     private val viewModel: ChapterFinishViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         with(FragmentFinishChapterBinding.bind(view)) {
-            viewModel.getNextChapter(args.lesson.id).onEach { lesson ->
-                if (args.lesson.id == BasicUtils.lessonData.size.minus(1)){
-                    next.visibility = View.GONE
-                    nextChapter.visibility = View.GONE
-                }else{
-                    nextChapter.text =  if (lesson.isEmpty()) "Go to overviews" else  lesson.first().title
-                    next.setOnClickListener {
-                        ChapterFinishFragmentDirections
-                            .actionChapterFinishFragmentToWhatIsDiabetes(lesson[0]).also {
-                                findNavController().navigate(it)
-                            }
+            args.lesson.let {
+                viewModel.getNextChapter(it.id).onEach { lesson ->
+                    if (args.lesson.id == BasicUtils.lessonData.size.minus(1)){
+                        next.visibility = View.GONE
+                        nextChapter.visibility = View.GONE
+                    }else{
+                        nextChapter.text =  if (lesson.isEmpty()) "Go to overviews" else  lesson.first().title
+                        next.setOnClickListener {
+                            ChapterFinishFragmentDirections
+                                .actionChapterFinishFragmentToWhatIsDiabetes(lesson[0],null).also {
+                                    findNavController().navigate(it)
+                                }
+                        }
                     }
-                }
-            }.launchIn(lifecycleScope)
+                }.launchIn(lifecycleScope)
+            }
 
             orientation.setOnClickListener {
-                ChapterFinishFragmentDirections.actionChapterFinishFragmentToQuizQuestionFragment2(args.lesson.id)
-                    .also {
-                        findNavController().navigate(it)
-                }
-            }
-                takeQuiz.setOnClickListener {
-                    ChapterFinishFragmentDirections.actionChapterFinishFragmentToQuizQuestionFragment2(args.lesson.id)
+                args.lesson.let { it1 ->
+                    ChapterFinishFragmentDirections.actionChapterFinishFragmentToQuizQuestionFragment2(
+                        it1.id)
                         .also {
                             findNavController().navigate(it)
                         }
+                }
+            }
+            takeQuiz.setOnClickListener {
+                args.lesson.let { it1 ->
+                    ChapterFinishFragmentDirections.actionChapterFinishFragmentToQuizQuestionFragment2(
+                        it1.id)
+                        .also {
+                            findNavController().navigate(it)
+                        }
+                }
             }
             backHome.setOnClickListener {
                 val navController = findNavController()
-                    navController.popBackStack(R.id.diabetesBasicsFragment, false)
+                navController.popBackStack(R.id.diabetesBasicsFragment, false)
             }
 
         }

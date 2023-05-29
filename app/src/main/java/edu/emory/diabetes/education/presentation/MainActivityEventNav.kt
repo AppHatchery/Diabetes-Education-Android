@@ -30,7 +30,7 @@ class MainActivityEventNav(
         Event.Lesson ->
             lesson?.let {
                 BasicFragmentDirections
-                    .actionDiabetesBasicsFragmentToWhatIsDiabetes(it)
+                    .actionDiabetesBasicsFragmentToWhatIsDiabetes(it,null)
                     .apply {
                         navController.navigate(this)
                     }
@@ -48,7 +48,7 @@ class MainActivityEventNav(
         Event.Lesson ->
             lesson?.let {
                 NutritionFragmentDirections
-                    .actionNutritionFragmentToNutritionWebViewFragment(it)
+                    .actionNutritionFragmentToWhatIsDiabetes(it,null)
                     .apply {
                         navController.navigate(this)
                     }
@@ -69,7 +69,7 @@ class MainActivityEventNav(
         Event.Lesson ->
             lesson?.let {
                 ManagementFragmentDirections
-                    .actionManagementFragmentToBloodSugarMonitoringFragment3(it).apply {
+                    .actionManagementFragmentToWhatIsDiabetes(it,null).apply {
                         navController.navigate(this)
                     }
             }

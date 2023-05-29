@@ -164,6 +164,54 @@ object Utils {
     interface OnSubmitResultStateListener{
         fun onSubmitResultState(resultInfo:RESULTS_ON_SUBMIT,answerChoice:String,hasSomeAllCorrect:Boolean)
     }
+    fun visitedNutritionAndCarbCounting(input: String): String {
+        return when (input) {
+            "Nutritional Food Groups - Carbohydrates, Fats, and Proteins",
+            "How to count carbohydrates",
+            "Carbs counting Apps",
+            "How to calculate insulin dosages" -> "Nutrition"
+            else -> ""
+        }
+    }
+
+    fun visitedDiabetesBasics(input: String):String{
+        return when (input) {
+            "What is diabetes?",
+            "Blood sugar monitoring",
+            "Types of insulin",
+            "Insulin Administration",
+            "Checking for Ketones" -> "Basics"
+            else -> ""
+        }
+    }
+    fun visitedDaibetesSelfManagement(input: String):String{
+        return when (input) {
+            "Treatment For Low Blood Sugar",
+            "When to call diabetes doctor" -> "Management"
+            else -> ""
+        }
+    }
+    fun visitedResources(input: String):String{
+        return when (input) {
+            "Low Carb Snack Combinations",
+            "Know your carbs",
+            "Foods that raise Blood Sugar",
+            "Foods that don't raise Blood Sugar" -> "Food Diary"
+            else -> ""
+        }
+    }
+    fun determineActivePageName(input: String): String? {
+        val category = visitedNutritionAndCarbCounting(input)
+            .takeIf { it.isNotEmpty() }
+            ?: visitedDiabetesBasics(input)
+                .takeIf { it.isNotEmpty() }
+            ?: visitedDaibetesSelfManagement(input)
+                .takeIf { it.isNotEmpty() }
+            ?: visitedResources(input)
+                .takeIf { it.isNotEmpty() }
+
+        return category
+    }
 
     class CustomOutlineProvider(private val radius: Float,
                                 var scaleX: Float = 1f,

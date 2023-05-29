@@ -7,6 +7,7 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.FragmentResourceBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
+import edu.emory.diabetes.education.presentation.fragments.basic.BasicLessonFragment
 
 class ResourceFragment : BaseFragment(R.layout.fragment_resource) {
 
@@ -23,7 +24,7 @@ class ResourceFragment : BaseFragment(R.layout.fragment_resource) {
             }
             foodDiaryAdapter = ResourceFoodDiaryAdapter {
                 ResourceFragmentDirections
-                    .actionResourceFragmentToResourceWebViewFragment(it).also {
+                    .actionResourceFragmentToWhatIsDiabetes2(null,it).also {
                         findNavController().navigate(it)
                     }
             }.also {
@@ -40,10 +41,10 @@ class ResourceFragment : BaseFragment(R.layout.fragment_resource) {
     }
 
 
-    fun toResourceMustHaveFragment(view: View) {
-        ResourceFragmentDirections
-            .actionResourceFragmentToResourceMustHaveFragment()
-            .also { findNavController().navigate(it) }
-    }
+//    fun toResourceMustHaveFragment(view: View) {
+//        ResourceFragmentDirections
+//            .actionResourceFragmentToResourceMustHaveFragment()
+//            .also { findNavController().navigate(it) }
+//    }
 
 }
