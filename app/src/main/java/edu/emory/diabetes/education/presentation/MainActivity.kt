@@ -1,18 +1,11 @@
 package edu.emory.diabetes.education.presentation
 
-import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -21,9 +14,6 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.ActivityMainBinding
-import edu.emory.diabetes.education.presentation.fragments.aboutus.AboutUsHomeFragment
-import edu.emory.diabetes.education.presentation.fragments.aboutus.AboutUsHomeFragmentDirections
-import edu.emory.diabetes.education.presentation.fragments.main.MainFragment
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), EventNavigator {
@@ -42,7 +32,7 @@ class MainActivity : AppCompatActivity(), EventNavigator {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.whatIsDiabetes,
+                R.id.SharedWebpageHostFragmentForSearch,
                 R.id.quizQuestionFragment,
               //  R.id.resourceMustHaveFragment,
                 R.id.orientationFragment,
