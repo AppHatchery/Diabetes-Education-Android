@@ -22,7 +22,8 @@
             android:background="?attr/selectableItemBackground"
             android:padding="20dp"
             app:cardBackgroundColor="@color/cine_100"
-            app:cardCornerRadius="15dp">
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
