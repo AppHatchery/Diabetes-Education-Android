@@ -8,6 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,8 @@ import android.widget.EditText
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentInsulinForHbsBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
@@ -27,6 +30,7 @@ import sdk.pendo.io.Pendo
 
 class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
     private val args: InsulinForHbsFragmentArgs by navArgs()
+    val viewModel: InsulinCalculatorViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentInsulinForHbsBinding.bind(view)) {
@@ -97,6 +101,10 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                     //hide keyboard
                     val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+                    //passing data to viewModel
+                    viewModel.correctionFactor = correctionFactor.text.toString()
+                    viewModel.bloodSugar = bloodSugarNew.text.toString()
+                    viewModel.targetBloodSugar = targetBloodSugar.text.toString()
                     //pendo tracking
                     val properties = hashMapOf<String, Any>()
                     properties["correction_factor"] = correctionFactor.text.toString()
@@ -120,6 +128,11 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                     handleEmptyFields(this)
                 }
             }
+
+            correctionFactor.setText(viewModel.correctionFactor)
+            bloodSugarNew.setText(viewModel.bloodSugar)
+            targetBloodSugar.setText(viewModel.targetBloodSugar)
+
             val inputMethodManager = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             bloodSugarNew.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
