@@ -18,6 +18,8 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.toWindowInsetsCompat
 import androidx.core.view.isGone
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.internal.ViewUtils.dpToPx
@@ -28,7 +30,7 @@ import sdk.pendo.io.Pendo
 
 class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) {
     private val args: InsulinForFoodFragmentArgs by navArgs()
-
+    val viewModel: InsulinCalculatorViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentInsulinForFoodBinding.bind(view)) {
             val sectionId = args.id

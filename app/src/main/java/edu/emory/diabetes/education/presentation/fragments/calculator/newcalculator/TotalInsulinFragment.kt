@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -21,6 +22,7 @@ import java.text.DecimalFormat
 
 class TotalInsulinFragment : BaseFragment(R.layout.fragment_total_insulin) {
     private val args: TotalInsulinFragmentArgs by navArgs()
+    val viewModel: InsulinCalculatorViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentTotalInsulinBinding.bind(view)) {
             // nav arguments
@@ -71,6 +73,7 @@ class TotalInsulinFragment : BaseFragment(R.layout.fragment_total_insulin) {
 
             //new calculator button
             newCalculator.setOnClickListener {
+                viewModel.clearData()
                 TotalInsulinFragmentDirections
                 findNavController().popBackStack(R.id.insulinCalculatorFragment, false)
             }
