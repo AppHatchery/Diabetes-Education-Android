@@ -122,7 +122,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // Pendo
-    implementation group: 'sdk.pendo.io', name: 'pendoIO', version: '2.21.0.5224', changing: true
+    implementation group: 'sdk.pendo.io', name: 'pendoIO', version: '2.22.3.5721', changing: true
 
 
 }
