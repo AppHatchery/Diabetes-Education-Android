@@ -124,5 +124,7 @@ dependencies {
     // Pendo
     implementation group: 'sdk.pendo.io', name: 'pendoIO', version: '2.22.3.5721', changing: true
 
+    // DataStore
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
 
 }
