@@ -3,30 +3,41 @@ package edu.emory.diabetes.education
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import dagger.hilt.android.HiltAndroidApp
+import edu.emory.diabetes.education.data.prefs.PendoPrefs
+import edu.emory.diabetes.education.data.prefs.PendoPrefs.Companion.PENDO_PREFIX
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import sdk.pendo.io.Pendo
-import java.util.*
+import java.util.UUID
+import javax.inject.Inject
 
 
 @HiltAndroidApp
 class App : Application() {
 
-    companion object {
-        private const val PENDO_APP_KEY =
-            "eyJhbGciOiJSUzI1NiIsImtpZCI6IiIsInR5cCI6IkpXVCJ9.eyJkYXRhY2VudGVyIjoidXMiLCJrZXkiOiJlNzYwNWU0YzlhNDc3MTk0NTYyODIxZDdiZDU2NTk2MTE2Mzc1OGMzZmQ1MjM2MjRkMmMwZjY2YjY2ODZlOGZkZWRhOTdkY2Y1OTRmODcxMzY2M2UwMTQ2OTk2ZWFiY2E2YWIyOWZjYTUwNDU0MjMxNzRhZDY5NmZkZThkOTczZGJmOGYwNDcwNWM1NDk1MTgzMzc0NWJiNGNlOWYyMTRlLmMwMWU4NGQyODViYzNmZTQwMjcwMjU1NmFlN2M3MTQ1LmQ3ZTUzNmNmYjhiZGJmMTFhYjY2MzVlYTA3OWRmY2Y3Njk1ZWJiN2ZkZGY5NDY3MzgwMzg3ZTFiZjUzZjQ0ZGYifQ.YbG41s0oe_9K9nsT83XCu0DaJ4rfkC0CiiwdxYF6YnzUGOqAS9iQSQ4MZH_fx-uZ89tXy3XRYIFkNn3X0zNklWBnANPBI7UFxRZu-C8ZjTuROhqGWR6IB8d25pJhnglK0ujVexo3yukV42E3bdBNTax90kduiJzQreEOMRAkCp0"
-        private const val PENDO_ACCOUNT_ID = "TypeU-Beta"
-    }
+  @Inject
+  lateinit var pendoPrefs: PendoPrefs
 
-    override fun onCreate() {
-        super.onCreate()
-        pendoSDKIntegration()
-        onStartPendoSession()
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-    }
+  companion object {
+    private const val PENDO_ACCOUNT_ID = "TypeU-Beta"
+  }
 
-    private fun onStartPendoSession() {
-        val visitorId = getString(R.string.pendo_visitor_id, UUID.randomUUID())
-        Pendo.startSession(visitorId, PENDO_ACCOUNT_ID, null, null)
-    }
+  override fun onCreate() {
+    super.onCreate()
+    pendoSDKIntegration()
+    onStartPendoSession()
+    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+  }
 
-    private fun pendoSDKIntegration() = Pendo.setup(this, PENDO_APP_KEY, null, null)
+  private fun onStartPendoSession() = pendoPrefs.getPendoVisitorId.onEach {
+    if (it.isNullOrEmpty()) {
+      pendoPrefs.setPendoVisitorId(PENDO_PREFIX + UUID.randomUUID().toString())
+      return@onEach
+    }
+    Pendo.startSession(it, PENDO_ACCOUNT_ID, null, null)
+  }.launchIn(CoroutineScope(SupervisorJob()))
+
+  private fun pendoSDKIntegration() = Pendo.setup(this, getString(R.string.pendo_key), null, null)
 }
