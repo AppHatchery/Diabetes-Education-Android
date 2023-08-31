@@ -21,7 +21,7 @@ class App : Application() {
   lateinit var pendoPrefs: PendoPrefs
 
   companion object {
-    private const val PENDO_ACCOUNT_ID = "TypeU-Beta"
+    private const val PENDO_ACCOUNT_ID = "TypeU-Pilot"
   }
 
   override fun onCreate() {
