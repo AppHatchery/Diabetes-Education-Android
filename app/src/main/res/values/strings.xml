@@ -32,7 +32,7 @@
     <string name="fa_orientation_agenda_first_day_morning">1. What is Diabetes?\n2. Blood Sugar Monitoring\n3. Types of Insulin\n4. Insulin Administration\n5. Checking for Ketones</string>
     <string name="fa_orientation_agenda_first_day_afternoon">1. Nutritional Food Group – Carbohydrates, Fats, and Proteins\n2. How to count carbohydrates\n3. How to calculate insulin dosages</string>
     <string name="fa_orientation_agenda_second_day_morning">1. Review insulin dosing\n2. Low blood sugar treatment – Rule of 15 and Emergency Glucagon Kit\n3. Bedtime Rules\n4. Exercise\n5. School Management</string>
-    <string name="fa_orientation_medical_team">They say it “takes a village” and when it comes to diabetes, it certainly does! Your Diabetes Care Team at Children’s involves three main components.</string>
+    <string name="fa_orientation_medical_team">They say it “takes a village” and when it comes to diabetes, it certainly does! Your Diabetes Care Team at Children\'s involves six main components.</string>
 
 
     <string name="about_the_app">About the App</string>

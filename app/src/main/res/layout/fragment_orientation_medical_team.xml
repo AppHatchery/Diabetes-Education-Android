@@ -105,21 +105,40 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/textViewMedicalTeamStyle"
-                    android:drawableStart="@drawable/ic_diabetes_educator"
+                    android:drawableStart="@drawable/ic_educator"
                     android:drawablePadding="12dp"
                     android:text="Diabetes Educators" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/textViewMedicalTeamStyle"
-                    android:drawableStart="@drawable/ic_doctor"
+                    android:drawableStart="@drawable/ic_nurse"
                     android:drawablePadding="12dp"
+                    android:gravity="center"
                     android:text="Nurses" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textViewMedicalTeamStyle"
+                    android:drawableStart="@drawable/ic_doctor_apps"
+                    android:drawablePadding="12dp"
+                    android:text="Doctors/APPs/Fellows" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textViewMedicalTeamStyle"
+                    android:drawableStart="@drawable/ic_nurse"
+                    android:drawablePadding="12dp"
+                    android:text="Social Workers" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textViewMedicalTeamStyle"
+                    android:drawableStart="@drawable/ic_educator"
+                    android:drawablePadding="12dp"
+                    android:text="Case Managers" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/textViewMedicalTeamStyle"
                     android:drawableStart="@drawable/ic_doctor"
                     android:drawablePadding="12dp"
-                    android:text="Doctors/APPs/Fellows" />
+                    android:text="Child Life Specialists" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
