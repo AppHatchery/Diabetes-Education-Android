@@ -17,12 +17,12 @@ class PendoPrefs @Inject constructor(
 ) {
 
 
-  private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "net.techandgraphics.hymn.data.prefs")
+  private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "edu.emory.diabetes.education.data.prefs")
   private val dataStore = context.dataStore
 
   companion object {
 
-    const val PENDO_PREFIX = "Sep-23-"
+    const val PENDO_PREFIX = "Pilot-Sep23-"
     private val pendoVisitorId = stringPreferencesKey("prefs_pendo_visitor_id")
 
   }

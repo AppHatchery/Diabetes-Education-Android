@@ -9,7 +9,7 @@ object NutritionUtils {
         LessonEntity(
             0,
             R.drawable.ic_stethoscope,
-            "Nutritional Food Groups - Carbohydrates, Fats, and Proteins",
+            "Types of food",
             "Carbs, fat, and protein and importance of each in diet.",
             "types_of_food"
         ),
