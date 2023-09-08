@@ -101,9 +101,25 @@
                 android:textSize="17sp"
                 app:fontFamily="@font/avenir_roman" />
 
-            <View
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/privacyPolicy"
                 android:layout_width="wrap_content"
-                android:layout_height="120dp" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/avenir_roman"
+                android:paddingTop="20dp"
+                android:paddingBottom="8dp"
+                android:text="Privacy Policy"
+                android:textColor="@color/green_900" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:id="@+id/version"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_roman"
+                android:gravity="center"
+                android:paddingBottom="16dp"
+                tools:text="v1.6" />
 
         </LinearLayout>
     </ScrollView>
