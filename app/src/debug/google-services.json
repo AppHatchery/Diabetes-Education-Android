@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "910949916706",
+    "project_id": "typeu-test",
+    "storage_bucket": "typeu-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910949916706:android:4e25c1686ca2101baa6a7b",
+        "android_client_info": {
+          "package_name": "edu.emory.diabetes.education"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnEiISO9peO41Ce5T-gjyDB1J-5RE-Jo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
