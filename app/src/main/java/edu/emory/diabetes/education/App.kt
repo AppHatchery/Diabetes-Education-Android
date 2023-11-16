@@ -21,13 +21,13 @@ class App : Application() {
   lateinit var pendoPrefs: PendoPrefs
 
   companion object {
-    private const val PENDO_ACCOUNT_ID = "TypeU-Pilot"
+    private const val PENDO_ACCOUNT_ID = "TypeU-Test"
   }
 
   override fun onCreate() {
     super.onCreate()
-//    pendoSDKIntegration()
-//    onStartPendoSession()
+    pendoSDKIntegration()
+    onStartPendoSession()
     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
   }
 
