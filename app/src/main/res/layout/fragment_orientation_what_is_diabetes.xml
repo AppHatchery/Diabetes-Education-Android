@@ -85,5 +85,4 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
         <include layout="@layout/fragment_search_chapter" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 </layout>
