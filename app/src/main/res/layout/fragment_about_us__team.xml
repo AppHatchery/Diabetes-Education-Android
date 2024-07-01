@@ -34,6 +34,7 @@
                     android:id="@+id/img_apphatcherylink"
                     android:layout_width="wrap_content"
                     android:layout_height="120dp"
+                    android:contentDescription="AppHatchery Logo"
                     android:src="@drawable/about_us_apphatch" />
             </androidx.cardview.widget.CardView>
 

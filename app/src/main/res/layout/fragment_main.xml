@@ -85,6 +85,7 @@
                             android:layout_marginEnd="16dp"
                             android:background="@drawable/shape_rectangle_radius_5px"
                             android:backgroundTint="@color/green_900"
+                            android:contentDescription="View orientation"
                             android:elevation="4dp"
                             android:foreground="?attr/selectableItemBackground"
                             android:padding="20dp"
