@@ -62,6 +62,7 @@ class ManagementQuizQuestionFragment : BaseFragment(R.layout.fragment_management
                             }
                             hideView(selectedChoices)
                         }
+                        else -> {}
                     }
                 }.also { adapter ->
                     with(questionEntity.first()) {

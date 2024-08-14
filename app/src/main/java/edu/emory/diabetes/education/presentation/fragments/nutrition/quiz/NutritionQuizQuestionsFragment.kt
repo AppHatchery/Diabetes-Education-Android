@@ -65,6 +65,7 @@ class NutritionQuizQuestionsFragment : BaseFragment(R.layout.fragment_nutrition_
                             }
                             hideView(selectedChoices)
                         }
+                        else -> {}
                     }
                 }.also { adapter ->
                     with(questionEntity.first()) {

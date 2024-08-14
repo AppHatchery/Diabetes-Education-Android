@@ -11,7 +11,7 @@ import android.webkit.WebView
 class BaseWebView(context: Context, attributeSet: AttributeSet?) : WebView(context, attributeSet) {
 
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
     }
 
