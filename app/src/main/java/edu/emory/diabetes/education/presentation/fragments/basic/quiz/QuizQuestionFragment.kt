@@ -58,6 +58,7 @@ class QuizQuestionFragment : BaseFragment(R.layout.fragment_quiz_question),
                             }
                             hideView(selectedChoices)
                         }
+                        else -> {}
                     }
                 }.also { adapter ->
                     with(questionEntity.first()) {
