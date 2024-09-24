@@ -26,8 +26,8 @@ class App : Application() {
 
   override fun onCreate() {
     super.onCreate()
-//    pendoSDKIntegration()
-//    onStartPendoSession()
+    //pendoSDKIntegration()
+    //onStartPendoSession()
     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
   }
 

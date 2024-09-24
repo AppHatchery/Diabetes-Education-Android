@@ -26,6 +26,7 @@
                 android:layout_marginTop="8dp"
                 android:paddingHorizontal="16dp"
                 android:text="Title"
+                android:clickable="true"
                 android:textSize="20sp" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -85,5 +86,4 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
         <include layout="@layout/fragment_search_chapter" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 </layout>

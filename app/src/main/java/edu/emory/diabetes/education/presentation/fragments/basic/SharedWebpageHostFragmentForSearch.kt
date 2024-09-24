@@ -162,7 +162,7 @@ class SharedWebpageHostFragmentForSearch : BaseFragment(R.layout.fragment_webvie
                                 when (it) {
                                     "food_lists" ->
                                         SharedWebpageHostFragmentForSearchDirections
-                                            .actionWhatIsDiabetesSelf(
+                                            .actionWebViewContentSelf(
                                                 NutritionUtils.otherPages[1].toLesson(),
                                                 null
                                             )

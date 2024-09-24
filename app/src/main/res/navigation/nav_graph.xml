@@ -177,7 +177,7 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_left"/>
         <action
-            android:id="@+id/action_whatIsDiabetes_self"
+            android:id="@+id/action_webViewContent_self"
             app:destination="@id/SharedWebpageHostFragmentForSearch"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
