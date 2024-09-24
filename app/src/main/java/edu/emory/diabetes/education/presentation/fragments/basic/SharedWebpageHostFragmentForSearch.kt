@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.*
 import android.webkit.*
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
@@ -27,7 +26,7 @@ import edu.emory.diabetes.education.*
 import edu.emory.diabetes.education.Utils.hideKeyboard
 import edu.emory.diabetes.education.Utils.onSearch
 import edu.emory.diabetes.education.Utils.setOnTextWatcher
-import edu.emory.diabetes.education.databinding.FragmentOrientationWhatIsDiabetesBinding
+import edu.emory.diabetes.education.databinding.FragmentWebviewContentBinding
 import edu.emory.diabetes.education.domain.model.ChapterSearch
 import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.nutrition.NutritionUtils
@@ -40,12 +39,12 @@ import sdk.pendo.io.Pendo
 import kotlin.collections.set
 
 
-class SharedWebpageHostFragmentForSearch : BaseFragment(R.layout.fragment_orientation_what_is_diabetes),
+class SharedWebpageHostFragmentForSearch : BaseFragment(R.layout.fragment_webview_content),
     ChapterSearchAdapter.OnClickListener {
     private val args: SharedWebpageHostFragmentForSearchArgs by navArgs()
     private val viewModel: ChapterViewModel by viewModels()
     private lateinit var fullScreenView: FrameLayout
-    private lateinit var binding: FragmentOrientationWhatIsDiabetesBinding
+    private lateinit var binding: FragmentWebviewContentBinding
     private val webViewSearchHelper by lazy { SearchUtils.WebViewSearchHelper() }
     private var bottomSheetDialog: BottomSheetDialog? = null
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
@@ -56,7 +55,7 @@ class SharedWebpageHostFragmentForSearch : BaseFragment(R.layout.fragment_orient
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOrientationWhatIsDiabetesBinding.inflate(inflater, container, false)
+        binding = FragmentWebviewContentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -118,13 +117,19 @@ class SharedWebpageHostFragmentForSearch : BaseFragment(R.layout.fragment_orient
 
                                 args.lesson.let {
                                     if (it != null) {
-                                        SharedWebpageHostFragmentForSearchDirections
-                                            .actionWhatIsDiabetesToChapterFinishManagementFragment(
-                                                it
-                                            )
-                                            .also {
-                                                findNavController().navigate(it)
-                                            }
+                                        SharedWebpageHostFragmentForSearchDirections.actionWebViewContentToChapterFinishManagementFragment(
+                                            it
+                                        ).also {
+                                            findNavController().navigate(it)
+                                        }
+
+//                                        SharedWebpageHostFragmentForSearchDirections
+//                                            .actionWebViewContentToChapterFinishManagementFragment(
+//                                                it
+//                                            )
+//                                            .also {
+//                                                findNavController().navigate(it)
+//                                            }
                                     }
                                 }
                             }
@@ -140,7 +145,7 @@ class SharedWebpageHostFragmentForSearch : BaseFragment(R.layout.fragment_orient
                                 if (args.lesson != null) {
                                     args.lesson?.let {
                                         SharedWebpageHostFragmentForSearchDirections
-                                            .actionWhatIsDiabetesToChapterFinishFragment(it).also {
+                                            .actionWebViewContentToChapterFinishFragment(it).also {
                                                 findNavController().navigate(it)
                                             }
                                     }
@@ -161,7 +166,7 @@ class SharedWebpageHostFragmentForSearch : BaseFragment(R.layout.fragment_orient
                                 when (it) {
                                     "food_lists" ->
                                         SharedWebpageHostFragmentForSearchDirections
-                                            .actionWhatIsDiabetesSelf(
+                                            .actionWebViewContentSelf(
                                                 NutritionUtils.otherPages[1].toLesson(),
                                                 null
                                             )
@@ -176,7 +181,7 @@ class SharedWebpageHostFragmentForSearch : BaseFragment(R.layout.fragment_orient
 //                                        }
                                     "next" -> args.lesson?.let { it1 ->
                                         SharedWebpageHostFragmentForSearchDirections
-                                            .actionWhatIsDiabetesToChapterFinishNutritionFragment(
+                                            .actionWebViewContentToChapterFinishNutritionFragment(
                                                 it1
                                             ).also {
                                                 findNavController().navigate(it)
