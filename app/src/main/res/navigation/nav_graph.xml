@@ -193,18 +193,18 @@
             />
 
     </fragment>
-    <fragment
-        android:id="@+id/typesOfInsulin"
-        android:name="edu.emory.diabetes.education.presentation.fragments.basic.TypesOfInsulin"
-        android:label="Types of Insulin"
-        tools:layout="@layout/fragment_orientation_types_of_insulin" />
-    <action
-        android:id="@+id/action_global_whatIsDiabetes"
-        app:destination="@id/SharedWebpageHostFragmentForSearch"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left"
-        app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right" />
+<!--    <fragment-->
+<!--        android:id="@+id/typesOfInsulin"-->
+<!--        android:name="edu.emory.diabetes.education.presentation.fragments.basic.TypesOfInsulin"-->
+<!--        android:label="Types of Insulin"-->
+<!--        tools:layout="@layout/fragment_orientation_types_of_insulin" />-->
+<!--    <action-->
+<!--        android:id="@+id/action_global_whatIsDiabetes"-->
+<!--        app:destination="@id/SharedWebpageHostFragmentForSearch"-->
+<!--        app:enterAnim="@anim/slide_in_right"-->
+<!--        app:exitAnim="@anim/slide_out_left"-->
+<!--        app:popEnterAnim="@anim/slide_in_left"-->
+<!--        app:popExitAnim="@anim/slide_out_right" />-->
     <fragment
         android:id="@+id/diabetesBasicsFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.basic.BasicFragment"

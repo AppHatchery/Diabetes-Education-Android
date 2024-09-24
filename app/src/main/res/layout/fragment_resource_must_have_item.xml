@@ -29,7 +29,8 @@
                 android:layout_height="55dp"
                 setImageResourceWithGlide="@{data.image}"
                 android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_rectangle" />
+                android:src="@drawable/ic_rectangle"
+                android:importantForAccessibility="no" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"

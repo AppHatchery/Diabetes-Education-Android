@@ -117,19 +117,13 @@ class SharedWebpageHostFragmentForSearch : BaseFragment(R.layout.fragment_webvie
 
                                 args.lesson.let {
                                     if (it != null) {
-                                        SharedWebpageHostFragmentForSearchDirections.actionWebViewContentToChapterFinishManagementFragment(
-                                            it
-                                        ).also {
-                                            findNavController().navigate(it)
-                                        }
-
-//                                        SharedWebpageHostFragmentForSearchDirections
-//                                            .actionWebViewContentToChapterFinishManagementFragment(
-//                                                it
-//                                            )
-//                                            .also {
-//                                                findNavController().navigate(it)
-//                                            }
+                                        SharedWebpageHostFragmentForSearchDirections
+                                            .actionWebViewContentToChapterFinishManagementFragment(
+                                                it
+                                            )
+                                            .also {
+                                                findNavController().navigate(it)
+                                            }
                                     }
                                 }
                             }
@@ -158,7 +152,9 @@ class SharedWebpageHostFragmentForSearch : BaseFragment(R.layout.fragment_webvie
                                     .plus(1), length
                             ).replace(htmlExt, "")
                         }.also {
-                            if (args.lesson?.title == "Nutritional Food Groups - Carbohydrates, Fats, and Proteins" ||
+                            if (
+                                args.lesson?.title =="Types of food"||
+                                args.lesson?.title == "Nutritional Food Groups - Carbohydrates, Fats, and Proteins" ||
                                 args.lesson?.title == "How to count carbohydrates" ||
                                 args.lesson?.title == "Carbs counting Apps" ||
                                 args.lesson?.title == "How to calculate insulin dosages"
