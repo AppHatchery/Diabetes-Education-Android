@@ -22,7 +22,7 @@ class PendoPrefs @Inject constructor(
 
   companion object {
 
-    const val PENDO_PREFIX = "Pilot-Sep24-"
+    const val PENDO_PREFIX = "Pilot-Jan25-"
     private val pendoVisitorId = stringPreferencesKey("prefs_pendo_visitor_id")
 
   }
