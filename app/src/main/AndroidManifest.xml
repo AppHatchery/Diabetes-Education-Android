@@ -37,7 +37,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="pendo-c0365b6a" />
+                <data android:scheme="pendo-224f5f50" />
             </intent-filter>
         </activity>
 
