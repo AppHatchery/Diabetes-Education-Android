@@ -140,7 +140,7 @@ class QuizNutritionAdapter @Inject constructor(private val viewModel:NutritionQu
                                 wrongChoiceIndexes.clear()
                             }
                         } else {
-                            removeFirst()
+                            removeAt(0)
                             if (wrongChoiceIndexes.size > 0) {
                                 selectedIndexes.clear()
                                 wrongChoiceIndexes.clear()
@@ -178,7 +178,7 @@ class QuizNutritionAdapter @Inject constructor(private val viewModel:NutritionQu
                                 wrongChoiceIndexes.clear()
                             }
                         } else {
-                            removeFirst()
+                            removeAt(0)
                             if (wrongChoiceIndexes.size > 0) {
                                 selectedIndexes.clear()
                                 wrongChoiceIndexes.clear()

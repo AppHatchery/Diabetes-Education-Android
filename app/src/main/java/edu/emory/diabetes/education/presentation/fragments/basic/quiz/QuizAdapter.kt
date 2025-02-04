@@ -137,7 +137,7 @@ class QuizAdapter @Inject constructor(private val viewModel: QuizQuestionViewMod
                                 wrongChoiceIndexes.clear()
                             }
                         } else {
-                            removeFirst()
+                            removeAt(0)
                             if (wrongChoiceIndexes.size > 0) {
                                 selectedIndexes.clear()
                                 wrongChoiceIndexes.clear()
@@ -175,7 +175,7 @@ class QuizAdapter @Inject constructor(private val viewModel: QuizQuestionViewMod
                                 wrongChoiceIndexes.clear()
                             }
                         } else {
-                            removeFirst()
+                            removeAt(0)
                             if (wrongChoiceIndexes.size > 0) {
                                 selectedIndexes.clear()
                                 wrongChoiceIndexes.clear()
