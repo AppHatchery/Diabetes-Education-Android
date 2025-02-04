@@ -17,6 +17,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
+            setBackgroundResource="@{chapter.backgroundShadow}"
             setBackgroundColorResource="@{chapter.backgroundColor}"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -26,6 +27,7 @@
             android:layout_marginBottom="8dp"
             android:foreground="?attr/selectableItemBackground"
             app:cardCornerRadius="15dp"
+            app:cardElevation="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +68,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/appCompatTextView"
-                    style="@style/textTitle"
+                    style="@style/heading_2"
                     android:layout_width="0dp"
                     android:layout_marginBottom="16dp"
                     android:text="@{chapter.name}"

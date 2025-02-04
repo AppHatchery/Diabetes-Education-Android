@@ -30,18 +30,18 @@ object BasicUtils {
         ),
         LessonEntity(
             3,
-            R.drawable.ic_beaker,
-            "How to calculate insulin dosing",
-            "Long and rapid acting insulin; ways to calculate insulin for food and for blood sugar.",
-            "how_to_calculate_insulin_dosing"
+            R.drawable.ic_dropper,
+            "Insulin Administration",
+            "Insulin injection technique and importance of site rotation.",
+            "how_to_give_insulin_shot"
         ),
         LessonEntity(
             4,
-            R.drawable.ic_dropper,
-            "How to give insulin shot",
-            "Insulin injection technique and importance of site rotation.",
-            "how_to_give_insulin_shot"
-        )
+            R.drawable.ic_injection_needle,
+            "Checking for Ketones",
+            "Symptoms of hyperglycemia, when and how to check for ketones.",
+            "check_for_ketones"
+        ),
     )
 
     val quizData = listOf(
@@ -74,7 +74,7 @@ object BasicUtils {
             R.drawable.ic_help,
             R.drawable.ic_arrow_forward_filled,
             "Quiz 4 ",
-            "How to calculate insulin dosing",
+            "Insulin Administration",
             ""
         ),
 
@@ -83,7 +83,7 @@ object BasicUtils {
             R.drawable.ic_help,
             R.drawable.ic_arrow_forward_filled,
             "Quiz 5",
-            "How to give insulin shot",
+            "Checking for ketones",
             ""
         ),
     )

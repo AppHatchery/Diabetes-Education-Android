@@ -29,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            app:itemIconTint="@color/green_900"
+            app:itemIconTint="@color/green_1000"
+            app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
             app:menu="@menu/bottom_menu" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

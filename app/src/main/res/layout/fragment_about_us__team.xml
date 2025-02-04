@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/textTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:fontFamily="@font/avenir_roman"
+                android:text="@string/About_AppHatchery"
+                android:textColor="#57585A" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                app:cardCornerRadius="16dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/img_apphatcherylink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="120dp"
+                    android:contentDescription="AppHatchery Logo"
+                    android:src="@drawable/about_us_apphatch" />
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="20dp"
+                android:fontFamily="@font/avenir_roman"
+                android:text="@string/about_team_content_header"
+                android:textColor="#57585A"
+                android:textSize="17sp"
+                app:fontFamily="@font/avenir_roman" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_roman"
+                android:text="@string/about_team_content"
+                android:textColor="#57585A"
+                android:textSize="17sp"
+                app:fontFamily="@font/avenir_roman" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/textTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/avenir_roman"
+                android:text="Collaborators"
+                android:textColor="#57585A" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/avenir_roman"
+                android:text="@string/about_team_content_collaborators"
+                android:textColor="#57585A"
+                android:textSize="17sp"
+                app:fontFamily="@font/avenir_roman" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="200dp"
+                android:layout_height="80dp"
+                android:src="@drawable/about_us_emory" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="200dp"
+                android:layout_height="80dp"
+                android:layout_marginVertical="10dp"
+                android:src="@drawable/about_us_childrens_health_of_atlanta" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+
+
+</layout>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/about"
+                style="@style/textTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_roman"
+                android:text="@string/about_the_app"
+                android:textColor="#57585A" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/avenir_roman"
+                android:text="@string/about_the_app_content"
+                android:textAlignment="textStart"
+                android:textColor="@color/gray_200"
+                android:textSize="17sp"
+                app:fontFamily="@font/avenir_roman" />
+
+            <TextView
+                android:id="@+id/ada"
+                style="@style/textTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/avenir_roman"
+                android:text="@string/american_diabetes_association"
+                android:textColor="#57585A" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_about_us_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="American Diabetes Association Logo"
+                app:layout_constraintTop_toBottomOf="@+id/ada"
+                tools:layout_editor_absoluteX="20dp">
+
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="102dp"
+                    android:layout_margin="20dp"
+                    android:padding="0dp"
+                    android:src="@drawable/about_us_american_diabetes_association" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/textVils"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="20dp"
+                android:fontFamily="@font/avenir_roman"
+                android:text="@string/american_diabetes_association_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/gray_200"
+                android:textSize="17sp"
+                app:fontFamily="@font/avenir_roman" />
+
+
+            <TextView
+                style="@style/textTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_roman"
+                android:text="@string/support"
+                android:textColor="#57585A" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/sendMail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:text="@string/fa_about_us_support"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/gray_200"
+                android:textSize="17sp"
+                app:fontFamily="@font/avenir_roman" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/privacyPolicy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/avenir_roman"
+                android:paddingTop="20dp"
+                android:paddingBottom="8dp"
+                android:text="Privacy Policy"
+                android:textColor="@color/green_900" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:id="@+id/version"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_roman"
+                android:gravity="center"
+                android:paddingBottom="16dp"
+                tools:text="v1.6" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</layout>

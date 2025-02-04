@@ -24,6 +24,7 @@
             android:layout_marginBottom="8dp"
             app:cardBackgroundColor="@color/cine_100"
             app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,49 +35,61 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:padding="16dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/cardIcon"
-                    setImageIcon="@{lesson.image}"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/shape_rectangle_radius_50px"
-                    android:backgroundTint="@android:color/white"
-                    android:padding="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@drawable/ic_stethoscope" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/title"
-                    style="@style/textTitle"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearIconTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@{lesson.title}"
-                    app:layout_constraintBottom_toBottomOf="@+id/cardIcon"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="12dp"
+                    android:gravity="center_vertical"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/cardIcon"
-                    app:layout_constraintTop_toTopOf="@+id/cardIcon"
-                    tools:text="What is Diabetes?" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/cardIcon"
+                        setImageIcon="@{lesson.image}"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/shape_rectangle_radius_50px"
+                        android:backgroundTint="@android:color/white"
+                        android:padding="8dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/ic_stethoscope" />
 
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/title"
+                        style="@style/textTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@{lesson.title}"
+                        app:layout_constraintBottom_toBottomOf="@id/cardIcon"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/cardIcon"
+                        app:layout_constraintTop_toTopOf="@+id/cardIcon"
+                        tools:text="What is Diabetes?" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/appCompatTextView14"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="12dp"
                     android:maxLines="3"
                     android:text="@{lesson.description}"
                     android:textColor="@color/gray_200"
-                    app:fontFamily="@font/gotham_rounded"
+                    style="@style/subtitle"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/cardIcon"
-                    app:layout_constraintTop_toBottomOf="@+id/cardIcon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearIconTitle"
+                    app:layout_constraintVertical_bias="0.294"
                     tools:text="@string/lorem" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>

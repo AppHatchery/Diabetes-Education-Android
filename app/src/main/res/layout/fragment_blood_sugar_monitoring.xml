@@ -7,80 +7,83 @@
 
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:paddingHorizontal="16dp"
-            android:textSize="20sp"
-            android:text="Title" />
-
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/scrollIndicatorParent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="16dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/scrollIndicatorText"
-                android:layout_width="50dp"
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0%"
-                tools:ignore="HardcodedText" />
+                android:layout_marginTop="8dp"
+                android:paddingHorizontal="16dp"
+                android:text="Title"
+                android:textSize="20sp" />
 
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:id="@+id/scrollIndicator"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/scrollIndicatorParent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="8dp"
-                android:layout_weight="1"
-                android:indeterminate="false"
-                android:progress="0"
-                app:indicatorColor="@color/yellow_500"
-                app:trackCornerRadius="20dp"
-                app:trackThickness="10dp" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="16dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ScrollView
-                android:id="@+id/parent"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/scrollIndicatorText"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="0%"
+                    tools:ignore="HardcodedText" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/scrollIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_weight="1"
+                    android:indeterminate="false"
+                    android:progress="0"
+                    app:indicatorColor="@color/yellow_500"
+                    app:trackCornerRadius="20dp"
+                    app:trackThickness="10dp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:id="@+id/webViewContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
+
                     <ProgressBar
                         android:id="@+id/pageLoadProgressBar"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+
                     <edu.emory.diabetes.education.views.BaseWebView
                         android:id="@+id/webView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="16dp" />
                 </LinearLayout>
-            </ScrollView>
+
                 <FrameLayout
                     android:id="@+id/fullscreenContainer"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </FrameLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+                    android:layout_height="match_parent"
+                    android:visibility="gone"></FrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <include layout="@layout/fragment_search_chapter" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

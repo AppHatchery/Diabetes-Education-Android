@@ -70,8 +70,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Morning"
                     android:fontFamily="@font/gotham_rounded"
+                    android:text="Morning"
                     android:textColor="@color/yellow_500"
                     app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +97,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotham_rounded"
-                        android:text="• Section 3: High/Low blood sugar treatment" />
+                        android:text="• Section 3: Diabetes self-management" />
 
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -105,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:fontFamily="@font/avenir_roman"
-                        android:text="1. Blood sugar monitoring\n2. Check for ketones\n3. Treatment for low blood sugar\n4. When to call diabetes doctor"
+                        android:text="@string/fa_orientation_agenda_second_day_morning"
                         android:textColor="@color/gray_200"
                         app:fontFamily="@font/gotham_rounded" />
 

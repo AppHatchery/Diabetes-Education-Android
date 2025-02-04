@@ -7,15 +7,27 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        >
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/insulin_food_image"
                 android:layout_width="match_parent"
-                android:layout_height="230dp"
+                android:layout_height="220dp"
                 android:src="@drawable/im_hbs_insulin"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -80,17 +92,20 @@
                     android:id="@+id/bloodSugarNew"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="64sp"
+                    android:textSize="60sp"
+                    android:textColorHint="#e9e9e9"
                     android:textColor="@color/green_900"
                     android:hint="160"
                     style="@style/editTextRightNewCalculatorStyle"/>
 
                 <View
+                    android:id="@+id/blood_sugar_view"
                     android:layout_width="120dp"
                     android:layout_height="5dp"
                     android:background="#F4EFF9"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/blood_sugar_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Blood Sugar"
@@ -125,17 +140,20 @@
                     android:id="@+id/targetBloodSugar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="64sp"
+                    android:textSize="60sp"
+                    android:textColorHint="#e9e9e9"
                     android:textColor="@color/green_1000"
                     android:hint="100"
                     style="@style/editTextRightNewCalculatorStyle"/>
 
                 <View
+                    android:id="@+id/target_blood_view"
                     android:layout_width="120dp"
                     android:layout_height="5dp"
                     android:background="#F4EFF9"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/target_blood_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Target Blood Sugar"
@@ -203,22 +221,22 @@
                     android:id="@+id/correctionFactor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="48sp"
+                    android:textSize="44sp"
+                    android:textColorHint="#e9e9e9"
                     android:hint="2"
                     android:textColor="@color/green_1000"
                     android:layout_marginEnd="15dp"
                     style="@style/editTextRightNewCalculatorStyle"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-
-
             <View
+                android:id="@+id/correction_view"
                 android:layout_width="120dp"
                 android:layout_height="5dp"
                 android:background="#F4EFF9"/>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/correction_factor_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Correction Factor"
@@ -231,6 +249,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/shape_rectangle_stroke_radius_50px"
             android:drawableEnd="@drawable/ic_arrow_forward_small"
             android:drawablePadding="4dp"
@@ -238,10 +257,27 @@
             android:gravity="center"
             android:paddingHorizontal="24dp"
             android:text="Next"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear2" />
+            app:layout_constraintTop_toBottomOf="@id/linear2"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/error_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/next"
+            app:layout_constraintTop_toBottomOf="@+id/next"
+            app:layout_constraintStart_toStartOf="@id/next"
+            android:text="Please enter Correction Factor"
+            android:visibility="gone"
+            android:textColor="#FF0000"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

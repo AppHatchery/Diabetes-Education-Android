@@ -10,6 +10,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url "https://software.mobile.pendo.io/artifactory/androidx-release"
+        }
     }
 }
 rootProject.name = "Diabetes Education"

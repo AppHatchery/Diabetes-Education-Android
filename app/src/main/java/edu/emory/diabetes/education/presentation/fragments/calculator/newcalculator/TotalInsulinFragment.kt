@@ -3,6 +3,8 @@ package edu.emory.diabetes.education.presentation.fragments.calculator.newcalcul
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,88 +17,71 @@ import edu.emory.diabetes.education.presentation.fragments.calculator.Calculator
 import edu.emory.diabetes.education.presentation.fragments.calculator.CalculatorViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import sdk.pendo.io.Pendo
 import java.text.DecimalFormat
 
-class TotalInsulinFragment: BaseFragment(R.layout.fragment_total_insulin) {
-    private val viewModel: CalculatorViewModel by viewModels()
+class TotalInsulinFragment : BaseFragment(R.layout.fragment_total_insulin) {
     private val args: TotalInsulinFragmentArgs by navArgs()
+    val viewModel: InsulinCalculatorViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with(FragmentTotalInsulinBinding.bind(view)){
-            //insulin for food and high blood sugar adapter
-            bottomAdapter = TotalInsulinAdapter().also { adapter ->
-                viewModel.getInsulinData.onEach {
-                    adapter.submitList(it)
-                }.launchIn(lifecycleScope)
-            }
-            //total insulin adapter
-            topAdapter = TotalInsulinAdapter().also  { adapter ->
-                viewModel.getInsulinData.onEach {
-                    adapter.submitList(it.subList(2, 3))
-                }.launchIn(lifecycleScope)
-            }
-
+        with(FragmentTotalInsulinBinding.bind(view)) {
             // nav arguments
             val totalCarbs = args.totalCarbs
             val carbRatio = args.carbsRatio
             val correctionFactor = args.correctionFactor
             val bloodSugar = args.bloodSugar
             val targetBloodSugar = args.targetBloodSugar
+            val theId = args.id
 
             var insulinFood: Float = 0.0F
             var insulinHbs: Float = 0.0F
             var totalInsulin: Float = 0.0F
 
-            //insulin for food calculation
-            if (carbRatio.toString().toFloat() != 0.0F){
+            //Insulin for food
+            if (carbRatio.toString().toFloat() != 0.0F && totalCarbs.toString().toFloat() != 0.0F) {
                 insulinFood = totalCarbs.toString().toFloat().div(carbRatio.toString().toFloat())
-                val insulinCalculator = CalculatorUtils.data[0].copy(
-                    answer = DecimalFormat("#.#").format(insulinFood)
-                )
-                viewModel.onEvent(CalculatorEvent.CalculateInsulinForFood(insulinCalculator.toInsulinCalculator()))
-            }else{
-                insulinFood = 0.0F
-                val insulinFoodtest = CalculatorUtils.data[0].copy(answer = "--")
-                viewModel.onEvent(CalculatorEvent.CalculateInsulinForBloodSugar(insulinFoodtest.toInsulinCalculator()))
+                insulinFoodAnswer.text = DecimalFormat("#.#").format(insulinFood)
+            } else {
+                insulinFoodAnswer.text = "--"
             }
 
-            //insulin for high blood sugar calculation
-            if (correctionFactor.toString().toFloat() != 0.0F){
+            //Insulin for HBS
+            if (correctionFactor.toString().toFloat() != 0.0F) {
                 insulinHbs = (
                         bloodSugar.toString().toFloat() - targetBloodSugar.toString().toFloat())
                     .div(correctionFactor.toString().toFloat())
-                val insulinHbsCalculator = CalculatorUtils.data[1].copy(
-                    answer = DecimalFormat("#.#").format(insulinHbs)
-                )
-                viewModel.onEvent(CalculatorEvent.CalculateInsulinForBloodSugar(insulinHbsCalculator.toInsulinCalculator()))
+                insulinHbsAnswer.text = DecimalFormat("#.#").format(insulinHbs)
+            }
+
+            if (theId == 0){
+               insulinHbsAnswer.text = "--"
             }else if(bloodSugar.toString().toFloat() < 150){
                 insulinHbs = 0.0F
-                val insulinHbsCalculator = CalculatorUtils.data[1].copy(
-                    answer = DecimalFormat("#.#").format(insulinHbs)
-                )
-                viewModel.onEvent(CalculatorEvent.CalculateInsulinForBloodSugar(insulinHbsCalculator.toInsulinCalculator()))
-            }else{
-                insulinHbs = 0.0F
-                val insulinHbsTest = CalculatorUtils.data[1].copy(answer = "--")
-                viewModel.onEvent(CalculatorEvent.CalculateInsulinForBloodSugar(insulinHbsTest.toInsulinCalculator()))
+                insulinHbsAnswer.text = DecimalFormat("#.#").format(insulinHbs)
             }
 
-            //total insulin calculation
+            //Total insulin
             totalInsulin = insulinFood + insulinHbs
-            val  totalInsulinCalculator = CalculatorUtils.data[2].copy(
-                answer = DecimalFormat("#.#").format(totalInsulin)
-            )
-            viewModel.onEvent(CalculatorEvent.CalculateTotalInsulin(totalInsulinCalculator.toInsulinCalculator()))
+            totalInsulinAnswer.text = DecimalFormat("#.#").format(totalInsulin)
 
+            //pendo tracking
+            val properties = hashMapOf<String, Any>()
+            properties["for_food"] = insulinFood
+            properties["for_hbs"] = insulinHbs
+            properties["total"] = totalInsulin
+            Pendo.track("Calculator_results", properties)
 
+            //new calculator button
             newCalculator.setOnClickListener {
+                viewModel.clearData()
                 TotalInsulinFragmentDirections
-                    .actionTotalInsulinFragmentToInsulinCalculatorFragment().also {
-                        findNavController().navigate(it)
-                    }
+                findNavController().popBackStack(R.id.insulinCalculatorFragment, false)
             }
-
         }
     }
-
+    override fun onStop() {
+        super.onStop()
+        view?.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_right))
+    }
 
 }

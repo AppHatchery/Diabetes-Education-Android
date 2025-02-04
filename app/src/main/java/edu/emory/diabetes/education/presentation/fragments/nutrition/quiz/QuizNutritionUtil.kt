@@ -22,6 +22,25 @@ object QuizNutritionUtil {
             answers = listOf("A", "D", "E"),
             ChapterName(0, ""),
             maxAnswerSize = 3
+        ),
+
+
+        Question(
+            2,
+            "Rapid-acting insulin may be calculated using:",
+            "Check all that apply",
+            choices = listOf(
+                Choice("A", "A. Insulin to carbohydrate ratio"),
+                Choice("B", "B. Correction factor"),
+                Choice("C", "C. Set dosing"),
+                Choice("D", "D. Sliding scale")
+            ),
+            answers = listOf(
+                "A", "B", "C", "D"
+            ),
+            ChapterName(2, "How to calculate Insulin dosages"),
+            maxAnswerSize = 4,
+        ),
+
         )
-    )
 }

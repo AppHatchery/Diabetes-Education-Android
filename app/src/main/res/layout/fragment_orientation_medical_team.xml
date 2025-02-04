@@ -33,6 +33,7 @@
                 android:layout_width="0dp"
                 android:layout_marginStart="8dp"
                 android:text="Medical Team"
+                android:clickable="true"
                 app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
@@ -43,10 +44,11 @@
                 android:id="@+id/appCompatTextView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="You are not alone!"
-                android:textSize="16sp"
                 android:fontFamily="@font/gotham_rounded"
+                android:text="You are not alone!"
+                android:clickable="true"
                 android:textColor="@color/gray_200"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/appCompatTextView"
                 app:layout_constraintStart_toStartOf="@+id/appCompatTextView"
                 app:layout_constraintTop_toBottomOf="@+id/appCompatTextView" />
@@ -81,7 +83,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="They say it “takes a village” and when it comes to diabetes, it certainly does! You Diabetes Care Team at Children’s involves three main components."
+                android:text="@string/fa_orientation_medical_team"
                 android:textColor="@color/gray_200"
                 android:textSize="16sp"
                 app:fontFamily="@font/avenir_roman"
@@ -105,21 +107,40 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/textViewMedicalTeamStyle"
-                    android:drawableStart="@drawable/ic_diabetes_educator"
+                    android:drawableStart="@drawable/ic_educator"
                     android:drawablePadding="12dp"
                     android:text="Diabetes Educators" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/textViewMedicalTeamStyle"
-                    android:drawableStart="@drawable/ic_doctor"
+                    android:drawableStart="@drawable/ic_nurse"
                     android:drawablePadding="12dp"
+                    android:gravity="center"
                     android:text="Nurses" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textViewMedicalTeamStyle"
+                    android:drawableStart="@drawable/ic_doctor_apps"
+                    android:drawablePadding="12dp"
+                    android:text="Doctors/APPs/Fellows" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textViewMedicalTeamStyle"
+                    android:drawableStart="@drawable/ic_nurse"
+                    android:drawablePadding="12dp"
+                    android:text="Social Workers" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textViewMedicalTeamStyle"
+                    android:drawableStart="@drawable/ic_educator"
+                    android:drawablePadding="12dp"
+                    android:text="Case Managers" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/textViewMedicalTeamStyle"
                     android:drawableStart="@drawable/ic_doctor"
                     android:drawablePadding="12dp"
-                    android:text="Doctors/APPs/Fellows" />
+                    android:text="Child Life Specialists" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

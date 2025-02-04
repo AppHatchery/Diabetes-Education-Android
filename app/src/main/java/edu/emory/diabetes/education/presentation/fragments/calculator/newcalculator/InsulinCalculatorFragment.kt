@@ -2,6 +2,7 @@ package edu.emory.diabetes.education.presentation.fragments.calculator.newcalcul
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentCalculatorInsulinBinding
@@ -9,10 +10,12 @@ import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.calculator.CalculatorUtils
 
 class InsulinCalculatorFragment: BaseFragment(R.layout.fragment_calculator_insulin) {
+    val viewModel: InsulinCalculatorViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(FragmentCalculatorInsulinBinding.bind(view)) {
             navAdapterSetUp(this)
+            viewModel.clearData()
         }
     }
 

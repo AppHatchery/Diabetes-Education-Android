@@ -8,9 +8,10 @@ import edu.emory.diabetes.education.domain.model.Chapter
 data class ChapterEntity(
     val name: String,
     val backgroundColor: Int? = null,
+    val backgroundShadow: Int? = null,
     val iconBackgroundColor: Int? = null,
     val drawableRes: Int? = null,
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 ) {
-    fun toChapter() = Chapter(name, backgroundColor, iconBackgroundColor, drawableRes, id)
+    fun toChapter() = Chapter(name, backgroundColor, backgroundShadow, iconBackgroundColor, drawableRes, id)
 }
