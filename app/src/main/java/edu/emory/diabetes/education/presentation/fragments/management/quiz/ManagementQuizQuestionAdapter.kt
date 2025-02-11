@@ -173,7 +173,7 @@ class ManagementQuizQuestionAdapter @Inject constructor(
                                 wrongChoiceIndexes.clear()
                             }
                         } else {
-                            removeFirst()
+                            removeAt(0)
                             if (wrongChoiceIndexes.size > 0) {
                                 selectedIndexes.clear()
                                 wrongChoiceIndexes.clear()
@@ -211,7 +211,7 @@ class ManagementQuizQuestionAdapter @Inject constructor(
                                 wrongChoiceIndexes.clear()
                             }
                         } else {
-                            removeFirst()
+                            removeAt(0)
                             if (wrongChoiceIndexes.size > 0) {
                                 selectedIndexes.clear()
                                 wrongChoiceIndexes.clear()
