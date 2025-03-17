@@ -20,7 +20,7 @@ class AboutUsTeamFragment : BaseFragment(R.layout.fragment_about_us__team){
         with(FragmentAboutUsTeamBinding.bind(view)){
         imgApphatcherylink.setOnClickListener{
             val openUrlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Ext.getAppHatcheryUrl()))
-            val chooser = Intent.createChooser(openUrlIntent, "Open with")
+            val chooser = Intent.createChooser(openUrlIntent, "Opens with")
             if (openUrlIntent.resolveActivity(requireActivity().packageManager) != null) {
                 startActivity(chooser)
             }
