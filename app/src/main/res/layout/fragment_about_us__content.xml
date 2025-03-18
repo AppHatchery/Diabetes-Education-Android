@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_roman"
                 android:text="@string/about_the_app"
+                android:ellipsize="end"
                 android:textColor="#57585A" />
 
             <TextView

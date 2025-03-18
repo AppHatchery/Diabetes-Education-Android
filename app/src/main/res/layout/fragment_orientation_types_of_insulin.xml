@@ -23,6 +23,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:text="0%"
+                android:textSize="14sp"
                 tools:ignore="HardcodedText" />
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -56,6 +57,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="14sp"
                     android:text="Insulin therapy includes using a Long Acting insulin incombination with a Rapid Acting insulin.Long Acting insulin is given once a day, at the same time. Rapid Acting insulin is given with meals &amp; to correct high blood sugars." />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -67,6 +69,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="14sp"
                     android:text="Lantus/Levemir/Basaglar/Triseba/Semglee
 \n\t\t▪	. These all work similarly, and will be prescribed based on patient’s insurance
 \n\t\t▪	ii. Works for approximately 24 hours to provide insulin for the body’s basic functions
@@ -83,6 +86,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="14sp"
                     android:text="Insulin will not work if it is not stored properly. It is usually good for 28 to 30 days after you open the bottle as long as it is stored properly.
 \n▪	Always check the expiration date on the vial before you use it. Throw it away if it is expired.
 \n▪	Write the date that you open it on the bottle. Use it to remind you of when to throw it away.
@@ -98,6 +102,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="14sp"
                     android:text="Rotation:
 \n▪	Change the site where you give the shots each time.
 \n▪	Make up a chart or a simple system to keep track of the different places you use. For instance, you may want to use your right arm for breakfast insulin, your left arm for lunch insulin, your stomach for dinner and your buttock for bedtime.

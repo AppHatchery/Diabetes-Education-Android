@@ -29,6 +29,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
+                android:textSize="16sp"
                 android:text="@{content.title}"
                 android:textColor="@color/gray_200"
                 tools:text="What is diabetes?" />

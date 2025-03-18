@@ -22,16 +22,16 @@
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/checkBox"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:checked="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/view"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:useMaterialThemeColors="true"
-                android:layout_width="0dp"
-                android:layout_height="34dp"
-                android:layout_marginStart="16dp"
-                android:checked="false" />
+                app:useMaterialThemeColors="true" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/view"
@@ -41,6 +41,7 @@
                 android:paddingTop="16dp"
                 android:paddingEnd="8dp"
                 android:paddingBottom="16dp"
+                android:textSize="14sp"
                 android:text="@{question.choice}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

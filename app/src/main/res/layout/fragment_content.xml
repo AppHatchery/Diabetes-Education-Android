@@ -27,6 +27,7 @@
             android:drawableTint="@color/green_900"
             android:hint="Search"
             android:inputType="textAutoCorrect|textAutoComplete"
+            android:minHeight="48dp"
             android:paddingHorizontal="8dp"
             android:paddingVertical="10dp"
             app:layout_constraintEnd_toEndOf="parent"

@@ -33,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
+                android:textSize="14sp"
                 android:text="You have finished the chapter"
                 android:textColor="@color/green_900"
                 app:layout_constraintEnd_toEndOf="@+id/appCompatTextView20"

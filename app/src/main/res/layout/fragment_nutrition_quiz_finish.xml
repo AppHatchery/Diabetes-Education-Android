@@ -28,6 +28,7 @@
             android:layout_marginHorizontal="20dp"
             android:gravity="center"
             android:text="You have finished the quiz."
+            android:textSize="14sp"
             android:textColor="@color/green_900" />
 
 
