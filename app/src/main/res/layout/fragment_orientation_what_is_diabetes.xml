@@ -39,7 +39,6 @@
                     android:id="@+id/scrollIndicatorText"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
                     android:text="0%"
                     tools:ignore="HardcodedText" />
 

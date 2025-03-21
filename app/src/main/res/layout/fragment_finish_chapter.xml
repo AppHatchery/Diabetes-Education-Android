@@ -136,7 +136,7 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:layout_marginTop="32dp"
@@ -168,7 +168,6 @@
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:maxLines="3"
-                    android:textSize="14sp"
                     android:text="Next Chapter"
                     app:layout_constraintEnd_toEndOf="@+id/next"
                     app:layout_constraintStart_toStartOf="@+id/next"

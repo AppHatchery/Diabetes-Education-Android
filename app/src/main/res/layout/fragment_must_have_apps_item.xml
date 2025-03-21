@@ -109,7 +109,6 @@
             android:layout_gravity="center"
             android:maxLines="4"
             android:text="@{data.description}"
-            android:textSize="14sp"
             android:textColor="@color/gray_200"
             app:fontFamily="@font/gotham_rounded"
             tools:text="@string/lorem" />

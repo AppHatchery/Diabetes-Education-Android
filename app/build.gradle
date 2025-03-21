@@ -1,8 +1,9 @@
 plugins {
+    id 'kotlin-kapt'
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'kotlin-android'
     id 'dagger.hilt.android.plugin'
     id "androidx.navigation.safeargs.kotlin"
     id 'com.google.gms.google-services'
@@ -10,12 +11,12 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 35
 
     defaultConfig {
         applicationId "edu.emory.diabetes.education"
         minSdk 29
-        targetSdk 33
+        targetSdk 35
         versionCode 12
         versionName "1.5"
 
@@ -48,83 +49,87 @@ android {
     buildFeatures {
         dataBinding = true
     }
+    namespace 'edu.emory.diabetes.education'
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.media3:media3-common-ktx:1.5.1'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 
-    api 'com.google.android.material:material:1.8.0'
+    api 'com.google.android.material:material:1.12.0'
 
     // GSON
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
     // Glide
-    implementation "com.github.bumptech.glide:glide:4.13.0"
+    implementation "com.github.bumptech.glide:glide:4.16.0"
 
     // Dagger Hilt
-    implementation "com.google.dagger:hilt-android:2.38.1"
-    implementation 'androidx.preference:preference-ktx:1.2.0'
-    kapt "com.google.dagger:hilt-android-compiler:2.37"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
-    kapt "androidx.hilt:hilt-compiler:1.0.0"
+
+    implementation 'com.google.dagger:hilt-android:2.51.1'
+    kapt 'com.google.dagger:hilt-android-compiler:2.51.1'
+    kapt "androidx.hilt:hilt-compiler:1.2.0"
+//    implementation "com.google.dagger:hilt-android:2.51.1"
+//    implementation 'androidx.preference:preference-ktx:1.2.1'
+//    kapt "com.google.dagger:hilt-android-compiler:2.51.1"
+//    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+//    kapt "androidx.hilt:hilt-compiler:1.2.0"
 
     // Room
-    implementation "androidx.room:room-runtime:2.4.3"
-    kapt "androidx.room:room-compiler:2.4.3"
-    implementation "androidx.room:room-ktx:2.4.3"
+    implementation "androidx.room:room-runtime:2.6.1"
+    kapt "androidx.room:room-compiler:2.6.1"
+    implementation "androidx.room:room-ktx:2.6.1"
 
     // Fragment
-    implementation 'androidx.fragment:fragment-ktx:1.5.1'
+    implementation 'androidx.fragment:fragment-ktx:1.8.2'
 
     // Navigation components
-    implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
-    implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.7.7"
+    implementation "androidx.navigation:navigation-ui-ktx:2.7.7"
     implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0'
     implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0'
 
     // Architectural Components
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4"
 
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
 
     // Coroutine Lifecycle Scopes
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.4"
 
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
 
     // Activity KTX for viewModels()
-    implementation "androidx.activity:activity-ktx:1.5.1"
+    implementation "androidx.activity:activity-ktx:1.9.1"
 
 
-    implementation 'androidx.webkit:webkit:1.6.1'
+    implementation 'androidx.webkit:webkit:1.11.0'
 
 
     //Firebase
-    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    implementation platform('com.google.firebase:firebase-bom:33.1.2')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
 
     //Jsoup (html parser)
     implementation 'org.jsoup:jsoup:1.15.4'
 
-    //Crashlytics and Analytics libraries
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-
     // Pendo
-    implementation group: 'sdk.pendo.io', name: 'pendoIO', version: '2.22.3.5721', changing: true
+    implementation group: 'sdk.pendo.io', name: 'pendoIO', version: '3.3.0.6597', changing: true
 
     // DataStore
-    implementation 'androidx.datastore:datastore-preferences:1.0.0'
+    implementation 'androidx.datastore:datastore-preferences:1.1.1'
 
 }

@@ -31,7 +31,6 @@
                 android:layout_weight="1"
                 android:text="@{content.title}"
                 android:textColor="@color/gray_200"
-                android:textSize="14sp"
                 tools:text="What is diabetes?" />
 
             <androidx.appcompat.widget.AppCompatImageView

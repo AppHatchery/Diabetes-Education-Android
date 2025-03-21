@@ -39,7 +39,6 @@
                     android:layout_marginHorizontal="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@{insulinCalculator.title}"
-                    android:textSize="14sp"
                     app:fontFamily="@font/gotham_rounded_light"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

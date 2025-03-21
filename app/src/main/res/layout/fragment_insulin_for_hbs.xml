@@ -180,7 +180,8 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/blood_sugar_error"
-            android:layout_width="160dp"
+            android:layout_width="wrap_content"
+            android:maxWidth="160dp"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_attention"
             android:textColor="#FA9900"

@@ -73,7 +73,6 @@
                     android:fontFamily="@font/gotham_rounded"
                     android:text="Morning"
                     android:textColor="@color/yellow_500"
-                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/appCompatImageView3"
@@ -96,7 +95,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotham_rounded"
-                        android:textSize="14sp"
                         android:text="• Get Materials" />
 
 
@@ -104,7 +102,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotham_rounded"
-                        android:textSize="14sp"
                         android:text="• Section 1: Diabetes Basics" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -151,7 +148,6 @@
                     android:fontFamily="@font/gotham_rounded"
                     android:text="Lunch Break"
                     android:textColor="@color/yellow_500"
-                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView10"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/appCompatImageView10"
@@ -187,7 +183,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Afternoon"
-                    android:textSize="14sp"
                     android:textColor="@color/yellow_500"
                     app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView12"
                     app:layout_constraintEnd_toEndOf="parent"

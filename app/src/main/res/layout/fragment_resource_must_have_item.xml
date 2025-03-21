@@ -52,7 +52,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/sectionTitle"
                     android:layout_marginBottom="10dp"
-                    android:textSize="14sp"
                     android:text="@{data.descriptor}"
                     android:textColor="@color/gray_100"
                     tools:text="the diabetes management app made for people with diabetes by people with diabetes." />
