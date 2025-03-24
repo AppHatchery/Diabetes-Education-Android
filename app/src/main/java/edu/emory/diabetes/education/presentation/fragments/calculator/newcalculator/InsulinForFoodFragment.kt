@@ -45,6 +45,8 @@ class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) 
                 viewModel.carbRatioState.collect { ratio ->
                     if (ratio.isNotEmpty()){
                         carbRatioNew.setText(ratio)
+                    }else{
+                        carbRatioNew.hint = "15"
                     }
 
                 }

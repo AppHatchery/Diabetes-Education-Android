@@ -85,6 +85,8 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                 viewModel.correctionFactorState.collect { factor ->
                     if (factor.isNotEmpty()){
                         correctionFactor.setText(factor)
+                    }else{
+                        correctionFactor.hint = "2"
                     }
                 }
             }

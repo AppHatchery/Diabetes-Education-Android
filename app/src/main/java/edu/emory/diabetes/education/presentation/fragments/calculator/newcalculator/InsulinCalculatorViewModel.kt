@@ -21,22 +21,22 @@ class InsulinCalculatorViewModel @Inject constructor(
     var bloodSugar: String = ""
     var targetBloodSugar: String = ""
 
-    private val _carbRatio = MutableStateFlow<String>("0")
+    private val _carbRatio = MutableStateFlow<String>("")
     val carbRatioState: StateFlow<String> = _carbRatio
 
-    private val _correctionFactor = MutableStateFlow<String>("0")
+    private val _correctionFactor = MutableStateFlow<String>("")
     val correctionFactorState: StateFlow<String> = _correctionFactor
 
     init {
         // Load saved preferences
         insulinPrefs.getCarbRatio.onEach { ratio ->
             carbRatio = ratio.toString()
-            _carbRatio.value = ratio.toString()
+            _carbRatio.value = if (ratio == 0) "" else ratio.toString()
         }.launchIn(viewModelScope)
 
         insulinPrefs.getCorrectionFactor.onEach { factor ->
             correctionFactor = factor.toString()
-            _correctionFactor.value = factor.toString()
+            _correctionFactor.value = if (factor == 0) "" else factor.toString()
         }.launchIn(viewModelScope)
     }
 
@@ -46,8 +46,8 @@ class InsulinCalculatorViewModel @Inject constructor(
                 insulinPrefs.setCarbRatio(it)
                 carbRatio = it.toString()
                 _carbRatio.value = it.toString()
-            }?: run {
-                _carbRatio.value = "0"
+            } ?: run {
+                _carbRatio.value = ""
             }
         }
     }
@@ -58,8 +58,8 @@ class InsulinCalculatorViewModel @Inject constructor(
                 insulinPrefs.setCorrectionFactor(it)
                 correctionFactor = it.toString()
                 _correctionFactor.value = it.toString()
-            }?: run {
-                _correctionFactor.value = "0"
+            } ?: run {
+                _correctionFactor.value = ""
             }
         }
     }

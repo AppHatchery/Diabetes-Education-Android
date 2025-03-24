@@ -7,10 +7,10 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
-
 
 @Singleton
 class InsulinPrefs @Inject constructor(
@@ -24,9 +24,17 @@ class InsulinPrefs @Inject constructor(
         private val correctionFactorKey = intPreferencesKey("correction_factor")
     }
 
-    suspend fun setCarbRatio(ratio: Int) = dataStore.edit { it[carbRatioKey] = ratio }
-    val getCarbRatio = dataStore.data.map { it[carbRatioKey]?: 0 }
+    suspend fun setCarbRatio(ratio: Int) {
+        dataStore.edit { it[carbRatioKey] = ratio }
+    }
 
-    suspend fun setCorrectionFactor(factor: Int) = dataStore.edit { it[correctionFactorKey] = factor }
-    val getCorrectionFactor = dataStore.data.map { it[correctionFactorKey]?: 0 }
+    val getCarbRatio: Flow<Int> = dataStore.data
+        .map { it[carbRatioKey] ?: 0 }
+
+    suspend fun setCorrectionFactor(factor: Int) {
+        dataStore.edit { it[correctionFactorKey] = factor }
+    }
+
+    val getCorrectionFactor: Flow<Int> = dataStore.data
+        .map { it[correctionFactorKey] ?: 0 }
 }
