@@ -20,12 +20,15 @@ import androidx.core.view.WindowInsetsCompat.toWindowInsetsCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.internal.ViewUtils.dpToPx
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentInsulinForFoodBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import sdk.pendo.io.Pendo
 
 class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) {
@@ -36,6 +39,18 @@ class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) 
             val sectionId = args.id
             val context = root.context
             val marginBottom = dpToPx(context, 16)
+
+            // set up saved carb ratio
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.carbRatioState.collect { ratio ->
+                    if (ratio.isNotEmpty()){
+                        carbRatioNew.setText(ratio)
+                    }else{
+                        carbRatioNew.hint = "15"
+                    }
+
+                }
+            }
 
             val editTextList = mutableListOf<EditText>()
             editTextList.add(totalCarbsNew)
@@ -79,7 +94,11 @@ class InsulinForFoodFragment : BaseFragment(R.layout.fragment_insulin_for_food) 
                 if (totalCarbsNew.text?.isNotEmpty() == true && carbRatioNew.text?.isNotEmpty() == true) {
                     //hide keyboard
                     val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+                    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+
+                    //save carb ratio if changed
+                    viewModel.saveCarbRatio(carbRatioNew.text.toString())
+
                     //pendo tracking
                     val properties = hashMapOf<String, Any>()
                     properties["carbs"] = totalCarbsNew.text.toString()
