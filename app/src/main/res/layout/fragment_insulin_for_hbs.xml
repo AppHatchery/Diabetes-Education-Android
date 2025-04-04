@@ -180,8 +180,9 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/blood_sugar_error"
-            android:layout_width="160dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxWidth="160dp"
             android:drawableStart="@drawable/ic_attention"
             android:textColor="#FA9900"
             android:textSize="10sp"
@@ -192,7 +193,7 @@
             app:layout_constraintTop_toBottomOf="@+id/constraint2"
             android:text="Insulin is not needed if blood sugar is less than 150."
             />
-        
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/linear2"
             android:layout_width="wrap_content"
