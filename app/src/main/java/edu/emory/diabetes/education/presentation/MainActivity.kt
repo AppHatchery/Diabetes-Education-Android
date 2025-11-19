@@ -1,11 +1,13 @@
 package edu.emory.diabetes.education.presentation
 
 import android.content.pm.ActivityInfo
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -24,6 +26,9 @@ class MainActivity : AppCompatActivity(), EventNavigator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM){
+            WindowCompat.setDecorFitsSystemWindows(window, true)
+        }
         setContentView(binding.root)
         navController = findNavController(R.id.fragmentContainerView)
         binding.bottomNavigationView.setupWithNavController(navController)
@@ -82,7 +87,7 @@ class MainActivity : AppCompatActivity(), EventNavigator {
 
     private fun negotiator(fragmentName:String){
         if(fragmentName.equals("Welcome!")) {
-            showMenuItem()
+            supportActionBar?.hide()
         }else{
             hideMenuItem()
         }
