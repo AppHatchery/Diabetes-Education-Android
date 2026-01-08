@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -25,10 +27,11 @@ class MainActivity : AppCompatActivity(), EventNavigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM){
-            WindowCompat.setDecorFitsSystemWindows(window, true)
+       WindowCompat.setDecorFitsSystemWindows(window, true)
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            isAppearanceLightStatusBars = true // This makes status bar icons dark
         }
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navController = findNavController(R.id.fragmentContainerView)
         binding.bottomNavigationView.setupWithNavController(navController)

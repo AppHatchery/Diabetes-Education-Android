@@ -32,5 +32,13 @@
     <color name="gray_300">#565656</color>
     <color name="red_900">#FF0000</color>
     <color name="red_100">#FFE8E1</color>
+    
+    <color name="primaryBlue">#005DA4</color>
+    <color name="primaryGreen">#00A94F</color>
+    <color name="gray_500">#F6F6F6</color>
+    <color name="blue_300">#80AED2</color>
+    <color name="secondary_fire_red">#ED1C24</color>
+    <color name="gray_300_sick">#ADADAD</color>
+    <color name="gray_400_sick">#838383</color>
 </resources>
 

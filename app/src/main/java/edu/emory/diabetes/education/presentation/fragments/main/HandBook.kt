@@ -29,11 +29,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HandBook(
     onInsulinCalculatorClick: () -> Unit,
@@ -57,46 +60,52 @@ fun HandBook(
     onNutritionClick: () -> Unit,
     onManagementClick: () -> Unit,
     onEducationalResourcesClick: () -> Unit
-){
-    Column(
+) {
+    Scaffold(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.White)
-            .statusBarsPadding()
-    ){
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(vertical = 24.dp)
-        ) {
-            item{
-                InsulinCalculatorCard(
-                    onMainClick = onInsulinCalculatorClick,
-                    onMealsClick = onMealsClick,
-                    onHighSugarClick = onHighSugarClick
-                )
-            }
+            .fillMaxSize(),
+            //.statusBarsPadding(),
+        content = { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Transparent)
+                    .padding(innerPadding)
+                    //.statusBarsPadding()
+            ) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    contentPadding = PaddingValues(vertical = 24.dp)
+                ) {
+                    item {
+                        InsulinCalculatorCard(
+                            onMainClick = onInsulinCalculatorClick,
+                            onMealsClick = onMealsClick,
+                            onHighSugarClick = onHighSugarClick
+                        )
+                    }
 
-            item {
-                UrgentHealthCard (
-                    onClick = onGetHelpClick
-                )
-            }
+                    item {
+                        UrgentHealthCard(
+                            onClick = onGetHelpClick
+                        )
+                    }
 
-            item {
-                EducationalResourcesSection(
-                    onDiabetesBasicsClick = onDiabetesBasicsClick,
-                    onNutritionClick = onNutritionClick,
-                    onManagementClick = onManagementClick,
-                    onSeeAllClick = onEducationalResourcesClick
-                )
+                    item {
+                        EducationalResourcesSection(
+                            onDiabetesBasicsClick = onDiabetesBasicsClick,
+                            onNutritionClick = onNutritionClick,
+                            onManagementClick = onManagementClick,
+                            onSeeAllClick = onEducationalResourcesClick
+                        )
+                    }
+                }
             }
         }
-
-
-    }
+    )
 
 }
 
@@ -152,9 +161,7 @@ fun InsulinCalculatorCard(
                         .align(Alignment.CenterVertically)
                 )
             }
-
-
-           // Spacer(modifier = Modifier.height(24.dp))
+            // Spacer(modifier = Modifier.height(24.dp))
 
             Column(
                 modifier = Modifier
@@ -223,11 +230,7 @@ fun InsulinCalculatorCard(
                         )
                     }
                 }
-
             }
-
-
-
         }
 //        Box(
 //            modifier = Modifier
@@ -468,4 +471,6 @@ fun HandBookPreview(){
         onEducationalResourcesClick = {}
     )
 }
+
+
 
