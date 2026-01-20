@@ -11,12 +11,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -62,16 +65,21 @@ fun HandBook(
     onEducationalResourcesClick: () -> Unit
 ) {
     Scaffold(
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "") },
+                windowInsets = WindowInsets.statusBars //.add(WindowInsets(top = 8.dp))
+                )
+        },
         modifier = Modifier
             .fillMaxSize(),
-            //.statusBarsPadding(),
         content = { innerPadding ->
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.Transparent)
                     .padding(innerPadding)
-                    //.statusBarsPadding()
             ) {
                 LazyColumn(
                     modifier = Modifier

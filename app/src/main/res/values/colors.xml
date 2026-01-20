@@ -37,8 +37,11 @@
     <color name="primaryGreen">#00A94F</color>
     <color name="gray_500">#F6F6F6</color>
     <color name="blue_300">#80AED2</color>
+    <color name="blue_050">#F2F7FA</color>
     <color name="secondary_fire_red">#ED1C24</color>
     <color name="gray_300_sick">#ADADAD</color>
     <color name="gray_400_sick">#838383</color>
+    <color name="secondary_fire_red_100">#FEE9EA</color>
+    <color name="secondary_fire_red_300">#ED1C24</color>
 </resources>
 

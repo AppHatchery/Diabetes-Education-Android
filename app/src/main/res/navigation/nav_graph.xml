@@ -53,6 +53,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_mainFragment_to_sickDayFragment"
+            app:destination="@id/sickDayFragment" />
     </fragment>
     <fragment
         android:id="@+id/calculatorFragment"
@@ -689,5 +692,9 @@
         android:id="@+id/aboutUsHomeFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.aboutus.AboutUsHomeFragment"
         android:label="About" />
+    <fragment
+        android:id="@+id/sickDayFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayFragment"
+        android:label="SickDayFragment" />
 
 </navigation>

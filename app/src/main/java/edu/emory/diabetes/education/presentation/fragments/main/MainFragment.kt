@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.content.ContextCompat
@@ -29,13 +30,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     ): View {
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-
+            consumeWindowInsets = false
             setContent {
                 HandBook(
                     onInsulinCalculatorClick = {},
                     onMealsClick = {},
                     onHighSugarClick = {},
-                    onGetHelpClick = {},
+                    onGetHelpClick = {
+                        navigateToSickDay()
+                    },
                     onNutritionClick = {},
                     onManagementClick = {},
                     onDiabetesBasicsClick = {},
@@ -43,6 +46,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 )
             }
         }
+    }
+
+    private fun navigateToSickDay() {
+        findNavController().navigate(R.id.action_mainFragment_to_sickDayFragment)
     }
 
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
