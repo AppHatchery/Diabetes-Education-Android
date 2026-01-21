@@ -1,6 +1,8 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay
 
 import androidx.lifecycle.ViewModel
+import edu.emory.diabetes.education.domain.model.DurationCategory
+import edu.emory.diabetes.education.domain.model.DurationData
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomCategory
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomData
@@ -12,6 +14,15 @@ class SickDayViewModel : ViewModel() {
             "injection" -> SymptomData.injectionSymptoms
             "firstSymptoms" -> SymptomData.firstSymptoms
             else -> SymptomData.regularSymptoms
+        }
+    }
+    
+    fun getDurationCategory(questionId: String): DurationCategory{
+        return when (questionId){
+            "normal" -> DurationData.normal
+            "injection_insulin" -> DurationData.injection
+            "iLet" -> DurationData.iLet
+            else -> DurationData.normal
         }
     }
 
@@ -35,7 +46,6 @@ class SickDayViewModel : ViewModel() {
                 }
             }
             "injection" -> {
-                // Add logic for injection screen later
                 SickDayScreen.CallCHOA.route
             }
             else -> SickDayScreen.CallCHOA.route

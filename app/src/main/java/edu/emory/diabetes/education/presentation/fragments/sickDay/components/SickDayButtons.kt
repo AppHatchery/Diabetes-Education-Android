@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -70,11 +71,16 @@ fun NextButton(
 @Composable
 fun FullWidthInactiveButton(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    isSelected: Boolean = false
 ){
     OutlinedButton(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+        colors = if (isSelected){
+            ButtonDefaults.buttonColors(containerColor = colorResource((R.color.primaryBlue)))
+        }else{
+            ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+        },
         shape = RoundedCornerShape(12.dp),
         border = BorderStroke(width = 1.dp, color = colorResource(R.color.blue_300))
     ) {
@@ -88,7 +94,12 @@ fun FullWidthInactiveButton(
                 fontSize = 20.sp,
                 fontWeight = FontWeight.W500,
                 modifier = modifier.padding(end = 2.dp),
-                color = colorResource(R.color.primaryBlue)
+                color = if(isSelected){
+                    Color.White
+                }else{
+                    colorResource(R.color.primaryBlue)
+                }
+
             )
         }
 
@@ -99,11 +110,16 @@ fun FullWidthInactiveButton(
 fun CustomWidthInactiveButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    buttonText: String
+    buttonText: String,
+    isSelected: Boolean = false
 ){
     OutlinedButton(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+        colors = if (isSelected){
+            ButtonDefaults.outlinedButtonColors(containerColor = colorResource(R.color.blue_300))
+        }else{
+            ButtonDefaults.outlinedButtonColors(containerColor = Color.Transparent)
+        },
         shape = RoundedCornerShape(12.dp),
         border = BorderStroke(width = 1.dp, color = colorResource(R.color.blue_300)),
         modifier = modifier.width(173.dp)
@@ -118,7 +134,11 @@ fun CustomWidthInactiveButton(
                 fontSize = 20.sp,
                 fontWeight = FontWeight.W500,
                 modifier = modifier.padding(end = 2.dp),
-                color = colorResource(R.color.primaryBlue)
+                color = if (isSelected){
+                    Color.White
+                }else{
+                    colorResource(R.color.primaryBlue)
+                }
             )
         }
 

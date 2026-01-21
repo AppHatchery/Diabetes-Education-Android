@@ -7,4 +7,6 @@ sealed class SickDayScreen(val route: String) {
 
     object Emergency: SickDayScreen("emergency")
     object CallCHOA: SickDayScreen("call_choa")
+
+    object Duration: SickDayScreen("duration/{instrumentId}")
 }

@@ -6,8 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import edu.emory.diabetes.education.domain.model.Question
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.CallCHOAScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.DurationQuestionScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.EmergencyScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomSelectionScreen
 
@@ -48,19 +50,19 @@ fun SickDayNavigation(viewModel: SickDayViewModel){
             )
         }
 
-//        composable(
-//            route = SickDayScreen.SymptomSelection.route,
-//            arguments = listOf(
-//                navArgument("categoryId") {type = NavType.StringType}
-//            )
-//        ){ backStackEntry ->
-//            val categoryId = backStackEntry.arguments?.getString("categoryId") ?: "regular"
-//
-//            SymptomSelectionScreen(
-//                categoryId = categoryId,
-//                navController = navController,
-//                viewModel = viewModel
-//            )
-//        }
+        composable(
+            route = "${SickDayScreen.Duration.route}/{instrumentId}",
+            arguments = listOf(
+                navArgument("instrumentId"){type = NavType.StringType}
+            )
+        ){ backStackEntry ->
+            val instrumentId = backStackEntry.arguments?.getString("instrumentId") ?: "injection"
+            DurationQuestionScreen(
+                navController = navController,
+                viewModel = viewModel,
+                instrumentType = instrumentId
+            )
+        }
+
     }
 }

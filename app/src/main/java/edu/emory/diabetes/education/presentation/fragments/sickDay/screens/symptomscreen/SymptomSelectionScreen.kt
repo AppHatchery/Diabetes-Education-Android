@@ -53,7 +53,9 @@ fun SymptomSelectionScreen(
         viewModel.getSymptomCategory(categoryId)
     }
 
-    var selectedSymptoms by remember { mutableStateOf(emptySet<String>()) }
+    //var selectedSymptoms by remember { mutableStateOf(emptySet<String>()) }
+    var selectedSymptom by remember { mutableStateOf<String?>(null) }
+    var iLetSelected by remember { mutableStateOf<String?>(null) }
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -94,36 +96,60 @@ fun SymptomSelectionScreen(
             if(categoryId == "firstSymptoms"){
                 SymptomMixedGrid(
                 symptoms = category.symptoms,
-                selectedSymptoms = selectedSymptoms,
+                selectedSymptom = selectedSymptom,
                 textOnlyOption = "Not Sure What's Wrong",
                 onSymptomToggle = { symptomId ->
-                    selectedSymptoms = if (selectedSymptoms.contains(symptomId)) {
-                        selectedSymptoms - symptomId
+                    selectedSymptom = if (selectedSymptom == symptomId) {
+                        null
                     } else {
-                        selectedSymptoms + symptomId
+                        symptomId
                     }
+//                    selectedSymptoms = if (selectedSymptoms.contains(symptomId)) {
+//                        selectedSymptoms - symptomId
+//                    } else {
+//                        selectedSymptoms + symptomId
+//                    }
                 }
             )
             }else{
                 SymptomFourGridEqualCard(
                     symptoms = category.symptoms,
-                    selectedSymptoms = selectedSymptoms,
+                    selectedSymptom = selectedSymptom,
                     onSymptomToggle = { symptomId ->
-                        selectedSymptoms = if (selectedSymptoms.contains(symptomId)) {
-                            selectedSymptoms - symptomId
+                        selectedSymptom = if (selectedSymptom == symptomId) {
+                            null
                         } else {
-                            selectedSymptoms + symptomId
+                            symptomId
                         }
+//                        selectedSymptoms = if (selectedSymptoms.contains(symptomId)) {
+//                            selectedSymptoms - symptomId
+//                        } else {
+//                            selectedSymptoms + symptomId
+//                        }
                     }
                 )
             }
 
-            if (categoryId == "injection" && selectedSymptoms.contains("Insulin_pump")){
+            if (categoryId == "injection" && selectedSymptom?.contains("Insulin_pump") == true){
                 Spacer(modifier = Modifier.height(40.dp))
                 TextWithButtons(
                     text = "Does your child use the iLet Pump?",
-                    buttonAonClick = {},
-                    buttonBonClick = {}
+                    buttonAonClick = {
+                        iLetSelected = if(iLetSelected == "yes"){
+                            null
+                        }else{
+                            "yes"
+                        }
+                    },
+                    buttonBonClick = {
+                        iLetSelected = if(iLetSelected == "no"){
+                            null
+                        }else{
+                            "no"
+                        }
+                    },
+                    isYesSelected = iLetSelected == "yes",
+                    isNoSelected = iLetSelected == "no"
                 )
             }
 
@@ -131,10 +157,13 @@ fun SymptomSelectionScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 FullWidthInactiveButton(
                     onClick = {
-                        selectedSymptoms = setOf("none_of_above")
-                        val nextRoute = viewModel.determineNextRoute(categoryId, selectedSymptoms)
-                        navController.navigate(nextRoute)
-                    }
+                        selectedSymptom = if (selectedSymptom == "none_of_above") {
+                            null
+                        } else {
+                            "none_of_above"
+                        }
+                    },
+                    isSelected = selectedSymptom == "none_of_above"
                 )
             }
 
@@ -142,7 +171,8 @@ fun SymptomSelectionScreen(
 
             NextButton(
                 onClick = {
-                    val nextRoute = viewModel.determineNextRoute(categoryId, selectedSymptoms)
+                    val symptomsSet = selectedSymptom?.let { setOf(it) } ?: emptySet()
+                    val nextRoute = viewModel.determineNextRoute(categoryId, symptomsSet)
                     navController.navigate(nextRoute)
                 }
             )
@@ -155,7 +185,7 @@ fun SymptomSelectionScreen(
 @Composable
 fun SymptomFourGridEqualCard(
     symptoms: List<Symptom>,
-    selectedSymptoms: Set<String>,
+    selectedSymptom: String?,
     onSymptomToggle: (String) -> Unit
 ){
     LazyVerticalGrid(
@@ -166,7 +196,7 @@ fun SymptomFourGridEqualCard(
         items(symptoms) { symptom ->
             CardWithImage(
                 symptom = symptom,
-                isSelected = selectedSymptoms.contains(symptom.id),
+                isSelected = selectedSymptom == symptom.id,
                 cardOnclick =  {onSymptomToggle(symptom.id) },
             )
         }
@@ -177,7 +207,7 @@ fun SymptomFourGridEqualCard(
 fun SymptomMixedGrid(
     symptoms: List<Symptom>,
     textOnlyOption: String,
-    selectedSymptoms: Set<String>,
+    selectedSymptom: String?,
     onSymptomToggle: (String) -> Unit
 ){
     LazyVerticalGrid(
@@ -192,7 +222,7 @@ fun SymptomMixedGrid(
         ) { index ->
             CardWithImage(
                 symptom = symptoms[index],
-                isSelected = selectedSymptoms.contains(symptoms[index].id),
+                isSelected = selectedSymptom == (symptoms[index].id),
                 cardOnclick = { onSymptomToggle(symptoms[index].id) }
             )
         }
@@ -202,7 +232,7 @@ fun SymptomMixedGrid(
             CardWithoutImage(
                 cardText = textOnlyOption,
                 cardOnclick = { onSymptomToggle("none_of_above") },
-                isSelected = selectedSymptoms.contains("none_of_above")
+                isSelected = selectedSymptom == ("none_of_above")
             )
         }
     }

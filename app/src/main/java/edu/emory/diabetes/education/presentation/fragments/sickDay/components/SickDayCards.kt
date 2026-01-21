@@ -197,7 +197,9 @@ fun TextWithButtons(
     text: String,
     modifier: Modifier = Modifier,
     buttonAonClick: () -> Unit,
-    buttonBonClick: () -> Unit
+    buttonBonClick: () -> Unit,
+    isYesSelected: Boolean = false,
+    isNoSelected: Boolean = false,
 ){
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -213,14 +215,16 @@ fun TextWithButtons(
             modifier = modifier.fillMaxWidth()
         ){
             CustomWidthInactiveButton(
-                onClick = {buttonAonClick},
+                onClick = buttonAonClick,
                 buttonText = "yes",
-                modifier = modifier.padding(end = 16.dp)
+                modifier = modifier.padding(end = 16.dp),
+                isSelected = isYesSelected
             )
 
             CustomWidthInactiveButton(
-                onClick = {buttonBonClick},
-                buttonText = "No"
+                onClick = buttonBonClick,
+                buttonText = "No",
+                isSelected = isNoSelected
             )
         }
     }
