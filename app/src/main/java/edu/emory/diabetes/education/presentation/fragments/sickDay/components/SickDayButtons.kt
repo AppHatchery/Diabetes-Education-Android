@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,29 +41,39 @@ import edu.emory.diabetes.education.R
 @Composable
 fun NextButton(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isSelected: Boolean = false
 ){
     Button(
         modifier = modifier
             .fillMaxWidth(),
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = colorResource(R.color.primaryGreen)),
+        enabled = isSelected,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = colorResource(R.color.primaryGreen),
+            disabledContainerColor = colorResource(R.color.green_200_sick),
+            disabledContentColor = Color.White
+        ),
         shape = RoundedCornerShape(12.dp)
     ) {
         Row(
             modifier = modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = "Next",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.W500,
-                modifier = modifier.padding(end = 2.dp)
+                modifier = modifier.padding(end = 2.dp),
+                color = Color.White,
+                textAlign = TextAlign.Center
             )
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                 contentDescription = null,
-                tint = Color.White
+                tint = Color.White,
+                modifier = Modifier.size(12.dp)
             )
         }
     }

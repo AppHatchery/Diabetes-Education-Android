@@ -48,4 +48,15 @@ object SymptomData {
             Symptom("Insulin_pump", "Insulin Pump", R.drawable.im_insulin_pump),
         )
     )
+
+    val abdominalSymptoms = SymptomCategory(
+        id = "abdominal",
+        title = "Is your child having any of these symptoms?",
+        subtitle = null,
+        symptoms = listOf(
+            Symptom("nausea", "Nausea", R.drawable.im_confused),
+            Symptom("abdominal", "Abdominal Pain", R.drawable.im_confused),
+            Symptom("vomiting", "Vomiting", R.drawable.im_confused)
+        )
+    )
 }

@@ -12,6 +12,6 @@ class SickDayPrefs(val context: Context){
     companion object{
         const val PREFS_NAME = "prefs"
 
-        const val ILET = ""
+        var ILET = ""
     }
 }

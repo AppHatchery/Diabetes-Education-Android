@@ -9,4 +9,8 @@ sealed class SickDayScreen(val route: String) {
     object CallCHOA: SickDayScreen("call_choa")
 
     object Duration: SickDayScreen("duration/{instrumentId}")
+
+    object RegularCare: SickDayScreen("regular_care")
+
+    object Ketone: SickDayScreen("ketone")
 }

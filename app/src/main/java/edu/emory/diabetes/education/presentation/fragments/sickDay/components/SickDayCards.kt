@@ -5,9 +5,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,10 +23,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,8 +40,6 @@ fun CardWithImage(
     modifier: Modifier = Modifier,
     symptom: Symptom,
     isSelected: Boolean,
-//    cardText: String,
-//    imageResId: Int,
     cardOnclick: () -> Unit
 ){
     Card(
@@ -141,18 +141,21 @@ fun CardWithImageCustomSize(
     modifier: Modifier = Modifier,
     cardText: String,
     imageResId: Int,
-    cardOnclick: () -> Unit
+    cardOnclick: () -> Unit,
+    isSelected: Boolean = false
 ){
     Card(
         modifier = modifier
             .clickable{cardOnclick()}
             .width(173.dp)
-            .height(148.dp)
-            .border(
-                width = 2.dp,
-                color = colorResource(R.color.blue_300)
-            ),
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+            .height(148.dp),
+        colors = CardDefaults.cardColors(containerColor =
+            if(isSelected){
+                colorResource(R.color.primaryBlue)
+            } else{
+                Color.Transparent
+            }
+        ),
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(width = 1.dp, color = colorResource(R.color.blue_300))
     ){
@@ -183,7 +186,12 @@ fun CardWithImageCustomSize(
                 text = cardText,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.W700,
-                color = colorResource(R.color.primaryBlue),
+                color =
+                    if (isSelected){
+                        Color.White
+                    }else{
+                       colorResource(R.color.primaryBlue)
+                    },
                 modifier = modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 20.dp)
@@ -240,18 +248,6 @@ fun TextWithButtonPreview(){
     )
 }
 
-//@Preview
-//@Composable
-//fun CardWithImagePreview(){
-//    CardWithImage(
-//        symptom = Symptom(
-//        ),
-//        cardText = "Trouble Breathing ",
-//        imageResId = R.drawable.im_diabetes_basics,
-//        cardOnclick = {}
-//    )
-//}
-
 @Preview
 @Composable
 fun CardWithoutImagePreview(){
@@ -268,7 +264,7 @@ fun CardWithoutImagePreview(){
 fun CardWithImageCustomSizePreview(){
     CardWithImageCustomSize(
         cardText = "Urine Ketone Level",
-        imageResId = R.drawable.im_instruments,
+        imageResId = R.drawable.im_urine_ketone,
         cardOnclick = {}
     )
 }

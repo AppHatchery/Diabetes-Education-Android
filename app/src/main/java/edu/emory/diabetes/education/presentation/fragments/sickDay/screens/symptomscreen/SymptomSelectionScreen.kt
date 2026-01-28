@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.data.prefs.SickDayPrefs.Companion.ILET
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CardWithImage
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CardWithoutImage
@@ -52,10 +53,17 @@ fun SymptomSelectionScreen(
     val category = remember(categoryId) {
         viewModel.getSymptomCategory(categoryId)
     }
-
-    //var selectedSymptoms by remember { mutableStateOf(emptySet<String>()) }
     var selectedSymptom by remember { mutableStateOf<String?>(null) }
     var iLetSelected by remember { mutableStateOf<String?>(null) }
+
+    val instrumentType = remember(selectedSymptom, iLetSelected) {
+        when {
+            selectedSymptom == "injection" -> "injection"
+            selectedSymptom == "Insulin_pump" && iLetSelected == "yes" -> "ilet"
+            selectedSymptom == "Insulin_pump" && iLetSelected == "no" -> "insulin_pump"
+            else -> null
+        }
+    }
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -93,26 +101,33 @@ fun SymptomSelectionScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            if(categoryId == "firstSymptoms"){
-                SymptomMixedGrid(
-                symptoms = category.symptoms,
-                selectedSymptom = selectedSymptom,
-                textOnlyOption = "Not Sure What's Wrong",
-                onSymptomToggle = { symptomId ->
-                    selectedSymptom = if (selectedSymptom == symptomId) {
-                        null
-                    } else {
-                        symptomId
+            when (categoryId){
+                "firstSymptoms" -> SymptomMixedGrid(
+                    symptoms = category.symptoms,
+                    selectedSymptom = selectedSymptom,
+                    textOnlyOption = "Not Sure What's Wrong",
+                    onSymptomToggle = { symptomId ->
+                        selectedSymptom = if (selectedSymptom == symptomId) {
+                            null
+                        } else {
+                            symptomId
+                        }
                     }
-//                    selectedSymptoms = if (selectedSymptoms.contains(symptomId)) {
-//                        selectedSymptoms - symptomId
-//                    } else {
-//                        selectedSymptoms + symptomId
-//                    }
-                }
-            )
-            }else{
-                SymptomFourGridEqualCard(
+                )
+                "abdominal" -> SymptomMixedGrid(
+                    symptoms = category.symptoms,
+                    selectedSymptom = selectedSymptom,
+                    textOnlyOption = "None of the above",
+                    onSymptomToggle = { symptomId ->
+                        selectedSymptom = if (selectedSymptom == symptomId) {
+                            null
+                        } else {
+                            symptomId
+                        }
+                    }
+                )
+
+                else -> SymptomFourGridEqualCard(
                     symptoms = category.symptoms,
                     selectedSymptom = selectedSymptom,
                     onSymptomToggle = { symptomId ->
@@ -121,11 +136,9 @@ fun SymptomSelectionScreen(
                         } else {
                             symptomId
                         }
-//                        selectedSymptoms = if (selectedSymptoms.contains(symptomId)) {
-//                            selectedSymptoms - symptomId
-//                        } else {
-//                            selectedSymptoms + symptomId
-//                        }
+                        if (symptomId != "Insulin_pump") {
+                            iLetSelected = null
+                        }
                     }
                 )
             }
@@ -167,14 +180,32 @@ fun SymptomSelectionScreen(
                 )
             }
 
+            val isNextEnabled = remember(selectedSymptom, iLetSelected, categoryId) {
+                when {
+                    categoryId == "injection" -> {
+                        if (selectedSymptom == "Insulin_pump") {
+                            iLetSelected != null
+                        } else {
+                            selectedSymptom != null
+                        }
+                    }
+                    else -> selectedSymptom != null
+                }
+            }
+
             Spacer(modifier = Modifier.weight(1f))
 
             NextButton(
                 onClick = {
-                    val symptomsSet = selectedSymptom?.let { setOf(it) } ?: emptySet()
-                    val nextRoute = viewModel.determineNextRoute(categoryId, symptomsSet)
-                    navController.navigate(nextRoute)
-                }
+                    if (categoryId == "injection" && instrumentType != null) {
+                        navController.navigate("${SickDayScreen.Duration.route}/$instrumentType")
+                    } else {
+                        val symptomsSet = selectedSymptom?.let { setOf(it) } ?: emptySet()
+                        val nextRoute = viewModel.determineNextRoute(categoryId, symptomsSet)
+                        navController.navigate(nextRoute)
+                    }
+                },
+                isSelected = isNextEnabled
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -226,8 +257,6 @@ fun SymptomMixedGrid(
                 cardOnclick = { onSymptomToggle(symptoms[index].id) }
             )
         }
-
-        // 4th item without image
         item {
             CardWithoutImage(
                 cardText = textOnlyOption,

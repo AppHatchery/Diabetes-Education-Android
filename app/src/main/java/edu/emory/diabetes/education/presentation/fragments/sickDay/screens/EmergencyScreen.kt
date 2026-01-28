@@ -49,7 +49,8 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Si
 @Composable
 fun EmergencyScreen(
     navController: NavController,
-    viewModel: SickDayViewModel
+    viewModel: SickDayViewModel,
+    onExitToMain: () -> Unit,
 ){
     Scaffold(
       contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -58,7 +59,9 @@ fun EmergencyScreen(
               title = "",
               iconColor = Color.Black,
               showNavigation = true,
-              onNavigationClick = {},
+              onNavigationClick = {
+                  navController.popBackStack()
+              },
               color = colorResource(R.color.secondary_fire_red_100)
           )
       },
@@ -166,7 +169,7 @@ fun EmergencyScreen(
                 Spacer(modifier = Modifier.weight(1f))
 
                 CustomTransparentTextButton(
-                    onClick = {},
+                    onClick = onExitToMain,
                     buttonText = "Exit"
                 )
 
@@ -182,6 +185,7 @@ fun EmergencyScreenPreview(){
     val navController = rememberNavController()
     EmergencyScreen(
         navController = navController,
-        viewModel = SickDayViewModel()
+        viewModel = SickDayViewModel(),
+        onExitToMain = {}
     )
 }

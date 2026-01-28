@@ -13,6 +13,7 @@ class SickDayViewModel : ViewModel() {
             "regular" -> SymptomData.regularSymptoms
             "injection" -> SymptomData.injectionSymptoms
             "firstSymptoms" -> SymptomData.firstSymptoms
+            "abdominal" -> SymptomData.abdominalSymptoms
             else -> SymptomData.regularSymptoms
         }
     }
@@ -45,8 +46,19 @@ class SickDayViewModel : ViewModel() {
                     SickDayScreen.Emergency.route
                 }
             }
-            "injection" -> {
-                SickDayScreen.CallCHOA.route
+            "duration" ->{
+                if (selectedSymptoms.contains("yes")){
+                    SickDayScreen.Ketone.route
+                }else{
+                    SickDayScreen.SymptomSelection.createRoute("abdominal")
+                }
+            }
+            "abdominal" ->{
+                if(selectedSymptoms.contains("none_of_above")){
+                    SickDayScreen.RegularCare.route
+                }else{
+                    SickDayScreen.Ketone.route
+                }
             }
             else -> SickDayScreen.CallCHOA.route
         }

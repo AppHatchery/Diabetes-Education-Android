@@ -47,6 +47,11 @@ fun DurationQuestionScreen(
     var showInjectionCard by remember { mutableStateOf(false) }
     var showILetCard by remember { mutableStateOf(false) }
 
+    var firstQuestionAnswer by remember { mutableStateOf<String?>(null) }
+    var secondQuestionAnswer by remember { mutableStateOf<String?>(null) }
+
+    val isILet = instrumentType.equals("iLet", ignoreCase = true)
+
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
@@ -77,84 +82,99 @@ fun DurationQuestionScreen(
             Row(
                 modifier = Modifier.fillMaxWidth()
             ){
+
                 CustomWidthInactiveButton(
                     onClick = {
-                        if (instrumentType.contains("ilet")){
-                            showILetCard = true
-                        }else{
-                            showInjectionCard = true
+                        firstQuestionAnswer = if (firstQuestionAnswer == "yes") {
+                            null
+                        } else {
+                            "yes"
                         }
-
+                        secondQuestionAnswer = null
                     },
-                    buttonText = "yes",
-                    modifier = Modifier.padding(end = 16.dp),
-                    isSelected = selectedOption == "yes"
+                    buttonText = "Yes",
+                    isSelected = firstQuestionAnswer == "yes"
                 )
 
+                Spacer(modifier = Modifier.width(16.dp))
+
                 CustomWidthInactiveButton(
                     onClick = {
-                        if (instrumentType.contains("ilet")){
-                            showILetCard = false
-                        }else{
-                            showInjectionCard = false
-                        }
-                        selectedOption = if (selectedOption == "no"){
+                        firstQuestionAnswer = if (firstQuestionAnswer == "no") {
                             null
-                        }else{
+                        } else {
                             "no"
                         }
+                        secondQuestionAnswer = null
                     },
                     buttonText = "No",
-                    isSelected = selectedOption == "no"
+                    isSelected = firstQuestionAnswer == "no"
                 )
             }
 
             Spacer(modifier = Modifier.width(15.dp))
-            if(showInjectionCard){
-                TextWithButtons(
-                    text = "Has the blood sugar been over 300mg/dl for 3 hours or more?",
-                    buttonAonClick = {
-                        selectedOption = if (selectedOption == "yes"){
-                            null
-                        }else{
-                            "yes"
-                        }
-                    },
-                    buttonBonClick = {
-                        selectedOption = if (selectedOption == "no"){
-                            null
-                        }else{
-                            "no"
-                        }
-                    }
-                )
-            }
-            if(showILetCard){
-                TextWithButtons(
-                    text = "Has the blood sugar been over 300 mg/dl for 90 mins or more",
-                    buttonAonClick = {
-                        selectedOption = if (selectedOption == "yes"){
-                            null
-                        }else{
-                            "yes"
-                        }
-                    },
-                    buttonBonClick = {
-                        selectedOption = if (selectedOption == "yes"){
-                            null
-                        }else{
-                            "yes"
-                        }
-                    }
-                )
+
+            if (firstQuestionAnswer == "yes") {
+                Spacer(modifier = Modifier.height(40.dp))
+
+                if (isILet) {
+                    TextWithButtons(
+                        text = "Has the blood sugar been over 300 mg/dL for 90 minutes or more?",
+                        buttonAonClick = {
+                            secondQuestionAnswer = if (secondQuestionAnswer == "yes") {
+                                null
+                            } else {
+                                "yes"
+                            }
+                        },
+                        buttonBonClick = {
+                            secondQuestionAnswer = if (secondQuestionAnswer == "no") {
+                                null
+                            } else {
+                                "no"
+                            }
+                        },
+                        isYesSelected = secondQuestionAnswer == "yes",
+                        isNoSelected = secondQuestionAnswer == "no"
+                    )
+                } else {
+                    // Injection/Insulin pump question (3 hours)
+                    TextWithButtons(
+                        text = "Has the blood sugar been over 300 mg/dL for 3 hours or more?",
+                        buttonAonClick = {
+                            secondQuestionAnswer = if (secondQuestionAnswer == "yes") {
+                                null
+                            } else {
+                                "yes"
+                            }
+                        },
+                        buttonBonClick = {
+                            secondQuestionAnswer = if (secondQuestionAnswer == "no") {
+                                null
+                            } else {
+                                "no"
+                            }
+                        },
+                        isYesSelected = secondQuestionAnswer == "yes",
+                        isNoSelected = secondQuestionAnswer == "no"
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.weight(1f))
 
             NextButton(
                 onClick = {
-                    val symptomsSet = selectedOption?.let { setOf(it) } ?: emptySet()
-                    val nextRoute = viewModel.determineNextRoute(questionId, symptomsSet)
+                    val finalAnswer = if (firstQuestionAnswer == "yes") {
+                        secondQuestionAnswer
+                    } else {
+                        firstQuestionAnswer
+                    }
+
+                    val answerSet = finalAnswer?.let { setOf(it) } ?: emptySet()
+                    val nextRoute = viewModel.determineNextRoute(questionId, answerSet)
+//                    val symptomsSet = selectedOption?.let { setOf(it) } ?: emptySet()
+//                    val nextRoute = viewModel.determineNextRoute(questionId, symptomsSet)
                     navController.navigate(nextRoute)
                 }
             )

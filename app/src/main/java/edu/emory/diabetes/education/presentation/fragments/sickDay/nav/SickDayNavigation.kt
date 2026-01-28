@@ -6,15 +6,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import edu.emory.diabetes.education.domain.model.Question
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.CallCHOAScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.DurationQuestionScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.EmergencyScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomSelectionScreen
 
 @Composable
-fun SickDayNavigation(viewModel: SickDayViewModel){
+fun SickDayNavigation(
+    viewModel: SickDayViewModel,
+    onExitToMain: () -> Unit
+){
     val navController = rememberNavController()
 
     NavHost(
@@ -39,14 +43,15 @@ fun SickDayNavigation(viewModel: SickDayViewModel){
         composable(SickDayScreen.Emergency.route){
             EmergencyScreen(
                 navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                onExitToMain = onExitToMain
             )
         }
 
         composable(SickDayScreen.CallCHOA.route){
             CallCHOAScreen(
                 navController = navController,
-                viewModel = viewModel
+                onExitToMain = onExitToMain
             )
         }
 
@@ -61,6 +66,18 @@ fun SickDayNavigation(viewModel: SickDayViewModel){
                 navController = navController,
                 viewModel = viewModel,
                 instrumentType = instrumentId
+            )
+        }
+
+        composable(SickDayScreen.RegularCare.route){
+            RegularCareScreen(
+                navController = navController
+            )
+        }
+
+        composable(SickDayScreen.Ketone.route){
+            KetoneScreen(
+                navController = navController
             )
         }
 

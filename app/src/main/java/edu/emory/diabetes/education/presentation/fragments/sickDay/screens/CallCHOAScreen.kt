@@ -34,8 +34,8 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Si
 
 @Composable
 fun CallCHOAScreen(
-    navController: NavController,
-    viewModel: SickDayViewModel
+    onExitToMain: () -> Unit,
+    navController: NavController
 ){
     Scaffold(
         topBar = {
@@ -43,7 +43,9 @@ fun CallCHOAScreen(
                 title = "",
                 iconColor = Color.Black,
                 showNavigation = true,
-                onNavigationClick = {},
+                onNavigationClick = {
+                    navController.popBackStack()
+                },
                 color = colorResource(R.color.blue_050)
             )
         },
@@ -58,17 +60,17 @@ fun CallCHOAScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Image(
                     painter = painterResource(R.drawable.im_call_choa),
                     contentDescription = null,
                     modifier = Modifier
-                        .height(400.dp)
-                        .width(400.dp)
+                        .height(352.dp)
+                        .width(220.dp)
                 )
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(40.dp))
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -107,7 +109,7 @@ fun CallCHOAScreen(
                 Button(
                     onClick = {  },
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .width(314.dp)
                         .height(56.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = colorResource(R.color.primaryBlue)
@@ -124,13 +126,12 @@ fun CallCHOAScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                // Exit button at bottom
                 CustomTransparentTextButton(
-                    onClick = { navController.popBackStack() },
+                    onClick = onExitToMain,
                     buttonText = "Exit"
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(30.dp))
             }
         })
 }
@@ -142,6 +143,6 @@ fun CallCHOAScreenPreview(){
     val navController = rememberNavController()
     CallCHOAScreen(
         navController = navController,
-        viewModel = SickDayViewModel()
+        onExitToMain = {}
     )
 }

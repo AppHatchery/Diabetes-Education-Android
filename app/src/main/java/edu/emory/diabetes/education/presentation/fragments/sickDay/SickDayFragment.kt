@@ -8,6 +8,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayNavigation
 
 class SickDayFragment: Fragment() {
@@ -22,7 +23,13 @@ class SickDayFragment: Fragment() {
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                SickDayNavigation(viewModel = viewModel)
+                val fragmentNavController = findNavController()
+                SickDayNavigation(
+                    viewModel = viewModel,
+                    onExitToMain = {
+                        fragmentNavController.popBackStack()
+                    }
+                )
             }
         }
 

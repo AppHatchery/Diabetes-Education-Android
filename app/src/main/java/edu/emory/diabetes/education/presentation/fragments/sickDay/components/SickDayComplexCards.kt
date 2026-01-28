@@ -2,7 +2,6 @@ package edu.emory.diabetes.education.presentation.fragments.sickDay.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -77,21 +76,21 @@ fun BloodKetoneContent(
         modifier = Modifier.fillMaxWidth()
     ){
         KetoneItem(
-            imageID = R.drawable.im_instruments,
+            imageID = R.drawable.im_urine_ketone,
             text = "Low",
             imageWidth = 108,
             imageHeight = 64
         )
 
         KetoneItem(
-            imageID = R.drawable.im_instruments,
+            imageID = R.drawable.im_urine_ketone,
             text = "Low",
             imageWidth = 108,
             imageHeight = 64
         )
 
         KetoneItem(
-            imageID = R.drawable.im_instruments,
+            imageID = R.drawable.im_urine_ketone,
             text = "Low",
             imageWidth = 108,
             imageHeight = 64
@@ -131,7 +130,7 @@ fun KetoneItem(
 @Composable
 fun CustomComplexCardPreview(){
     CustomComplexCard(
-        cardImage = R.drawable.im_instruments,
+        cardImage = R.drawable.im_urine_ketone,
         cardText = "Blood Ketone Level (mmol/L)",
         content = { BloodKetoneContent() }
     )
