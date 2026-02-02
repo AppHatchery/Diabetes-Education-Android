@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -34,15 +35,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.data.prefs.SickDayPrefs.Companion.ILET
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CardWithImageCustomSize
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
+import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
 
 @Composable
 fun KetoneScreen(
     navController: NavController
 ){
     val categoryId = "ketone"
+
+    val instrumentType = ILET
 
     var selectedUrineLevel by remember { mutableStateOf<String?>(null) }
     var selectedMeasure by remember { mutableStateOf<String?>(null) }
@@ -53,7 +58,7 @@ fun KetoneScreen(
             SickDayTopBar(
                 title = "",
                 showNavigation = true,
-                onNavigationClick = {},
+                onNavigationClick = {navController.popBackStack()},
                 color = Color.White,
                 iconColor = Color.Black
             )
@@ -113,7 +118,8 @@ fun KetoneScreen(
                             "urine_ketone"
                         }
                     },
-                    imageResId = R.drawable.im_urine_ketone
+                    imageResId = R.drawable.im_urine_ketone,
+                    isSelected =  selectedMeasure == "urine_ketone"
                 )
                 Spacer(modifier = Modifier.width(16.dp))
 
@@ -126,7 +132,8 @@ fun KetoneScreen(
                             "blood_ketone"
                         }
                     },
-                    imageResId = R.drawable.im_urine_ketone
+                    imageResId = R.drawable.im_glucose_meter,
+                    isSelected =  selectedMeasure == "blood_ketone"
                 )
             }
 
@@ -159,10 +166,39 @@ fun KetoneScreen(
 
             Spacer(modifier = Modifier.weight(1f))
 
+            val isNextEnabled = selectedUrineLevel != null && selectedMeasure != null
+
             NextButton(
                 onClick = {
-                }
+                    when(instrumentType){
+                        "injection" ->{
+                            if(selectedUrineLevel == "Neg" || selectedUrineLevel == "5" || selectedUrineLevel == "Low" ){
+                                navController.navigate(SickDayScreen.RegularCareLow.route)
+                            }else{
+                                navController.navigate(SickDayScreen.CallCHOA.route)
+                            }
+                        }
+
+                        "insulin_pump" -> {
+                            if(selectedUrineLevel == "Neg" || selectedUrineLevel == "5" || selectedUrineLevel == "Low" ){
+                                navController.navigate(SickDayScreen.RegularCareInsulinPump.route)
+                            }else{
+                                navController.navigate(SickDayScreen.CallCHOA.route)
+                            }
+                        }
+                        else -> {
+                            if(selectedUrineLevel == "Neg" || selectedUrineLevel == "5" ){
+                                navController.navigate(SickDayScreen.CallCHOA.route)
+                            }else{
+                                navController.navigate(SickDayScreen.CallCHOA.route)
+                            }
+                        }
+                    }
+                },
+                isSelected = isNextEnabled
             )
+
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }

@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -51,6 +52,7 @@ fun DurationQuestionScreen(
     var secondQuestionAnswer by remember { mutableStateOf<String?>(null) }
 
     val isILet = instrumentType.equals("iLet", ignoreCase = true)
+    Log.d("skibidi", "DurationQuestionScreen: $isILet")
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -58,7 +60,9 @@ fun DurationQuestionScreen(
             SickDayTopBar(
                 title = "",
                 showNavigation = true,
-                onNavigationClick = {},
+                onNavigationClick = {
+                    navController.popBackStack()
+                },
                 color = Color.White,
                 iconColor = Color.Black
             )
@@ -161,6 +165,12 @@ fun DurationQuestionScreen(
                 }
             }
 
+            val isNextEnabled = if (firstQuestionAnswer == "yes") {
+                secondQuestionAnswer != null
+            } else {
+                firstQuestionAnswer != null
+            }
+
             Spacer(modifier = Modifier.weight(1f))
 
             NextButton(
@@ -176,8 +186,11 @@ fun DurationQuestionScreen(
 //                    val symptomsSet = selectedOption?.let { setOf(it) } ?: emptySet()
 //                    val nextRoute = viewModel.determineNextRoute(questionId, symptomsSet)
                     navController.navigate(nextRoute)
-                }
+                },
+                isSelected = isNextEnabled
             )
+
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }

@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -46,7 +47,8 @@ fun NextButton(
 ){
     Button(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .height(52.dp),
         onClick = onClick,
         enabled = isSelected,
         colors = ButtonDefaults.buttonColors(
@@ -127,7 +129,7 @@ fun CustomWidthInactiveButton(
     OutlinedButton(
         onClick = onClick,
         colors = if (isSelected){
-            ButtonDefaults.outlinedButtonColors(containerColor = colorResource(R.color.blue_300))
+            ButtonDefaults.outlinedButtonColors(containerColor = colorResource(R.color.primaryBlue))
         }else{
             ButtonDefaults.outlinedButtonColors(containerColor = Color.Transparent)
         },
@@ -188,7 +190,10 @@ fun RedEmergencyButton(
 fun CustomTransparentTextButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    buttonText: String
+    buttonText: String,
+    icon: ImageVector = Icons.Default.Close,
+    buttonTextColor: Color = Color.Black,
+    iconColor: Color = Color.Black
 ){
         Row(
             modifier = modifier.clickable(onClick = onClick)
@@ -197,28 +202,32 @@ fun CustomTransparentTextButton(
                 text = buttonText,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.W500,
+                color = buttonTextColor
             )
             Spacer(modifier = modifier.padding(start = 10.dp))
             Icon(
-                imageVector = Icons.Default.Close,
+                imageVector = icon,
                 contentDescription = null,
                 modifier = modifier
                     .size(15.dp)
-                    .align(Alignment.CenterVertically)
+                    .align(Alignment.CenterVertically),
+                tint = iconColor
             )
 
         }
     
 }
 
-//@Preview
-//@Composable
-//fun CustomTransparentTextButtonPreview(){
-//    CustomWidthInactiveButton(
-//        onClick = {},
-//        buttonText = "Exit"
-//    )
-//}
+@Preview
+@Composable
+fun CustomTransparentTextButtonPreview(){
+    CustomTransparentTextButton(
+        onClick = {},
+        buttonText = "Yes, Over 2 hours",
+        icon = Icons.AutoMirrored.Filled.ArrowForward,
+        iconColor = colorResource(R.color.primaryBlue)
+    )
+}
 
 
 @Preview

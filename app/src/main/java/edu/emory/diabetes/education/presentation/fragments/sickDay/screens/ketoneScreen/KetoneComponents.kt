@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -49,12 +50,12 @@ fun UrineKetone(
     modifier: Modifier = Modifier
 ){
     val ketoneData = listOf(
-        KetoneLevel("Neg", "Neg", Color(0xFFFFCDB2)),
-        KetoneLevel("5", "Trace", Color(0xFFFFB4A2)),
-        KetoneLevel("15", "Small", Color(0xFFE5989B)),
-        KetoneLevel("40", "Mod", Color(0xFFB5838D)),
-        KetoneLevel("80", "Large", Color(0xFF6D3447)),
-        KetoneLevel("160", "Large", Color(0xFF4A1F35))
+        KetoneLevel("Neg", "Neg", Color(0xFFFBBB93)),
+        KetoneLevel("5", "Trace", Color(0xFFF9A88A)),
+        KetoneLevel("15", "Small", Color(0xFFF2838D)),
+        KetoneLevel("40", "Mod", Color(0xFFCB5473)),
+        KetoneLevel("80", "Large", Color(0xFFCB5473)),
+        KetoneLevel("160", "Large", Color(0xFF7B255B))
     )
 
     Card(
@@ -64,9 +65,7 @@ fun UrineKetone(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
-        )
+        border = BorderStroke(width = 1.dp, color = colorResource(R.color.gray_300_sick))
     ) {
         Column(
             modifier = Modifier
@@ -83,12 +82,22 @@ fun UrineKetone(
                     modifier = Modifier.size(48.dp)
                 )
                 Spacer(modifier = Modifier.width(12.dp))
-                Text(
-                    text = "Urine Ketone level (mg/dL)",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = colorResource(R.color.primaryBlue)
-                )
+                Column{
+                    Text(
+                        text = "Urine Ketone level",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.W500,
+                        color = colorResource(R.color.primaryBlue)
+                    )
+
+                    Text(
+                        text = "(mg/dL)",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.W500,
+                        color = colorResource(R.color.primaryBlue)
+                    )
+                }
+
             }
 
             Row(
@@ -100,8 +109,8 @@ fun UrineKetone(
                         value = ketone.value,
                         label = ketone.label,
                         color = ketone.color,
-                        isSelected = selectedLevel == ketone.label,
-                        onClick = { onLevelSelected(ketone.label) },
+                        isSelected = selectedLevel == ketone.value,
+                        onClick = { onLevelSelected(ketone.value) },
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -126,14 +135,9 @@ fun KetoneValueCard(
         Box(
             modifier = Modifier
                 .size(50.dp)
-                .clip(RoundedCornerShape(8.dp))
+                .clip(RoundedCornerShape(4.dp))
                 .background(
                     if (isSelected) color else color.copy(alpha = 0.3f)
-                )
-                .border(
-                    width = if (isSelected) 2.dp else 0.dp,
-                    color = if (isSelected) colorResource(R.color.primaryBlue) else Color.Transparent,
-                    shape = RoundedCornerShape(8.dp)
                 )
                 .clickable(onClick = onClick),
             contentAlignment = Alignment.Center
@@ -150,8 +154,8 @@ fun KetoneValueCard(
 
         Text(
             text = label,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Medium,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.W400,
             color = colorResource(R.color.gray_400_sick)
         )
     }
@@ -213,9 +217,7 @@ fun BloodKetone(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
-        )
+        border = BorderStroke(width = 1.dp, color = colorResource(R.color.gray_300_sick))
     ){
         Column(
             modifier = Modifier
@@ -232,12 +234,22 @@ fun BloodKetone(
                     modifier = Modifier.size(48.dp)
                 )
                 Spacer(modifier = Modifier.width(12.dp))
-                Text(
-                    text = "Blood Ketone Level (mmol/L)",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = colorResource(R.color.primaryBlue)
-                )
+
+                Column{
+                    Text(
+                        text = "Blood Ketone Level",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.W500,
+                        color = colorResource(R.color.primaryBlue)
+                    )
+
+                    Text(
+                        text = "(mmol/L)",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.W500,
+                        color = colorResource(R.color.primaryBlue)
+                    )
+                }
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),

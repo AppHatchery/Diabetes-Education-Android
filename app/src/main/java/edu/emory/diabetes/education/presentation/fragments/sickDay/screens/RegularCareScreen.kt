@@ -39,7 +39,9 @@ fun RegularCareScreen(
                 title = "",
                 iconColor = Color.Black,
                 showNavigation = true,
-                onNavigationClick = {},
+                onNavigationClick = {
+                    navController.popBackStack()
+                },
                 color = colorResource(R.color.green_050)
             )
         },

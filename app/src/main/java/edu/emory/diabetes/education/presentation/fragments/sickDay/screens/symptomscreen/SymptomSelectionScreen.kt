@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -71,7 +72,9 @@ fun SymptomSelectionScreen(
             SickDayTopBar(
                 title = "",
                 showNavigation = true,
-                onNavigationClick = {},
+                onNavigationClick = {
+                    navController.popBackStack()
+                },
                 color = Color.White,
                 iconColor = Color.Black
             )
@@ -153,6 +156,7 @@ fun SymptomSelectionScreen(
                         }else{
                             "yes"
                         }
+                       selectedSymptom == "ilet"
                     },
                     buttonBonClick = {
                         iLetSelected = if(iLetSelected == "no"){
@@ -160,6 +164,7 @@ fun SymptomSelectionScreen(
                         }else{
                             "no"
                         }
+                        selectedSymptom == "insulin_pump"
                     },
                     isYesSelected = iLetSelected == "yes",
                     isNoSelected = iLetSelected == "no"
@@ -198,6 +203,7 @@ fun SymptomSelectionScreen(
             NextButton(
                 onClick = {
                     if (categoryId == "injection" && instrumentType != null) {
+                        ILET = instrumentType
                         navController.navigate("${SickDayScreen.Duration.route}/$instrumentType")
                     } else {
                         val symptomsSet = selectedSymptom?.let { setOf(it) } ?: emptySet()

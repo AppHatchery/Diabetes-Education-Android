@@ -10,6 +10,8 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewMo
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.CallCHOAScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.DurationQuestionScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.EmergencyScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareInsulinPump
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareLow
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomSelectionScreen
@@ -77,6 +79,18 @@ fun SickDayNavigation(
 
         composable(SickDayScreen.Ketone.route){
             KetoneScreen(
+                navController = navController
+            )
+        }
+
+        composable(SickDayScreen.RegularCareLow.route){
+            RegularCareLow(
+                navController = navController
+            )
+        }
+
+        composable(SickDayScreen.RegularCareInsulinPump.route){
+            RegularCareInsulinPump(
                 navController = navController
             )
         }

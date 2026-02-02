@@ -17,23 +17,38 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.Symptom
+import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun CardWithImage(
@@ -236,6 +251,152 @@ fun TextWithButtons(
             )
         }
     }
+}
+
+@Composable
+fun CheckReminderCard(
+    onReminderSet: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var isCountingDown by remember { mutableStateOf(false) }
+    var timeRemainingSeconds by remember { mutableStateOf(7200L) }
+
+    LaunchedEffect(isCountingDown) {
+        if (isCountingDown) {
+            while (timeRemainingSeconds > 0) {
+                delay(1.seconds)
+                timeRemainingSeconds--
+            }
+            isCountingDown = false
+        }
+    }
+
+    Card(
+        modifier = modifier
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = colorResource(R.color.blue_050)
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+
+                Image(
+                    painter = painterResource(R.drawable.im_clock),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .height(87.dp)
+                        .width(87.dp)
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Column {
+                    Text(
+                        text = "Next Check in 2 Hours",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.W500,
+                        color = colorResource(R.color.primaryBlue),
+                        textAlign = TextAlign.Start
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    if (isCountingDown) {
+                        CountdownText(timeRemainingSeconds = timeRemainingSeconds)
+                    } else {
+                        Text(
+                            text = buildAnnotatedString {
+                                append("You'll need to check your ")
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("blood sugar")
+                                }
+                                append(" and ")
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("ketones")
+                                }
+                                append(" in ")
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                    append("2 hours")
+                                }
+                                append(".")
+                            },
+                            fontSize = 16.sp,
+                            lineHeight = 28.sp,
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Button(
+                onClick = {
+                    isCountingDown = true
+                    timeRemainingSeconds = 7200L
+                    onReminderSet()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(R.color.primaryBlue)
+                ),
+                enabled = !isCountingDown
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Notifications,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = if (isCountingDown) "Reminder Set" else "Remind Me",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun CountdownText(timeRemainingSeconds: Long) {
+    val hours = timeRemainingSeconds / 3600
+    val minutes = (timeRemainingSeconds % 3600) / 60
+    val seconds = timeRemainingSeconds % 60
+
+    Text(
+        text = buildAnnotatedString {
+            append("Time remaining: ")
+            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, fontSize = 24.sp)) {
+                append(String.format("%02d:%02d:%02d", hours, minutes, seconds))
+            }
+        },
+        fontSize = 18.sp,
+        lineHeight = 26.sp,
+        textAlign = TextAlign.Center
+    )
+}
+
+@Preview
+@Composable
+fun CheckReminderCardPreview(){
+    CheckReminderCard(
+        onReminderSet = {}
+    )
 }
 
 @Preview
