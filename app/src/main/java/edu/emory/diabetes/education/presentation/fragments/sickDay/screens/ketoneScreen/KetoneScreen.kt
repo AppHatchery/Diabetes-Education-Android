@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -35,8 +36,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
-import edu.emory.diabetes.education.data.prefs.SickDayPrefs.Companion.ILET
+import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CardWithImageCustomSize
+import edu.emory.diabetes.education.presentation.fragments.sickDay.components.INSTRUMENT_TYPE
+import edu.emory.diabetes.education.presentation.fragments.sickDay.components.KETONE
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
@@ -46,11 +49,13 @@ fun KetoneScreen(
     navController: NavController
 ){
     val categoryId = "ketone"
-
-    val instrumentType = ILET
+    val context = LocalContext.current
+    val prefs = SickDayPrefs(context)
 
     var selectedUrineLevel by remember { mutableStateOf<String?>(null) }
     var selectedMeasure by remember { mutableStateOf<String?>(null) }
+    val instrument = prefs.getString(INSTRUMENT_TYPE, "injection")
+    Log.d("skibidi", "KetoneScreen: instrument = $instrument")
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -139,16 +144,15 @@ fun KetoneScreen(
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            Text(
-                text = "How did your child measure ketones",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.W500,
-                color = colorResource(R.color.primaryBlue),
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
             if(selectedMeasure == "urine_ketone"){
+                Text(
+                    text = "What were the ketone results?",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.W500,
+                    color = colorResource(R.color.primaryBlue),
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
                 UrineKetone(
                     selectedLevel = selectedUrineLevel,
                     onLevelSelected = { level ->
@@ -156,6 +160,14 @@ fun KetoneScreen(
                     }
                 )
             }else if(selectedMeasure == "blood_ketone") {
+                Text(
+                    text = "What were the ketone results?",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.W500,
+                    color = colorResource(R.color.primaryBlue),
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
                 BloodKetone(
                     selectedLevel = selectedUrineLevel,
                     onLevelSelected = { level ->
@@ -170,7 +182,8 @@ fun KetoneScreen(
 
             NextButton(
                 onClick = {
-                    when(instrumentType){
+                    prefs.putString(KETONE, selectedMeasure)
+                    when(instrument){
                         "injection" ->{
                             if(selectedUrineLevel == "Neg" || selectedUrineLevel == "5" || selectedUrineLevel == "Low" ){
                                 navController.navigate(SickDayScreen.RegularCareLow.route)

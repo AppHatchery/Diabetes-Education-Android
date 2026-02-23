@@ -17,4 +17,6 @@ sealed class SickDayScreen(val route: String) {
     object RegularCareLow : SickDayScreen("regular_care_low")
 
     object RegularCareInsulinPump : SickDayScreen("regular_care_insulin")
+
+    object KetoneReminder: SickDayScreen("ketone_reminder")
 }

@@ -39,6 +39,7 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CheckReminderCard
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
+import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
 
 @Composable
 fun RegularCareLow(
@@ -111,7 +112,9 @@ fun RegularCareLow(
                 horizontalArrangement = Arrangement.End
             ){
                 CustomTransparentTextButton(
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(SickDayScreen.KetoneReminder.route)
+                    },
                     buttonText = "Yes, Over 2 Hours",
                     buttonTextColor = colorResource(R.color.primaryBlue),
                     icon = Icons.AutoMirrored.Filled.ArrowForward,

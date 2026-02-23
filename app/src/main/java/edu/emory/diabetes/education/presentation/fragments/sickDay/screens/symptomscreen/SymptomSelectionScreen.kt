@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,12 +34,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
-import edu.emory.diabetes.education.data.prefs.SickDayPrefs.Companion.ILET
+import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CardWithImage
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CardWithoutImage
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomWidthInactiveButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.FullWidthInactiveButton
+import edu.emory.diabetes.education.presentation.fragments.sickDay.components.INSTRUMENT_TYPE
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.TextWithButtons
@@ -51,6 +53,8 @@ fun SymptomSelectionScreen(
     navController: NavController,
     viewModel: SickDayViewModel
 ){
+    val context = LocalContext.current
+    val prefs = SickDayPrefs(context)
     val category = remember(categoryId) {
         viewModel.getSymptomCategory(categoryId)
     }
@@ -203,7 +207,7 @@ fun SymptomSelectionScreen(
             NextButton(
                 onClick = {
                     if (categoryId == "injection" && instrumentType != null) {
-                        ILET = instrumentType
+                        prefs.putString(INSTRUMENT_TYPE, instrumentType)
                         navController.navigate("${SickDayScreen.Duration.route}/$instrumentType")
                     } else {
                         val symptomsSet = selectedSymptom?.let { setOf(it) } ?: emptySet()
