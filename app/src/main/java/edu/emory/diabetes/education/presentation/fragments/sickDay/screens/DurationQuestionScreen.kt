@@ -52,7 +52,6 @@ fun DurationQuestionScreen(
     var secondQuestionAnswer by remember { mutableStateOf<String?>(null) }
 
     val isILet = instrumentType.equals("iLet", ignoreCase = true)
-    Log.d("skibidi", "DurationQuestionScreen: $isILet")
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),

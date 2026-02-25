@@ -56,15 +56,10 @@ fun KetoneReminderScreen(
    // var selectedMeasure by remember { mutableStateOf<String?>(null) }
     val instrument = prefs.getString(INSTRUMENT_TYPE, "injection")
     val ketone = prefs.getString(KETONE, "urine")
-    Log.d("skibidi", "KetoneScreen: instrument = $ketone")
 
     var selectedMeasure by remember { mutableStateOf(if (ketone == "urine_ketone") "urine_ketone" else "blood_ketone") }
     var selectedUrineLevel by remember { mutableStateOf<String?>(null) }
     var firstQuestionAnswer by remember { mutableStateOf<String?>(null) }
-
-    val showExtraQuestion = instrument == "injection"
-            && selectedUrineLevel != null
-            && selectedUrineLevel !in listOf("Neg", "5", "Low")
 
     val showLowKetoneQuestion = instrument == "insulin_pump"
             && selectedUrineLevel in listOf("Neg", "5", "Low")
@@ -244,7 +239,7 @@ fun KetoneReminderScreen(
                                 navController.navigate(SickDayScreen.RegularCare.route)
                             } else {
                                 if (firstQuestionAnswer == "yes") {
-                                    navController.navigate(SickDayScreen.RegularCare.route)
+                                    navController.navigate(SickDayScreen.ManageAtHome.route)
                                 } else {
                                     navController.navigate(SickDayScreen.CallCHOA.route)
                                 }
@@ -255,14 +250,14 @@ fun KetoneReminderScreen(
                             if (selectedUrineLevel in listOf("Neg", "5", "Low")) {
                                 // low ketone question: yes/no navigation
                                 if (firstQuestionAnswer == "yes") {
-                                    navController.navigate(SickDayScreen.RegularCareInsulinPump.route)
+                                    navController.navigate(SickDayScreen.ManageAtHome.route)
                                 } else {
-                                    navController.navigate(SickDayScreen.CallCHOA.route)
+                                    navController.navigate(SickDayScreen.RegularCare.route)
                                 }
                             } else {
                                 // high ketone question: yes/no navigation
                                 if (firstQuestionAnswer == "yes") {
-                                    navController.navigate(SickDayScreen.RegularCareInsulinPump.route)
+                                    navController.navigate(SickDayScreen.ManageAtHome.route)
                                 } else {
                                     navController.navigate(SickDayScreen.CallCHOA.route)
                                 }

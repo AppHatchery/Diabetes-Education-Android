@@ -55,7 +55,6 @@ fun KetoneScreen(
     var selectedUrineLevel by remember { mutableStateOf<String?>(null) }
     var selectedMeasure by remember { mutableStateOf<String?>(null) }
     val instrument = prefs.getString(INSTRUMENT_TYPE, "injection")
-    Log.d("skibidi", "KetoneScreen: instrument = $instrument")
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),

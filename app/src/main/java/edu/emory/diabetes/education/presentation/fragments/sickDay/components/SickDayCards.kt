@@ -3,7 +3,6 @@ package edu.emory.diabetes.education.presentation.fragments.sickDay.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -388,6 +386,79 @@ fun CountdownText(timeRemainingSeconds: Long) {
         fontSize = 18.sp,
         lineHeight = 26.sp,
         textAlign = TextAlign.Center
+    )
+}
+
+@Composable
+fun CorrectionCard(
+    modifier: Modifier = Modifier
+){
+    Card(
+        modifier = modifier
+            .fillMaxWidth(),
+            //.height(161.dp),
+        colors =
+            CardDefaults.cardColors(containerColor = colorResource(R.color.blue_050)),
+        shape = RoundedCornerShape(12.dp),
+    ) {
+        Box(
+            modifier = modifier.fillMaxSize()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.im_sick_day_correction),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(94.dp)
+                        .height(137.dp)
+                )
+
+                Column(
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp)
+                ) {
+
+                    Text(
+                        text = "Next Check in 2 Hours",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.W500,
+                        color = colorResource(R.color.primaryBlue),
+                        textAlign = TextAlign.Start
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = buildAnnotatedString {
+                            append("If ")
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("blood sugar")
+                            }
+                            append(" or ")
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("ketones")
+                            }
+                            append(" do not decrease ")
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("after 2 corrections")
+                            }
+                            append(" call your care team.")
+                        },
+                        fontSize = 16.sp,
+                        lineHeight = 28.sp,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun CorrectionCardPreview(){
+    CorrectionCard(
+        modifier = Modifier
     )
 }
 

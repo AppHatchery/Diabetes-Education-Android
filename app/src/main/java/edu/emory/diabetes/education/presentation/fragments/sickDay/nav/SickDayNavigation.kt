@@ -15,6 +15,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.Regul
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneReminderScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.MangeAtHome
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomSelectionScreen
 
 @Composable
@@ -99,6 +100,13 @@ fun SickDayNavigation(
         composable(SickDayScreen.KetoneReminder.route){
             KetoneReminderScreen(
                 navController = navController
+            )
+        }
+
+        composable(SickDayScreen.ManageAtHome.route) {
+            MangeAtHome(
+                navController = navController,
+                onExitToMain = onExitToMain
             )
         }
 
