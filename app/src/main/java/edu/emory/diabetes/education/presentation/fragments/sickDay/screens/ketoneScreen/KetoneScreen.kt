@@ -187,7 +187,7 @@ fun KetoneScreen(
                             if(selectedUrineLevel == "Neg" || selectedUrineLevel == "5" || selectedUrineLevel == "Low" ){
                                 navController.navigate(SickDayScreen.RegularCareLow.route)
                             }else{
-                                navController.navigate(SickDayScreen.CallCHOA.route)
+                                navController.navigate(SickDayScreen.BloodSugar.route)
                             }
                         }
 
@@ -195,11 +195,11 @@ fun KetoneScreen(
                             if(selectedUrineLevel == "Neg" || selectedUrineLevel == "5" || selectedUrineLevel == "Low" ){
                                 navController.navigate(SickDayScreen.RegularCareInsulinPump.route)
                             }else{
-                                navController.navigate(SickDayScreen.CallCHOA.route)
+                                navController.navigate(SickDayScreen.BloodSugar.route)
                             }
                         }
                         else -> {
-                            if(selectedUrineLevel == "Neg" || selectedUrineLevel == "5" ){
+                            if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low" ){
                                 navController.navigate(SickDayScreen.CallCHOA.route)
                             }else{
                                 navController.navigate(SickDayScreen.CallCHOA.route)

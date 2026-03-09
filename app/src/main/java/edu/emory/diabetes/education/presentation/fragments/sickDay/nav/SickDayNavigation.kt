@@ -14,6 +14,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.Regul
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareLow
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.BloodSugarScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneReminderScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.MangeAtHome
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomSelectionScreen
@@ -28,7 +29,7 @@ fun SickDayNavigation(
     NavHost(
         navController = navController,
         startDestination = SickDayScreen.SymptomSelection.createRoute("firstSymptoms")
-    ){
+    ) {
         composable(
             route = SickDayScreen.SymptomSelection.route,
             arguments = listOf(
@@ -44,7 +45,7 @@ fun SickDayNavigation(
             )
         }
 
-        composable(SickDayScreen.Emergency.route){
+        composable(SickDayScreen.Emergency.route) {
             EmergencyScreen(
                 navController = navController,
                 viewModel = viewModel,
@@ -52,7 +53,7 @@ fun SickDayNavigation(
             )
         }
 
-        composable(SickDayScreen.CallCHOA.route){
+        composable(SickDayScreen.CallCHOA.route) {
             CallCHOAScreen(
                 navController = navController,
                 onExitToMain = onExitToMain
@@ -62,9 +63,9 @@ fun SickDayNavigation(
         composable(
             route = "${SickDayScreen.Duration.route}/{instrumentId}",
             arguments = listOf(
-                navArgument("instrumentId"){type = NavType.StringType}
+                navArgument("instrumentId") { type = NavType.StringType }
             )
-        ){ backStackEntry ->
+        ) { backStackEntry ->
             val instrumentId = backStackEntry.arguments?.getString("instrumentId") ?: "injection"
             DurationQuestionScreen(
                 navController = navController,
@@ -73,42 +74,57 @@ fun SickDayNavigation(
             )
         }
 
-        composable(SickDayScreen.RegularCare.route){
+        composable(SickDayScreen.RegularCare.route) {
             RegularCareScreen(
                 navController = navController
             )
         }
 
-        composable(SickDayScreen.Ketone.route){
+        composable(SickDayScreen.Ketone.route) {
             KetoneScreen(
                 navController = navController
             )
         }
 
-        composable(SickDayScreen.RegularCareLow.route){
+        composable(SickDayScreen.RegularCareLow.route) {
             RegularCareLow(
                 navController = navController
             )
         }
 
-        composable(SickDayScreen.RegularCareInsulinPump.route){
+        composable(SickDayScreen.RegularCareInsulinPump.route) {
             RegularCareInsulinPump(
                 navController = navController
             )
         }
 
-        composable(SickDayScreen.KetoneReminder.route){
+        composable(SickDayScreen.KetoneReminder.route) {
             KetoneReminderScreen(
                 navController = navController
             )
         }
 
-        composable(SickDayScreen.ManageAtHome.route) {
+        composable(
+            route = "${SickDayScreen.ManageAtHome.route}/{instrument}/{isLow}",
+            arguments = listOf(
+                navArgument("instrument") { type = NavType.StringType },
+                navArgument("isLow") { type = NavType.BoolType }
+            )
+        ) { backStackEntry ->
+            val instrument = backStackEntry.arguments?.getString("instrument") ?: "injection"
+            val isLow = backStackEntry.arguments?.getBoolean("isLow") ?: false
             MangeAtHome(
                 navController = navController,
-                onExitToMain = onExitToMain
+                onExitToMain = onExitToMain,
+                instrument = instrument,
+                isLow = isLow
             )
         }
 
+        composable(SickDayScreen.BloodSugar.route) {
+            BloodSugarScreen(
+                navController = navController
+            )
+        }
     }
 }
