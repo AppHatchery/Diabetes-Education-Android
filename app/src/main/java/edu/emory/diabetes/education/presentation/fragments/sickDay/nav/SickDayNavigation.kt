@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.CallCHOAScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.CallDoctorScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.DurationQuestionScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.EmergencyScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareInsulinPump
@@ -16,6 +17,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.keton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.BloodSugarScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneReminderScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.ManageILet
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.MangeAtHome
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomSelectionScreen
 
@@ -121,9 +123,36 @@ fun SickDayNavigation(
             )
         }
 
-        composable(SickDayScreen.BloodSugar.route) {
+        composable(
+            route = "${SickDayScreen.BloodSugar.route}/{instrument}",
+            arguments = listOf(
+                navArgument("instrument") { type = NavType.StringType }
+            )
+        ) {backStackEntry ->
+            val instrument = backStackEntry.arguments?.getString("instrument") ?: "injection"
             BloodSugarScreen(
-                navController = navController
+                navController = navController,
+                instrument = instrument
+            )
+        }
+
+        composable(
+            route = "${SickDayScreen.ManageILet.route}/{type}",
+            arguments = listOf(
+                navArgument("type") { type = NavType.StringType }
+            )
+        ) {backStackEntry ->
+            val type = backStackEntry.arguments?.getString("type") ?: "low"
+            ManageILet(
+                navController = navController,
+                type = type
+            )
+        }
+
+        composable(SickDayScreen.CallDoctor.route){
+            CallDoctorScreen(
+                navController = navController,
+                onExitToMain = onExitToMain
             )
         }
     }

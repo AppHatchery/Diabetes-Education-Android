@@ -46,8 +46,6 @@ fun MangeAtHome(
     instrument: String,
     isLow: Boolean
 ){
-
-    Log.d("skibidi", "MangeAtHome: $isLow ")
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {

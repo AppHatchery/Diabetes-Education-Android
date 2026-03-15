@@ -1,6 +1,5 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -51,10 +50,12 @@ fun KetoneScreen(
     val categoryId = "ketone"
     val context = LocalContext.current
     val prefs = SickDayPrefs(context)
+    val over300 = prefs.getString("over300", "false")
 
     var selectedUrineLevel by remember { mutableStateOf<String?>(null) }
     var selectedMeasure by remember { mutableStateOf<String?>(null) }
     val instrument = prefs.getString(INSTRUMENT_TYPE, "injection")
+    var iLetKetone by remember { mutableStateOf<String?>(null) }
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -181,31 +182,21 @@ fun KetoneScreen(
 
             NextButton(
                 onClick = {
-                    prefs.putString(KETONE, selectedMeasure)
-                    when(instrument){
-                        "injection" ->{
-                            if(selectedUrineLevel == "Neg" || selectedUrineLevel == "5" || selectedUrineLevel == "Low" ){
-                                navController.navigate(SickDayScreen.RegularCareLow.route)
-                            }else{
-                                navController.navigate(SickDayScreen.BloodSugar.route)
-                            }
-                        }
-
-                        "insulin_pump" -> {
-                            if(selectedUrineLevel == "Neg" || selectedUrineLevel == "5" || selectedUrineLevel == "Low" ){
-                                navController.navigate(SickDayScreen.RegularCareInsulinPump.route)
-                            }else{
-                                navController.navigate(SickDayScreen.BloodSugar.route)
-                            }
-                        }
-                        else -> {
-                            if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low" ){
-                                navController.navigate(SickDayScreen.CallCHOA.route)
-                            }else{
-                                navController.navigate(SickDayScreen.CallCHOA.route)
-                            }
-                        }
+                    iLetKetone = when {
+                        selectedUrineLevel in setOf("Neg", "Low") -> "Low"
+                        selectedUrineLevel in setOf("5", "15", "40", "Moderate") -> "Moderate"
+                        else -> "High"
                     }
+                    prefs.putString(KETONE, selectedMeasure)
+                    prefs.putString("iLetKetone", iLetKetone)
+
+                    val destination = resolveKetoneNavDestination(
+                        instrument = instrument,
+                        selectedUrineLevel = selectedUrineLevel ?: "",
+                        iLetKetone = iLetKetone ?: "",
+                        over300 = over300 == "true"
+                    )
+                    navController.navigate(destination)
                 },
                 isSelected = isNextEnabled
             )
@@ -214,6 +205,37 @@ fun KetoneScreen(
         }
     }
 }
+
+private fun resolveKetoneNavDestination(
+    instrument: String?,
+    selectedUrineLevel: String,
+    iLetKetone: String,
+    over300: Boolean
+): String {
+    val isLowKetone = selectedUrineLevel in setOf("Neg", "5", "Low")
+
+    return when (instrument) {
+        "injection" -> if (isLowKetone) {
+            SickDayScreen.RegularCareLow.route
+        } else {
+            "${SickDayScreen.BloodSugar.route}/$instrument"
+        }
+
+        "insulin_pump" -> if (isLowKetone) {
+            SickDayScreen.RegularCareInsulinPump.route
+        } else {
+            "${SickDayScreen.BloodSugar.route}/$instrument"
+        }
+
+        else -> when { // iLet
+            isLowKetone -> "${SickDayScreen.ManageILet.route}/Low"
+            over300 && iLetKetone == "Moderate" -> "${SickDayScreen.ManageILet.route}/Moderate"
+            over300 -> "${SickDayScreen.ManageILet.route}/High"
+            else -> "${SickDayScreen.BloodSugar.route}/$instrument"
+        }
+    }
+}
+
 
 @Preview
 @Composable

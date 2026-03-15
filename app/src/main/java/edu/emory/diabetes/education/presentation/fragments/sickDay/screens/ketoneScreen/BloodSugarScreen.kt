@@ -30,21 +30,27 @@ import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomWidthInactiveButton
-import edu.emory.diabetes.education.presentation.fragments.sickDay.components.INSTRUMENT_TYPE
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
 
 @Composable
 fun BloodSugarScreen(
-  navController: NavController
+  navController: NavController,
+  instrument: String
 ){
     val context = LocalContext.current
     val prefs = SickDayPrefs(context)
-    val instrument = prefs.getString(INSTRUMENT_TYPE, "injection")
+    val over300 = prefs.getString("over300", "false")
+    val iLetKetone = prefs.getString("iLetKetone", "Moderate")
     val isLow = false
     var questionAnswer by remember { mutableStateOf<String?>(null) }
 
+    val text = if(instrument == "ilet"){
+        "Is your child's blood sugar over 180 mg/dl or higher?"
+    }else{
+        "Is your child's blood sugar over 150 mg/dl or higher?"
+    }
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -69,7 +75,7 @@ fun BloodSugarScreen(
                 .background(Color.White)
         ) {
             Text(
-                text = "Is your child's blood sugar over 150 mg/dl?",
+                text = text,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.W500,
                 color = colorResource(R.color.primaryBlue),
@@ -112,11 +118,35 @@ fun BloodSugarScreen(
 
             NextButton(
                 onClick = {
-                    if(questionAnswer == "yes"){
-                        navController.navigate("${SickDayScreen.ManageAtHome.route}/$instrument/$isLow")
-                    }else{
-                        navController.navigate(SickDayScreen.CallCHOA.route)
+                    when(instrument){
+                        "ilet" ->{
+                            if(over300 == "false"){
+                                if(questionAnswer == "no"){
+                                    navController.navigate(SickDayScreen.CallDoctor.route)
+                                }else{
+                                    if (iLetKetone == "Moderate"){
+                                        navController.navigate("${SickDayScreen.ManageILet.route}/$iLetKetone")
+                                    }else if (iLetKetone == "High"){
+                                        navController.navigate("${SickDayScreen.ManageILet.route}/$iLetKetone")
+                                    }
+                                }
+                            }else{
+                                if (iLetKetone == "Moderate"){
+                                    navController.navigate("${SickDayScreen.ManageILet.route}/$iLetKetone")
+                                }else if (iLetKetone == "High"){
+                                    navController.navigate("${SickDayScreen.ManageILet.route}/$iLetKetone")
+                                }
+                            }
+                        }
+                        else ->{
+                            if(questionAnswer == "yes"){
+                                navController.navigate("${SickDayScreen.ManageAtHome.route}/$instrument/$isLow")
+                            }else{
+                                navController.navigate(SickDayScreen.CallCHOA.route)
+                            }
+                        }
                     }
+
                 },
                 isSelected = isNextEnabled
             )
@@ -126,12 +156,36 @@ fun BloodSugarScreen(
     }
 }
 
+//onClick = {
+//    when(instrument){
+//        "ilet" ->{
+//            if(over300 == "false"){
+//                if(questionAnswer == "yes") {
+//                    navController.navigate("${SickDayScreen.ManageAtHome.route}/$instrument/$isLow")
+//                } else{
+//                    navController.navigate(SickDayScreen.CallDoctor.route)
+//                }
+//            }else{
+//                navController.navigate(SickDayScreen.CallDoctor.route)
+//            }
+//        }
+//        else -> {
+//            if(questionAnswer == "yes"){
+//                navController.navigate("${SickDayScreen.ManageAtHome.route}/$instrument/$isLow")
+//            }else{
+//                navController.navigate(SickDayScreen.CallCHOA.route)
+//            }
+//        }
+//    }
+//},
+
 
 @Preview
 @Composable
 fun BloodSugarScreenPreview(){
     val navController = rememberNavController()
     BloodSugarScreen(
-        navController = navController
+        navController = navController,
+        instrument = "ilet"
     )
 }

@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.domain.model.DurationOptions
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomWidthInactiveButton
@@ -43,6 +45,9 @@ fun DurationQuestionScreen(
     viewModel: SickDayViewModel
 ){
     val questionId = "duration"
+
+    val context = LocalContext.current
+    val prefs = SickDayPrefs(context)
 
     var selectedOption by remember { mutableStateOf<String?>(null) }
     var showInjectionCard by remember { mutableStateOf(false) }
@@ -174,6 +179,13 @@ fun DurationQuestionScreen(
 
             NextButton(
                 onClick = {
+                    if (secondQuestionAnswer == "yes" && isILet){
+                        val over300 = "true"
+                        prefs.putString("over300", over300)
+                    }else{
+                        val over300 = "false"
+                        prefs.putString("over300", over300)
+                    }
                     val finalAnswer = if (firstQuestionAnswer == "yes") {
                         secondQuestionAnswer
                     } else {

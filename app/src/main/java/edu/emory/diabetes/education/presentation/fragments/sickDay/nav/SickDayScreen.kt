@@ -23,4 +23,8 @@ sealed class SickDayScreen(val route: String) {
     object ManageAtHome: SickDayScreen("manage_at_home")
 
     object BloodSugar: SickDayScreen("blood_sugar")
+
+    object ManageILet: SickDayScreen("manage_i_let/{instrumentId}")
+
+    object CallDoctor: SickDayScreen("call_doctor/type")
 }

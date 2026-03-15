@@ -72,6 +72,7 @@ fun KetoneReminderScreen(
         instrument == "injection" && selectedUrineLevel in listOf("Neg", "5", "Low") -> true
         instrument == "injection" && showHighKetoneQuestion && firstQuestionAnswer != null -> true
         instrument == "insulin_pump" && (showLowKetoneQuestion || showHighKetoneQuestion) && firstQuestionAnswer != null -> true
+        instrument == "ilet" && selectedUrineLevel != null -> true
         else -> false
     }
 
@@ -266,9 +267,14 @@ fun KetoneReminderScreen(
                             }
                         }
                         else -> {
-                            if(selectedUrineLevel == "Neg" || selectedUrineLevel == "5" ){
+                            if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low" ){
+                                navController.navigate(SickDayScreen.RegularCare.route)
+                            }else if(
+                                selectedUrineLevel == "5" || selectedUrineLevel == "15" || selectedUrineLevel == "40" || selectedUrineLevel == "Moderate"
+                                ){
                                 navController.navigate(SickDayScreen.CallCHOA.route)
-                            }else{
+                            }
+                            else{
                                 navController.navigate(SickDayScreen.CallCHOA.route)
                             }
                         }
