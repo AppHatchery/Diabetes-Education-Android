@@ -16,9 +16,12 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.Regul
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.BloodSugarScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.ILetBloodSugarScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.IletKetoneScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneReminderScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.ManageILet
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.MangeAtHome
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.NewPumpSiteScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomSelectionScreen
 
 @Composable
@@ -151,6 +154,42 @@ fun SickDayNavigation(
 
         composable(SickDayScreen.CallDoctor.route){
             CallDoctorScreen(
+                navController = navController,
+                onExitToMain = onExitToMain
+            )
+        }
+
+        composable(
+            route = "${SickDayScreen.ILetKetone.route}/{type}",
+            arguments = listOf(
+                navArgument("type"){type = NavType.StringType}
+            )
+        ){backStackEntry ->
+            val type = backStackEntry.arguments?.getString("type") ?: "lowKetone"
+            IletKetoneScreen(
+                navController = navController,
+                type = type
+            )
+        }
+
+        composable(
+            route = "${SickDayScreen.ILetBloodSugar.route}/{type}/{measure}",
+            arguments = listOf(
+                navArgument("type"){type = NavType.StringType},
+                navArgument("measure"){type = NavType.StringType}
+            )
+        ){backStackEntry ->
+            val type = backStackEntry.arguments?.getString("type") ?: "medium"
+            val measure = backStackEntry.arguments?.getString("measure") ?: "lowKetone"
+            ILetBloodSugarScreen(
+                navController = navController,
+                type = type,
+                measure = measure
+            )
+        }
+
+        composable(SickDayScreen.NewPump.route){
+            NewPumpSiteScreen(
                 navController = navController,
                 onExitToMain = onExitToMain
             )

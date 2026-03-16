@@ -206,7 +206,8 @@ fun HighKetoneContent(
         ){
             CustomTransparentTextButton(
                 onClick = {
-                    navController.navigate(SickDayScreen.KetoneReminder.route)
+                    val type = "highKetone"
+                    navController.navigate("${SickDayScreen.ILetKetone.route}/$type")
                 },
                 buttonText = "Yes, Over 90 mins",
                 buttonTextColor = colorResource(R.color.primaryBlue),
@@ -305,7 +306,8 @@ fun ModerateKetoneContent(
         ){
             CustomTransparentTextButton(
                 onClick = {
-                    navController.navigate(SickDayScreen.KetoneReminder.route)
+                    val type = "moderateKetone"
+                    navController.navigate("${SickDayScreen.ILetKetone.route}/$type")
                 },
                 buttonText = "Yes, Over 90 mins",
                 buttonTextColor = colorResource(R.color.primaryBlue),
@@ -401,7 +403,8 @@ fun LowKetoneContent(
         ){
             CustomTransparentTextButton(
                 onClick = {
-                    navController.navigate(SickDayScreen.KetoneReminder.route)
+                    val type = "lowKetone"
+                    navController.navigate("${SickDayScreen.ILetKetone.route}/$type")
                 },
                 buttonText = "Yes, Over 2 Hours",
                 buttonTextColor = colorResource(R.color.primaryBlue),
