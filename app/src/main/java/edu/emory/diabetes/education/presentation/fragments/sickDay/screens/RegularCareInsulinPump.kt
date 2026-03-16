@@ -144,7 +144,8 @@ fun RegularCareInsulinPump(
             Spacer(modifier = Modifier.height(40.dp))
 
             CheckReminderCard(
-                onReminderSet = {}
+                onReminderSet = {},
+                onStartTest = {}
             )
 
             Spacer(modifier = Modifier.height(40.dp))

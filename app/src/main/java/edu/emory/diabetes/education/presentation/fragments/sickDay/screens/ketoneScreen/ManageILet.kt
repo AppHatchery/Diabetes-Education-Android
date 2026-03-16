@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -30,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.notifications.ReminderScheduler
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CheckReminderCard
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
@@ -42,6 +45,7 @@ fun ManageILet(
     navController: NavController,
     type: String
 ){
+    val context = LocalContext.current
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
@@ -76,7 +80,8 @@ fun ManageILet(
             when (type) {
                 "Low" -> {
                     LowKetoneContent(
-                        navController = navController
+                        navController = navController,
+                        context =  context
                     )
                 }
                 "Moderate" -> {
@@ -182,7 +187,9 @@ fun HighKetoneContent(
         Spacer(modifier = Modifier.height(40.dp))
 
         CheckReminderCard(
-            onReminderSet = {}
+            durationMinutes = 90,
+            onReminderSet = {},
+            onStartTest = {}
         )
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -282,7 +289,9 @@ fun ModerateKetoneContent(
         Spacer(modifier = Modifier.height(40.dp))
 
         CheckReminderCard(
-            onReminderSet = {}
+            durationMinutes = 90,
+            onReminderSet = {},
+            onStartTest = {}
         )
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -320,8 +329,10 @@ fun ModerateKetoneContent(
 
 @Composable
 fun LowKetoneContent(
-    navController : NavController
+    navController : NavController,
+    context : Context
 ){
+    val type = "lowKetone"
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -379,7 +390,13 @@ fun LowKetoneContent(
         Spacer(modifier = Modifier.height(40.dp))
 
         CheckReminderCard(
-            onReminderSet = {}
+            durationMinutes = 90,
+            onReminderSet = {
+                ReminderScheduler.scheduleReminder(context, durationMinutes = 90)
+            },
+            onStartTest = {
+                navController.navigate("${SickDayScreen.ILetKetone.route}/$type")
+            }
         )
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -403,7 +420,6 @@ fun LowKetoneContent(
         ){
             CustomTransparentTextButton(
                 onClick = {
-                    val type = "lowKetone"
                     navController.navigate("${SickDayScreen.ILetKetone.route}/$type")
                 },
                 buttonText = "Yes, Over 2 Hours",

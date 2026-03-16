@@ -1,15 +1,20 @@
 package edu.emory.diabetes.education.presentation
 
+import android.Manifest
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -30,6 +35,18 @@ class MainActivity : AppCompatActivity(), EventNavigator {
     private lateinit var navController: NavController
     private var mMenu: Menu? = null
 
+    private val TAG = "Main Activity"
+
+    private val notificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            Log.d(TAG, "POST_NOTIFICATIONS permission granted")
+        } else {
+            Log.w(TAG, "POST_NOTIFICATIONS permission DENIED")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,9 +56,9 @@ class MainActivity : AppCompatActivity(), EventNavigator {
                     android.graphics.Color.TRANSPARENT,
                     android.graphics.Color.TRANSPARENT
                 )
-
-
         )
+
+        requestNotificationPermission()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -132,6 +149,18 @@ class MainActivity : AppCompatActivity(), EventNavigator {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun requestNotificationPermission(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            if(ContextCompat.checkSelfPermission(
+                this,
+                    Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+                ){
+                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
         }
     }
 
