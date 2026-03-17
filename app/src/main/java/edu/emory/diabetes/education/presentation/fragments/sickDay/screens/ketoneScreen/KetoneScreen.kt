@@ -36,6 +36,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
+import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
+import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CardWithImageCustomSize
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.INSTRUMENT_TYPE
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.KETONE
@@ -46,17 +48,23 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDaySc
 @Composable
 fun KetoneScreen(
     navController: NavController,
-    onExitToMain: () -> Unit
+    onExitToMain: () -> Unit,
+    viewModel: SickDayViewModel,
 ){
     val categoryId = "ketone"
     val context = LocalContext.current
     val prefs = SickDayPrefs(context)
-    val over300 = prefs.getString("over300", "false")
 
-    var selectedUrineLevel by remember { mutableStateOf<String?>(null) }
-    var selectedMeasure by remember { mutableStateOf<String?>(null) }
-    val instrument = prefs.getString(INSTRUMENT_TYPE, "injection")
-    var iLetKetone by remember { mutableStateOf<String?>(null) }
+    val over300 = viewModel.getAnswer(FlowAnswerKeys.OVER_300) ?: "false"
+    val instrument = viewModel.getAnswer(FlowAnswerKeys.INSTRUMENT_TYPE) ?: "injection"
+
+    var selectedMeasure by remember {
+        mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.KETONE_MEASURE))
+    }
+    var selectedUrineLevel by remember {
+        mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.KETONE_LEVEL))
+    }
+
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -120,11 +128,13 @@ fun KetoneScreen(
                 CardWithImageCustomSize(
                     cardText = "Urine Ketone Level",
                     cardOnclick = {
-                        selectedMeasure = if (selectedMeasure == "urine_ketone") {
-                            null
-                        } else {
-                            "urine_ketone"
-                        }
+                        selectedMeasure = if (selectedMeasure == "urine_ketone") null else "urine_ketone"
+                        selectedMeasure
+                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.KETONE_MEASURE, it) }
+                            ?: viewModel.clearAnswer(FlowAnswerKeys.KETONE_MEASURE)
+                        // Switching measure type invalidates the previously selected level
+                        selectedUrineLevel = null
+                        viewModel.clearAnswer(FlowAnswerKeys.KETONE_LEVEL)
                     },
                     imageResId = R.drawable.im_urine_ketone,
                     isSelected =  selectedMeasure == "urine_ketone"
@@ -134,11 +144,13 @@ fun KetoneScreen(
                 CardWithImageCustomSize(
                     cardText = "Blood Ketone Level",
                     cardOnclick = {
-                        selectedMeasure = if (selectedMeasure == "blood_ketone") {
-                            null
-                        } else {
-                            "blood_ketone"
-                        }
+                        selectedMeasure = if (selectedMeasure == "blood_ketone") null else "blood_ketone"
+                        selectedMeasure
+                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.KETONE_MEASURE, it) }
+                            ?: viewModel.clearAnswer(FlowAnswerKeys.KETONE_MEASURE)
+                        // Switching measure type invalidates the previously selected level
+                        selectedUrineLevel = null
+                        viewModel.clearAnswer(FlowAnswerKeys.KETONE_LEVEL)
                     },
                     imageResId = R.drawable.im_glucose_meter,
                     isSelected =  selectedMeasure == "blood_ketone"
@@ -147,7 +159,8 @@ fun KetoneScreen(
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            if(selectedMeasure == "urine_ketone"){
+
+            if (selectedMeasure != null) {
                 Text(
                     text = "What were the ketone results?",
                     fontSize = 18.sp,
@@ -156,27 +169,24 @@ fun KetoneScreen(
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
-                UrineKetone(
-                    selectedLevel = selectedUrineLevel,
-                    onLevelSelected = { level ->
-                        selectedUrineLevel = level
-                    }
-                )
-            }else if(selectedMeasure == "blood_ketone") {
-                Text(
-                    text = "What were the ketone results?",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.W500,
-                    color = colorResource(R.color.primaryBlue),
-                )
 
-                Spacer(modifier = Modifier.height(12.dp))
-                BloodKetone(
-                    selectedLevel = selectedUrineLevel,
-                    onLevelSelected = { level ->
-                        selectedUrineLevel = level
-                    }
-                )
+                if (selectedMeasure == "urine_ketone") {
+                    UrineKetone(
+                        selectedLevel = selectedUrineLevel,
+                        onLevelSelected = { level ->
+                            selectedUrineLevel = level
+                            viewModel.saveAnswer(FlowAnswerKeys.KETONE_LEVEL, level)
+                        }
+                    )
+                } else {
+                    BloodKetone(
+                        selectedLevel = selectedUrineLevel,
+                        onLevelSelected = { level ->
+                            selectedUrineLevel = level
+                            viewModel.saveAnswer(FlowAnswerKeys.KETONE_LEVEL, level)
+                        }
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.weight(1f))
@@ -185,18 +195,20 @@ fun KetoneScreen(
 
             NextButton(
                 onClick = {
-                    iLetKetone = when {
-                        selectedUrineLevel in setOf("Neg", "Low") -> "Low"
-                        selectedUrineLevel in setOf("5", "15", "40", "Moderate") -> "Moderate"
+                   val iLetKetone = when (selectedUrineLevel) {
+                        in setOf("Neg", "Low") -> "Low"
+                        in setOf("5", "15", "40", "Moderate") -> "Moderate"
                         else -> "High"
                     }
                     prefs.putString(KETONE, selectedMeasure)
                     prefs.putString("iLetKetone", iLetKetone)
 
+                    viewModel.saveAnswer(FlowAnswerKeys.ILET_KETONE, iLetKetone)
+
                     val destination = resolveKetoneNavDestination(
                         instrument = instrument,
                         selectedUrineLevel = selectedUrineLevel ?: "",
-                        iLetKetone = iLetKetone ?: "",
+                        iLetKetone = iLetKetone,
                         over300 = over300 == "true"
                     )
                     navController.navigate(destination)
@@ -246,6 +258,7 @@ fun KetoneScreenPreview(){
     val navController = rememberNavController()
     KetoneScreen(
         navController = navController,
-        onExitToMain = {}
+        onExitToMain = {},
+        viewModel = SickDayViewModel()
     )
 }

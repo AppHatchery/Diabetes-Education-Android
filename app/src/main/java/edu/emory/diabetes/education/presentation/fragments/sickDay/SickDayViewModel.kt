@@ -6,8 +6,57 @@ import edu.emory.diabetes.education.domain.model.DurationData
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomCategory
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomData
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
+
+data class SickDayFlowState(
+    val answers: Map<String, String> = emptyMap()
+) {
+    fun answer(key: String): String? = answers[key]
+
+    fun withAnswer(key: String, value: String) = copy(
+        answers = answers + (key to value)
+    )
+
+    fun withoutAnswer(key: String) = copy(
+        answers = answers - key
+    )
+}
+
+object FlowAnswerKeys {
+    // SymptomSelectionScreen stores answers per categoryId
+    fun symptomKey(categoryId: String) = "symptom_$categoryId"
+    const val ILET_SELECTED  = "ilet_selected"
+    const val INSTRUMENT_TYPE = "instrument_type"
+    const val DURATION_Q1     = "duration_q1"
+    const val DURATION_Q2     = "duration_q2"
+    const val OVER_300        = "over_300"
+    const val ILET_KETONE     = "ilet_ketone"
+    const val BLOOD_SUGAR     = "blood_sugar"
+    const val KETONE_MEASURE  = "ketone_measure"
+    const val KETONE_LEVEL    = "ketone_level"
+}
 class SickDayViewModel : ViewModel() {
+
+    private val _flowState = MutableStateFlow(SickDayFlowState())
+    val flowState: StateFlow<SickDayFlowState> = _flowState.asStateFlow()
+
+    fun saveAnswer(key: String, value: String) {
+        _flowState.update { it.withAnswer(key, value) }
+    }
+
+    fun clearAnswer(key: String) {
+        _flowState.update { it.withoutAnswer(key) }
+    }
+
+    fun getAnswer(key: String): String? = _flowState.value.answer(key)
+
+    fun clearFlow() {
+        _flowState.value = SickDayFlowState()
+    }
     fun getSymptomCategory(categoryId: String): SymptomCategory{
         return when (categoryId){
             "regular" -> SymptomData.regularSymptoms

@@ -1,11 +1,14 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.nav
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.CallCHOAScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.CallDoctorScreen
@@ -30,10 +33,18 @@ fun SickDayNavigation(
     onExitToMain: () -> Unit
 ){
     val navController = rememberNavController()
+    val context = LocalContext.current
+    val prefs = remember { SickDayPrefs(context) }
+
+    // Check once on composition
+    val startDestination = remember {
+        prefs.getReminderCheckpoint()
+            ?: SickDayScreen.SymptomSelection.createRoute("firstSymptoms")
+    }
 
     NavHost(
         navController = navController,
-        startDestination = SickDayScreen.SymptomSelection.createRoute("firstSymptoms")
+        startDestination = startDestination
     ) {
         composable(
             route = SickDayScreen.SymptomSelection.route,
@@ -91,21 +102,24 @@ fun SickDayNavigation(
         composable(SickDayScreen.Ketone.route) {
             KetoneScreen(
                 navController = navController,
-                onExitToMain = onExitToMain
+                onExitToMain = onExitToMain,
+                viewModel = viewModel
             )
         }
 
         composable(SickDayScreen.RegularCareLow.route) {
             RegularCareLow(
                 navController = navController,
-                onExitToMain = onExitToMain
+                onExitToMain = onExitToMain,
+                viewModel = viewModel
             )
         }
 
         composable(SickDayScreen.RegularCareInsulinPump.route) {
             RegularCareInsulinPump(
                 navController = navController,
-                onExitToMain = onExitToMain
+                onExitToMain = onExitToMain,
+                viewModel = viewModel
             )
         }
 
@@ -143,7 +157,8 @@ fun SickDayNavigation(
             BloodSugarScreen(
                 navController = navController,
                 instrument = instrument,
-                onExitToMain = onExitToMain
+                onExitToMain = onExitToMain,
+                viewModel = viewModel
             )
         }
 
@@ -157,7 +172,8 @@ fun SickDayNavigation(
             ManageILet(
                 navController = navController,
                 type = type,
-                onExitToMain = onExitToMain
+                onExitToMain = onExitToMain,
+                viewModel = viewModel
             )
         }
 

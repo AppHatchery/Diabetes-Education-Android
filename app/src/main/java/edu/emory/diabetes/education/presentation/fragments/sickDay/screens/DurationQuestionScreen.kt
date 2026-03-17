@@ -32,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.domain.model.DurationOptions
+import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomWidthInactiveButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
@@ -46,18 +47,22 @@ fun DurationQuestionScreen(
     onExitToMain: () -> Unit,
 ){
     val questionId = "duration"
+    val isILet = instrumentType.equals("iLet", ignoreCase = true)
 
     val context = LocalContext.current
     val prefs = SickDayPrefs(context)
 
-    var selectedOption by remember { mutableStateOf<String?>(null) }
-    var showInjectionCard by remember { mutableStateOf(false) }
-    var showILetCard by remember { mutableStateOf(false) }
+    // Restore both answers from ViewModel on back-navigation
+    var firstQuestionAnswer by remember {
+        mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.DURATION_Q1))
+    }
+    var secondQuestionAnswer by remember {
+        mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.DURATION_Q2))
+    }
 
-    var firstQuestionAnswer by remember { mutableStateOf<String?>(null) }
-    var secondQuestionAnswer by remember { mutableStateOf<String?>(null) }
+//    var firstQuestionAnswer by remember { mutableStateOf<String?>(null) }
+//    var secondQuestionAnswer by remember { mutableStateOf<String?>(null) }
 
-    val isILet = instrumentType.equals("iLet", ignoreCase = true)
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -96,12 +101,11 @@ fun DurationQuestionScreen(
 
                 CustomWidthInactiveButton(
                     onClick = {
-                        firstQuestionAnswer = if (firstQuestionAnswer == "yes") {
-                            null
-                        } else {
-                            "yes"
-                        }
+                        firstQuestionAnswer = if (firstQuestionAnswer == "yes") null else "yes"
+                        viewModel.saveAnswer(FlowAnswerKeys.DURATION_Q1, firstQuestionAnswer ?: "")
+                        // Wipe Q2 whenever Q1 changes — it's no longer valid
                         secondQuestionAnswer = null
+                        viewModel.clearAnswer(FlowAnswerKeys.DURATION_Q2)
                     },
                     buttonText = "Yes",
                     isSelected = firstQuestionAnswer == "yes"
@@ -111,12 +115,13 @@ fun DurationQuestionScreen(
 
                 CustomWidthInactiveButton(
                     onClick = {
-                        firstQuestionAnswer = if (firstQuestionAnswer == "no") {
-                            null
-                        } else {
-                            "no"
-                        }
+                        firstQuestionAnswer = if (firstQuestionAnswer == "no") null else "no"
+                        firstQuestionAnswer
+                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.DURATION_Q1, it) }
+                            ?: viewModel.clearAnswer(FlowAnswerKeys.DURATION_Q1)
+                        // Q2 is hidden when Q1 is "no", so clear it
                         secondQuestionAnswer = null
+                        viewModel.clearAnswer(FlowAnswerKeys.DURATION_Q2)
                     },
                     buttonText = "No",
                     isSelected = firstQuestionAnswer == "no"
@@ -128,48 +133,29 @@ fun DurationQuestionScreen(
             if (firstQuestionAnswer == "yes") {
                 Spacer(modifier = Modifier.height(40.dp))
 
-                if (isILet) {
-                    TextWithButtons(
-                        text = "Has the blood sugar been over 300 mg/dL for 90 minutes or more?",
-                        buttonAonClick = {
-                            secondQuestionAnswer = if (secondQuestionAnswer == "yes") {
-                                null
-                            } else {
-                                "yes"
-                            }
-                        },
-                        buttonBonClick = {
-                            secondQuestionAnswer = if (secondQuestionAnswer == "no") {
-                                null
-                            } else {
-                                "no"
-                            }
-                        },
-                        isYesSelected = secondQuestionAnswer == "yes",
-                        isNoSelected = secondQuestionAnswer == "no"
-                    )
+                val durationText = if (isILet) {
+                    "Has the blood sugar been over 300 mg/dL for 90 minutes or more?"
                 } else {
-                    // Injection/Insulin pump question (3 hours)
-                    TextWithButtons(
-                        text = "Has the blood sugar been over 300 mg/dL for 3 hours or more?",
-                        buttonAonClick = {
-                            secondQuestionAnswer = if (secondQuestionAnswer == "yes") {
-                                null
-                            } else {
-                                "yes"
-                            }
-                        },
-                        buttonBonClick = {
-                            secondQuestionAnswer = if (secondQuestionAnswer == "no") {
-                                null
-                            } else {
-                                "no"
-                            }
-                        },
-                        isYesSelected = secondQuestionAnswer == "yes",
-                        isNoSelected = secondQuestionAnswer == "no"
-                    )
+                    "Has the blood sugar been over 300 mg/dL for 3 hours or more?"
                 }
+
+                TextWithButtons(
+                    text = durationText,
+                    buttonAonClick = {
+                        secondQuestionAnswer = if (secondQuestionAnswer == "yes") null else "yes"
+                        secondQuestionAnswer
+                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.DURATION_Q2, it) }
+                            ?: viewModel.clearAnswer(FlowAnswerKeys.DURATION_Q2)
+                    },
+                    buttonBonClick = {
+                        secondQuestionAnswer = if (secondQuestionAnswer == "no") null else "no"
+                        secondQuestionAnswer
+                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.DURATION_Q2, it) }
+                            ?: viewModel.clearAnswer(FlowAnswerKeys.DURATION_Q2)
+                    },
+                    isYesSelected = secondQuestionAnswer == "yes",
+                    isNoSelected = secondQuestionAnswer == "no"
+                )
             }
 
             val isNextEnabled = if (firstQuestionAnswer == "yes") {
@@ -182,13 +168,9 @@ fun DurationQuestionScreen(
 
             NextButton(
                 onClick = {
-                    if (secondQuestionAnswer == "yes" && isILet){
-                        val over300 = "true"
-                        prefs.putString("over300", over300)
-                    }else{
-                        val over300 = "false"
-                        prefs.putString("over300", over300)
-                    }
+                    val isOver300 = secondQuestionAnswer == "yes" && isILet
+                    viewModel.saveAnswer(FlowAnswerKeys.OVER_300, isOver300.toString())
+
                     val finalAnswer = if (firstQuestionAnswer == "yes") {
                         secondQuestionAnswer
                     } else {
@@ -197,8 +179,6 @@ fun DurationQuestionScreen(
 
                     val answerSet = finalAnswer?.let { setOf(it) } ?: emptySet()
                     val nextRoute = viewModel.determineNextRoute(questionId, answerSet)
-//                    val symptomsSet = selectedOption?.let { setOf(it) } ?: emptySet()
-//                    val nextRoute = viewModel.determineNextRoute(questionId, symptomsSet)
                     navController.navigate(nextRoute)
                 },
                 isSelected = isNextEnabled
@@ -209,32 +189,6 @@ fun DurationQuestionScreen(
     }
 }
 
-@Composable
-fun DurationAnswers(
-    selectedOption: String?,
-    onOptionToggle: (String) -> Unit
-){
-    Row(
-        modifier = Modifier.fillMaxWidth()
-    ){
-        CustomWidthInactiveButton(
-            onClick = {
-                onOptionToggle("yes")
-            },
-            buttonText = "yes",
-            modifier = Modifier.padding(end = 16.dp),
-            isSelected = selectedOption == "yes"
-        )
-
-        CustomWidthInactiveButton(
-            onClick = {
-                onOptionToggle("no")
-            },
-            buttonText = "No",
-            isSelected = selectedOption == "no"
-        )
-    }
-}
 
 @Preview
 @Composable

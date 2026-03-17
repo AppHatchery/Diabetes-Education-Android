@@ -29,6 +29,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
+import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
+import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomWidthInactiveButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
@@ -36,16 +38,21 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDaySc
 
 @Composable
 fun BloodSugarScreen(
-  navController: NavController,
-  instrument: String,
-  onExitToMain: () -> Unit
+    navController: NavController,
+    instrument: String,
+    viewModel: SickDayViewModel,
+    onExitToMain: () -> Unit
 ){
     val context = LocalContext.current
     val prefs = SickDayPrefs(context)
-    val over300 = prefs.getString("over300", "false")
-    val iLetKetone = prefs.getString("iLetKetone", "Moderate")
+
+    val over300 = viewModel.getAnswer(FlowAnswerKeys.OVER_300) ?: "false"
+    val iLetKetone = viewModel.getAnswer(FlowAnswerKeys.ILET_KETONE) ?: "Moderate"
     val isLow = false
-    var questionAnswer by remember { mutableStateOf<String?>(null) }
+
+    var questionAnswer by remember {
+        mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.BLOOD_SUGAR))
+    }
 
     val text = if(instrument == "ilet"){
         "Is your child's blood sugar over 180 mg/dl or higher?"
@@ -90,11 +97,10 @@ fun BloodSugarScreen(
 
                 CustomWidthInactiveButton(
                     onClick = {
-                        questionAnswer = if (questionAnswer == "yes") {
-                            null
-                        } else {
-                            "yes"
-                        }
+                        questionAnswer = if (questionAnswer == "yes") null else "yes"
+                        questionAnswer
+                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.BLOOD_SUGAR, it) }
+                            ?: viewModel.clearAnswer(FlowAnswerKeys.BLOOD_SUGAR)
                     },
                     buttonText = "Yes",
                     isSelected = questionAnswer == "yes"
@@ -104,11 +110,10 @@ fun BloodSugarScreen(
 
                 CustomWidthInactiveButton(
                     onClick = {
-                        questionAnswer = if (questionAnswer == "no") {
-                            null
-                        } else {
-                            "no"
-                        }
+                        questionAnswer = if (questionAnswer == "no") null else "no"
+                        questionAnswer
+                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.BLOOD_SUGAR, it) }
+                            ?: viewModel.clearAnswer(FlowAnswerKeys.BLOOD_SUGAR)
                     },
                     buttonText = "No",
                     isSelected = questionAnswer == "no"
@@ -127,9 +132,7 @@ fun BloodSugarScreen(
                                 if(questionAnswer == "no"){
                                     navController.navigate(SickDayScreen.CallDoctor.route)
                                 }else{
-                                    if (iLetKetone == "Moderate"){
-                                        navController.navigate("${SickDayScreen.ManageILet.route}/$iLetKetone")
-                                    }else if (iLetKetone == "High"){
+                                    if (iLetKetone == "Moderate" || iLetKetone == "High") {
                                         navController.navigate("${SickDayScreen.ManageILet.route}/$iLetKetone")
                                     }
                                 }
@@ -190,6 +193,7 @@ fun BloodSugarScreenPreview(){
     BloodSugarScreen(
         navController = navController,
         instrument = "ilet",
-        onExitToMain = {}
+        onExitToMain = {},
+        viewModel = SickDayViewModel()
     )
 }

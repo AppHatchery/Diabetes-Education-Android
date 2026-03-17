@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,9 +22,11 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -36,6 +39,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.data.prefs.SickDayPrefs
+import edu.emory.diabetes.education.notifications.ReminderScheduler
+import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CheckReminderCard
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
@@ -44,8 +50,30 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDaySc
 @Composable
 fun RegularCareLow(
     navController: NavController,
+    viewModel: SickDayViewModel,
     onExitToMain: () -> Unit
 ){
+    val context = LocalContext.current
+    val prefs = remember { SickDayPrefs(context) }
+
+    // True when this screen was launched as the start destination
+    // (i.e. resumed from a reminder checkpoint with no back stack)
+    val isStartDestination = remember {
+        !navController.previousBackStackEntry?.destination?.route.isNullOrEmpty().not()
+    }
+
+    // Intercept system back when there's nothing behind us
+    BackHandler(enabled = isStartDestination) {
+        prefs.clearReminderCheckpoint()
+        viewModel.clearFlow()
+        onExitToMain()
+    }
+
+    val savedEndTimeMs = remember {
+        if (prefs.getBoolean(SickDayPrefs.KEY_REMINDER_ACTIVE, false))
+            prefs.getReminderEndTimeMs()
+        else 0L
+    }
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
@@ -53,12 +81,23 @@ fun RegularCareLow(
                 title = "",
                 showNavigation = true,
                 onNavigationClick = {
-                    navController.popBackStack()
+                    if (isStartDestination) {
+                        // No back stack — exit the fragment cleanly
+                        viewModel.clearFlow()
+                        onExitToMain()
+                    } else {
+                        navController.popBackStack()
+                    }
                 },
                 color = Color.White,
                 iconColor = Color.Black,
                 isCloseVisible = true,
-                onExitToMain = onExitToMain
+                onExitToMain = {
+                    // Flow answers clear automatically when Fragment is destroyed,
+                    // Only the explicit clearFlow is needed for non-reminder state.
+                    viewModel.clearFlow()
+                    onExitToMain()
+                }
             )
         },
         containerColor = Color.White
@@ -92,8 +131,31 @@ fun RegularCareLow(
             Spacer(modifier = Modifier.height(40.dp))
 
             CheckReminderCard(
-                onReminderSet = {},
-                onStartTest = {}
+                durationMinutes = 120,
+                savedEndTimeMs = savedEndTimeMs,
+                onReminderSet = {
+                    // User started the timer — persist the checkpoint
+                    ReminderScheduler.scheduleReminder(context, durationMinutes = 120)
+                    prefs.saveReminderCheckpoint(
+                        route = SickDayScreen.RegularCareLow.route,
+                        durationMinutes = 120
+                    )
+                },
+                onStartTest = {
+                    // Timer finished and they tapped Start Test —
+                    // checkpoint no longer needed, clear it then navigate
+                    ReminderScheduler.scheduleReminder(context, durationMinutes = 120)
+                    prefs.saveReminderCheckpoint(
+                        route = SickDayScreen.RegularCareLow.route,
+                        durationMinutes = 120
+                    )
+                    navController.navigate(SickDayScreen.KetoneReminder.route)
+                },
+                onSkipReminder = {
+                    // User explicitly skipped — clear checkpoint then navigate
+                    prefs.clearReminderCheckpoint()
+                    navController.navigate(SickDayScreen.KetoneReminder.route)
+                }
             )
 
             Spacer(modifier = Modifier.height(40.dp))
@@ -117,6 +179,7 @@ fun RegularCareLow(
             ){
                 CustomTransparentTextButton(
                     onClick = {
+                        prefs.clearReminderCheckpoint()
                         navController.navigate(SickDayScreen.KetoneReminder.route)
                     },
                     buttonText = "Yes, Over 2 Hours",
@@ -156,6 +219,7 @@ fun RegularCareLowPreview(){
     val navController = rememberNavController()
     RegularCareLow(
         navController,
+        viewModel = SickDayViewModel(),
         onExitToMain = {}
     )
 }

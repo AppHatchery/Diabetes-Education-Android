@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -45,14 +48,31 @@ import kotlin.time.Duration.Companion.seconds
 @Composable
 fun CheckReminderCard(
     durationMinutes: Int = 120,
+    savedEndTimeMs: Long = 0L,
     onReminderSet: () -> Unit,
     onStartTest: () -> Unit,
+    onSkipReminder:() -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    var isCountingDown by remember { mutableStateOf(false) }
-    var isFinished by remember { mutableStateOf(false) }
     val totalSeconds = durationMinutes * 60L
-    var timeRemainingSeconds by remember { mutableStateOf(totalSeconds) }
+
+    // On first composition, calculate remaining seconds from the saved end time.
+    // If savedEndTimeMs is 0 or already passed, start fresh.
+    val initialSecondsRemaining = remember {
+        if (savedEndTimeMs > 0L) {
+            val remainingMs = savedEndTimeMs - System.currentTimeMillis()
+            if (remainingMs > 0) remainingMs / 1000L else 0L
+        } else {
+            totalSeconds
+        }
+    }
+
+    // Resume counting down if there was a saved reminder that hasn't expired
+    var isCountingDown by remember { mutableStateOf(initialSecondsRemaining in 1..<totalSeconds) }
+    var isFinished by remember { mutableStateOf(initialSecondsRemaining == 0L && savedEndTimeMs > 0L) }
+    var timeRemainingSeconds by remember { mutableStateOf(
+        if (isFinished) 0L else initialSecondsRemaining
+    ) }
 
     val durationLabel = if (durationMinutes == 90) "90 Minutes" else "2 Hours"
 
@@ -143,48 +163,73 @@ fun CheckReminderCard(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Button(
-                onClick = {
+            // Primary action button — "Remind Me" / "Start Test"
+            // Hidden while countdown is active (replaced by Skip button below)
+            if (!isCountingDown) {
+                Button(
+                    onClick = {
+                        if (isFinished) {
+                            onStartTest()
+                        } else {
+                            isCountingDown = true
+                            timeRemainingSeconds = totalSeconds
+                            onReminderSet()
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(
+                            if (isFinished) R.color.primaryGreen else R.color.primaryBlue
+                        )
+                    )
+                ) {
                     if (isFinished) {
-                        onStartTest()
+                        Text(
+                            text = "Start Test",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Outlined.ArrowForward,
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
+                        )
                     } else {
-                        isCountingDown = true
-                        timeRemainingSeconds = totalSeconds
-                        onReminderSet()
+                        Icon(
+                            imageVector = Icons.Outlined.Notifications,
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Remind Me",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
-                shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(
-                        if (isFinished) R.color.primaryGreen else R.color.primaryBlue
+                }
+            }
+
+            // Skip button — only shown while the countdown is running
+            if (isCountingDown) {
+                OutlinedButton(
+                    onClick = onSkipReminder,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    border = BorderStroke(1.dp, colorResource(R.color.primaryBlue)),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        containerColor = Color.White,
+                        contentColor = colorResource(R.color.primaryBlue)
                     )
-                ),
-                enabled = !isCountingDown
-            ) {
-                if (isFinished) {
+                ) {
                     Text(
-                        text = "Start Test",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Outlined.ArrowForward,
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp)
-                    )
-                } else {
-                    Icon(
-                        imageVector = Icons.Outlined.Notifications,
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = if (isCountingDown) "Reminder Set" else "Remind Me",
+                        text = "Skip this Reminder",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )

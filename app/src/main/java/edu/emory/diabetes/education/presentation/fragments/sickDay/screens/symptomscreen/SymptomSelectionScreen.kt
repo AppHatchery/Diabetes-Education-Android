@@ -1,6 +1,7 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen
 
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
+import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CardWithImage
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CardWithoutImage
@@ -54,13 +56,29 @@ fun SymptomSelectionScreen(
     viewModel: SickDayViewModel,
     onExitToMain: () -> Unit
 ){
+    // True only when this is the very first screen in the flow
+    val isStartDestination = categoryId == "firstSymptoms"
+
+    // Intercept the system/hardware back button on the start screen
+    BackHandler(enabled = isStartDestination) {
+        viewModel.clearFlow()
+        onExitToMain()
+    }
     val context = LocalContext.current
     val prefs = SickDayPrefs(context)
     val category = remember(categoryId) {
         viewModel.getSymptomCategory(categoryId)
     }
-    var selectedSymptom by remember { mutableStateOf<String?>(null) }
-    var iLetSelected by remember { mutableStateOf<String?>(null) }
+
+    // Restore whatever the user previously selected on this category screen.
+    // The symptomKey is unique per categoryId, so navigating back to
+    var selectedSymptom by remember {
+        mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.symptomKey(categoryId)))
+    }
+
+    var iLetSelected by remember {
+        mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.ILET_SELECTED))
+    }
 
     val instrumentType = remember(selectedSymptom, iLetSelected) {
         when {
@@ -78,12 +96,21 @@ fun SymptomSelectionScreen(
                 title = "",
                 showNavigation = true,
                 onNavigationClick = {
-                    navController.popBackStack()
+                    if (isStartDestination) {
+                        // Nothing left to pop in NavHost — exit the fragment instead
+                        viewModel.clearFlow()
+                        onExitToMain()
+                    } else {
+                        navController.popBackStack()
+                    }
                 },
                 color = Color.White,
                 iconColor = Color.Black,
                 isCloseVisible = true,
-                onExitToMain = onExitToMain
+                onExitToMain = {
+                    viewModel.clearFlow()
+                    onExitToMain()
+                }
             )
         },
         containerColor = Color.White
@@ -117,11 +144,10 @@ fun SymptomSelectionScreen(
                     selectedSymptom = selectedSymptom,
                     textOnlyOption = "Not Sure What's Wrong",
                     onSymptomToggle = { symptomId ->
-                        selectedSymptom = if (selectedSymptom == symptomId) {
-                            null
-                        } else {
-                            symptomId
-                        }
+                        selectedSymptom = if (selectedSymptom == symptomId) null else symptomId
+                        selectedSymptom
+                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.symptomKey(categoryId), it) }
+                            ?: viewModel.clearAnswer(FlowAnswerKeys.symptomKey(categoryId))
                     }
                 )
                 "abdominal" -> SymptomMixedGrid(
@@ -129,11 +155,10 @@ fun SymptomSelectionScreen(
                     selectedSymptom = selectedSymptom,
                     textOnlyOption = "None of the above",
                     onSymptomToggle = { symptomId ->
-                        selectedSymptom = if (selectedSymptom == symptomId) {
-                            null
-                        } else {
-                            symptomId
-                        }
+                        selectedSymptom = if (selectedSymptom == symptomId) null else symptomId
+                        selectedSymptom
+                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.symptomKey(categoryId), it) }
+                            ?: viewModel.clearAnswer(FlowAnswerKeys.symptomKey(categoryId))
                     }
                 )
 
@@ -141,13 +166,15 @@ fun SymptomSelectionScreen(
                     symptoms = category.symptoms,
                     selectedSymptom = selectedSymptom,
                     onSymptomToggle = { symptomId ->
-                        selectedSymptom = if (selectedSymptom == symptomId) {
-                            null
-                        } else {
-                            symptomId
-                        }
+                        selectedSymptom = if (selectedSymptom == symptomId) null else symptomId
+                        selectedSymptom
+                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.symptomKey(categoryId), it) }
+                            ?: viewModel.clearAnswer(FlowAnswerKeys.symptomKey(categoryId))
+
+                        // If they deselected Insulin_pump, also wipe the iLet answer
                         if (symptomId != "Insulin_pump") {
                             iLetSelected = null
+                            viewModel.clearAnswer(FlowAnswerKeys.ILET_SELECTED)
                         }
                     }
                 )
@@ -158,20 +185,16 @@ fun SymptomSelectionScreen(
                 TextWithButtons(
                     text = "Does your child use the iLet Pump?",
                     buttonAonClick = {
-                        iLetSelected = if(iLetSelected == "yes"){
-                            null
-                        }else{
-                            "yes"
-                        }
-                       selectedSymptom == "ilet"
+                        iLetSelected = if (iLetSelected == "yes") null else "yes"
+                        iLetSelected
+                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.ILET_SELECTED, it) }
+                            ?: viewModel.clearAnswer(FlowAnswerKeys.ILET_SELECTED)
                     },
                     buttonBonClick = {
-                        iLetSelected = if(iLetSelected == "no"){
-                            null
-                        }else{
-                            "no"
-                        }
-                        selectedSymptom == "insulin_pump"
+                        iLetSelected = if (iLetSelected == "no") null else "no"
+                        iLetSelected
+                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.ILET_SELECTED, it) }
+                            ?: viewModel.clearAnswer(FlowAnswerKeys.ILET_SELECTED)
                     },
                     isYesSelected = iLetSelected == "yes",
                     isNoSelected = iLetSelected == "no"
@@ -182,11 +205,10 @@ fun SymptomSelectionScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 FullWidthInactiveButton(
                     onClick = {
-                        selectedSymptom = if (selectedSymptom == "none_of_above") {
-                            null
-                        } else {
-                            "none_of_above"
-                        }
+                        selectedSymptom = if (selectedSymptom == "none_of_above") null else "none_of_above"
+                        selectedSymptom
+                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.symptomKey(categoryId), it) }
+                            ?: viewModel.clearAnswer(FlowAnswerKeys.symptomKey(categoryId))
                     },
                     isSelected = selectedSymptom == "none_of_above"
                 )
@@ -195,22 +217,20 @@ fun SymptomSelectionScreen(
             val isNextEnabled = remember(selectedSymptom, iLetSelected, categoryId) {
                 when {
                     categoryId == "injection" -> {
-                        if (selectedSymptom == "Insulin_pump") {
-                            iLetSelected != null
-                        } else {
-                            selectedSymptom != null
-                        }
+                        if (selectedSymptom == "Insulin_pump") iLetSelected != null
+                        else selectedSymptom != null
                     }
                     else -> selectedSymptom != null
                 }
             }
-
             Spacer(modifier = Modifier.weight(1f))
 
             NextButton(
                 onClick = {
                     if (categoryId == "injection" && instrumentType != null) {
-                        prefs.putString(INSTRUMENT_TYPE, instrumentType)
+                        // Migrate: save instrument type to ViewModel instead of only SharedPrefs
+                        viewModel.saveAnswer(FlowAnswerKeys.INSTRUMENT_TYPE, instrumentType)
+                        prefs.putString(INSTRUMENT_TYPE, instrumentType) // keep if other screens still read from prefs
                         navController.navigate("${SickDayScreen.Duration.route}/$instrumentType")
                     } else {
                         val symptomsSet = selectedSymptom?.let { setOf(it) } ?: emptySet()
