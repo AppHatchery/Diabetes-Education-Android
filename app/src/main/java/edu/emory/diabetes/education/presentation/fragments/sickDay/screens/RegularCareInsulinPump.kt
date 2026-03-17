@@ -43,7 +43,8 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDaySc
 
 @Composable
 fun RegularCareInsulinPump(
-    navController: NavController
+    navController: NavController,
+    onExitToMain: () -> Unit
 ) {
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -55,7 +56,9 @@ fun RegularCareInsulinPump(
                     navController.popBackStack()
                 },
                 color = Color.White,
-                iconColor = Color.Black
+                iconColor = Color.Black,
+                isCloseVisible = true,
+                onExitToMain = onExitToMain
             )
         },
         containerColor = Color.White
@@ -212,6 +215,7 @@ fun InsulinPumpText(
 fun RegularCareInsulinPumpPreview(){
     val navController = rememberNavController()
     RegularCareInsulinPump(
-        navController = navController
+        navController = navController,
+        onExitToMain = {}
     )
 }

@@ -47,7 +47,8 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDaySc
 
 @Composable
 fun KetoneReminderScreen(
-    navController: NavController
+    navController: NavController,
+    onExitToMain: () -> Unit
 ){
     val categoryId = "ketone"
     val context = LocalContext.current
@@ -86,7 +87,9 @@ fun KetoneReminderScreen(
                 showNavigation = true,
                 onNavigationClick = {navController.popBackStack()},
                 color = Color.White,
-                iconColor = Color.Black
+                iconColor = Color.Black,
+                isCloseVisible = true,
+                onExitToMain = onExitToMain
             )
         },
         containerColor = Color.White
@@ -293,6 +296,7 @@ fun KetoneReminderScreen(
 fun KetoneReminderScreenPreview(){
     val navController = rememberNavController()
     KetoneReminderScreen(
-        navController = navController
+        navController = navController,
+        onExitToMain = {}
     )
 }

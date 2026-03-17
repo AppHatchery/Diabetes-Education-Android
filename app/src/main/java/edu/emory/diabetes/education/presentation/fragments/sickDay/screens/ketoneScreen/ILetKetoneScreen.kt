@@ -47,7 +47,8 @@ import kotlin.collections.contains
 @Composable
 fun IletKetoneScreen(
   navController: NavController,
-  type: String
+  type: String,
+  onExitToMain: () -> Unit
 ){
     val categoryId = "IletKetone"
     val context = LocalContext.current
@@ -66,7 +67,9 @@ fun IletKetoneScreen(
                 showNavigation = true,
                 onNavigationClick = {navController.popBackStack()},
                 color = Color.White,
-                iconColor = Color.Black
+                iconColor = Color.Black,
+                isCloseVisible = true,
+                onExitToMain = onExitToMain
             )
         },
         containerColor = Color.White
@@ -198,6 +201,7 @@ fun ILetKetoneReminderScreenPreview(){
     val navController = rememberNavController()
     IletKetoneScreen(
         navController = navController,
-        type = "lowKetone"
+        type = "lowKetone",
+        onExitToMain = {}
     )
 }

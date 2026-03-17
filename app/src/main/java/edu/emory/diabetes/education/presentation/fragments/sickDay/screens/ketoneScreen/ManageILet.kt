@@ -43,7 +43,8 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.Insul
 @Composable
 fun ManageILet(
     navController: NavController,
-    type: String
+    type: String,
+    onExitToMain: () -> Unit
 ){
     val context = LocalContext.current
     Scaffold(
@@ -56,7 +57,9 @@ fun ManageILet(
                     navController.popBackStack()
                 },
                 color = Color.White,
-                iconColor = Color.Black
+                iconColor = Color.Black,
+                isCloseVisible = true,
+                onExitToMain = onExitToMain
             )
         },
         containerColor = Color.White
@@ -437,6 +440,7 @@ fun ManageILetPreview(){
     val navController = rememberNavController()
     ManageILet(
         navController = navController,
-        type = "high"
+        type = "high",
+        onExitToMain = {}
     )
 }

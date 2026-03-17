@@ -37,7 +37,8 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDaySc
 @Composable
 fun BloodSugarScreen(
   navController: NavController,
-  instrument: String
+  instrument: String,
+  onExitToMain: () -> Unit
 ){
     val context = LocalContext.current
     val prefs = SickDayPrefs(context)
@@ -62,7 +63,9 @@ fun BloodSugarScreen(
                     navController.popBackStack()
                 },
                 color = Color.White,
-                iconColor = Color.Black
+                iconColor = Color.Black,
+                isCloseVisible = true,
+                onExitToMain = onExitToMain
             )
         },
         containerColor = Color.White
@@ -186,6 +189,7 @@ fun BloodSugarScreenPreview(){
     val navController = rememberNavController()
     BloodSugarScreen(
         navController = navController,
-        instrument = "ilet"
+        instrument = "ilet",
+        onExitToMain = {}
     )
 }

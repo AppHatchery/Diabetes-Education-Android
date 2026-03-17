@@ -29,7 +29,8 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Si
 
 @Composable
 fun RegularCareScreen(
-    navController: NavController
+    navController: NavController,
+    onExitToMain: () -> Unit
 ){
 
     val categoryId = "regular_care"
@@ -79,7 +80,7 @@ fun RegularCareScreen(
                 Spacer(modifier = Modifier.weight(1f))
 
                 CustomTransparentTextButton(
-                    onClick = { navController.popBackStack() },
+                    onClick = onExitToMain,
                     buttonText = "Exit"
                 )
 
@@ -94,6 +95,7 @@ fun RegularCareScreen(
 fun RegularCareScreenPreview(){
     val navController = rememberNavController()
     RegularCareScreen(
-        navController = navController
+        navController = navController,
+        onExitToMain = {}
     )
 }

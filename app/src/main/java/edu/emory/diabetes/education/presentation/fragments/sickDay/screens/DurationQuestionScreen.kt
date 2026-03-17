@@ -42,7 +42,8 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Te
 fun DurationQuestionScreen(
     instrumentType: String,
     navController: NavController,
-    viewModel: SickDayViewModel
+    viewModel: SickDayViewModel,
+    onExitToMain: () -> Unit,
 ){
     val questionId = "duration"
 
@@ -68,7 +69,9 @@ fun DurationQuestionScreen(
                     navController.popBackStack()
                 },
                 color = Color.White,
-                iconColor = Color.Black
+                iconColor = Color.Black,
+                isCloseVisible = true,
+                onExitToMain = onExitToMain
             )
         },
         containerColor = Color.White
@@ -240,6 +243,7 @@ fun DurationQuestionScreenPreview(){
     DurationQuestionScreen(
         navController = navController,
         viewModel = SickDayViewModel(),
-        instrumentType = "injection"
+        instrumentType = "injection",
+        onExitToMain = {}
     )
 }

@@ -36,7 +36,8 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDaySc
 fun ILetBloodSugarScreen(
     navController: NavController,
     type: String,
-    measure: String
+    measure: String,
+    onExitToMain: () -> Unit
 ){
     var questionAnswer by remember { mutableStateOf<String?>(null) }
 
@@ -50,7 +51,9 @@ fun ILetBloodSugarScreen(
                     navController.popBackStack()
                 },
                 color = Color.White,
-                iconColor = Color.Black
+                iconColor = Color.Black,
+                isCloseVisible = true,
+                onExitToMain = onExitToMain
             )
         },
         containerColor = Color.White
@@ -139,6 +142,7 @@ fun ILetBloodSugarPreview(){
     ILetBloodSugarScreen(
         navController = navController,
         type = "ilet",
-        measure = "blood"
+        measure = "blood",
+        onExitToMain = {}
     )
 }

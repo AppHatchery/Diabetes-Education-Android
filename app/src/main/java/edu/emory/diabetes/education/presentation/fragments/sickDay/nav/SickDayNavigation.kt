@@ -46,7 +46,8 @@ fun SickDayNavigation(
             SymptomSelectionScreen(
                 categoryId = categoryId,
                 navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                onExitToMain = onExitToMain
             )
         }
 
@@ -75,37 +76,43 @@ fun SickDayNavigation(
             DurationQuestionScreen(
                 navController = navController,
                 viewModel = viewModel,
-                instrumentType = instrumentId
+                instrumentType = instrumentId,
+                onExitToMain = onExitToMain
             )
         }
 
         composable(SickDayScreen.RegularCare.route) {
             RegularCareScreen(
-                navController = navController
+                navController = navController,
+                onExitToMain = onExitToMain
             )
         }
 
         composable(SickDayScreen.Ketone.route) {
             KetoneScreen(
-                navController = navController
+                navController = navController,
+                onExitToMain = onExitToMain
             )
         }
 
         composable(SickDayScreen.RegularCareLow.route) {
             RegularCareLow(
-                navController = navController
+                navController = navController,
+                onExitToMain = onExitToMain
             )
         }
 
         composable(SickDayScreen.RegularCareInsulinPump.route) {
             RegularCareInsulinPump(
-                navController = navController
+                navController = navController,
+                onExitToMain = onExitToMain
             )
         }
 
         composable(SickDayScreen.KetoneReminder.route) {
             KetoneReminderScreen(
-                navController = navController
+                navController = navController,
+                onExitToMain = onExitToMain
             )
         }
 
@@ -135,7 +142,8 @@ fun SickDayNavigation(
             val instrument = backStackEntry.arguments?.getString("instrument") ?: "injection"
             BloodSugarScreen(
                 navController = navController,
-                instrument = instrument
+                instrument = instrument,
+                onExitToMain = onExitToMain
             )
         }
 
@@ -148,7 +156,8 @@ fun SickDayNavigation(
             val type = backStackEntry.arguments?.getString("type") ?: "low"
             ManageILet(
                 navController = navController,
-                type = type
+                type = type,
+                onExitToMain = onExitToMain
             )
         }
 
@@ -168,7 +177,8 @@ fun SickDayNavigation(
             val type = backStackEntry.arguments?.getString("type") ?: "lowKetone"
             IletKetoneScreen(
                 navController = navController,
-                type = type
+                type = type,
+                onExitToMain = onExitToMain
             )
         }
 
@@ -184,7 +194,8 @@ fun SickDayNavigation(
             ILetBloodSugarScreen(
                 navController = navController,
                 type = type,
-                measure = measure
+                measure = measure,
+                onExitToMain = onExitToMain
             )
         }
 

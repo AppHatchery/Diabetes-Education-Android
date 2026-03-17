@@ -51,7 +51,8 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDaySc
 fun SymptomSelectionScreen(
     categoryId: String,
     navController: NavController,
-    viewModel: SickDayViewModel
+    viewModel: SickDayViewModel,
+    onExitToMain: () -> Unit
 ){
     val context = LocalContext.current
     val prefs = SickDayPrefs(context)
@@ -80,7 +81,9 @@ fun SymptomSelectionScreen(
                     navController.popBackStack()
                 },
                 color = Color.White,
-                iconColor = Color.Black
+                iconColor = Color.Black,
+                isCloseVisible = true,
+                onExitToMain = onExitToMain
             )
         },
         containerColor = Color.White
@@ -284,8 +287,9 @@ fun SymptomMixedGrid(
 fun SymptomSelectionScreenPreview() {
     val navController = rememberNavController()
     SymptomSelectionScreen(
-        categoryId = "firstSymptoms",
+        categoryId = "injection",
         navController = navController,
-        viewModel = SickDayViewModel()
+        viewModel = SickDayViewModel(),
+        onExitToMain = {}
     )
 }

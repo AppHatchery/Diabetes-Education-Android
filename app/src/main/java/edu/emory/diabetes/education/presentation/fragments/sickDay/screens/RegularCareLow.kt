@@ -43,7 +43,8 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDaySc
 
 @Composable
 fun RegularCareLow(
-    navController: NavController
+    navController: NavController,
+    onExitToMain: () -> Unit
 ){
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -55,7 +56,9 @@ fun RegularCareLow(
                     navController.popBackStack()
                 },
                 color = Color.White,
-                iconColor = Color.Black
+                iconColor = Color.Black,
+                isCloseVisible = true,
+                onExitToMain = onExitToMain
             )
         },
         containerColor = Color.White
@@ -152,6 +155,7 @@ fun BulletPoint(text: androidx.compose.ui.text.AnnotatedString) {
 fun RegularCareLowPreview(){
     val navController = rememberNavController()
     RegularCareLow(
-        navController
+        navController,
+        onExitToMain = {}
     )
 }
