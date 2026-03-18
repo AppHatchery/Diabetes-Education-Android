@@ -1,6 +1,5 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
@@ -31,17 +29,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
-import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.AfterCorrectionCard
-import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CorrectionCard
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
-import edu.emory.diabetes.education.presentation.fragments.sickDay.components.INSTRUMENT_TYPE
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.BulletPoint
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.InsulinPumpText
 
 @Composable
-fun MangeAtHome(
+fun ManageAtHome(
     onExitToMain: () -> Unit,
     navController: NavController,
     instrument: String,
@@ -379,7 +374,7 @@ fun InsulinPumpContent(){
 @Composable
 fun ManageAtHomePreview(){
     val navController = rememberNavController()
-    MangeAtHome(
+    ManageAtHome(
         navController = navController,
         onExitToMain = {},
         instrument = "injection",

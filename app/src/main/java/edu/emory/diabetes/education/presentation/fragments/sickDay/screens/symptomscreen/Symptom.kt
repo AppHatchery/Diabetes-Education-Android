@@ -19,7 +19,7 @@ data class Symptom(
 object SymptomData {
     val firstSymptoms = SymptomCategory(
         id = "firstSymptoms",
-        title = "Select the issue you child is facing:",
+        title = "Select the issue your child is facing:",
         subtitle = null,
         symptoms = listOf(
             Symptom("Diabetic_Ketoacidosis","Diabetic Ketoacidosis (DKA)",R.drawable.im_dka),

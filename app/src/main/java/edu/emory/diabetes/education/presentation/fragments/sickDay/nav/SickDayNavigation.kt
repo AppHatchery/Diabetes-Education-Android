@@ -3,7 +3,6 @@ package edu.emory.diabetes.education.presentation.fragments.sickDay.nav
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,7 +23,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.keton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.IletKetoneScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneReminderScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.ManageILet
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.MangeAtHome
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.ManageAtHome
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.NewPumpSiteScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomSelectionScreen
 
@@ -149,7 +148,7 @@ fun SickDayNavigation(
         ) { backStackEntry ->
             val instrument = backStackEntry.arguments?.getString("instrument") ?: "injection"
             val isLow = backStackEntry.arguments?.getBoolean("isLow") ?: false
-            MangeAtHome(
+            ManageAtHome(
                 navController = navController,
                 onExitToMain = onExitToMain,
                 instrument = instrument,

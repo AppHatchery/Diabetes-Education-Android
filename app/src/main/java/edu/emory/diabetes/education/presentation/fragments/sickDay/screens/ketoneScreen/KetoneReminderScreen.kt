@@ -85,7 +85,7 @@ fun KetoneReminderScreen(
     }
 
     val instrument = prefs.getString(INSTRUMENT_TYPE, "injection")
-    val ketone = prefs.getString(KETONE, "urine")
+    val ketone = prefs.getString(KETONE, "urine_ketone")
 
     var selectedMeasure by remember {
         mutableStateOf(
