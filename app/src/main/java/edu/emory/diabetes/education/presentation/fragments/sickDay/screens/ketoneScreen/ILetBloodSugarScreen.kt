@@ -66,7 +66,7 @@ fun ILetBloodSugarScreen(
                 .background(Color.White)
         ) {
             Text(
-                text = "Is your child's blood sugar 18 mg/dl or higher?",
+                text = "Is your child's blood sugar 180 mg/dl or higher?",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.W500,
                 color = colorResource(R.color.primaryBlue),

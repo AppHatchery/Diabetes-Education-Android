@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
@@ -201,6 +202,7 @@ fun KetoneScreen(
                         else -> "High"
                     }
                     prefs.putString(KETONE, selectedMeasure)
+                    viewModel.saveAnswer(FlowAnswerKeys.KETONE_MEASURE, selectedMeasure.toString())
                     prefs.putString("iLetKetone", iLetKetone)
 
                     viewModel.saveAnswer(FlowAnswerKeys.ILET_KETONE, iLetKetone)
@@ -259,6 +261,6 @@ fun KetoneScreenPreview(){
     KetoneScreen(
         navController = navController,
         onExitToMain = {},
-        viewModel = SickDayViewModel()
+        viewModel = viewModel()
     )
 }

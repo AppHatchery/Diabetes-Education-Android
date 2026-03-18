@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
@@ -148,7 +149,7 @@ fun BloodSugarScreen(
                             if(questionAnswer == "yes"){
                                 navController.navigate("${SickDayScreen.ManageAtHome.route}/$instrument/$isLow")
                             }else{
-                                navController.navigate(SickDayScreen.CallCHOA.route)
+                                navController.navigate(SickDayScreen.CallDoctor.route)
                             }
                         }
                     }
@@ -162,29 +163,6 @@ fun BloodSugarScreen(
     }
 }
 
-//onClick = {
-//    when(instrument){
-//        "ilet" ->{
-//            if(over300 == "false"){
-//                if(questionAnswer == "yes") {
-//                    navController.navigate("${SickDayScreen.ManageAtHome.route}/$instrument/$isLow")
-//                } else{
-//                    navController.navigate(SickDayScreen.CallDoctor.route)
-//                }
-//            }else{
-//                navController.navigate(SickDayScreen.CallDoctor.route)
-//            }
-//        }
-//        else -> {
-//            if(questionAnswer == "yes"){
-//                navController.navigate("${SickDayScreen.ManageAtHome.route}/$instrument/$isLow")
-//            }else{
-//                navController.navigate(SickDayScreen.CallCHOA.route)
-//            }
-//        }
-//    }
-//},
-
 
 @Preview
 @Composable
@@ -194,6 +172,6 @@ fun BloodSugarScreenPreview(){
         navController = navController,
         instrument = "ilet",
         onExitToMain = {},
-        viewModel = SickDayViewModel()
+        viewModel = viewModel()
     )
 }

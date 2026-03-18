@@ -3,6 +3,7 @@ package edu.emory.diabetes.education.presentation.fragments.sickDay.nav
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -44,7 +45,7 @@ fun SickDayNavigation(
 
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = SickDayScreen.SymptomSelection.createRoute("firstSymptoms")
     ) {
         composable(
             route = SickDayScreen.SymptomSelection.route,
@@ -126,7 +127,8 @@ fun SickDayNavigation(
         composable(SickDayScreen.KetoneReminder.route) {
             KetoneReminderScreen(
                 navController = navController,
-                onExitToMain = onExitToMain
+                onExitToMain = onExitToMain,
+                viewModel = viewModel
             )
         }
 
@@ -194,7 +196,8 @@ fun SickDayNavigation(
             IletKetoneScreen(
                 navController = navController,
                 type = type,
-                onExitToMain = onExitToMain
+                onExitToMain = onExitToMain,
+                viewModel = viewModel
             )
         }
 

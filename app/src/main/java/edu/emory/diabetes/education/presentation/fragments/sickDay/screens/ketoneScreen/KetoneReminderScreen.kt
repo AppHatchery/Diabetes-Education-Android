@@ -33,10 +33,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
+import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
+import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CardWithImageCustomSize
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomWidthInactiveButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.INSTRUMENT_TYPE
@@ -48,18 +51,29 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDaySc
 @Composable
 fun KetoneReminderScreen(
     navController: NavController,
+    viewModel: SickDayViewModel,
     onExitToMain: () -> Unit
 ){
     val categoryId = "ketone"
     val context = LocalContext.current
     val prefs = SickDayPrefs(context)
 
-    val instrument = prefs.getString(INSTRUMENT_TYPE, "injection")
-    val ketone = prefs.getString(KETONE, "urine")
+    val instrument = viewModel.getAnswer(FlowAnswerKeys.INSTRUMENT_TYPE) ?: "injection"
+    val ketone = viewModel.getAnswer(FlowAnswerKeys.KETONE_MEASURE) ?: "urine_ketone"
 
-    var selectedMeasure by remember { mutableStateOf(if (ketone == "urine_ketone") "urine_ketone" else "blood_ketone") }
-    var selectedUrineLevel by remember { mutableStateOf<String?>(null) }
-    var firstQuestionAnswer by remember { mutableStateOf<String?>(null) }
+    var selectedMeasure by remember {
+        mutableStateOf(
+            viewModel.getAnswer(FlowAnswerKeys.REMINDER_KETONE_MEASURE)
+                ?: if (ketone == "urine_ketone") "urine_ketone" else "blood_ketone"
+        )
+    }
+
+    var selectedUrineLevel by remember {
+        mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.REMINDER_KETONE_LEVEL))
+    }
+    var firstQuestionAnswer by remember {
+        mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1))
+    }
 
     val showLowKetoneQuestion = instrument == "insulin_pump"
             && selectedUrineLevel in listOf("Neg", "5", "Low")
@@ -140,7 +154,10 @@ fun KetoneReminderScreen(
                     selectedLevel = selectedUrineLevel,
                     onLevelSelected = { level ->
                         selectedUrineLevel = level
+                        viewModel.saveAnswer(FlowAnswerKeys.REMINDER_KETONE_LEVEL, level)
+                        // Changing the level invalidates the follow-up question
                         firstQuestionAnswer = null
+                        viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
                     }
                 )
             }else if(selectedMeasure == "blood_ketone") {
@@ -148,7 +165,9 @@ fun KetoneReminderScreen(
                     selectedLevel = selectedUrineLevel,
                     onLevelSelected = { level ->
                         selectedUrineLevel = level
+                        viewModel.saveAnswer(FlowAnswerKeys.REMINDER_KETONE_LEVEL, level)
                         firstQuestionAnswer = null
+                        viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
                     }
                 )
             }
@@ -160,8 +179,12 @@ fun KetoneReminderScreen(
                 TextButton(
                     onClick = {
                         selectedMeasure = if (selectedMeasure == "urine_ketone") "blood_ketone" else "urine_ketone"
+                        viewModel.saveAnswer(FlowAnswerKeys.REMINDER_KETONE_MEASURE, selectedMeasure)
+                        // Switching measure type invalidates level and follow-up
                         selectedUrineLevel = null
+                        viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_LEVEL)
                         firstQuestionAnswer = null
+                        viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
 
                     },
                     contentPadding = PaddingValues(0.dp)
@@ -192,13 +215,23 @@ fun KetoneReminderScreen(
 
                 Row(modifier = Modifier.fillMaxWidth()) {
                     CustomWidthInactiveButton(
-                        onClick = { firstQuestionAnswer = if (firstQuestionAnswer == "yes") null else "yes" },
+                        onClick = {
+                            firstQuestionAnswer = if (firstQuestionAnswer == "yes") null else "yes"
+                            firstQuestionAnswer
+                                ?.let { viewModel.saveAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1, it) }
+                                ?: viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
+                                  },
                         buttonText = "Yes",
                         isSelected = firstQuestionAnswer == "yes"
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     CustomWidthInactiveButton(
-                        onClick = { firstQuestionAnswer = if (firstQuestionAnswer == "no") null else "no" },
+                        onClick = {
+                            firstQuestionAnswer = if (firstQuestionAnswer == "no") null else "no"
+                            firstQuestionAnswer
+                                ?.let { viewModel.saveAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1, it) }
+                                ?: viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
+                        },
                         buttonText = "No",
                         isSelected = firstQuestionAnswer == "no"
                     )
@@ -220,13 +253,23 @@ fun KetoneReminderScreen(
 
                 Row(modifier = Modifier.fillMaxWidth()) {
                     CustomWidthInactiveButton(
-                        onClick = { firstQuestionAnswer = if (firstQuestionAnswer == "yes") null else "yes" },
+                        onClick = {
+                            firstQuestionAnswer = if (firstQuestionAnswer == "yes") null else "yes"
+                            firstQuestionAnswer
+                                ?.let { viewModel.saveAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1, it) }
+                                ?: viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
+                                  },
                         buttonText = "Yes",
                         isSelected = firstQuestionAnswer == "yes"
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     CustomWidthInactiveButton(
-                        onClick = { firstQuestionAnswer = if (firstQuestionAnswer == "no") null else "no" },
+                        onClick = {
+                            firstQuestionAnswer = if (firstQuestionAnswer == "no") null else "no"
+                            firstQuestionAnswer
+                                ?.let { viewModel.saveAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1, it) }
+                                ?: viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
+                        },
                         buttonText = "No",
                         isSelected = firstQuestionAnswer == "no"
                     )
@@ -246,7 +289,7 @@ fun KetoneReminderScreen(
                                 if (firstQuestionAnswer == "yes") {
                                     navController.navigate("${SickDayScreen.ManageAtHome.route}/$instrument/$isLow")
                                 } else {
-                                    navController.navigate(SickDayScreen.CallCHOA.route)
+                                    navController.navigate(SickDayScreen.CallDoctor.route)
                                 }
                             }
                         }
@@ -297,6 +340,7 @@ fun KetoneReminderScreenPreview(){
     val navController = rememberNavController()
     KetoneReminderScreen(
         navController = navController,
-        onExitToMain = {}
+        onExitToMain = {},
+        viewModel = viewModel()
     )
 }

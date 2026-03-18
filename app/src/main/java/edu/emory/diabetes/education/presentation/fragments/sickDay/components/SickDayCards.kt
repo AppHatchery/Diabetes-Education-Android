@@ -317,6 +317,79 @@ fun CorrectionCard(
     }
 }
 
+
+@Composable
+fun AfterCorrectionCard(
+    modifier: Modifier = Modifier
+){
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+        .height(161.dp),
+        colors =
+            CardDefaults.cardColors(containerColor = colorResource(R.color.blue_050)),
+        shape = RoundedCornerShape(12.dp),
+    ) {
+        Box(
+            modifier = modifier.fillMaxSize()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.im_sick_day_correction),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(94.dp)
+                        .height(137.dp)
+                )
+
+                Column(
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp)
+                ) {
+
+                    Text(
+                        text = "After Two Corrections",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.W500,
+                        color = colorResource(R.color.primaryBlue),
+                        textAlign = TextAlign.Start
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = buildAnnotatedString {
+                            append("If ")
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("blood sugar")
+                            }
+                            append(" or ")
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("ketones")
+                            }
+                            append(" do not decrease ")
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("after 2 corrections")
+                            }
+                            append(" call your care team.")
+                        },
+                        fontSize = 16.sp,
+                        lineHeight = 28.sp,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun AfterCorrectionCardPreview(){
+    AfterCorrectionCard(
+        modifier = Modifier
+    )
+}
 @Preview
 @Composable
 fun CorrectionCardPreview(){

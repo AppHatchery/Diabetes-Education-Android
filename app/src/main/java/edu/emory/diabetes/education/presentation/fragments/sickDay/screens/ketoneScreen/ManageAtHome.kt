@@ -32,6 +32,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
+import edu.emory.diabetes.education.presentation.fragments.sickDay.components.AfterCorrectionCard
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CorrectionCard
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.INSTRUMENT_TYPE
@@ -55,6 +56,8 @@ fun MangeAtHome(
                 onNavigationClick = {
                     navController.popBackStack()
                 },
+                isCloseVisible = true,
+                onExitToMain = onExitToMain,
                 color = Color.White,
                 iconColor = Color.Black
             )
@@ -75,7 +78,7 @@ fun MangeAtHome(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                CorrectionCard()
+                AfterCorrectionCard()
 
                 Spacer(modifier = Modifier.weight(1f))
 
@@ -96,13 +99,13 @@ fun MangeAtHome(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                CorrectionCard()
+                AfterCorrectionCard()
             }else{
                 InjectionContent()
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                CorrectionCard()
+                AfterCorrectionCard()
             }
 
         }
@@ -157,7 +160,6 @@ fun InjectionContent(){
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        //create new composable for this text since it has a different format than the other texts
         InsulinPumpText(
             text = buildAnnotatedString {
                 append("Repeat ")
@@ -380,7 +382,7 @@ fun ManageAtHomePreview(){
     MangeAtHome(
         navController = navController,
         onExitToMain = {},
-        instrument = "insulin_pump",
+        instrument = "injection",
         isLow = false
     )
 }

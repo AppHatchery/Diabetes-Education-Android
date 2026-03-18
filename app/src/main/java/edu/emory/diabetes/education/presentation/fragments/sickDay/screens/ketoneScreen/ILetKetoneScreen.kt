@@ -32,10 +32,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
+import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
+import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomWidthInactiveButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.INSTRUMENT_TYPE
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.KETONE
@@ -48,16 +51,24 @@ import kotlin.collections.contains
 fun IletKetoneScreen(
   navController: NavController,
   type: String,
+  viewModel: SickDayViewModel,
   onExitToMain: () -> Unit
 ){
     val categoryId = "IletKetone"
     val context = LocalContext.current
     val prefs = SickDayPrefs(context)
 
-    val ketone = prefs.getString(KETONE, "urine")
+    val ketone = viewModel.getAnswer(FlowAnswerKeys.KETONE_MEASURE) ?: "urine_ketone"
 
-    var selectedMeasure by remember { mutableStateOf(if (ketone == "urine_ketone") "urine_ketone" else "blood_ketone") }
-    var selectedUrineLevel by remember { mutableStateOf<String?>(null) }
+    var selectedMeasure by remember {
+        mutableStateOf(
+            viewModel.getAnswer(FlowAnswerKeys.ILET_KETONE_MEASURE)
+                ?: if (ketone == "urine_ketone") "urine_ketone" else "blood_ketone"
+        )
+    }
+    var selectedUrineLevel by remember {
+        mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.ILET_KETONE_LEVEL))
+    }
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -120,6 +131,7 @@ fun IletKetoneScreen(
                     selectedLevel = selectedUrineLevel,
                     onLevelSelected = { level ->
                         selectedUrineLevel = level
+                        viewModel.saveAnswer(FlowAnswerKeys.ILET_KETONE_LEVEL, level)
                     }
                 )
             }else if(selectedMeasure == "blood_ketone") {
@@ -127,6 +139,7 @@ fun IletKetoneScreen(
                     selectedLevel = selectedUrineLevel,
                     onLevelSelected = { level ->
                         selectedUrineLevel = level
+                        viewModel.saveAnswer(FlowAnswerKeys.ILET_KETONE_LEVEL, level)
                     }
                 )
             }
@@ -138,7 +151,10 @@ fun IletKetoneScreen(
                 TextButton(
                     onClick = {
                         selectedMeasure = if (selectedMeasure == "urine_ketone") "blood_ketone" else "urine_ketone"
+                        viewModel.saveAnswer(FlowAnswerKeys.ILET_KETONE_MEASURE, selectedMeasure)
+                        // Switching measure type invalidates the selected level
                         selectedUrineLevel = null
+                        viewModel.clearAnswer(FlowAnswerKeys.ILET_KETONE_LEVEL)
 
                     },
                     contentPadding = PaddingValues(0.dp)
@@ -202,6 +218,7 @@ fun ILetKetoneReminderScreenPreview(){
     IletKetoneScreen(
         navController = navController,
         type = "lowKetone",
-        onExitToMain = {}
+        onExitToMain = {},
+        viewModel = viewModel()
     )
 }
