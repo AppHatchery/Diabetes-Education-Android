@@ -85,7 +85,7 @@ fun IletKetoneScreen(
         onExitToMain()
     }
 
-    val ketone = prefs.getString(KETONE, "urine")
+    val ketone = prefs.getString(KETONE, "urine_ketone")
 
     var selectedMeasure by remember {
         mutableStateOf(
