@@ -47,12 +47,12 @@ import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun CheckReminderCard(
+    modifier: Modifier = Modifier,
     durationMinutes: Int = 120,
     savedEndTimeMs: Long = 0L,
     onReminderSet: () -> Unit,
     onStartTest: () -> Unit,
     onSkipReminder:() -> Unit = {},
-    modifier: Modifier = Modifier
 ) {
     val totalSeconds = durationMinutes * 60L
 
@@ -89,11 +89,10 @@ fun CheckReminderCard(
 
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = colorResource(R.color.blue_050)
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
             modifier = Modifier
@@ -105,7 +104,7 @@ fun CheckReminderCard(
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.Start,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Image(
@@ -200,9 +199,9 @@ fun CheckReminderCard(
                         )
                     } else {
                         Icon(
-                            imageVector = Icons.Outlined.Notifications,
+                            painter = painterResource(R.drawable.im_alarm),
                             contentDescription = null,
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(16.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
@@ -228,6 +227,13 @@ fun CheckReminderCard(
                         contentColor = colorResource(R.color.primaryBlue)
                     )
                 ) {
+                    Icon(
+                        painter = painterResource(R.drawable.im_alarm),
+                        contentDescription = null,
+                        tint = colorResource(R.color.primaryBlue),
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = "Skip this Reminder",
                         fontSize = 20.sp,
@@ -246,9 +252,25 @@ fun CountdownText(timeRemainingSeconds: Long) {
 
     Text(
         text = buildAnnotatedString {
-            append("Time remaining: ")
-            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, fontSize = 24.sp)) {
-                append(String.format("%02d:%02d:%02d", hours, minutes, seconds))
+            if (hours > 0) {
+                withStyle(
+                    style = SpanStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 32.sp,
+                        color = colorResource(R.color.primaryGreen)
+                    )
+                ) {
+                    append("${hours}h ")
+                }
+            }
+            withStyle(
+                style = SpanStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 32.sp,
+                    color = colorResource(R.color.primaryGreen)
+                )
+            ) {
+                append("${minutes}m")
             }
         },
         fontSize = 18.sp,

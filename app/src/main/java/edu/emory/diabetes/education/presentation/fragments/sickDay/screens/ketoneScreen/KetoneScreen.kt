@@ -12,10 +12,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,10 +46,12 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewMo
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CardWithImageCustomSize
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.INSTRUMENT_TYPE
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.KETONE
+import edu.emory.diabetes.education.presentation.fragments.sickDay.components.KetoneGuideContent
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun KetoneScreen(
     navController: NavController,
@@ -66,6 +72,25 @@ fun KetoneScreen(
         mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.KETONE_LEVEL))
     }
 
+    //bottom modal states
+    var showKetoneGuide by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = false
+    )
+
+    //bottom modal for ketone guide
+    if (showKetoneGuide) {
+        ModalBottomSheet(
+            onDismissRequest = { showKetoneGuide = false },
+            sheetState = sheetState,
+            containerColor = colorResource(R.color.green_050),
+            shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+        ) {
+            KetoneGuideContent(
+                onClose = { showKetoneGuide = false }
+            )
+        }
+    }
 
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -99,7 +124,9 @@ fun KetoneScreen(
             )
 
             TextButton(
-                onClick = {},
+                onClick = {
+                    showKetoneGuide = true
+                },
                 contentPadding = PaddingValues(0.dp)
             ){
                 Text(

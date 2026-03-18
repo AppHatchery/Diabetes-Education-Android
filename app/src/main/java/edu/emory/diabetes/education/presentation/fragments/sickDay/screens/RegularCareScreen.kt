@@ -32,7 +32,6 @@ fun RegularCareScreen(
     navController: NavController,
     onExitToMain: () -> Unit
 ){
-
     val categoryId = "regular_care"
     Scaffold(
         topBar = {
@@ -59,7 +58,7 @@ fun RegularCareScreen(
                 Spacer(modifier = Modifier.height(40.dp))
 
                 Text(
-                    text = "Continue Regular Diabetes Care",
+                    text = "Continue Regular \n Diabetes Care",
                     fontSize = 32.sp,
                     fontWeight = FontWeight.W700,
                     color = colorResource(R.color.primaryGreen),
