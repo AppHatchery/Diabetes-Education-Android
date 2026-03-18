@@ -17,7 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -62,7 +62,7 @@ fun SickDayTopBar(
             }
         },
         modifier = Modifier.background(color= color),
-        colors = TopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = color,
             navigationIconContentColor = iconColor,
             scrolledContainerColor = color,
