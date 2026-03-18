@@ -229,9 +229,8 @@ fun SymptomSelectionScreen(
             NextButton(
                 onClick = {
                     if (categoryId == "injection" && instrumentType != null) {
-                        // Migrate: save instrument type to ViewModel instead of only SharedPrefs
                         viewModel.saveAnswer(FlowAnswerKeys.INSTRUMENT_TYPE, instrumentType)
-                        prefs.putString(INSTRUMENT_TYPE, instrumentType) // keep if other screens still read from prefs
+                        prefs.putString(INSTRUMENT_TYPE, instrumentType)
                         navController.navigate("${SickDayScreen.Duration.route}/$instrumentType")
                     } else {
                         val symptomsSet = selectedSymptom?.let { setOf(it) } ?: emptySet()

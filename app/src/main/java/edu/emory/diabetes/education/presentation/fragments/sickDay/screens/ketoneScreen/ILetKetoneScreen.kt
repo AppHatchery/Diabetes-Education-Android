@@ -1,5 +1,7 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen
 
+import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,11 +14,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,11 +49,13 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewMo
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomWidthInactiveButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.INSTRUMENT_TYPE
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.KETONE
+import edu.emory.diabetes.education.presentation.fragments.sickDay.components.KetoneGuideContent
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
 import kotlin.collections.contains
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IletKetoneScreen(
   navController: NavController,
@@ -58,7 +67,25 @@ fun IletKetoneScreen(
     val context = LocalContext.current
     val prefs = SickDayPrefs(context)
 
-    val ketone = viewModel.getAnswer(FlowAnswerKeys.KETONE_MEASURE) ?: "urine_ketone"
+    // True when this screen was launched as the start destination
+    val isStartDestination = remember {
+        !navController.previousBackStackEntry?.destination?.route.isNullOrEmpty().not()
+    }
+
+    LaunchedEffect(isStartDestination) {
+        if (isStartDestination) {
+            prefs.clearReminderCheckpoint()
+        }
+    }
+
+    // Intercept system back when there's nothing behind
+    BackHandler(enabled = isStartDestination) {
+        prefs.clearReminderCheckpoint()
+        viewModel.clearFlow()
+        onExitToMain()
+    }
+
+    val ketone = prefs.getString(KETONE, "urine")
 
     var selectedMeasure by remember {
         mutableStateOf(
@@ -70,13 +97,41 @@ fun IletKetoneScreen(
         mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.ILET_KETONE_LEVEL))
     }
 
+    //bottom modal states
+    var showKetoneGuide by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = false
+    )
+
+    //bottom modal for ketone guide
+    if (showKetoneGuide) {
+        ModalBottomSheet(
+            onDismissRequest = { showKetoneGuide = false },
+            sheetState = sheetState,
+            containerColor = colorResource(R.color.green_050),
+            shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+        ) {
+            KetoneGuideContent(
+                onClose = { showKetoneGuide = false }
+            )
+        }
+    }
+
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
             SickDayTopBar(
                 title = "",
                 showNavigation = true,
-                onNavigationClick = {navController.popBackStack()},
+                onNavigationClick = {
+                    if (isStartDestination) {
+                        // No back stack — exit the fragment cleanly
+                        viewModel.clearFlow()
+                        onExitToMain()
+                    } else {
+                        navController.popBackStack()
+                    }
+                },
                 color = Color.White,
                 iconColor = Color.Black,
                 isCloseVisible = true,
@@ -102,7 +157,7 @@ fun IletKetoneScreen(
             )
 
             TextButton(
-                onClick = {},
+                onClick = {showKetoneGuide = true},
                 contentPadding = PaddingValues(0.dp)
             ){
                 Text(

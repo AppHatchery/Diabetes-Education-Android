@@ -14,9 +14,11 @@ object ReminderScheduler{
     private  const val REQUEST_CODE = 2001
     private const val TAG = "reminder_scheduler"
 
-    fun scheduleReminder(context: Context, durationMinutes: Int) {
+    fun scheduleReminder(context: Context, durationMinutes: Int, route: String) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, CheckReminderReceiver::class.java)
+        val intent = Intent(context, CheckReminderReceiver::class.java).apply {
+            putExtra(CheckReminderReceiver.EXTRA_ROUTE, route)
+        }
 
         val pendingIntent = PendingIntent.getBroadcast(
             context,

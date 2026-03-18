@@ -1,6 +1,7 @@
 package edu.emory.diabetes.education.presentation
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -28,6 +29,8 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.ActivityMainBinding
+import edu.emory.diabetes.education.notifications.CheckReminderReceiver
+import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayFragment
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), EventNavigator {
@@ -106,6 +109,25 @@ class MainActivity : AppCompatActivity(), EventNavigator {
             supportActionBar?.title = destination.label
             negotiator(destination.label.toString())
         }
+
+        handleReminderIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleReminderIntent(intent)
+    }
+
+    private fun handleReminderIntent(intent: Intent) {
+        val route = intent.getStringExtra(CheckReminderReceiver.EXTRA_ROUTE)
+        if (!route.isNullOrEmpty()) {
+            // Navigate to the SickDay destination
+            navigateToSickDay()
+        }
+    }
+
+    private fun navigateToSickDay() {
+        navController.navigate(R.id.sickDayFragment)
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -44,7 +44,6 @@ import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CardWithImageCustomSize
-import edu.emory.diabetes.education.presentation.fragments.sickDay.components.INSTRUMENT_TYPE
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.KETONE
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.KetoneGuideContent
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton

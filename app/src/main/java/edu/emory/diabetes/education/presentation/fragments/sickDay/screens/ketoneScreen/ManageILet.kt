@@ -31,6 +31,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
@@ -54,22 +55,8 @@ fun ManageILet(
     val context = LocalContext.current
     val prefs = remember { SickDayPrefs(context) }
 
-    // True when this screen was launched as the start destination
-    val isStartDestination = remember {
-        !navController.previousBackStackEntry?.destination?.route.isNullOrEmpty().not()
-    }
-
-    // Intercept system back when there's nothing behind us
-    BackHandler(enabled = isStartDestination) {
-        prefs.clearReminderCheckpoint()
-        viewModel.clearFlow()
-        onExitToMain()
-    }
-
     val savedEndTimeMs = remember {
-        if (prefs.getBoolean(SickDayPrefs.KEY_REMINDER_ACTIVE, false))
-            prefs.getReminderEndTimeMs()
-        else 0L
+        prefs.getSavedEndTimeMsForGroup(SickDayPrefs.REMINDER_GROUP_ILET)
     }
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -78,13 +65,7 @@ fun ManageILet(
                 title = "",
                 showNavigation = true,
                 onNavigationClick = {
-                    if (isStartDestination) {
-                        // No back stack — exit the fragment cleanly
-                        viewModel.clearFlow()
-                        onExitToMain()
-                    } else {
-                        navController.popBackStack()
-                    }
+                    navController.popBackStack()
                 },
                 color = Color.White,
                 iconColor = Color.Black,
@@ -118,13 +99,13 @@ fun ManageILet(
             when (type) {
                 "Low" -> LowKetoneContent(
                     navController = navController,
-                    context = context,
                     savedEndTimeMs = savedEndTimeMs,
                     onReminderSet = {
-                        ReminderScheduler.scheduleReminder(context, durationMinutes = 90)
+                        ReminderScheduler.scheduleReminder(context, durationMinutes = 90, route = "${SickDayScreen.ILetKetone.route}/lowKetone")
                         prefs.saveReminderCheckpoint(
-                            route = "${SickDayScreen.ManageILet.route}/$type",
-                            durationMinutes = 90
+                            route = "${SickDayScreen.ILetKetone.route}/lowKetone",
+                            durationMinutes = 90,
+                            group = SickDayPrefs.REMINDER_GROUP_ILET
                         )
                     },
                     onSkipReminder = {
@@ -133,13 +114,13 @@ fun ManageILet(
                 )
                 "Moderate" -> ModerateKetoneContent(
                     navController = navController,
-                    context = context,
                     savedEndTimeMs = savedEndTimeMs,
                     onReminderSet = {
-                        ReminderScheduler.scheduleReminder(context, durationMinutes = 90)
+                        ReminderScheduler.scheduleReminder(context, durationMinutes = 90, route = "${SickDayScreen.ILetKetone.route}/moderateKetone")
                         prefs.saveReminderCheckpoint(
-                            route = "${SickDayScreen.ManageILet.route}/$type",
-                            durationMinutes = 90
+                            route = "${SickDayScreen.ILetKetone.route}/moderateKetone",
+                            durationMinutes = 90,
+                            group = SickDayPrefs.REMINDER_GROUP_ILET
                         )
                     },
                     onSkipReminder = {
@@ -148,13 +129,13 @@ fun ManageILet(
                 )
                 else -> HighKetoneContent(
                     navController = navController,
-                    context = context,
                     savedEndTimeMs = savedEndTimeMs,
                     onReminderSet = {
-                        ReminderScheduler.scheduleReminder(context, durationMinutes = 90)
+                        ReminderScheduler.scheduleReminder(context, durationMinutes = 90, route = "${SickDayScreen.ILetKetone.route}/highKetone")
                         prefs.saveReminderCheckpoint(
-                            route = "${SickDayScreen.ManageILet.route}/$type",
-                            durationMinutes = 90
+                            route = "${SickDayScreen.ILetKetone.route}/highKetone",
+                            durationMinutes = 90,
+                            group = SickDayPrefs.REMINDER_GROUP_ILET
                         )
                     },
                     onSkipReminder = {
@@ -169,7 +150,6 @@ fun ManageILet(
 @Composable
 fun HighKetoneContent(
     navController : NavController,
-    context : Context,
     savedEndTimeMs: Long = 0L,
     onReminderSet: () -> Unit,
     onSkipReminder: () -> Unit
@@ -315,7 +295,6 @@ fun HighKetoneContent(
 @Composable
 fun ModerateKetoneContent(
     navController : NavController,
-    context : Context,
     savedEndTimeMs: Long = 0L,
     onReminderSet: () -> Unit,
     onSkipReminder: () -> Unit
@@ -435,7 +414,6 @@ fun ModerateKetoneContent(
 @Composable
 fun LowKetoneContent(
     navController : NavController,
-    context : Context,
     savedEndTimeMs: Long = 0L,
     onReminderSet: () -> Unit,
     onSkipReminder: () -> Unit
@@ -558,6 +536,6 @@ fun ManageILetPreview(){
         navController = navController,
         type = "high",
         onExitToMain = {},
-        viewModel = SickDayViewModel()
+        viewModel = viewModel()
     )
 }

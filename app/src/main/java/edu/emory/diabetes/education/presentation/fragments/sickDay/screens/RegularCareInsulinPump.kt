@@ -20,12 +20,11 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -36,6 +35,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
@@ -57,7 +57,6 @@ fun RegularCareInsulinPump(
     val prefs = remember { SickDayPrefs(context) }
 
     // True when this screen was launched as the start destination
-    // (i.e. resumed from a reminder checkpoint with no back stack)
     val isStartDestination = remember {
         !navController.previousBackStackEntry?.destination?.route.isNullOrEmpty().not()
     }
@@ -70,10 +69,9 @@ fun RegularCareInsulinPump(
     }
 
     val savedEndTimeMs = remember {
-        if (prefs.getBoolean(SickDayPrefs.KEY_REMINDER_ACTIVE, false))
-            prefs.getReminderEndTimeMs()
-        else 0L
+        prefs.getSavedEndTimeMsForGroup(SickDayPrefs.REMINDER_GROUP_INJECTION)
     }
+
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
@@ -190,20 +188,17 @@ fun RegularCareInsulinPump(
                 savedEndTimeMs = savedEndTimeMs,
                 onReminderSet = {
                     // User started the timer — persist the checkpoint
-                    ReminderScheduler.scheduleReminder(context, durationMinutes = 120)
+                    ReminderScheduler.scheduleReminder(context, durationMinutes = 120, route = SickDayScreen.KetoneReminder.route)
                     prefs.saveReminderCheckpoint(
-                        route = SickDayScreen.RegularCareInsulinPump.route,
-                        durationMinutes = 120
+                        route = SickDayScreen.KetoneReminder.route,
+                        durationMinutes = 120,
+                        group = SickDayPrefs.REMINDER_GROUP_INJECTION
                     )
                 },
                 onStartTest = {
                     // Timer finished and they tapped Start Test —
                     // checkpoint no longer needed, clear it then navigate
-                    ReminderScheduler.scheduleReminder(context, durationMinutes = 120)
-                    prefs.saveReminderCheckpoint(
-                        route = SickDayScreen.RegularCareInsulinPump.route,
-                        durationMinutes = 120
-                    )
+                    prefs.clearReminderCheckpoint()
                     navController.navigate(SickDayScreen.KetoneReminder.route)
                 },
                 onSkipReminder = {
@@ -279,7 +274,7 @@ fun RegularCareInsulinPumpPreview(){
     val navController = rememberNavController()
     RegularCareInsulinPump(
         navController = navController,
-        viewModel = SickDayViewModel(),
+        viewModel = viewModel(),
         onExitToMain = {}
     )
 }

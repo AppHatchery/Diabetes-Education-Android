@@ -31,6 +31,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.sympt
 @Composable
 fun SickDayNavigation(
     viewModel: SickDayViewModel,
+    fromNotification: Boolean = false,
     onExitToMain: () -> Unit
 ){
     val navController = rememberNavController()
@@ -38,14 +39,21 @@ fun SickDayNavigation(
     val prefs = remember { SickDayPrefs(context) }
 
     // Check once on composition
+
     val startDestination = remember {
-        prefs.getReminderCheckpoint()
-            ?: SickDayScreen.SymptomSelection.createRoute("firstSymptoms")
+        if (fromNotification) {
+            // Notification tap — resume to the screen where the reminder was set
+            prefs.getReminderCheckpoint()
+                ?: SickDayScreen.SymptomSelection.createRoute("firstSymptoms")
+        } else {
+            // Normal button tap — always start fresh
+            SickDayScreen.SymptomSelection.createRoute("firstSymptoms")
+        }
     }
 
     NavHost(
         navController = navController,
-        startDestination = SickDayScreen.SymptomSelection.createRoute("firstSymptoms")
+        startDestination = startDestination
     ) {
         composable(
             route = SickDayScreen.SymptomSelection.route,

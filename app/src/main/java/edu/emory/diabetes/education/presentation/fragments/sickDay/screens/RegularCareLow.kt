@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -71,10 +72,9 @@ fun RegularCareLow(
     }
 
     val savedEndTimeMs = remember {
-        if (prefs.getBoolean(SickDayPrefs.KEY_REMINDER_ACTIVE, false))
-            prefs.getReminderEndTimeMs()
-        else 0L
+        prefs.getSavedEndTimeMsForGroup(SickDayPrefs.REMINDER_GROUP_INJECTION)
     }
+
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
@@ -136,20 +136,17 @@ fun RegularCareLow(
                 savedEndTimeMs = savedEndTimeMs,
                 onReminderSet = {
                     // User started the timer — persist the checkpoint
-                    ReminderScheduler.scheduleReminder(context, durationMinutes = 120)
+                    ReminderScheduler.scheduleReminder(context, durationMinutes = 120, route = SickDayScreen.KetoneReminder.route)
                     prefs.saveReminderCheckpoint(
-                        route = SickDayScreen.RegularCareLow.route,
-                        durationMinutes = 120
+                        route = SickDayScreen.KetoneReminder.route,
+                        durationMinutes = 120,
+                        group = SickDayPrefs.REMINDER_GROUP_INJECTION
                     )
                 },
                 onStartTest = {
                     // Timer finished and they tapped Start Test —
                     // checkpoint no longer needed, clear it then navigate
-                    ReminderScheduler.scheduleReminder(context, durationMinutes = 120)
-                    prefs.saveReminderCheckpoint(
-                        route = SickDayScreen.RegularCareLow.route,
-                        durationMinutes = 120
-                    )
+                    prefs.clearReminderCheckpoint()
                     navController.navigate(SickDayScreen.KetoneReminder.route)
                 },
                 onSkipReminder = {
