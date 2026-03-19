@@ -44,6 +44,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Si
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.BulletPoint
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.InsulinPumpText
+import edu.emory.diabetes.education.presentation.theme.gothamRounded
 
 @Composable
 fun ManageILet(
@@ -92,7 +93,8 @@ fun ManageILet(
             Text(
                 text = "You can manage this at home by following these steps:",
                 fontSize = 18.sp,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -203,7 +205,8 @@ fun HighKetoneContent(
         Text(
             text = "Stay hydrated, drink fluids based on age",
             fontSize = 18.sp,
-            fontWeight = FontWeight.W500,
+            fontWeight = FontWeight.Bold,
+            fontFamily = gothamRounded,
             color = colorResource(R.color.primaryBlue),
         )
 
@@ -212,6 +215,7 @@ fun HighKetoneContent(
         Text(
             text = "Example: A 2-year-old drinks 2oz per hour",
             fontSize = 16.sp,
+            fontFamily = gothamRounded,
         )
 
         Spacer(modifier = Modifier.height(5.dp))
@@ -268,6 +272,7 @@ fun HighKetoneContent(
                 }
                 append("since your last ketone test?")
             },
+            fontFamily = gothamRounded,
             fontSize = 16.sp
         )
 
@@ -323,7 +328,8 @@ fun ModerateKetoneContent(
         Text(
             text = "Stay hydrated, drink fluids based on age",
             fontSize = 18.sp,
-            fontWeight = FontWeight.W500,
+            fontWeight = FontWeight.Bold,
+            fontFamily = gothamRounded,
             color = colorResource(R.color.primaryBlue),
         )
 
@@ -332,6 +338,7 @@ fun ModerateKetoneContent(
         Text(
             text = "Example: A 2-year-old drinks 2oz per hour",
             fontSize = 16.sp,
+            fontFamily = gothamRounded,
         )
 
         Spacer(modifier = Modifier.height(5.dp))
@@ -388,6 +395,7 @@ fun ModerateKetoneContent(
                 }
                 append("since your last ketone test?")
             },
+            fontFamily = gothamRounded,
             fontSize = 16.sp
         )
 
@@ -440,7 +448,8 @@ fun LowKetoneContent(
         Text(
             text = "Stay hydrated, drink fluids based on age",
             fontSize = 18.sp,
-            fontWeight = FontWeight.W500,
+            fontWeight = FontWeight.Bold,
+            fontFamily = gothamRounded,
             color = colorResource(R.color.primaryBlue),
         )
 
@@ -449,6 +458,7 @@ fun LowKetoneContent(
         Text(
             text = "Example: A 2-year-old drinks 2oz per hour",
             fontSize = 16.sp,
+            fontFamily = gothamRounded,
         )
 
         Spacer(modifier = Modifier.height(5.dp))
@@ -505,7 +515,8 @@ fun LowKetoneContent(
                 }
                 append("since your last ketone test?")
             },
-            fontSize = 16.sp
+            fontSize = 16.sp,
+            fontFamily = gothamRounded,
         )
 
         Spacer(modifier = Modifier.height(12.dp))

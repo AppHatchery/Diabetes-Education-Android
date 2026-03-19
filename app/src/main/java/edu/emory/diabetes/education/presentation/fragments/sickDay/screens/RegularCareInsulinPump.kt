@@ -46,6 +46,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Ch
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
+import edu.emory.diabetes.education.presentation.theme.gothamRounded
 
 @Composable
 fun RegularCareInsulinPump(
@@ -111,7 +112,8 @@ fun RegularCareInsulinPump(
             Text(
                 text = "You can manage this at home by following these steps:",
                 fontSize = 18.sp,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -148,7 +150,8 @@ fun RegularCareInsulinPump(
             Text(
                 text = "Stay hydrated, drink fluids based on age",
                 fontSize = 18.sp,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -157,6 +160,7 @@ fun RegularCareInsulinPump(
             Text(
                 text = "Example: A 2-year-old drinks 2oz per hour",
                 fontSize = 16.sp,
+                fontFamily = gothamRounded,
             )
 
             Spacer(modifier = Modifier.height(5.dp))
@@ -218,7 +222,8 @@ fun RegularCareInsulinPump(
                     }
                     append("since your last ketone test?")
                 },
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                fontFamily = gothamRounded,
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -263,7 +268,8 @@ fun InsulinPumpText(
         
         Text(
             text = text,
-            fontSize = 16.sp
+            fontSize = 16.sp,
+            fontFamily = gothamRounded,
         )
     }
 }

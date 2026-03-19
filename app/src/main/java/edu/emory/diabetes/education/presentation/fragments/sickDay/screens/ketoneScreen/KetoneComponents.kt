@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.presentation.theme.gothamRounded
 
 data class KetoneLevel(
     val value: String,
@@ -86,14 +87,16 @@ fun UrineKetone(
                     Text(
                         text = "Urine Ketone level",
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.W500,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = gothamRounded,
                         color = colorResource(R.color.primaryBlue)
                     )
 
                     Text(
                         text = "(mg/dL)",
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.W500,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = gothamRounded,
                         color = colorResource(R.color.primaryBlue)
                     )
                 }
@@ -146,6 +149,7 @@ fun KetoneValueCard(
                 text = value,
                 fontSize = if (value.length > 2) 16.sp else 20.sp,
                 fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 color = Color.White
             )
         }
@@ -155,7 +159,8 @@ fun KetoneValueCard(
         Text(
             text = label,
             fontSize = 14.sp,
-            fontWeight = FontWeight.W400,
+            fontWeight = FontWeight.Bold,
+            fontFamily = gothamRounded,
             color = colorResource(R.color.gray_400_sick)
         )
     }
@@ -191,7 +196,8 @@ fun BloodKetoneValueCard(
         Text(
             text = label,
             fontSize = 14.sp,
-            fontWeight = FontWeight.W400,
+            fontWeight = FontWeight.Bold,
+            fontFamily = gothamRounded,
             textAlign = TextAlign.Center,
             color = colorResource(R.color.gray_400_sick)
         )
@@ -239,14 +245,16 @@ fun BloodKetone(
                     Text(
                         text = "Blood Ketone Level",
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.W500,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = gothamRounded,
                         color = colorResource(R.color.primaryBlue)
                     )
 
                     Text(
                         text = "(mmol/L)",
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.W500,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = gothamRounded,
                         color = colorResource(R.color.primaryBlue)
                     )
                 }

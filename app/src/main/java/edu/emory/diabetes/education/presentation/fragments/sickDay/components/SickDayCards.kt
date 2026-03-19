@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.Symptom
+import edu.emory.diabetes.education.presentation.theme.gothamRounded
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 
@@ -68,9 +69,9 @@ fun CardWithImage(
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(width = 1.dp, color = colorResource(R.color.blue_300))
     ){
-        Box(
+        Column (
             modifier = modifier
-                .fillMaxSize()
+                .fillMaxSize(),
         ){
             Box(
                 modifier = modifier
@@ -80,7 +81,6 @@ fun CardWithImage(
                         colorResource(R.color.gray_500),
                         shape = RoundedCornerShape(8.dp)
                     )
-                    .align(Alignment.TopCenter)
             ){
                 Image(
                     painter = painterResource(symptom.image),
@@ -94,6 +94,7 @@ fun CardWithImage(
                 text = symptom.label,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.W700,
+                fontFamily = gothamRounded,
                 color = if(isSelected){
                     Color.White
                 }else {
@@ -101,12 +102,10 @@ fun CardWithImage(
                 },
                 textAlign = TextAlign.Center,
                 modifier = modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 20.dp)
+                    .padding(bottom = 20.dp, start = 10.dp, end = 10.dp, top = 10.dp)
             )
         }
     }
-
 }
 
 @Composable
@@ -135,7 +134,8 @@ fun CardWithoutImage(
             Text(
                 text = cardText,
                 fontSize = 16.sp,
-                fontWeight = FontWeight.W700,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 color = if(isSelected){
                     Color.White
                 }else {
@@ -143,7 +143,7 @@ fun CardWithoutImage(
                 },
                 modifier = modifier
                     .align(Alignment.Center)
-                    .padding(bottom = 20.dp)
+                    .padding(bottom = 20.dp, start = 10.dp, end = 10.dp, top = 10.dp)
             )
         }
     }
@@ -228,7 +228,8 @@ fun TextWithButtons(
         Text(
             text = text,
             fontSize = 18.sp,
-            fontWeight = FontWeight.W500,
+            fontWeight = FontWeight.Bold,
+            fontFamily = gothamRounded,
             color = colorResource(R.color.primaryBlue)
         )
 
@@ -324,8 +325,7 @@ fun AfterCorrectionCard(
 ){
     Card(
         modifier = modifier
-            .fillMaxWidth()
-        .height(161.dp),
+            .fillMaxWidth(),
         colors =
             CardDefaults.cardColors(containerColor = colorResource(R.color.blue_050)),
         shape = RoundedCornerShape(12.dp),
@@ -353,7 +353,8 @@ fun AfterCorrectionCard(
                     Text(
                         text = "After Two Corrections",
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.W500,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = gothamRounded,
                         color = colorResource(R.color.primaryBlue),
                         textAlign = TextAlign.Start
                     )
@@ -374,6 +375,7 @@ fun AfterCorrectionCard(
                             }
                             append(" call your care team.")
                         },
+                        fontFamily = gothamRounded,
                         fontSize = 16.sp,
                         lineHeight = 28.sp,
                     )
@@ -381,6 +383,21 @@ fun AfterCorrectionCard(
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun CardWithImagePreview(){
+    CardWithImage(
+        modifier = Modifier,
+        symptom = Symptom(
+            id = "test",
+            label = "Low Blood Sugar (Hypoglycemia)",
+            image = R.drawable.im_dka
+        ),
+        isSelected = false,
+        cardOnclick = {}
+    )
 }
 
 @Preview

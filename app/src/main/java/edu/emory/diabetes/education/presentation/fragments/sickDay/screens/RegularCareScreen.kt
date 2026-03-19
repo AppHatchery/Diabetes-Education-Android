@@ -26,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
+import edu.emory.diabetes.education.presentation.theme.gothamRounded
 
 @Composable
 fun RegularCareScreen(
@@ -60,7 +61,8 @@ fun RegularCareScreen(
                 Text(
                     text = "Continue Regular \n Diabetes Care",
                     fontSize = 32.sp,
-                    fontWeight = FontWeight.W700,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = gothamRounded,
                     color = colorResource(R.color.primaryGreen),
                     textAlign = TextAlign.Center,
                     lineHeight = 32.sp

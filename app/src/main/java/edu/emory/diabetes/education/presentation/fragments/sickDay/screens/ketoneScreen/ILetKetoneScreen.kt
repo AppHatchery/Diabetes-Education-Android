@@ -53,6 +53,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Ke
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
+import edu.emory.diabetes.education.presentation.theme.gothamRounded
 import kotlin.collections.contains
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -152,7 +153,8 @@ fun IletKetoneScreen(
             Text(
                 text = "Check your child's ketone level",
                 fontSize = 18.sp,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -166,6 +168,7 @@ fun IletKetoneScreen(
                         textDecoration = TextDecoration.Underline
                     ),
                     fontSize = 18.sp,
+                    fontFamily = gothamRounded,
                     color = colorResource(R.color.primaryBlue)
                 )
             }
@@ -175,7 +178,8 @@ fun IletKetoneScreen(
             Text(
                 text = "What are the ketone test results?",
                 fontSize = 18.sp,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 color = colorResource(R.color.primaryBlue),
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -220,6 +224,7 @@ fun IletKetoneScreen(
                             textDecoration = TextDecoration.Underline
                         ),
                         fontSize = 18.sp,
+                        fontFamily = gothamRounded,
                         color = colorResource(R.color.primaryBlue)
                     )
                 }

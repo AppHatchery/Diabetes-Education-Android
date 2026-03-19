@@ -31,6 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
+import edu.emory.diabetes.education.presentation.theme.gothamRounded
 
 @Composable
 fun CallCHOAScreen(
@@ -79,7 +80,8 @@ fun CallCHOAScreen(
                     Text(
                         text = "Call CHOA Emergency",
                         fontSize = 24.sp,
-                        fontWeight = FontWeight.W700,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = gothamRounded,
                         color = colorResource(R.color.primaryBlue),
                         textAlign = TextAlign.Center,
                         lineHeight = 32.sp
@@ -89,6 +91,7 @@ fun CallCHOAScreen(
                         text = "404-785-5437",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
+                        fontFamily = gothamRounded,
                         color = colorResource(R.color.secondary_fire_red_300),
                         textAlign = TextAlign.Center,
                         lineHeight = 32.sp
@@ -97,7 +100,8 @@ fun CallCHOAScreen(
                     Text(
                         text = "for further instructions",
                         fontSize = 24.sp,
-                        fontWeight = FontWeight.W700,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = gothamRounded,
                         color = colorResource(R.color.primaryBlue),
                         textAlign = TextAlign.Center,
                         lineHeight = 32.sp
@@ -119,7 +123,8 @@ fun CallCHOAScreen(
                     Text(
                         text = "Call CHOA Emergency Line",
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.W500,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = gothamRounded,
                         color = Color.White
                     )
                 }

@@ -42,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.presentation.theme.gothamRounded
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 
@@ -119,7 +120,8 @@ fun CheckReminderCard(
                     Text(
                         text = if (isFinished) "Time to Check" else "Next Check in $durationLabel",
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.W500,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = gothamRounded,
                         color = colorResource(
                             if (isFinished) R.color.primaryGreen else R.color.primaryBlue
                         ),
@@ -152,6 +154,7 @@ fun CheckReminderCard(
                                     }
                                     append(".")
                                 },
+                                fontFamily = gothamRounded,
                                 fontSize = 16.sp,
                                 lineHeight = 28.sp,
                             )
@@ -207,7 +210,8 @@ fun CheckReminderCard(
                         Text(
                             text = "Remind Me",
                             fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = gothamRounded,
                         )
                     }
                 }
@@ -237,7 +241,8 @@ fun CheckReminderCard(
                     Text(
                         text = "Skip this Reminder",
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = gothamRounded,
                     )
                 }
             }
@@ -275,6 +280,7 @@ fun CountdownText(timeRemainingSeconds: Long) {
         },
         fontSize = 18.sp,
         lineHeight = 26.sp,
+        fontFamily = gothamRounded,
         textAlign = TextAlign.Center
     )
 }

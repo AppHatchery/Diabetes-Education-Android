@@ -49,6 +49,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Ke
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
+import edu.emory.diabetes.education.presentation.theme.gothamRounded
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -118,7 +119,8 @@ fun KetoneScreen(
             Text(
                 text = "Check your child's ketone level",
                 fontSize = 18.sp,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -134,6 +136,7 @@ fun KetoneScreen(
                         textDecoration = TextDecoration.Underline
                     ),
                     fontSize = 18.sp,
+                    fontFamily = gothamRounded,
                     color = colorResource(R.color.primaryBlue)
                 )
             }
@@ -143,7 +146,8 @@ fun KetoneScreen(
             Text(
                 text = "How did your child measure ketones",
                 fontSize = 18.sp,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -191,7 +195,8 @@ fun KetoneScreen(
                 Text(
                     text = "What were the ketone results?",
                     fontSize = 18.sp,
-                    fontWeight = FontWeight.W500,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = gothamRounded,
                     color = colorResource(R.color.primaryBlue),
                 )
 

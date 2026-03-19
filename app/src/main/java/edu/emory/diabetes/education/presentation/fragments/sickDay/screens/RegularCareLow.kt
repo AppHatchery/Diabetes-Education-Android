@@ -48,6 +48,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Ch
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
+import edu.emory.diabetes.education.presentation.theme.gothamRounded
 
 @Composable
 fun RegularCareLow(
@@ -114,7 +115,8 @@ fun RegularCareLow(
             Text(
                 text = "Continue regular diabetes care",
                 fontSize = 18.sp,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -200,12 +202,14 @@ fun BulletPoint(text: androidx.compose.ui.text.AnnotatedString) {
         Text(
             text = "• ",
             fontSize = 18.sp,
+            fontFamily = gothamRounded,
             modifier = Modifier.padding(end = 8.dp, top = 4.dp)
         )
         Text(
             text = text,
             fontSize = 18.sp,
             lineHeight = 28.sp,
+            fontFamily = gothamRounded,
             letterSpacing = (-0.41).sp
         )
     }

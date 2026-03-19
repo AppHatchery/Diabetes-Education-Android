@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.presentation.theme.gothamRounded
 
 @Composable
 fun NextButton(
@@ -105,7 +106,8 @@ fun FullWidthInactiveButton(
             Text(
                 text = "None of the Above",
                 fontSize = 20.sp,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 modifier = modifier.padding(end = 2.dp),
                 color = if(isSelected){
                     Color.White
@@ -145,7 +147,8 @@ fun CustomWidthInactiveButton(
             Text(
                 text = buttonText,
                 fontSize = 20.sp,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 modifier = modifier.padding(end = 2.dp),
                 color = if (isSelected){
                     Color.White
@@ -178,7 +181,8 @@ fun RedEmergencyButton(
             Text(
                 text = "Call 911",
                 fontSize = 20.sp,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 modifier = modifier.padding(end = 2.dp)
             )
         }
@@ -201,7 +205,8 @@ fun CustomTransparentTextButton(
             Text(
                 text = buttonText,
                 fontSize = 20.sp,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 color = buttonTextColor
             )
             Spacer(modifier = modifier.padding(start = 10.dp))

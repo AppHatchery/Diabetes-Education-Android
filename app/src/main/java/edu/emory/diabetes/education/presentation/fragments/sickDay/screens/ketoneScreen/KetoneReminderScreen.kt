@@ -54,6 +54,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Ke
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
+import edu.emory.diabetes.education.presentation.theme.gothamRounded
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -174,7 +175,8 @@ fun KetoneReminderScreen(
             Text(
                 text = "Check your child's ketone level",
                 fontSize = 18.sp,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -188,6 +190,7 @@ fun KetoneReminderScreen(
                         textDecoration = TextDecoration.Underline
                     ),
                     fontSize = 18.sp,
+                    fontFamily = gothamRounded,
                     color = colorResource(R.color.primaryBlue)
                 )
             }
@@ -197,7 +200,8 @@ fun KetoneReminderScreen(
             Text(
                 text = "What are the ketone test results?",
                 fontSize = 18.sp,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 color = colorResource(R.color.primaryBlue),
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -249,6 +253,7 @@ fun KetoneReminderScreen(
                             textDecoration = TextDecoration.Underline
                         ),
                         fontSize = 18.sp,
+                        fontFamily = gothamRounded,
                         color = colorResource(R.color.primaryBlue)
                     )
                 }
@@ -261,7 +266,8 @@ fun KetoneReminderScreen(
                 Text(
                     text = "Is your child's blood sugar over 300?",
                     fontSize = 18.sp,
-                    fontWeight = FontWeight.W500,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = gothamRounded,
                     color = colorResource(R.color.primaryBlue),
                 )
 
@@ -299,7 +305,8 @@ fun KetoneReminderScreen(
                 Text(
                     text = "Is your child's blood sugar 150 or lower?",
                     fontSize = 18.sp,
-                    fontWeight = FontWeight.W500,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = gothamRounded,
                     color = colorResource(R.color.primaryBlue),
                 )
 

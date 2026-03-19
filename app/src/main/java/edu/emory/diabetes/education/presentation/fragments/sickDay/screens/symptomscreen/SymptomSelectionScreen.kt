@@ -48,6 +48,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Ne
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.TextWithButtons
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
+import edu.emory.diabetes.education.presentation.theme.gothamRounded
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -126,7 +127,8 @@ fun SymptomSelectionScreen(
             Text(
                 text = category.title,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.W500,
+                fontWeight = FontWeight.Bold,
+                fontFamily = gothamRounded,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -259,6 +261,7 @@ fun SymptomFourGridEqualCard(
     ) {
         items(symptoms) { symptom ->
             CardWithImage(
+                modifier = Modifier.fillMaxWidth(),
                 symptom = symptom,
                 isSelected = selectedSymptom == symptom.id,
                 cardOnclick =  {onSymptomToggle(symptom.id) },
@@ -286,6 +289,7 @@ fun SymptomMixedGrid(
         ) { index ->
             CardWithImage(
                 symptom = symptoms[index],
+                modifier = Modifier.fillMaxWidth(),
                 isSelected = selectedSymptom == (symptoms[index].id),
                 cardOnclick = { onSymptomToggle(symptoms[index].id) }
             )
@@ -293,6 +297,7 @@ fun SymptomMixedGrid(
         item {
             CardWithoutImage(
                 cardText = textOnlyOption,
+                modifier = Modifier.fillMaxWidth(),
                 cardOnclick = { onSymptomToggle("none_of_above") },
                 isSelected = selectedSymptom == ("none_of_above")
             )
@@ -307,7 +312,7 @@ fun SymptomMixedGrid(
 fun SymptomSelectionScreenPreview() {
     val navController = rememberNavController()
     SymptomSelectionScreen(
-        categoryId = "injection",
+        categoryId = "firstSymptoms",
         navController = navController,
         viewModel = viewModel(),
         onExitToMain = {}
