@@ -1,6 +1,5 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,7 +29,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
-import edu.emory.diabetes.education.domain.model.DurationOptions
 import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomWidthInactiveButton
@@ -61,10 +58,6 @@ fun DurationQuestionScreen(
         mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.DURATION_Q2))
     }
 
-//    var firstQuestionAnswer by remember { mutableStateOf<String?>(null) }
-//    var secondQuestionAnswer by remember { mutableStateOf<String?>(null) }
-
-
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
@@ -92,7 +85,7 @@ fun DurationQuestionScreen(
             Text(
                 text = "Has your child's blood glucose been over 300 mg/dl?",
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Medium,
                 fontFamily = gothamRounded,
                 color = colorResource(R.color.primaryBlue),
             )

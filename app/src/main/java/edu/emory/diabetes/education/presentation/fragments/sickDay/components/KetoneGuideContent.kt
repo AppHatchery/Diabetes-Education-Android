@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.presentation.theme.gothamRounded
 
 @Composable
 fun KetoneGuideContent(onClose: () -> Unit) {
@@ -43,7 +44,8 @@ fun KetoneGuideContent(onClose: () -> Unit) {
         Text(
             text = "How to measure ketones",
             fontSize = 20.sp,
-            fontWeight = FontWeight.W500,
+            fontWeight = FontWeight.Bold,
+            fontFamily = gothamRounded,
             color = colorResource(R.color.primaryGreen)
         )
 
@@ -55,7 +57,8 @@ fun KetoneGuideContent(onClose: () -> Unit) {
             Text(
                 text = "⚠️ Make sure your ketone strips have not expired!",
                 fontSize = 16.sp,
-                fontWeight = FontWeight.W700,
+                fontWeight = FontWeight.Medium,
+                fontFamily = gothamRounded,
                 color = colorResource(R.color.secondary_sunset_orange)
             )
         }
@@ -67,6 +70,7 @@ fun KetoneGuideContent(onClose: () -> Unit) {
             text = "Measuring Urine Ketones",
             fontSize = 16.sp,
             fontWeight = FontWeight.W700,
+            fontFamily = gothamRounded,
             color = colorResource(R.color.primaryGreen)
         )
         Spacer(modifier = Modifier.height(12.dp))
@@ -81,6 +85,8 @@ fun KetoneGuideContent(onClose: () -> Unit) {
             Text(
                 text = "${index + 1}. $step",
                 fontSize = 16.sp,
+                fontWeight = FontWeight.W400,
+                fontFamily = gothamRounded,
                 modifier = Modifier.padding(vertical = 3.dp)
             )
         }
@@ -92,6 +98,7 @@ fun KetoneGuideContent(onClose: () -> Unit) {
             text = "Measuring Blood Ketones",
             fontSize = 16.sp,
             fontWeight = FontWeight.W700,
+            fontFamily = gothamRounded,
             color = colorResource(R.color.primaryGreen)
         )
         Spacer(modifier = Modifier.height(12.dp))
@@ -106,6 +113,8 @@ fun KetoneGuideContent(onClose: () -> Unit) {
             Text(
                 text = "${index + 1}. $step",
                 fontSize = 16.sp,
+                fontWeight = FontWeight.W400,
+                fontFamily = gothamRounded,
                 modifier = Modifier.padding(vertical = 3.dp)
             )
         }
@@ -130,6 +139,7 @@ fun KetoneGuideContent(onClose: () -> Unit) {
                     text = "Close",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.W500,
+                    fontFamily = gothamRounded,
                     modifier = Modifier.padding(end = 2.dp),
                     color = Color.White,
                     textAlign = TextAlign.Center
@@ -144,7 +154,7 @@ fun KetoneGuideContent(onClose: () -> Unit) {
             }
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(52.dp))
     }
 }
 

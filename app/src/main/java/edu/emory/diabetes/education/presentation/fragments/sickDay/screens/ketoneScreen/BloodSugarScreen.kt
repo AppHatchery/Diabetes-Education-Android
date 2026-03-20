@@ -89,7 +89,7 @@ fun BloodSugarScreen(
             Text(
                 text = text,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Medium,
                 fontFamily = gothamRounded,
                 color = colorResource(R.color.primaryBlue),
             )

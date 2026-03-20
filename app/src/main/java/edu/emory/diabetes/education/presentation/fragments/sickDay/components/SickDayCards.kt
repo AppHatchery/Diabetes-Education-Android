@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Notifications
@@ -95,6 +97,7 @@ fun CardWithImage(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.W700,
                 fontFamily = gothamRounded,
+                softWrap = true,
                 color = if(isSelected){
                     Color.White
                 }else {
@@ -102,7 +105,7 @@ fun CardWithImage(
                 },
                 textAlign = TextAlign.Center,
                 modifier = modifier
-                    .padding(bottom = 20.dp, start = 10.dp, end = 10.dp, top = 10.dp)
+                    .padding(start = 10.dp, end = 10.dp, top = 10.dp)
             )
         }
     }
@@ -136,6 +139,7 @@ fun CardWithoutImage(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = gothamRounded,
+                textAlign = TextAlign.Center,
                 color = if(isSelected){
                     Color.White
                 }else {
@@ -199,6 +203,7 @@ fun CardWithImageCustomSize(
                 text = cardText,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.W700,
+                fontFamily = gothamRounded,
                 color =
                     if (isSelected){
                         Color.White
@@ -430,7 +435,7 @@ fun TextWithButtonPreview(){
 @Composable
 fun CardWithoutImagePreview(){
     CardWithoutImage(
-        cardText = "Not Sure What's Wrong",
+        cardText = "Not Sure \n What's Wrong",
         cardOnclick = {
         },
         isSelected = false

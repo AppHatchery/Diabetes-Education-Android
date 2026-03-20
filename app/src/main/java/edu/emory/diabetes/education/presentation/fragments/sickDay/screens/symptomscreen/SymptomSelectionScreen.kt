@@ -127,7 +127,7 @@ fun SymptomSelectionScreen(
             Text(
                 text = category.title,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Medium,
                 fontFamily = gothamRounded,
                 color = colorResource(R.color.primaryBlue),
             )
@@ -145,7 +145,7 @@ fun SymptomSelectionScreen(
                 "firstSymptoms" -> SymptomMixedGrid(
                     symptoms = category.symptoms,
                     selectedSymptom = selectedSymptom,
-                    textOnlyOption = "Not Sure What's Wrong",
+                    textOnlyOption = "Not Sure\nWhat's Wrong",
                     onSymptomToggle = { symptomId ->
                         selectedSymptom = if (selectedSymptom == symptomId) null else symptomId
                         selectedSymptom
@@ -156,7 +156,7 @@ fun SymptomSelectionScreen(
                 "abdominal" -> SymptomMixedGrid(
                     symptoms = category.symptoms,
                     selectedSymptom = selectedSymptom,
-                    textOnlyOption = "None of the above",
+                    textOnlyOption = "None of\nthe above",
                     onSymptomToggle = { symptomId ->
                         selectedSymptom = if (selectedSymptom == symptomId) null else symptomId
                         selectedSymptom
@@ -243,7 +243,7 @@ fun SymptomSelectionScreen(
                 isSelected = isNextEnabled
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(30.dp))
         }
     }
 }
