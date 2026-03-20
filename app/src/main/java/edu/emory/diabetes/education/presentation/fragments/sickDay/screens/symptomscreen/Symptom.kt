@@ -22,7 +22,7 @@ object SymptomData {
         title = "Select the issue your child is facing:",
         subtitle = null,
         symptoms = listOf(
-            Symptom("Diabetic_Ketoacidosis","Diabetic Ketoacidosis (DKA)",R.drawable.im_dka),
+            Symptom("Diabetic_Ketoacidosis","Sick Day",R.drawable.im_dka),
             Symptom("High_Blood_Sugar","High Blood Sugar (Hyperglycemia)",R.drawable.im_high_blood),
             Symptom("Low_Blood_Sugar","Low Blood Sugar (Hypoglycemia)",R.drawable.im_low_blood),
         )

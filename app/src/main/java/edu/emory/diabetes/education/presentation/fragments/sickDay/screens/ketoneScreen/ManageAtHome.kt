@@ -104,6 +104,8 @@ fun ManageAtHome(
                 AfterCorrectionCard()
             }
 
+            Spacer(modifier = Modifier.height(23.dp))
+
         }
     }
 }

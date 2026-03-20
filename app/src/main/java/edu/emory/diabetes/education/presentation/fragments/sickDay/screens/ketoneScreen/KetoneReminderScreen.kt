@@ -85,21 +85,47 @@ fun KetoneReminderScreen(
         onExitToMain()
     }
 
-    val instrument = prefs.getString(INSTRUMENT_TYPE, "injection")
-    val ketone = prefs.getString(KETONE, "urine_ketone")
+    val instrument = prefs.getString(INSTRUMENT_TYPE, "injection") ?: "injection"
+    val ketone = prefs.getString(KETONE, "urine_ketone") ?: "urine_ketone"
+
+    // Check if instrument changed since the user last visited this screen
+    val savedInstrument = viewModel.getAnswer(FlowAnswerKeys.REMINDER_KETONE_SCREEN_INSTRUMENT)
+    val instrumentChanged = savedInstrument != null && savedInstrument != instrument
 
     var selectedMeasure by remember {
         mutableStateOf(
-            viewModel.getAnswer(FlowAnswerKeys.REMINDER_KETONE_MEASURE)
-                ?: if (ketone == "urine_ketone") "urine_ketone" else "blood_ketone"
+            if (instrumentChanged) {
+                if (ketone == "urine_ketone") "urine_ketone" else "blood_ketone"
+            } else {
+                viewModel.getAnswer(FlowAnswerKeys.REMINDER_KETONE_MEASURE)
+                    ?: if (ketone == "urine_ketone") "urine_ketone" else "blood_ketone"
+            }
         )
     }
 
     var selectedUrineLevel by remember {
-        mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.REMINDER_KETONE_LEVEL))
+        mutableStateOf(
+            if (instrumentChanged) null
+            else viewModel.getAnswer(FlowAnswerKeys.REMINDER_KETONE_LEVEL)
+        )
     }
+
     var firstQuestionAnswer by remember {
-        mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1))
+        mutableStateOf(
+            if (instrumentChanged) null
+            else viewModel.getAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
+        )
+    }
+
+    // Clear stale ViewModel answers and stamp new instrument if changed
+    LaunchedEffect(instrumentChanged) {
+        if (instrumentChanged) {
+            viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_MEASURE)
+            viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_LEVEL)
+            viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
+        }
+        // Always stamp current instrument for next visit comparison
+        viewModel.saveAnswer(FlowAnswerKeys.REMINDER_KETONE_SCREEN_INSTRUMENT, instrument)
     }
 
     val showLowKetoneQuestion = instrument == "insulin_pump"

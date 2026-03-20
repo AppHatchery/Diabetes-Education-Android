@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -65,11 +66,34 @@ fun KetoneScreen(
     val over300 = viewModel.getAnswer(FlowAnswerKeys.OVER_300) ?: "false"
     val instrument = viewModel.getAnswer(FlowAnswerKeys.INSTRUMENT_TYPE) ?: "injection"
 
+    // Check once on first composition whether the instrument changed since
+    // the user last visited this screen. If it did, wipe the stale answers.
+    val savedInstrument = viewModel.getAnswer(FlowAnswerKeys.KETONE_SCREEN_INSTRUMENT)
+    val instrumentChanged = savedInstrument != null && savedInstrument != instrument
+
     var selectedMeasure by remember {
-        mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.KETONE_MEASURE))
+        mutableStateOf(
+            if (instrumentChanged) null
+            else viewModel.getAnswer(FlowAnswerKeys.KETONE_MEASURE)
+        )
     }
     var selectedUrineLevel by remember {
-        mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.KETONE_LEVEL))
+        mutableStateOf(
+            if (instrumentChanged) null
+            else viewModel.getAnswer(FlowAnswerKeys.KETONE_LEVEL)
+        )
+    }
+
+    // If instrument changed, clear stale answers from the ViewModel immediately
+    // so other screens don't read old values either
+    LaunchedEffect(instrumentChanged) {
+        if (instrumentChanged) {
+            viewModel.clearAnswer(FlowAnswerKeys.KETONE_MEASURE)
+            viewModel.clearAnswer(FlowAnswerKeys.KETONE_LEVEL)
+            viewModel.clearAnswer(FlowAnswerKeys.ILET_KETONE)
+        }
+        // Always stamp the current instrument so the next visit can compare
+        viewModel.saveAnswer(FlowAnswerKeys.KETONE_SCREEN_INSTRUMENT, instrument)
     }
 
     //bottom modal states

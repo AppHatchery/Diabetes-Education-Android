@@ -297,7 +297,6 @@ fun SymptomMixedGrid(
         item {
             CardWithoutImage(
                 cardText = textOnlyOption,
-                modifier = Modifier.fillMaxWidth(),
                 cardOnclick = { onSymptomToggle("none_of_above") },
                 isSelected = selectedSymptom == ("none_of_above")
             )

@@ -86,16 +86,38 @@ fun IletKetoneScreen(
         onExitToMain()
     }
 
-    val ketone = prefs.getString(KETONE, "urine_ketone")
+    val ketone = prefs.getString(KETONE, "urine_ketone") ?: "urine_ketone"
+
+    // Each type slot has its own last-visited tracker so lowKetone / moderateKetone
+    val typeKey = FlowAnswerKeys.iletKetoneScreenTypeKey(type)
+    val savedType = viewModel.getAnswer(typeKey)
+    val typeChanged = savedType != null && savedType != type
 
     var selectedMeasure by remember {
         mutableStateOf(
-            viewModel.getAnswer(FlowAnswerKeys.ILET_KETONE_MEASURE)
-                ?: if (ketone == "urine_ketone") "urine_ketone" else "blood_ketone"
+            if (typeChanged) {
+                if (ketone == "urine_ketone") "urine_ketone" else "blood_ketone"
+            } else {
+                viewModel.getAnswer(FlowAnswerKeys.ILET_KETONE_MEASURE)
+                    ?: if (ketone == "urine_ketone") "urine_ketone" else "blood_ketone"
+            }
         )
     }
+
     var selectedUrineLevel by remember {
-        mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.ILET_KETONE_LEVEL))
+        mutableStateOf(
+            if (typeChanged) null
+            else viewModel.getAnswer(FlowAnswerKeys.ILET_KETONE_LEVEL)
+        )
+    }
+
+    // Clear stale answers and stamp current type
+    LaunchedEffect(typeChanged) {
+        if (typeChanged) {
+            viewModel.clearAnswer(FlowAnswerKeys.ILET_KETONE_MEASURE)
+            viewModel.clearAnswer(FlowAnswerKeys.ILET_KETONE_LEVEL)
+        }
+        viewModel.saveAnswer(typeKey, type)
     }
 
     //bottom modal states
