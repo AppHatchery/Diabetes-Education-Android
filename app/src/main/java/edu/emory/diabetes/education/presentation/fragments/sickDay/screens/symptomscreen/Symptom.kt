@@ -41,7 +41,7 @@ object SymptomData {
 
     val injectionSymptoms = SymptomCategory(
         id = "injection",
-        title = "Is your child having any of these symptoms?",
+        title = "How does your child take Insulin?",
         subtitle = null,
         symptoms = listOf(
             Symptom("injection", "Injection/Insulin Pen", R.drawable.im_injection),

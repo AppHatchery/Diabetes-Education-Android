@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
@@ -73,12 +75,13 @@ fun EmergencyScreen(
                     //.padding(innerPadding)
                     .fillMaxSize()
                     .padding(innerPadding)
+                    .verticalScroll(rememberScrollState())
                     .padding(horizontal = 40.dp)
                     .background(color = colorResource(R.color.secondary_fire_red_100)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(47.dp))
 
                 Text(
                     text = "Seek Immediate\n Medical Attention",
@@ -170,7 +173,7 @@ fun EmergencyScreen(
                     )
                 }
 
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.height(96.dp))
 
                 CustomTransparentTextButton(
                     onClick = onExitToMain,

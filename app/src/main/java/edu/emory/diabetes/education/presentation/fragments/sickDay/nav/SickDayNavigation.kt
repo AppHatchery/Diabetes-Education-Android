@@ -21,6 +21,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.Regul
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.BloodSugarScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.ILetBloodSugarScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.IletKetoneScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneBloodSugar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneReminderScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.ManageILet
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.ManageAtHome
@@ -154,6 +155,25 @@ fun SickDayNavigation(
                 instrument = instrument,
                 isLow = isLow
             )
+        }
+
+        composable(
+            route = "${SickDayScreen.KetoneBloodSugar.route}/{instrument}/{isLowKetone}",
+            arguments = listOf(
+                navArgument("instrument"){type = NavType.StringType},
+                navArgument("isLowKetone"){type = NavType.BoolType}
+            )
+        ){ backStackEntry ->
+            val instrument = backStackEntry.arguments?.getString("instrument") ?: "injection"
+            val isLowKetone = backStackEntry.arguments?.getBoolean("isLowKetone") ?: false
+            KetoneBloodSugar(
+                navController = navController,
+                instrument = instrument,
+                isLowKetone = isLowKetone,
+                onExitToMain = onExitToMain,
+                viewModel = viewModel
+            )
+
         }
 
         composable(

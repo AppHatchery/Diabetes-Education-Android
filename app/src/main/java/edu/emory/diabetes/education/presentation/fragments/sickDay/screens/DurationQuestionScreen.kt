@@ -83,7 +83,7 @@ fun DurationQuestionScreen(
                 .background(Color.White)
         ) {
             Text(
-                text = "Has your child's blood glucose been over 300 mg/dl?",
+                text = "Is your child's blood sugar over 300?",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
                 fontFamily = gothamRounded,
@@ -134,23 +134,28 @@ fun DurationQuestionScreen(
                     "Has the blood sugar been over 300 mg/dL for 3 hours or more?"
                 }
 
-                TextWithButtons(
-                    text = durationText,
-                    buttonAonClick = {
-                        secondQuestionAnswer = if (secondQuestionAnswer == "yes") null else "yes"
-                        secondQuestionAnswer
-                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.DURATION_Q2, it) }
-                            ?: viewModel.clearAnswer(FlowAnswerKeys.DURATION_Q2)
-                    },
-                    buttonBonClick = {
-                        secondQuestionAnswer = if (secondQuestionAnswer == "no") null else "no"
-                        secondQuestionAnswer
-                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.DURATION_Q2, it) }
-                            ?: viewModel.clearAnswer(FlowAnswerKeys.DURATION_Q2)
-                    },
-                    isYesSelected = secondQuestionAnswer == "yes",
-                    isNoSelected = secondQuestionAnswer == "no"
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+
+                    TextWithButtons(
+                        text = durationText,
+                        buttonAonClick = {
+                            secondQuestionAnswer = if (secondQuestionAnswer == "yes") null else "yes"
+                            secondQuestionAnswer
+                                ?.let { viewModel.saveAnswer(FlowAnswerKeys.DURATION_Q2, it) }
+                                ?: viewModel.clearAnswer(FlowAnswerKeys.DURATION_Q2)
+                        },
+                        buttonBonClick = {
+                            secondQuestionAnswer = if (secondQuestionAnswer == "no") null else "no"
+                            secondQuestionAnswer
+                                ?.let { viewModel.saveAnswer(FlowAnswerKeys.DURATION_Q2, it) }
+                                ?: viewModel.clearAnswer(FlowAnswerKeys.DURATION_Q2)
+                        },
+                        isYesSelected = secondQuestionAnswer == "yes",
+                        isNoSelected = secondQuestionAnswer == "no"
+                    )
+                }
             }
 
             val isNextEnabled = if (firstQuestionAnswer == "yes") {

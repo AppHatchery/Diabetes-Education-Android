@@ -168,7 +168,7 @@ fun KetoneScreen(
             Spacer(modifier = Modifier.height(40.dp))
 
             Text(
-                text = "How did your child measure ketones",
+                text = "How did your child measure ketones?",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = gothamRounded,
@@ -217,7 +217,7 @@ fun KetoneScreen(
 
             if (selectedMeasure != null) {
                 Text(
-                    text = "What were the ketone results?",
+                    text = "What are the ketone results?",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = gothamRounded,
@@ -284,7 +284,7 @@ private fun resolveKetoneNavDestination(
     iLetKetone: String,
     over300: Boolean
 ): String {
-    val isLowKetone = selectedUrineLevel in setOf("Neg", "5", "Low")
+    val isLowKetone = selectedUrineLevel in setOf("Neg", "Low")
 
     return when (instrument) {
         "injection" -> if (isLowKetone) {

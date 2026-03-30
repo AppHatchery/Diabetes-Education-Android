@@ -241,7 +241,7 @@ fun IletKetoneScreen(
                     contentPadding = PaddingValues(0.dp)
                 ) {
                     Text(
-                        text = if (selectedMeasure == "urine_ketone") "Switch to blood ketone measurement" else "Switch to urine ketone measurement",
+                        text = if (selectedMeasure == "urine_ketone") "Switch to Blood Ketone" else "Switch to Urine ketone",
                         style = TextStyle(
                             textDecoration = TextDecoration.Underline
                         ),

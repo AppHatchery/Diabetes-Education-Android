@@ -35,6 +35,8 @@ object FlowAnswerKeys {
     const val OVER_300        = "over_300"
     const val ILET_KETONE     = "ilet_ketone"
     const val BLOOD_SUGAR     = "blood_sugar"
+
+    const val KETONE_BLOOD_SUGAR_TYPE = "ketone_blood_sugar_type"
     const val KETONE_MEASURE  = "ketone_measure"
     const val KETONE_LEVEL    = "ketone_level"
     const val KETONE_SCREEN_INSTRUMENT = "ketone_screen_instrument"

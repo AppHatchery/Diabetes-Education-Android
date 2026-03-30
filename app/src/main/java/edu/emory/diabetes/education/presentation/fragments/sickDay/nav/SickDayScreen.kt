@@ -33,4 +33,6 @@ sealed class SickDayScreen(val route: String) {
     object ILetBloodSugar: SickDayScreen("i_let_blood_sugar")
 
     object NewPump: SickDayScreen("new_pump")
+
+    object KetoneBloodSugar: SickDayScreen("ketone_blood_sugar")
 }

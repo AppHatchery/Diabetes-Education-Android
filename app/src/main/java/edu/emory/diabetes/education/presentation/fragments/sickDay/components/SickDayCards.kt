@@ -239,11 +239,11 @@ fun TextWithButtons(
         )
 
         Row(
-            modifier = modifier.fillMaxWidth()
+            modifier = modifier.fillMaxWidth(),
         ){
             CustomWidthInactiveButton(
                 onClick = buttonAonClick,
-                buttonText = "yes",
+                buttonText = "Yes",
                 modifier = modifier.padding(end = 16.dp),
                 isSelected = isYesSelected
             )

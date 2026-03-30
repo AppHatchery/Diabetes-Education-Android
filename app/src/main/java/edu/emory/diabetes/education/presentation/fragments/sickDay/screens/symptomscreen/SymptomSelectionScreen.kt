@@ -185,23 +185,28 @@ fun SymptomSelectionScreen(
 
             if (categoryId == "injection" && selectedSymptom?.contains("Insulin_pump") == true){
                 Spacer(modifier = Modifier.height(40.dp))
-                TextWithButtons(
-                    text = "Does your child use the iLet Pump?",
-                    buttonAonClick = {
-                        iLetSelected = if (iLetSelected == "yes") null else "yes"
-                        iLetSelected
-                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.ILET_SELECTED, it) }
-                            ?: viewModel.clearAnswer(FlowAnswerKeys.ILET_SELECTED)
-                    },
-                    buttonBonClick = {
-                        iLetSelected = if (iLetSelected == "no") null else "no"
-                        iLetSelected
-                            ?.let { viewModel.saveAnswer(FlowAnswerKeys.ILET_SELECTED, it) }
-                            ?: viewModel.clearAnswer(FlowAnswerKeys.ILET_SELECTED)
-                    },
-                    isYesSelected = iLetSelected == "yes",
-                    isNoSelected = iLetSelected == "no"
-                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    TextWithButtons(
+                        text = "Does your child use the iLet Pump?",
+                        buttonAonClick = {
+                            iLetSelected = if (iLetSelected == "yes") null else "yes"
+                            iLetSelected
+                                ?.let { viewModel.saveAnswer(FlowAnswerKeys.ILET_SELECTED, it) }
+                                ?: viewModel.clearAnswer(FlowAnswerKeys.ILET_SELECTED)
+                        },
+                        buttonBonClick = {
+                            iLetSelected = if (iLetSelected == "no") null else "no"
+                            iLetSelected
+                                ?.let { viewModel.saveAnswer(FlowAnswerKeys.ILET_SELECTED, it) }
+                                ?: viewModel.clearAnswer(FlowAnswerKeys.ILET_SELECTED)
+                        },
+                        isYesSelected = iLetSelected == "yes",
+                        isNoSelected = iLetSelected == "no"
+                    )
+                }
             }
 
             if(categoryId == "regular"){
@@ -243,7 +248,7 @@ fun SymptomSelectionScreen(
                 isSelected = isNextEnabled
             )
 
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(50.dp))
         }
     }
 }

@@ -122,7 +122,6 @@ fun KetoneReminderScreen(
         if (instrumentChanged) {
             viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_MEASURE)
             viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_LEVEL)
-            viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
         }
         // Always stamp current instrument for next visit comparison
         viewModel.saveAnswer(FlowAnswerKeys.REMINDER_KETONE_SCREEN_INSTRUMENT, instrument)
@@ -138,8 +137,8 @@ fun KetoneReminderScreen(
     // Next button enabled logic
     val isNextEnabled = when {
         instrument == "injection" && selectedUrineLevel in listOf("Neg", "5", "Low") -> true
-        instrument == "injection" && showHighKetoneQuestion && firstQuestionAnswer != null -> true
-        instrument == "insulin_pump" && (showLowKetoneQuestion || showHighKetoneQuestion) && firstQuestionAnswer != null -> true
+        instrument == "injection" && selectedUrineLevel != null -> true
+        instrument == "insulin_pump" && selectedUrineLevel != null -> true 
         instrument == "ilet" && selectedUrineLevel != null -> true
         else -> false
     }
@@ -239,9 +238,6 @@ fun KetoneReminderScreen(
                     onLevelSelected = { level ->
                         selectedUrineLevel = level
                         viewModel.saveAnswer(FlowAnswerKeys.REMINDER_KETONE_LEVEL, level)
-                        // Changing the level invalidates the follow-up question
-                        firstQuestionAnswer = null
-                        viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
                     }
                 )
             }else if(selectedMeasure == "blood_ketone") {
@@ -249,9 +245,6 @@ fun KetoneReminderScreen(
                     selectedLevel = selectedUrineLevel,
                     onLevelSelected = { level ->
                         selectedUrineLevel = level
-                        viewModel.saveAnswer(FlowAnswerKeys.REMINDER_KETONE_LEVEL, level)
-                        firstQuestionAnswer = null
-                        viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
                     }
                 )
             }
@@ -267,14 +260,14 @@ fun KetoneReminderScreen(
                         // Switching measure type invalidates level and follow-up
                         selectedUrineLevel = null
                         viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_LEVEL)
-                        firstQuestionAnswer = null
-                        viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
+//                        firstQuestionAnswer = null
+//                        viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
 
                     },
                     contentPadding = PaddingValues(0.dp)
                 ) {
                     Text(
-                        text = if (selectedMeasure == "urine_ketone") "Switch to blood ketone measurement" else "Switch to urine ketone measurement",
+                        text = if (selectedMeasure == "urine_ketone") "Switch to Blood Ketone" else "Switch to Urine ketone",
                         style = TextStyle(
                             textDecoration = TextDecoration.Underline
                         ),
@@ -285,118 +278,27 @@ fun KetoneReminderScreen(
                 }
             }
 
-            // Insulin pump + low ketone level question
-            if (showLowKetoneQuestion) {
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Text(
-                    text = "Is your child's blood sugar over 300?",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = gothamRounded,
-                    color = colorResource(R.color.primaryBlue),
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    CustomWidthInactiveButton(
-                        onClick = {
-                            firstQuestionAnswer = if (firstQuestionAnswer == "yes") null else "yes"
-                            firstQuestionAnswer
-                                ?.let { viewModel.saveAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1, it) }
-                                ?: viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
-                                  },
-                        buttonText = "Yes",
-                        isSelected = firstQuestionAnswer == "yes"
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    CustomWidthInactiveButton(
-                        onClick = {
-                            firstQuestionAnswer = if (firstQuestionAnswer == "no") null else "no"
-                            firstQuestionAnswer
-                                ?.let { viewModel.saveAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1, it) }
-                                ?: viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
-                        },
-                        buttonText = "No",
-                        isSelected = firstQuestionAnswer == "no"
-                    )
-                }
-            }
-
-           // Injection or insulin pump + high ketone level question
-            if (showHighKetoneQuestion) {
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Text(
-                    text = "Is your child's blood sugar 150 or lower?",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = gothamRounded,
-                    color = colorResource(R.color.primaryBlue),
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    CustomWidthInactiveButton(
-                        onClick = {
-                            firstQuestionAnswer = if (firstQuestionAnswer == "yes") null else "yes"
-                            firstQuestionAnswer
-                                ?.let { viewModel.saveAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1, it) }
-                                ?: viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
-                                  },
-                        buttonText = "Yes",
-                        isSelected = firstQuestionAnswer == "yes"
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    CustomWidthInactiveButton(
-                        onClick = {
-                            firstQuestionAnswer = if (firstQuestionAnswer == "no") null else "no"
-                            firstQuestionAnswer
-                                ?.let { viewModel.saveAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1, it) }
-                                ?: viewModel.clearAnswer(FlowAnswerKeys.REMINDER_KETONE_Q1)
-                        },
-                        buttonText = "No",
-                        isSelected = firstQuestionAnswer == "no"
-                    )
-                }
-            }
-
             Spacer(modifier = Modifier.weight(1f))
 
 
             NextButton(
                 onClick = {
-                    when(instrument){
-                        "injection" ->{
+                    when (instrument) {
+                        "injection" -> {
                             if (selectedUrineLevel in listOf("Neg", "5", "Low")) {
                                 navController.navigate(SickDayScreen.RegularCare.route)
                             } else {
-                                if (firstQuestionAnswer == "yes") {
-                                    navController.navigate("${SickDayScreen.ManageAtHome.route}/$instrument/$isLow")
-                                } else {
-                                    navController.navigate(SickDayScreen.CallDoctor.route)
-                                }
+                                // High ketone → go to question screen
+                                navController.navigate("${SickDayScreen.KetoneBloodSugar.route}/$instrument/false")
                             }
                         }
-
                         "insulin_pump" -> {
                             if (selectedUrineLevel in listOf("Neg", "5", "Low")) {
-                                // low ketone question: yes/no navigation
-                                if (firstQuestionAnswer == "yes") {
-                                    isLow = true
-                                    navController.navigate("${SickDayScreen.ManageAtHome.route}/$instrument/$isLow")
-                                } else {
-                                    navController.navigate(SickDayScreen.RegularCare.route)
-                                }
+                                // Low ketone → go to question screen
+                                navController.navigate("${SickDayScreen.KetoneBloodSugar.route}/$instrument/true")
                             } else {
-                                // high ketone question: yes/no navigation
-                                if (firstQuestionAnswer == "yes") {
-                                    navController.navigate("${SickDayScreen.ManageAtHome.route}/$instrument/$isLow")
-                                } else {
-                                    navController.navigate(SickDayScreen.CallCHOA.route)
-                                }
+                                // High ketone → go to question screen
+                                navController.navigate("${SickDayScreen.KetoneBloodSugar.route}/$instrument/false")
                             }
                         }
                         else -> {
