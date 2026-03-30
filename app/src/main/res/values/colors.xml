@@ -41,10 +41,12 @@
     <color name="secondary_fire_red">#ED1C24</color>
     <color name="gray_300_sick">#ADADAD</color>
     <color name="gray_400_sick">#838383</color>
+    <color name="gray_100_sick">#EFEFEF</color>
     <color name="secondary_fire_red_100">#FEE9EA</color>
     <color name="secondary_fire_red_300">#ED1C24</color>
     <color name="green_050">#F2FAF6</color>
     <color name="green_200_sick">#BFE9D3</color>
     <color name="secondary_sunset_orange">#F58220</color>
+    <color name="secondary_ocean_blue">#005DA4</color>
 </resources>
 

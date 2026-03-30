@@ -34,7 +34,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             setContent {
                 HandBook(
                     onInsulinCalculatorClick = {},
-                    onMealsClick = {},
+                    onMealsClick = {
+                        navigateToInsulinCalculator()
+                    },
                     onHighSugarClick = {},
                     onGetHelpClick = {
                         navigateToSickDay()
@@ -50,6 +52,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun navigateToSickDay() {
         findNavController().navigate(R.id.action_mainFragment_to_sickDayFragment)
+    }
+
+    private fun navigateToInsulinCalculator() {
+       findNavController().navigate(R.id.action_mainFragment_to_newCalculatorFragment3)
     }
 
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
