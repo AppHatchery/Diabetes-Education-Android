@@ -69,7 +69,7 @@ fun HandBook(
         topBar = {
             TopAppBar(
                 title = { Text(text = "") },
-                windowInsets = WindowInsets.statusBars
+                windowInsets = WindowInsets.statusBars //.add(WindowInsets(top = 8.dp))
                 )
         },
         modifier = Modifier
@@ -133,7 +133,7 @@ fun InsulinCalculatorCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 20.dp),
+                .padding(vertical = 20.dp),
         ) {
             Row (
                 modifier = Modifier.fillMaxWidth(),

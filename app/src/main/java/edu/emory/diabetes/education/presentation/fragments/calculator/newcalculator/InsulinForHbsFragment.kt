@@ -21,11 +21,13 @@ import androidx.core.view.isGone
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.databinding.FragmentInsulinForHbsBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import kotlinx.coroutines.launch
 import sdk.pendo.io.Pendo
 
 class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
@@ -78,6 +80,17 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
             val carbRatio = args.carbsRatio
             val id = args.id
 
+            //set up saved correction factor
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.correctionFactorState.collect { factor ->
+                    if (factor.isNotEmpty()){
+                        correctionFactor.setText(factor)
+                    }else{
+                        correctionFactor.hint = "2"
+                    }
+                }
+            }
+
             if (id == 0) {
                 stepOne.text = getString(R.string.step_two)
             } else {
@@ -98,6 +111,8 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
 
             next.setOnClickListener {
                 if (correctionFactor.text?.isNotEmpty() == true && bloodSugarNew.text?.isNotEmpty() == true && targetBloodSugar.text?.isNotEmpty() == true) {
+                    //save correction factor if changed
+                    viewModel.saveCorrectionFactor(correctionFactor.text.toString())
                     //hide keyboard
                     val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
@@ -129,7 +144,7 @@ class InsulinForHbsFragment : BaseFragment(R.layout.fragment_insulin_for_hbs) {
                 }
             }
 
-            correctionFactor.setText(viewModel.correctionFactor)
+            correctionFactor.setText(viewModel.correctionFactorState.value)
             bloodSugarNew.setText(viewModel.bloodSugar)
             targetBloodSugar.setText(viewModel.targetBloodSugar)
 
