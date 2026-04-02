@@ -33,6 +33,7 @@ object FlowAnswerKeys {
     const val DURATION_Q1     = "duration_q1"
     const val DURATION_Q2     = "duration_q2"
     const val OVER_300        = "over_300"
+    const val OVER_300_OTHER = "over_300_other"
     const val ILET_KETONE     = "ilet_ketone"
     const val BLOOD_SUGAR     = "blood_sugar"
 

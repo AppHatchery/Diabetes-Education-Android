@@ -168,14 +168,12 @@ fun DurationQuestionScreen(
 
             NextButton(
                 onClick = {
-                    val isOver300 = secondQuestionAnswer == "yes" && isILet
+                    val isOver300 = firstQuestionAnswer == "yes" && isILet
+                    val isOver300Other = firstQuestionAnswer == "yes"
                     viewModel.saveAnswer(FlowAnswerKeys.OVER_300, isOver300.toString())
+                    viewModel.saveAnswer(FlowAnswerKeys.OVER_300_OTHER, isOver300Other.toString())
 
-                    val finalAnswer = if (firstQuestionAnswer == "yes") {
-                        secondQuestionAnswer
-                    } else {
-                        firstQuestionAnswer
-                    }
+                    val finalAnswer = firstQuestionAnswer
 
                     val answerSet = finalAnswer?.let { setOf(it) } ?: emptySet()
                     val nextRoute = viewModel.determineNextRoute(questionId, answerSet)
