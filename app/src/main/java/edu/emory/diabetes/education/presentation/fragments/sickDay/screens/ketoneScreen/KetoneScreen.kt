@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -64,6 +65,7 @@ fun KetoneScreen(
     val prefs = SickDayPrefs(context)
 
     val over300 = viewModel.getAnswer(FlowAnswerKeys.OVER_300) ?: "false"
+    val over300Other = viewModel.getAnswer(FlowAnswerKeys.OVER_300_OTHER) ?: "false"
     val instrument = viewModel.getAnswer(FlowAnswerKeys.INSTRUMENT_TYPE) ?: "injection"
 
     // Check once on first composition whether the instrument changed since
@@ -168,7 +170,7 @@ fun KetoneScreen(
             Spacer(modifier = Modifier.height(40.dp))
 
             Text(
-                text = "How did your child measure ketones",
+                text = "How did your child measure ketones?",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = gothamRounded,
@@ -217,7 +219,7 @@ fun KetoneScreen(
 
             if (selectedMeasure != null) {
                 Text(
-                    text = "What were the ketone results?",
+                    text = "What are the ketone results?",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = gothamRounded,
@@ -266,7 +268,8 @@ fun KetoneScreen(
                         instrument = instrument,
                         selectedUrineLevel = selectedUrineLevel ?: "",
                         iLetKetone = iLetKetone,
-                        over300 = over300 == "true"
+                        over300 = over300 == "true",
+                        over300Other = over300Other == "true"
                     )
                     navController.navigate(destination)
                 },
@@ -282,23 +285,31 @@ private fun resolveKetoneNavDestination(
     instrument: String?,
     selectedUrineLevel: String,
     iLetKetone: String,
-    over300: Boolean
+    over300: Boolean,
+    over300Other: Boolean
 ): String {
-    val isLowKetone = selectedUrineLevel in setOf("Neg", "5", "Low")
+    val isLowKetone = selectedUrineLevel in setOf("Neg", "Low")
+    val isLow = false
 
     return when (instrument) {
         "injection" -> if (isLowKetone) {
             SickDayScreen.RegularCareLow.route
         } else {
-            "${SickDayScreen.BloodSugar.route}/$instrument"
+            if(over300Other){
+                "${SickDayScreen.ManageAtHome.route}/$instrument/$isLow"
+            }else{
+                "${SickDayScreen.BloodSugar.route}/$instrument"
+            }
         }
-
         "insulin_pump" -> if (isLowKetone) {
             SickDayScreen.RegularCareInsulinPump.route
         } else {
-            "${SickDayScreen.BloodSugar.route}/$instrument"
+            if(over300Other){
+              "${SickDayScreen.ManageAtHome.route}/$instrument/$isLow"
+            }else{
+                "${SickDayScreen.BloodSugar.route}/$instrument"
+            }
         }
-
         else -> when { // iLet
             isLowKetone -> "${SickDayScreen.ManageILet.route}/Low"
             over300 && iLetKetone == "Moderate" -> "${SickDayScreen.ManageILet.route}/Moderate"

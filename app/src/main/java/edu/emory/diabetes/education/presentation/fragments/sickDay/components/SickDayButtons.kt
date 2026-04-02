@@ -1,5 +1,7 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.components
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -49,6 +52,7 @@ fun NextButton(
     Button(
         modifier = modifier
             .fillMaxWidth()
+            .padding(bottom = 10.dp)
             .height(52.dp),
         onClick = onClick,
         enabled = isSelected,
@@ -166,11 +170,17 @@ fun RedEmergencyButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ){
+    val context = LocalContext.current
     Button(
         modifier = modifier
             .width(314.dp)
             .height(52.dp),
-        onClick = onClick,
+        onClick = {
+            val intent = Intent(Intent.ACTION_DIAL).apply {
+                data = Uri.parse("tel:911")
+            }
+            context.startActivity(intent)
+        },
         colors = ButtonDefaults.buttonColors(containerColor = colorResource(R.color.secondary_fire_red)),
         shape = RoundedCornerShape(12.dp)
     ) {

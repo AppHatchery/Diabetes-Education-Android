@@ -241,7 +241,7 @@ fun IletKetoneScreen(
                     contentPadding = PaddingValues(0.dp)
                 ) {
                     Text(
-                        text = if (selectedMeasure == "urine_ketone") "Switch to blood ketone measurement" else "Switch to urine ketone measurement",
+                        text = if (selectedMeasure == "urine_ketone") "Switch to Blood Ketone" else "Switch to Urine ketone",
                         style = TextStyle(
                             textDecoration = TextDecoration.Underline
                         ),
@@ -263,7 +263,7 @@ fun IletKetoneScreen(
                         "lowKetone" -> {
                             if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low"){
                                 navController.navigate(SickDayScreen.RegularCare.route)
-                            }else if(selectedUrineLevel == "Moderate" || selectedUrineLevel == "5" || selectedUrineLevel == "4"){
+                            }else if(selectedUrineLevel == "Moderate" || selectedUrineLevel == "5" || selectedUrineLevel == "15" || selectedUrineLevel == "40"){
                                 navController.navigate("${SickDayScreen.ManageILet.route}/Moderate")
                             }else{
                                 navController.navigate("${SickDayScreen.ManageILet.route}/High")
