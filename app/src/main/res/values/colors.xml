@@ -36,6 +36,10 @@
     <color name="primaryBlue">#005DA4</color>
     <color name="primaryGreen">#00A94F</color>
     <color name="gray_500">#F6F6F6</color>
+    <color name="gray_500_2">#5A5A5A</color>
+    <color name="gray_200_calc">#D5D5D5</color>
+    <color name="gray_050">#F6F6F6</color>
+    <color name="gray_600">#2D2D2D</color>
     <color name="blue_300">#80AED2</color>
     <color name="blue_050">#F2F7FA</color>
     <color name="secondary_fire_red">#ED1C24</color>

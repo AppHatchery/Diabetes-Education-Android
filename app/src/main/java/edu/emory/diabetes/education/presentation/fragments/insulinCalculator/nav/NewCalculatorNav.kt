@@ -8,18 +8,23 @@ import androidx.navigation.compose.composable
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.NewCalculatorViewmodel
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens.HighSugarCalculator
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens.MealCalculator
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens.MealsHighSugarTotal
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens.editConstants.EditConstantsScreen
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens.editConstants.EditConstantsViewModel
 
 
 @Composable
 fun NewCalculatorNav(
     viewmodel: NewCalculatorViewmodel,
-    onExitToMain: () -> Unit
+    editConstantsViewModel: EditConstantsViewModel,
+    onExitToMain: () -> Unit,
+    startDestination: String = NewCalculatorScreen.MealCalculator.route
 ) {
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination = NewCalculatorScreen.MealCalculator.route
+        startDestination = startDestination
     ){
 
         composable(NewCalculatorScreen.MealCalculator.route) {
@@ -33,7 +38,26 @@ fun NewCalculatorNav(
         composable(NewCalculatorScreen.HighSugarCalculator.route) {
             HighSugarCalculator(
                 navController = navController,
+                viewModel = viewmodel,
+                onExitToMain = onExitToMain
             )
+        }
+
+        composable(NewCalculatorScreen.MealsHighSugarTotal.route){
+            MealsHighSugarTotal(
+                navController = navController,
+                viewModel = viewmodel,
+                onExitToMain = onExitToMain
+            )
+        }
+
+        composable(NewCalculatorScreen.EditConstants.route) {
+                EditConstantsScreen(
+                    viewModel = editConstantsViewModel,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    }
+                )
         }
 
     }

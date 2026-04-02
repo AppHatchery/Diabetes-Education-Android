@@ -16,11 +16,13 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -28,18 +30,26 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.navigation.NavController
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,8 +59,15 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.NewCalculatorViewmodel
 
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.CalculatorTopBar
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.InfoDialog
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.ResultCard
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.UnderlinedNumberField
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.carbRatioInfo
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.infoText
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.insulinForFood
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.insulinForHBS
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.totalCarbsInfo
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.theme.gothamRounded
 
@@ -62,8 +79,43 @@ fun MealCalculator(
     viewModel: NewCalculatorViewmodel
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.loadSavedConstants(context)
+    }
+
     val isKeyboardVisible = WindowInsets.isImeVisible
     val keyboardController = LocalSoftwareKeyboardController.current
+    val canCalculate = uiState.totalCarbs.isNotBlank() && uiState.carbRatio.isNotBlank()
+
+    var showCarbRatioInfo by remember { mutableStateOf(false) }
+    var showTotalCarbsInfo by remember { mutableStateOf(false) }
+    var showInsulinForFood by remember { mutableStateOf(false) }
+
+    if (showCarbRatioInfo) {
+        InfoDialog(
+            title = "Carb Ratio",
+            description = carbRatioInfo,
+            onDismiss = { showCarbRatioInfo = false }
+        )
+    }
+
+    if (showTotalCarbsInfo) {
+        InfoDialog(
+            title = "Total Carbs",
+            description = totalCarbsInfo,
+            onDismiss = { showTotalCarbsInfo = false }
+        )
+    }
+
+    if(showInsulinForFood){
+        InfoDialog(
+            title = "Insulin for food",
+            description = insulinForFood,
+            onDismiss = { showInsulinForFood = false }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -76,7 +128,7 @@ fun MealCalculator(
                     }
                 },
                 showEdit = true,
-                onEditClick = {}
+                onEditClick = {navController.navigate(NewCalculatorScreen.EditConstants.route)}
             )
         },
         containerColor = colorResource(R.color.green_050),
@@ -115,7 +167,7 @@ fun MealCalculator(
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = "Insulin for Food",
-                            fontSize = 22.sp,
+                            fontSize = 20.sp,
                             color = colorResource(R.color.secondary_ocean_blue),
                             fontWeight = FontWeight.W700,
                             fontFamily = gothamRounded,
@@ -150,7 +202,7 @@ fun MealCalculator(
                     ) {
                         UnderlinedNumberField(
                             value = uiState.totalCarbs,
-                            onValueChange = { viewModel.onTotalCarbsChanged(it) },
+                            onValueChange = { if (!it.contains('.')) viewModel.onTotalCarbsChanged(it) },
                             label = "Total Carbs",
                             isMeal = true,
                             iconColor = colorResource(R.color.primaryBlue),
@@ -159,7 +211,8 @@ fun MealCalculator(
                             dividerColor = colorResource(R.color.primaryBlue),
                             modifier = Modifier.weight(1f),
                             //isError = uiState.totalCarbsError,
-                            infoIcon = true
+                            infoIcon = true,
+                            infoOnClick = {showTotalCarbsInfo = true}
                         )
 
                         Text(
@@ -173,7 +226,7 @@ fun MealCalculator(
 
                         UnderlinedNumberField(
                             value = uiState.carbRatio,
-                            onValueChange = { viewModel.onCarbRatioChanged(it) },
+                            onValueChange = { if (!it.contains('.')) viewModel.onCarbRatioChanged(it) },
                             label = "Carb Ratio",
                             isMeal = true,
                             infoIcon = true,
@@ -181,6 +234,7 @@ fun MealCalculator(
                             modifier = Modifier.weight(1f),
                             dividerColor = colorResource(R.color.gray_100_sick),
                             isError = uiState.carbRatioError,
+                            infoOnClick = {showCarbRatioInfo = true}
                         )
                     }
                     Spacer(modifier = Modifier.height(200.dp))
@@ -188,7 +242,9 @@ fun MealCalculator(
                     if(uiState.hasCalculated){
                         ResultCard(
                             insulin = uiState.formatUnits(),
-                            isAbove = true
+                            isAbove = true,
+                            cardLabel = "Insulin for food",
+                            infoOnClick = {showInsulinForFood = true}
                         )
 
                         Spacer(modifier = Modifier.height(84.dp))
@@ -220,41 +276,42 @@ fun MealCalculator(
                         }
                     }
 
-
-
                     Spacer(modifier = Modifier.height(30.dp))
                 }
 
             }
 
             AnimatedVisibility(
-                visible = isKeyboardVisible,
+                visible = isKeyboardVisible && canCalculate,
                 enter = slideInVertically(initialOffsetY = { it }),
                 exit = slideOutVertically(targetOffsetY = { it }),
-                modifier = Modifier.align(Alignment.BottomCenter)
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .background(Color(0xFFF0F0F0))
             ) {
-                Button(
-                    onClick = {
-                        viewModel.calculate()
-                        keyboardController?.hide()
-                    },
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 12.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(R.color.primaryBlue)
-                    ),
-                    shape = RoundedCornerShape(12.dp)
+                        .padding(horizontal = 16.dp, vertical = 3.dp),
+                    horizontalArrangement = Arrangement.End
                 ) {
-                    Text(
-                        text = "Calculate",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W700,
-                        fontFamily = gothamRounded
-                    )
+                    TextButton(
+                        onClick = {
+                            viewModel.calculate()
+                            keyboardController?.hide()
+                        }
+                    ) {
+                        Text(
+                            text = "Calculate",
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.W600,
+                            fontFamily = gothamRounded,
+                            color = colorResource(R.color.primaryGreen)
+                        )
+                    }
                 }
             }
-
         }
     }
 
@@ -265,9 +322,9 @@ fun MealCalculator(
 @Composable
 fun MealCalculatorPreview() {
     val navController = rememberNavController()
-        MealCalculator(
-            navController = navController,
-            viewModel = viewModel(),
-            onExitToMain = {}
+    MealCalculator(
+        navController = navController,
+        viewModel = viewModel(),
+        onExitToMain = {}
         )
 }
