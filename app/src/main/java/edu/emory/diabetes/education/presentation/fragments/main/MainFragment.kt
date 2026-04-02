@@ -17,6 +17,7 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.FragmentMainBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
 import kotlin.math.roundToInt
 
 class MainFragment : Fragment(R.layout.fragment_main) {
@@ -33,9 +34,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             consumeWindowInsets = false
             setContent {
                 HandBook(
-                    onInsulinCalculatorClick = {},
-                    onMealsClick = {},
-                    onHighSugarClick = {},
+                    onInsulinCalculatorClick = {
+                        navigateToMealsHighSugarTotal()
+                    },
+                    onMealsClick = {
+                        navigateToInsulinCalculator()
+                    },
+                    onHighSugarClick = {
+                        navigateToHighSugarCalculator()
+                    },
                     onGetHelpClick = {
                         navigateToSickDay()
                     },
@@ -51,6 +58,33 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun navigateToSickDay() {
         findNavController().navigate(R.id.action_mainFragment_to_sickDayFragment)
     }
+
+    private fun navigateToInsulinCalculator() {
+        val bundle = Bundle().apply {
+            putString("startDestination", NewCalculatorScreen.MealCalculator.route)
+        }
+        findNavController().navigate(R.id.action_mainFragment_to_newCalculatorFragment3, bundle)
+    }
+
+    private fun navigateToHighSugarCalculator() {
+        val bundle = Bundle().apply {
+            putString("startDestination", NewCalculatorScreen.HighSugarCalculator.route)
+        }
+        findNavController().navigate(R.id.action_mainFragment_to_newCalculatorFragment3, bundle)
+    }
+
+    private fun navigateToMealsHighSugarTotal() {
+        val bundle = Bundle().apply {
+            putString("startDestination", NewCalculatorScreen.MealsHighSugarTotal.route)
+        }
+        findNavController().navigate(R.id.action_mainFragment_to_newCalculatorFragment3, bundle)
+    }
+
+
+
+//    private fun navigateToInsulinCalculator() {
+//       findNavController().navigate(R.id.action_mainFragment_to_newCalculatorFragment3)
+//    }
 
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        with(FragmentMainBinding.bind(view)) {

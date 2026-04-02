@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_mainFragment_to_sickDayFragment"
             app:destination="@id/sickDayFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_newCalculatorFragment3"
+            app:destination="@id/newCalculatorFragment3" />
     </fragment>
     <fragment
         android:id="@+id/calculatorFragment"
@@ -696,5 +699,9 @@
         android:id="@+id/sickDayFragment"
         android:name="edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayFragment"
         android:label="SickDayFragment" />
+    <fragment
+        android:id="@+id/newCalculatorFragment3"
+        android:name="edu.emory.diabetes.education.presentation.fragments.insulinCalculator.NewCalculatorFragment"
+        android:label="NewCalculatorFragment" />
 
 </navigation>
