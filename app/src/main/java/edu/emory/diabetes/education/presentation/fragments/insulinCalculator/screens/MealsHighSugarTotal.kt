@@ -248,7 +248,11 @@ fun MealsHighSugarTotal(
                     false
                 else
                     true,
-                onEditClick = {navController.navigate(NewCalculatorScreen.EditConstants.route)}
+                onEditClick = {
+                    navController.navigate(
+                        NewCalculatorScreen.EditConstants.routeWith(NewCalculatorScreen.MealsHighSugarTotal.route)
+                    )
+                }
             )
         },
         containerColor = if (currentStep == MealsHighSugarStep.TOTAL_RESULT)

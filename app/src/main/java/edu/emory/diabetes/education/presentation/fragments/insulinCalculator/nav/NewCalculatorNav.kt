@@ -2,9 +2,11 @@ package edu.emory.diabetes.education.presentation.fragments.insulinCalculator.na
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavType
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.NewCalculatorViewmodel
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens.HighSugarCalculator
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens.MealCalculator
@@ -51,13 +53,17 @@ fun NewCalculatorNav(
             )
         }
 
-        composable(NewCalculatorScreen.EditConstants.route) {
-                EditConstantsScreen(
-                    viewModel = editConstantsViewModel,
-                    onNavigateBack = {
-                        navController.popBackStack()
-                    }
-                )
+        composable(
+            NewCalculatorScreen.EditConstants.route,
+            arguments = listOf(navArgument("origin") { type = NavType.StringType })
+        ) {backStackEntry ->
+            val origin = backStackEntry.arguments?.getString("origin") ?: NewCalculatorScreen.MealCalculator.route
+            EditConstantsScreen(
+                viewModel = editConstantsViewModel,
+                onNavigateBack = {
+                    navController.popBackStack(origin, inclusive = false)
+                }
+            )
         }
 
     }
