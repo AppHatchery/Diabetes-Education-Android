@@ -52,5 +52,15 @@
     <color name="green_200_sick">#BFE9D3</color>
     <color name="secondary_sunset_orange">#F58220</color>
     <color name="secondary_ocean_blue">#005DA4</color>
+    <color name="greenGradientDark">#62A43A</color>
+    <color name="greenGradientLight">#72BF44</color>
+    <color name="orangeGradientDark">#E07A24</color>
+    <color name="orangeGradientLight">#F58220</color>
+    <color name="purpleGradientDark">#B7268B</color>
+    <color name="purpleGradientLight">#BD2F92</color>
+    <color name="secondaryMeadowGreen">#F1F9ED</color>
+    <color name="secondaryMeadowGreen_300">#72BF44</color>
+    <color name="progressColor">#F0B545</color>
+    <color name="progressColorInactive">#EAF3F1</color>
 </resources>
 

@@ -48,8 +48,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     },
                     onNutritionClick = {},
                     onManagementClick = {},
-                    onDiabetesBasicsClick = {},
-                    onEducationalResourcesClick = {}
+                    onDiabetesBasicsClick = {
+                    },
+                    onEducationalResourcesClick = {
+                        navigateToNewResourcesMain()
+                    }
                 )
             }
         }
@@ -78,6 +81,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             putString("startDestination", NewCalculatorScreen.MealsHighSugarTotal.route)
         }
         findNavController().navigate(R.id.action_mainFragment_to_newCalculatorFragment3, bundle)
+    }
+
+    private fun navigateToNewResourcesMain(){
+        findNavController().navigate(R.id.action_mainFragment_to_newResourcesFragment)
     }
 
 

@@ -101,7 +101,8 @@ class MainActivity : AppCompatActivity(), EventNavigator {
                 R.id.quizFinishFragment,
                 R.id.sickDayFragment,
                 R.id.newCalculatorFragment3,
-                R.id.mainFragment
+                R.id.mainFragment,
+                R.id.newResourcesFragment
                 -> binding.bottomNavigationView.visibility = View.GONE
                 else -> binding.bottomNavigationView.visibility = View.VISIBLE
             }
