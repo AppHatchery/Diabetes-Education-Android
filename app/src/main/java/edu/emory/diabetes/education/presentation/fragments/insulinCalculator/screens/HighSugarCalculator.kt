@@ -158,7 +158,11 @@ fun HighSugarCalculator(
                     }
                 },
                 showEdit = true,
-                onEditClick = {navController.navigate(NewCalculatorScreen.EditConstants.route)}
+                onEditClick = {
+                    navController.navigate(
+                        NewCalculatorScreen.EditConstants.routeWith(NewCalculatorScreen.HighSugarCalculator.route)
+                    )
+                }
             )
         },
         containerColor = colorResource(R.color.green_050),

@@ -128,7 +128,11 @@ fun MealCalculator(
                     }
                 },
                 showEdit = true,
-                onEditClick = {navController.navigate(NewCalculatorScreen.EditConstants.route)}
+                onEditClick = {
+                    navController.navigate(
+                        NewCalculatorScreen.EditConstants.routeWith(NewCalculatorScreen.MealCalculator.route)
+                    )
+                }
             )
         },
         containerColor = colorResource(R.color.green_050),

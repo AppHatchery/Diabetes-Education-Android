@@ -4,5 +4,7 @@ sealed class NewCalculatorScreen(val route: String) {
     object MealCalculator: NewCalculatorScreen("meal_calculator")
     object HighSugarCalculator: NewCalculatorScreen("high_sugar_calculator")
     object MealsHighSugarTotal: NewCalculatorScreen("meals_high_sugar_total")
-    object EditConstants: NewCalculatorScreen("edit_constants")
+    object EditConstants: NewCalculatorScreen("edit_constants/{origin}") {
+        fun routeWith(origin: String) = "edit_constants/$origin"
+    }
 }
