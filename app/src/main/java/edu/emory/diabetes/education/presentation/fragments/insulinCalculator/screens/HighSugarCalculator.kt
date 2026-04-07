@@ -190,14 +190,14 @@ fun HighSugarCalculator(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column {
-                        Text(
-                            text = "Step 1",
-                            fontSize = 14.sp,
-                            color = Color.Black,
-                            fontWeight = FontWeight.W400,
-                            fontFamily = gothamRounded,
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
+//                        Text(
+//                            text = "Step 1",
+//                            fontSize = 16.sp,
+//                            color = Color.Black,
+//                            fontWeight = FontWeight.W400,
+//                            fontFamily = gothamRounded,
+//                        )
+//                        Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = "Insulin for\nHigh Blood Sugar",
                             fontSize = 20.sp,
@@ -210,7 +210,7 @@ fun HighSugarCalculator(
                     Spacer(modifier = Modifier.width(30.dp))
 
                     Image(
-                        painter = painterResource(R.drawable.im_mean_cal),
+                        painter = painterResource(R.drawable.im_cal_hbs),
                         contentDescription = null,
                         modifier = Modifier
                             .height(155.dp)
@@ -222,7 +222,7 @@ fun HighSugarCalculator(
                     modifier = Modifier
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
-                        .imePadding()
+                        //.imePadding()
                         .defaultMinSize(minHeight = 600.dp)
                         .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
                         .background(Color.White)
@@ -297,7 +297,7 @@ fun HighSugarCalculator(
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Row(
-                        modifier = Modifier.width(150.dp),
+                        modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {

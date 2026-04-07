@@ -161,14 +161,14 @@ fun MealCalculator(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column {
-                        Text(
-                            text = "Step 1",
-                            fontSize = 14.sp,
-                            color = Color.Black,
-                            fontWeight = FontWeight.W400,
-                            fontFamily = gothamRounded,
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
+//                        Text(
+//                            text = "Step 1",
+//                            fontSize = 16.sp,
+//                            color = Color.Black,
+//                            fontWeight = FontWeight.W400,
+//                            fontFamily = gothamRounded,
+//                        )
+//                        Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = "Insulin for Food",
                             fontSize = 20.sp,
@@ -193,7 +193,7 @@ fun MealCalculator(
                     modifier = Modifier
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
-                        .imePadding()
+                        //.imePadding()
                         .defaultMinSize(minHeight = 600.dp)
                         .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
                         .background(Color.White)

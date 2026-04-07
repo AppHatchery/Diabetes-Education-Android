@@ -28,6 +28,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
@@ -74,7 +76,11 @@ fun UnderlinedNumberField(
         BasicTextField(
             value = value,
             onValueChange = onValueChange,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.NumberPassword,
+                imeAction = ImeAction.None
+            ),
+            singleLine = true,
             textStyle = TextStyle(
                 fontSize = 52.sp,
                 fontWeight = FontWeight.Bold,
@@ -288,6 +294,63 @@ fun InfoDialog(
     }
 }
 
+@Composable
+fun SuccessDialog(
+    onDismiss: () -> Unit
+) {
+    Dialog(onDismissRequest = {}) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(16.dp)
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(
+                text = "Success",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.W700,
+                fontFamily = gothamRounded,
+                color = Color.Black,
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "Constants saved successfully!",
+                fontSize = 15.sp,
+                fontWeight = FontWeight.W400,
+                fontFamily = gothamRounded,
+                color = Color.Black,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            HorizontalDivider(color = Color.LightGray, thickness = 1.dp)
+
+            TextButton(
+                onClick = onDismiss,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(44.dp)
+            ) {
+                Text(
+                    text = "OK",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W400,
+                    fontFamily = gothamRounded,
+                    color = Color(0xFF007AFF)
+                )
+            }
+        }
+    }
+}
 fun infoText(builder: AnnotatedString.Builder.() -> Unit): AnnotatedString {
     return buildAnnotatedString(builder)
 }
@@ -300,6 +363,8 @@ fun UnderlinedNumberFieldPreview(){
             .background(Color.White)
             .fillMaxSize()
     ) {
+        SuccessDialog(onDismiss = {})
+
         UnderlinedNumberField(
             value = "500",
             onValueChange = {},

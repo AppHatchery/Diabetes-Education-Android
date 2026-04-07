@@ -46,6 +46,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.CalculatorTopBar
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.InfoDialog
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.SuccessDialog
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.cFactorInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.carbRatioInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.targetBSInfo
@@ -58,6 +59,8 @@ fun EditConstantsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+
+    var showSuccessDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.loadSavedConstants(context)
@@ -88,6 +91,15 @@ fun EditConstantsScreen(
             title = "Carb Ratio",
             description = carbRatioInfo,
             onDismiss = { showCarbRatioInfo = false }
+        )
+    }
+
+    if (showSuccessDialog) {
+        SuccessDialog(
+            onDismiss = {
+                showSuccessDialog = false
+                onNavigateBack()
+            }
         )
     }
 
@@ -131,7 +143,7 @@ fun EditConstantsScreen(
                 onValueChange = { if (!it.contains('.')) viewModel.onTargetBloodSugarChanged(it) },
                 unit = "mg/dL",
                 isError = uiState.targetBloodSugarError,
-                placeholder = "180",
+                placeholder = "150",
                 onInfoClick = { showTargetBSInfo = true }
             )
 
@@ -143,7 +155,7 @@ fun EditConstantsScreen(
                 onValueChange = { if (!it.contains('.')) viewModel.onCorrectionFactorChanged(it) },
                 unit = "",
                 isError = uiState.correctionFactorError,
-                placeholder = "25",
+                placeholder = "2",
                 onInfoClick = { showCFactorInfo = true }
             )
 
@@ -152,7 +164,7 @@ fun EditConstantsScreen(
 
             Button(
                 onClick = {
-                    if (viewModel.save(context)) onNavigateBack()
+                    if (viewModel.save(context)) showSuccessDialog = true
                 },
                 modifier = Modifier
                     .fillMaxWidth()
