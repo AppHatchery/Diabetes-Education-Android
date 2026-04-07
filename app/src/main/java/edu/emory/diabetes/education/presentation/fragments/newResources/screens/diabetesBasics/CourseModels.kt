@@ -49,5 +49,13 @@ data class Course(
     val description: String = "",
     @DrawableRes val headerImage: Int,
     val colorScheme: CourseColorScheme,
-    val chapters: List<Chapter>
-)
+    val chapters: List<Chapter>,
+    val basePath: String = "pages"
+){
+    /**
+     * Builds the full asset URL for a page filename.
+     * e.g. "file:///android_asset/resources/pages/1_1_1_whatisdiabetes.html"
+     */
+    fun getPageUrl(pageFileName: String): String =
+        "file:///android_asset/$basePath/$pageFileName.html"
+}

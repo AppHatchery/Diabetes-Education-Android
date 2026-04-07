@@ -60,20 +60,6 @@ fun ChapterFinishScreen(
     onClose: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    ChapterFinishContent(
-        uiState = uiState,
-        onNextChapter = onNextChapter,
-        onBackToList = onBackToList,
-        onClose = onClose
-    )
-}
-@Composable
-fun ChapterFinishContent(
-    uiState: CourseUiState,
-    onNextChapter: () -> Unit,
-    onBackToList: () -> Unit,
-    onClose: () -> Unit
-) {
 
     val completedChapter = uiState.currentChapter
     val totalChapters = uiState.totalChapters
@@ -244,29 +230,25 @@ fun ChapterFinishContent(
                                     tint = Color.White
                                 )
                             }
-
-
                         }
-
                     }
                     Spacer(modifier = Modifier.height(10.dp))
                 }
             }
         }
-
     }
 }
 
 @Preview
 @Composable
 fun ChapterFinishScreenPreview(){
-    ChapterFinishContent (
-        uiState = CourseUiState(
-            course = CourseDataProvider.diabetesSelfManagement,
-            isLoading = false
-        ),
-        onNextChapter = {},
-        onBackToList = {},
-        onClose = {}
-    )
+//    ChapterFinishContent (
+//        uiState = CourseUiState(
+//            course = CourseDataProvider.diabetesSelfManagement,
+//            isLoading = false
+//        ),
+//        onNextChapter = {},
+//        onBackToList = {},
+//        onClose = {}
+//    )
 }

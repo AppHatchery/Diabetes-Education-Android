@@ -29,6 +29,9 @@ data class CourseUiState(
     val currentPageTitle: String
         get() = currentChapter.pages[currentPageIndex].title
 
+    val currentPageFullUrl: String
+        get() = course.getPageUrl(currentPageUrl)
+
     val isLastPageInChapter: Boolean
         get() = currentPageIndex >= currentChapter.pages.size - 1
 
@@ -94,10 +97,7 @@ class CourseViewModel(
         val state = _uiState.value
         return if (!state.isLastPageInChapter) {
             _uiState.update {
-                it.copy(
-                    currentPageIndex = it.currentPageIndex + 1,
-                    scrollProgress = 0
-                )
+                it.copy(currentPageIndex = it.currentPageIndex + 1, scrollProgress = 0)
             }
             NextAction.NextPage
         } else {
@@ -124,6 +124,7 @@ class CourseViewModel(
         val state = _uiState.value
         val chapter = state.currentChapter
 
+        // Synchronous optimistic update — this must happen before navigation
         _uiState.update { s ->
             val updatedChapters = s.course.chapters.toMutableList()
             updatedChapters[s.currentChapterIndex] =
@@ -131,6 +132,7 @@ class CourseViewModel(
             s.copy(course = s.course.copy(chapters = updatedChapters))
         }
 
+        // Async persist — does NOT affect what ChapterFinishContent sees immediately
         viewModelScope.launch {
             progressRepository.markChapterCompleted(
                 courseId = state.course.id,
@@ -138,6 +140,7 @@ class CourseViewModel(
             )
         }
     }
+
 
     enum class NextAction {
         NextPage,
@@ -153,5 +156,6 @@ class CourseViewModel(
                 CourseViewModel(course, repository)
             }
         }
+
     }
 }

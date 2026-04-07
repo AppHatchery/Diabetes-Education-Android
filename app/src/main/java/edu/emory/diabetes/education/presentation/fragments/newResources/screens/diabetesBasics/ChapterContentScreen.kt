@@ -88,7 +88,6 @@ fun ChapterContentScreen(
             )
         }
     ) {innerPadding ->
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -96,20 +95,10 @@ fun ChapterContentScreen(
                 .background(Color.White)
                 .padding(horizontal = 20.dp)
         ) {
-
-            Text(
-                text = uiState.pageLabel,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.W700,
-                color = colorResource(R.color.primaryGreen),
-                maxLines = 1
-            )
-
             // ── WebView ──
             Box(modifier = Modifier.weight(1f)) {
                 WebViewContent(
-                    pageUrl = uiState.currentPageUrl,
-                    onWebViewCreated = { webViewRef = it },
+                    pageUrl = uiState.currentPageFullUrl,
                     onScrollChanged = { progress ->
                         viewModel.updateScrollProgress(progress)
                         if (progress >= 90) hasReachedBottom = true
@@ -121,17 +110,8 @@ fun ChapterContentScreen(
                 )
             }
 
-            // Bottom Next button
-            AnimatedVisibility(
-                visible = true,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                NextButton(
-                    isLastPage = uiState.isLastPageInChapter,
-                    onClick = { handleNext(viewModel, onChapterFinished) }
-                )
-            }
+            Spacer(modifier = Modifier.height(25.dp))
+
         }
     }
 }
@@ -140,7 +120,6 @@ fun ChapterContentScreen(
 @Composable
 private fun WebViewContent(
     pageUrl: String,
-    onWebViewCreated: (WebView) -> Unit,
     onScrollChanged: (Int) -> Unit,
     onNextClicked: () -> Unit
 ) {
@@ -155,9 +134,8 @@ private fun WebViewContent(
                 )
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
-                setPadding(0, 0, 0, 0)
+                setPadding(32, 0, 32, 0)
 
-                // Scroll listener for progress tracking
                 viewTreeObserver.addOnScrollChangedListener {
                     if (contentHeight > 0 && scrollY > 0) {
                         val percentage = (scrollY.toFloat() / contentHeight * 100)
@@ -179,13 +157,11 @@ private fun WebViewContent(
                     ): Boolean {
                         val url = request?.url?.toString() ?: return false
 
-                        // External links → open in browser
                         if (url.startsWith("http")) {
                             edu.emory.diabetes.education.Utils.launchUrl(context, url)
                             return true
                         }
 
-                        // Internal "next" link → advance page/chapter
                         if (url.contains("next")) {
                             onNextClicked()
                             return true
@@ -203,15 +179,12 @@ private fun WebViewContent(
                     }
                 }
 
-                onWebViewCreated(this)
-                loadUrl(Ext.getPathUrl(pageUrl))
+                loadUrl(pageUrl)
             }
         },
         update = { webView ->
-            // When pageUrl changes, load the new content
-            val targetUrl = Ext.getPathUrl(pageUrl)
-            if (webView.url != targetUrl) {
-                webView.loadUrl(targetUrl)
+            if (webView.url != pageUrl) {
+                webView.loadUrl(pageUrl)
             }
         },
         modifier = Modifier.fillMaxSize()

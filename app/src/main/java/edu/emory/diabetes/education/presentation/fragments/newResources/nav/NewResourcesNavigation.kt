@@ -73,7 +73,13 @@ fun NewResourcesNavigation(
         ) { backStackEntry ->
             val courseId = backStackEntry.arguments?.getInt("courseId") ?: 0
 
+            val courseListEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(
+                    NewResourcesScreen.CourseList.createRoute(courseId)
+                )
+            }
             val courseViewModel: CourseViewModel = viewModel(
+                viewModelStoreOwner = courseListEntry,
                 factory = CourseViewModel.factory(courseId)
             )
 
@@ -97,7 +103,13 @@ fun NewResourcesNavigation(
         ) { backStackEntry ->
             val courseId = backStackEntry.arguments?.getInt("courseId") ?: 0
 
+            val courseListEntry = remember(backStackEntry) {
+                navController.getBackStackEntry(
+                    NewResourcesScreen.CourseList.createRoute(courseId)
+                )
+            }
             val courseViewModel: CourseViewModel = viewModel(
+                viewModelStoreOwner = courseListEntry,
                 factory = CourseViewModel.factory(courseId)
             )
 
