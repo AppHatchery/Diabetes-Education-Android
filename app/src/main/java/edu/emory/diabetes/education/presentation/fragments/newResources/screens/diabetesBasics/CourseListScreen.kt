@@ -51,23 +51,36 @@ import edu.emory.diabetes.education.presentation.fragments.newResources.componen
 import edu.emory.diabetes.education.presentation.theme.gothamRounded
 
 private val GrayDescription = Color(0xFF6B6B6B)
-private val BackgroundGreen = Color(0xFFE8F5E9)
 
 @Composable
 fun CourseListScreen(
     viewModel: CourseViewModel,
     onChapterClick: (Int) -> Unit,
-    onBackClick: () -> Unit,
+    onBackClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    CourseListContent(
+        uiState = uiState,
+        onChapterClick = onChapterClick,
+        onBackClick = onBackClick
+    )
+}
+
+@Composable
+fun CourseListContent(
+    uiState: CourseUiState,
+    onChapterClick: (Int) -> Unit,
+    onBackClick: () -> Unit
+) {
     val course = uiState.course
+    val colors = course.colorScheme
 
     Scaffold(
         topBar = {
             NewResourcesTopBar(
                 title = "",
                 onNavigationClick = onBackClick,
-                color = colorResource(R.color.greenGradientDark),
+                color = colors.gradientEnd,
                 iconColor = Color.White
             )
         }
@@ -76,20 +89,19 @@ fun CourseListScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(BackgroundGreen)
+                .background(colors.gradientStart)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
                 // ── Green gradient header ──
                 CourseHeader(
-                    title = course.title,
-                    headerImage = course.headerImage,
+                   course = course
                 )
 
                 // ── White rounded chapter list ──
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
+                        .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
                         .background(Color.White)
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -97,6 +109,7 @@ fun CourseListScreen(
                     itemsIndexed(course.chapters) { index, chapter ->
                         ChapterListItem(
                             chapter = chapter,
+                            iconBackground = colors.iconBackground,
                             onClick = { onChapterClick(index) }
                         )
                     }
@@ -111,15 +124,15 @@ fun CourseListScreen(
 
 @Composable
 private fun CourseHeader(
-    title: String,
-    headerImage: Int,
+    course: Course,
 ) {
+    val colors = course.colorScheme
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(colorResource(R.color.greenGradientDark), colorResource(R.color.greenGradientLight))
+                    colors = listOf(colors.gradientEnd, colors.gradientStart)
                 )
             )
     ) {
@@ -130,7 +143,7 @@ private fun CourseHeader(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = title,
+                text = course.title,
                 color = Color.White,
                 fontSize = 20.sp,
                 fontFamily = gothamRounded,
@@ -139,7 +152,7 @@ private fun CourseHeader(
             )
 
             Image(
-                painter = painterResource(id = headerImage),
+                painter = painterResource(id = course.headerImage),
                 contentDescription = null,
                 modifier = Modifier.size(150.dp),
                 contentScale = ContentScale.Fit
@@ -151,6 +164,7 @@ private fun CourseHeader(
 @Composable
 private fun ChapterListItem(
     chapter: Chapter,
+    iconBackground: Color,
     onClick: () -> Unit
 ) {
     Card(
@@ -171,7 +185,7 @@ private fun ChapterListItem(
                 modifier = Modifier
                     .size(100.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(colorResource(R.color.secondaryMeadowGreen)),
+                    .background(iconBackground),
                 contentAlignment = Alignment.Center
             ) {
                 Image(
@@ -196,7 +210,7 @@ private fun ChapterListItem(
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = chapter.description,
-                    color = GrayDescription,
+                    color = colorResource(R.color.gray_600),
                     fontFamily = gothamRounded,
                     fontSize = 14.sp,
                     lineHeight = 18.sp
@@ -219,8 +233,11 @@ private fun ChapterListItem(
 @Preview
 @Composable
 fun CourseListScreenPreview() {
-    CourseListScreen(
-        viewModel = viewModel(),
+    CourseListContent(
+        uiState = CourseUiState(
+            course = CourseDataProvider.nutritionAndCarbCounting,
+            isLoading = false
+        ),
         onChapterClick = {},
         onBackClick = {}
     )

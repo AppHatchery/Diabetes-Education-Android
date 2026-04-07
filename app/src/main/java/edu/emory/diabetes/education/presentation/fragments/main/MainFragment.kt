@@ -18,6 +18,7 @@ import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.FragmentMainBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
+import edu.emory.diabetes.education.presentation.fragments.newResources.nav.NewResourcesScreen
 import kotlin.math.roundToInt
 
 class MainFragment : Fragment(R.layout.fragment_main) {
@@ -46,9 +47,14 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     onGetHelpClick = {
                         navigateToSickDay()
                     },
-                    onNutritionClick = {},
-                    onManagementClick = {},
+                    onNutritionClick = {
+                        navigateToNewResourcesCourse(courseId = 1)
+                    },
+                    onManagementClick = {
+                        navigateToNewResourcesCourse(courseId = 2)
+                    },
                     onDiabetesBasicsClick = {
+                        navigateToNewResourcesCourse(courseId = 0)
                     },
                     onEducationalResourcesClick = {
                         navigateToNewResourcesMain()
@@ -85,6 +91,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun navigateToNewResourcesMain(){
         findNavController().navigate(R.id.action_mainFragment_to_newResourcesFragment)
+    }
+
+    private fun navigateToNewResourcesCourse(courseId: Int) {
+        val bundle = Bundle().apply {
+            putString("startDestination", NewResourcesScreen.CourseList.createRoute(courseId))
+        }
+        findNavController().navigate(R.id.action_mainFragment_to_newResourcesFragment, bundle)
     }
 
 

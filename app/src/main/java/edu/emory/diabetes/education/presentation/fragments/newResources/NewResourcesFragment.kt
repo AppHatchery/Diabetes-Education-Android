@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import edu.emory.diabetes.education.presentation.fragments.newResources.nav.NewResourcesNavigation
+import edu.emory.diabetes.education.presentation.fragments.newResources.nav.NewResourcesScreen
 
 class NewResourcesFragment: Fragment() {
 
@@ -16,12 +17,15 @@ class NewResourcesFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        val startDestination = arguments?.getString("startDestination")
+            ?: NewResourcesScreen.NewResourcesMain.route
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 val fragmentNavController = findNavController()
                 NewResourcesNavigation(
+                    startDestination = startDestination,
                     onExitToMain = {
                         fragmentNavController.popBackStack()
                     }

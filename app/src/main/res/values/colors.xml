@@ -51,6 +51,8 @@
     <color name="green_050">#F2FAF6</color>
     <color name="green_200_sick">#BFE9D3</color>
     <color name="secondary_sunset_orange">#F58220</color>
+    <color name="secondary_sunset_orange_shade100">#FEF3E9</color>
+    <color name="secondary_Orchid_Purple_shade100">#F9EBF5</color>
     <color name="secondary_ocean_blue">#005DA4</color>
     <color name="greenGradientDark">#62A43A</color>
     <color name="greenGradientLight">#72BF44</color>

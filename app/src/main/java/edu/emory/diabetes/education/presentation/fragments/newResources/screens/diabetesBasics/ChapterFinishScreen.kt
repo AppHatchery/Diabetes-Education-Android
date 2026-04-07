@@ -52,7 +52,6 @@ import edu.emory.diabetes.education.presentation.theme.gothamRounded
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.graphics.Path
 
-
 @Composable
 fun ChapterFinishScreen(
     viewModel: CourseViewModel,
@@ -61,18 +60,33 @@ fun ChapterFinishScreen(
     onClose: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    ChapterFinishContent(
+        uiState = uiState,
+        onNextChapter = onNextChapter,
+        onBackToList = onBackToList,
+        onClose = onClose
+    )
+}
+@Composable
+fun ChapterFinishContent(
+    uiState: CourseUiState,
+    onNextChapter: () -> Unit,
+    onBackToList: () -> Unit,
+    onClose: () -> Unit
+) {
 
     val completedChapter = uiState.currentChapter
     val totalChapters = uiState.totalChapters
     val completedCount = uiState.completedChapterCount
     val isLastChapter = uiState.isLastChapter
+    val colors = uiState.course.colorScheme
 
     Scaffold(
         topBar = {
             NewResourcesTopBar(
                 title = "",
                 onNavigationClick = onBackToList,
-                color = colorResource(R.color.secondaryMeadowGreen_300),
+                color = colors.chapterFinishBackground,
                 iconColor = Color.White,
                 isCloseVisible = true,
                 onExitToMain = onBackToList
@@ -84,7 +98,7 @@ fun ChapterFinishScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(colorResource(R.color.secondaryMeadowGreen_300))
+                .background(colors.chapterFinishBackground)
         ) {
             Column(
                 modifier = Modifier
@@ -223,11 +237,15 @@ fun ChapterFinishScreen(
 
                             Spacer(modifier = Modifier.width(8.dp))
 
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Outlined.ArrowForward, "Back",
-                                modifier = Modifier.size(20.dp),
-                                tint = Color.White
-                            )
+                            if(!isLastChapter){
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Outlined.ArrowForward, "Back",
+                                    modifier = Modifier.size(20.dp),
+                                    tint = Color.White
+                                )
+                            }
+
+
                         }
 
                     }
@@ -242,8 +260,11 @@ fun ChapterFinishScreen(
 @Preview
 @Composable
 fun ChapterFinishScreenPreview(){
-    ChapterFinishScreen(
-        viewModel = viewModel(),
+    ChapterFinishContent (
+        uiState = CourseUiState(
+            course = CourseDataProvider.diabetesSelfManagement,
+            isLoading = false
+        ),
         onNextChapter = {},
         onBackToList = {},
         onClose = {}

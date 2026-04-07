@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class CourseUiState(
-    val course: Course = CourseDataProvider.diabetesBasics,
+    val course: Course,
     val currentChapterIndex: Int = 0,
     val currentPageIndex: Int = 0,
     val scrollProgress: Int = 0,
@@ -51,20 +51,17 @@ data class CourseUiState(
 }
 
 class CourseViewModel(
+    course: Course,
     private val progressRepository: CourseProgressRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(CourseUiState())
+    private val _uiState = MutableStateFlow(CourseUiState(course = course))
     val uiState: StateFlow<CourseUiState> = _uiState.asStateFlow()
 
     init {
         loadSavedProgress()
     }
 
-    /**
-     * On init, observe the persisted completed chapter IDs and apply
-     * them to the in-memory course model.
-     */
     private fun loadSavedProgress() {
         viewModelScope.launch {
             progressRepository.getCompletedChapterIds(
@@ -123,15 +120,10 @@ class CourseViewModel(
         _uiState.update { it.copy(scrollProgress = progress) }
     }
 
-    /**
-     * Marks the current chapter as completed in both in-memory state
-     * AND persisted DataStore so it survives fragment/app restarts.
-     */
     private fun markCurrentChapterCompleted() {
         val state = _uiState.value
         val chapter = state.currentChapter
 
-        // Update in-memory state immediately
         _uiState.update { s ->
             val updatedChapters = s.course.chapters.toMutableList()
             updatedChapters[s.currentChapterIndex] =
@@ -139,7 +131,6 @@ class CourseViewModel(
             s.copy(course = s.course.copy(chapters = updatedChapters))
         }
 
-        // Persist to DataStore
         viewModelScope.launch {
             progressRepository.markChapterCompleted(
                 courseId = state.course.id,
@@ -154,11 +145,12 @@ class CourseViewModel(
     }
 
     companion object {
-        val Factory = viewModelFactory {
+        fun factory(courseId: Int) = viewModelFactory {
             initializer {
                 val application = this[APPLICATION_KEY] as Application
                 val repository = CourseProgressRepository(application)
-                CourseViewModel(repository)
+                val course = CourseDataProvider.getCourseById(courseId)
+                CourseViewModel(course, repository)
             }
         }
     }

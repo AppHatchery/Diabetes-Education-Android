@@ -29,14 +29,13 @@ import edu.emory.diabetes.education.presentation.theme.gothamRounded
 @Composable
 fun NewResourcesMain(
     navController: NavController,
+    onExitToMain: () -> Unit
 ){
     Scaffold(
         topBar = {
             NewResourcesTopBar(
                 title = "",
-                onNavigationClick = {
-                    navController.popBackStack()
-                },
+                onNavigationClick = onExitToMain,
                 color = Color.White,
                 iconColor = Color.Black
             )
@@ -67,7 +66,7 @@ fun NewResourcesMain(
                 gradientStart = colorResource(R.color.greenGradientLight),
                 gradientEnd = colorResource(R.color.greenGradientDark),
                 onClick = {
-                    navController.navigate(NewResourcesScreen.CourseList.route)
+                    navController.navigate(NewResourcesScreen.CourseList.createRoute(0))
                 }
             )
 
@@ -80,6 +79,7 @@ fun NewResourcesMain(
                 gradientStart = colorResource(R.color.orangeGradientLight),
                 gradientEnd = colorResource(R.color.orangeGradientDark),
                 onClick = {
+                    navController.navigate(NewResourcesScreen.CourseList.createRoute(1))
                 }
             )
 
@@ -92,12 +92,10 @@ fun NewResourcesMain(
                 gradientStart = colorResource(R.color.purpleGradientLight),
                 gradientEnd = colorResource(R.color.purpleGradientDark),
                 onClick = {
+                    navController.navigate(NewResourcesScreen.CourseList.createRoute(2))
                 }
             )
-
-
         }
-
     }
 }
 
@@ -106,6 +104,7 @@ fun NewResourcesMain(
 fun NewResourcesMainPreview(){
     val navController = rememberNavController()
     NewResourcesMain(
-        navController = navController
+        navController = navController,
+        onExitToMain = {}
     )
 }
