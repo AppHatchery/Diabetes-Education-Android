@@ -44,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
@@ -56,6 +57,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.NewCalculatorViewmodel
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.CalculatorTopBar
@@ -620,7 +625,23 @@ fun MealsHighSugarTotal(
                             val total = mealUnits + highSugarUnits
                             val totalFormatted = if (total % 1.0 == 0.0) total.toInt().toString() else total.toString()
 
+                            //lottie setup:
+                            val composition by rememberLottieComposition(LottieCompositionSpec.Asset("confetti.json"))
+                            val progress by animateLottieCompositionAsState(
+                                composition = composition,
+                                iterations = 1,
+                                isPlaying = true
+                            )
+
                             Box(modifier = Modifier.fillMaxSize()) {
+                                LottieAnimation(
+                                    composition = composition,
+                                    progress = { progress },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(400.dp)
+                                        .align(Alignment.TopCenter)
+                                )
                                 Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -629,11 +650,12 @@ fun MealsHighSugarTotal(
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     Image(
-                                        painter = painterResource(R.drawable.im_mean_cal),
+                                        painter = painterResource(R.drawable.im_total),
                                         contentDescription = null,
                                         modifier = Modifier
-                                            .height(252.dp)
-                                            .width(252.dp)
+                                            .height(275.dp)
+                                            .width(275.dp),
+                                        contentScale = ContentScale.Crop
                                     )
                                     // Result card
                                     Column(

@@ -1,4 +1,4 @@
-package edu.emory.diabetes.education.presentation.fragments.newResources.screens.diabetesBasics
+package edu.emory.diabetes.education.presentation.fragments.newResources.screens.course
 
 import edu.emory.diabetes.education.R
 
@@ -42,7 +42,7 @@ object CourseDataProvider {
         chapters = listOf(
             Chapter(
                 id = 0,
-                icon = R.drawable.im_basics,
+                icon = R.drawable.im_what_is_diabetes,
                 title = "What is Diabetes?",
                 description = "Types, causes, and symptoms of diabetes",
                 pages = listOf(
@@ -55,7 +55,7 @@ object CourseDataProvider {
             ),
             Chapter(
                 id = 1,
-                icon = R.drawable.ic_stethoscope,
+                icon = R.drawable.im_basics,
                 title = "Blood Sugar Checks",
                 description = "Key times to check blood sugar and how to do it properly.",
                 pages = listOf(
@@ -108,7 +108,7 @@ object CourseDataProvider {
         chapters = listOf(
             Chapter(
                 id = 0,
-                icon = R.drawable.ic_stethoscope,
+                icon = R.drawable.im_nutri,
                 title = "Nutritional Food Groups",
                 description = "Carbohydrates, fats, and proteins and their effects on blood sugar.",
                 pages = listOf(
@@ -117,7 +117,7 @@ object CourseDataProvider {
             ),
             Chapter(
                 id = 1,
-                icon = R.drawable.ic_stethoscope,
+                icon = R.drawable.im_what_is_diabetes,
                 title = "How to Count Carbohydrates",
                 description = "Methods for counting carbs using food lists and nutrition labels.",
                 pages = listOf(
@@ -126,7 +126,7 @@ object CourseDataProvider {
             ),
             Chapter(
                 id = 2,
-                icon = R.drawable.ic_injection_needle,
+                icon = R.drawable.im_injection,
                 title = "How to Calculate Insulin Dosages",
                 description = "Long-acting doses and rapid-acting for meals and highs.",
                 pages = listOf(
@@ -148,7 +148,7 @@ object CourseDataProvider {
         chapters = listOf(
             Chapter(
                 id = 0,
-                icon = R.drawable.ic_stethoscope,
+                icon = R.drawable.im_dka,
                 title = "Managing Low Blood Sugar",
                 description = "Symptoms, step-by-step treatment, and glucagon use.",
                 pages = listOf(
@@ -159,7 +159,7 @@ object CourseDataProvider {
             ),
             Chapter(
                 id = 1,
-                icon = R.drawable.ic_stethoscope,
+                icon = R.drawable.im_call_doc,
                 title = "When to Call the Doctor",
                 description = "Situations for urgent or routine doctor contact.",
                 pages = listOf(

@@ -54,7 +54,6 @@ fun ClassRecapCard(
         shape = shape,
         onClick = onClick ?: {},
         enabled = onClick != null,
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent),
     ) {
         Row(

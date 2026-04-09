@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -58,6 +59,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     },
                     onEducationalResourcesClick = {
                         navigateToNewResourcesMain()
+                    },
+                    onReferencesClick = {
+                        navigateToReferences()
                     }
                 )
             }
@@ -100,6 +104,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         findNavController().navigate(R.id.action_mainFragment_to_newResourcesFragment, bundle)
     }
 
+    private fun navigateToReferences(){
+        val bundle = Bundle().apply {
+            putString("startDestination", NewResourcesScreen.MedicalReferences.route)
+        }
+        findNavController().navigate(R.id.action_mainFragment_to_newResourcesFragment, bundle)
+    }
 
 
 //    private fun navigateToInsulinCalculator() {

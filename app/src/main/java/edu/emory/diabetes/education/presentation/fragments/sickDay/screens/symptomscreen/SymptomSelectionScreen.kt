@@ -64,6 +64,10 @@ fun SymptomSelectionScreen(
     // Intercept the system/hardware back button on the start screen
     BackHandler(enabled = isStartDestination) {
         viewModel.clearFlow()
+        navController.popBackStack(
+            route = "firstSymptoms",
+            inclusive = true
+        )
         onExitToMain()
     }
     val context = LocalContext.current
@@ -101,6 +105,10 @@ fun SymptomSelectionScreen(
                     if (isStartDestination) {
                         // Nothing left to pop in NavHost — exit the fragment instead
                         viewModel.clearFlow()
+                        navController.popBackStack(
+                            route = "firstSymptoms",
+                            inclusive = true
+                        )
                         onExitToMain()
                     } else {
                         navController.popBackStack()

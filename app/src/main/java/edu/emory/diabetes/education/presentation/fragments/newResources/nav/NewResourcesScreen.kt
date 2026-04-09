@@ -16,6 +16,8 @@ sealed class NewResourcesScreen(val route: String){
     object ChapterFinish : NewResourcesScreen("chapter_finish/{courseId}") {
         fun createRoute(courseId: Int) = "chapter_finish/$courseId"
     }
+
+    object MedicalReferences: NewResourcesScreen("medical_references")
 //    object CourseList: NewResourcesScreen("course_list")
 //    object ChapterContent : NewResourcesScreen("chapter_content")
 //    object ChapterFinish : NewResourcesScreen("chapter_finish")

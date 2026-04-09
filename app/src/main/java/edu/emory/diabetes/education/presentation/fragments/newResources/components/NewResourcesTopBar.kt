@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.newResources.components
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -131,27 +133,31 @@ fun ScrollProgressTopBar(
 
 @Composable
 private fun ScrollProgressBar(progress: Int) {
-    Row(
+    val progressFraction = (progress / 100f).coerceIn(0f, 1f)
+    val progressColor = colorResource(R.color.progressColor)
+    val trackColor = colorResource(R.color.progressColorInactive)
+    Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .height(10.dp)
+            .clip(RoundedCornerShape(5.dp))
     ) {
-//        Text(
-//            text = "$progress%",
-//            fontSize = 13.sp,
-//            color = Color.Gray,
-//            modifier = Modifier.width(40.dp)
-//        )
-        LinearProgressIndicator(
-            progress = { progress / 100f },
-            modifier = Modifier
-                .weight(1f)
-                .height(10.dp)
-                .clip(RoundedCornerShape(5.dp)),
-            color = colorResource(R.color.progressColor),
-            trackColor = colorResource(R.color.progressColorInactive),
+        val cornerRadius = CornerRadius(size.height / 2, size.height / 2)
+
+        // Track
+        drawRoundRect(
+            color = trackColor,
+            size = size,
+            cornerRadius = cornerRadius
         )
+        // Progress with rounded right edge
+        if (progressFraction > 0f) {
+            drawRoundRect(
+                color = progressColor,
+                size = size.copy(width = size.width * progressFraction),
+                cornerRadius = cornerRadius
+            )
+        }
     }
 }
 

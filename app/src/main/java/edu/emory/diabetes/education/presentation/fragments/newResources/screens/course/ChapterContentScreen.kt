@@ -1,4 +1,4 @@
-package edu.emory.diabetes.education.presentation.fragments.newResources.screens.diabetesBasics
+package edu.emory.diabetes.education.presentation.fragments.newResources.screens.course
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
@@ -7,11 +7,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.FrameLayout
-import android.widget.Toast
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,18 +22,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.ArrowForward
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -46,7 +37,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -56,11 +46,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import edu.emory.diabetes.education.Ext
 import edu.emory.diabetes.education.R
-import edu.emory.diabetes.education.presentation.fragments.newResources.components.NewResourcesTopBar
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.ScrollProgressTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -76,10 +63,22 @@ fun ChapterContentScreen(
 
     var hasReachedBottom by remember { mutableStateOf(false) }
 
+    BackHandler {
+        when (viewModel.onPreviousPage()) {
+            CourseViewModel.PreviousAction.PreviousPage -> { /* ViewModel updated page, stay here */ }
+            CourseViewModel.PreviousAction.FirstPage -> onBack()
+        }
+    }
+
     Scaffold(
         topBar = {
             ScrollProgressTopBar(
-                onNavigationClick = {},
+                onNavigationClick = {
+                    when (viewModel.onPreviousPage()) {
+                        CourseViewModel.PreviousAction.PreviousPage -> { /* stay, page updated */ }
+                        CourseViewModel.PreviousAction.FirstPage -> onBack()
+                    }
+                },
                 color = Color.White,
                 iconColor = Color.Black,
                 scrollProgress = uiState.scrollProgress,

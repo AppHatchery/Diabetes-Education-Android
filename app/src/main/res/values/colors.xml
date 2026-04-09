@@ -64,5 +64,8 @@
     <color name="secondaryMeadowGreen_300">#72BF44</color>
     <color name="progressColor">#F0B545</color>
     <color name="progressColorInactive">#EAF3F1</color>
+    <color name="red_radio_start">#ED1C24</color>
+    <color name="red_radio_middle">#D1171E</color>
+    <color name="red_radio_end">#8D0A0F</color>
 </resources>
 

@@ -6,14 +6,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import edu.emory.diabetes.education.presentation.fragments.main.MedicalReferences
 import edu.emory.diabetes.education.presentation.fragments.newResources.screens.NewResourcesMain
-import edu.emory.diabetes.education.presentation.fragments.newResources.screens.diabetesBasics.ChapterContentScreen
-import edu.emory.diabetes.education.presentation.fragments.newResources.screens.diabetesBasics.ChapterFinishScreen
-import edu.emory.diabetes.education.presentation.fragments.newResources.screens.diabetesBasics.CourseListScreen
-import edu.emory.diabetes.education.presentation.fragments.newResources.screens.diabetesBasics.CourseViewModel
+import edu.emory.diabetes.education.presentation.fragments.newResources.screens.course.ChapterContentScreen
+import edu.emory.diabetes.education.presentation.fragments.newResources.screens.course.ChapterFinishScreen
+import edu.emory.diabetes.education.presentation.fragments.newResources.screens.course.CourseListScreen
+import edu.emory.diabetes.education.presentation.fragments.newResources.screens.course.CourseViewModel
 
 
 private val courseIdArg = listOf(
@@ -135,6 +135,12 @@ fun NewResourcesNavigation(
                         inclusive = false
                     )
                 }
+            )
+        }
+
+        composable(NewResourcesScreen.MedicalReferences.route) {
+            MedicalReferences(
+                onBack = onExitToMain
             )
         }
     }

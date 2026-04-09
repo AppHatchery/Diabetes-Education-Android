@@ -1,4 +1,4 @@
-package edu.emory.diabetes.education.presentation.fragments.newResources.screens.diabetesBasics
+package edu.emory.diabetes.education.presentation.fragments.newResources.screens.course
 
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes

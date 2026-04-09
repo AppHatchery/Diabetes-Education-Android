@@ -1,4 +1,4 @@
-package edu.emory.diabetes.education.presentation.fragments.newResources.screens.diabetesBasics
+package edu.emory.diabetes.education.presentation.fragments.newResources.screens.course
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
@@ -124,7 +124,7 @@ class CourseViewModel(
         val state = _uiState.value
         val chapter = state.currentChapter
 
-        // Synchronous optimistic update — this must happen before navigation
+        // Synchronous optimistic update
         _uiState.update { s ->
             val updatedChapters = s.course.chapters.toMutableList()
             updatedChapters[s.currentChapterIndex] =
@@ -132,7 +132,7 @@ class CourseViewModel(
             s.copy(course = s.course.copy(chapters = updatedChapters))
         }
 
-        // Async persist — does NOT affect what ChapterFinishContent sees immediately
+        // Async persist
         viewModelScope.launch {
             progressRepository.markChapterCompleted(
                 courseId = state.course.id,
@@ -140,6 +140,23 @@ class CourseViewModel(
             )
         }
     }
+
+    fun onPreviousPage(): PreviousAction {
+        return if (_uiState.value.currentPageIndex > 0) {
+            _uiState.update {
+                it.copy(currentPageIndex = it.currentPageIndex - 1, scrollProgress = 0)
+            }
+            PreviousAction.PreviousPage
+        } else {
+            PreviousAction.FirstPage // already on first page → caller should pop to CourseList
+        }
+    }
+
+    enum class PreviousAction {
+        PreviousPage,
+        FirstPage
+    }
+
 
 
     enum class NextAction {
