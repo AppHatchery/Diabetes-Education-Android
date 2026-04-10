@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens
 
+import android.view.ViewTreeObserver
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -34,6 +35,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -47,6 +49,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -54,6 +57,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -101,6 +106,25 @@ fun MealsHighSugarTotal(
 
     val isKeyboardVisible = WindowInsets.isImeVisible
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    val view = LocalView.current
+    val keyboardHeight = remember { mutableStateOf(0.dp) }
+
+    DisposableEffect(view) {
+        val listener = ViewTreeObserver.OnGlobalLayoutListener {
+            val insets = ViewCompat.getRootWindowInsets(view)
+            val imeHeight = insets?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 0
+            val navBar = insets?.getInsets(WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0
+            val density = view.resources.displayMetrics.density
+            keyboardHeight.value = ((imeHeight - navBar).coerceAtLeast(0) / density).dp
+        }
+        view.viewTreeObserver.addOnGlobalLayoutListener(listener)
+        onDispose {
+            view.viewTreeObserver.removeOnGlobalLayoutListener(listener)
+        }
+    }
+
+    val isKeyboardOpen = keyboardHeight.value > 0.dp
 
     var showNoInsulinNeeded by remember { mutableStateOf(false) }
 
@@ -336,10 +360,11 @@ fun MealsHighSugarTotal(
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
                         //.imePadding()
-                        .defaultMinSize(minHeight = 600.dp)
+                        //.defaultMinSize(minHeight = 600.dp)
                         .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
                         .background(Color.White)
-                        .padding(start = 20.dp, end = 20.dp, top = 40.dp),
+                        .padding(start = 20.dp, end = 20.dp, top = 40.dp)
+                        .padding(bottom = keyboardHeight.value + 60.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     when (currentStep) {
@@ -790,6 +815,7 @@ fun MealsHighSugarTotal(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
+                            .padding(bottom = keyboardHeight.value)
                             .background(Color(0xFFF0F0F0))
                     ) {
                         Row(
@@ -871,6 +897,7 @@ fun MealsHighSugarTotal(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
+                            .padding(bottom = keyboardHeight.value)
                             .background(Color(0xFFF0F0F0))
                     ) {
                         Row(
@@ -971,6 +998,7 @@ fun MealsHighSugarTotal(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
+                            .padding(bottom = keyboardHeight.value)
                             .background(Color(0xFFF0F0F0))
                     ) {
                         Row(
@@ -1041,6 +1069,7 @@ fun MealsHighSugarTotal(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
+                            .padding(bottom = keyboardHeight.value)
                             .background(Color(0xFFF0F0F0))
                     ) {
                         Row(
