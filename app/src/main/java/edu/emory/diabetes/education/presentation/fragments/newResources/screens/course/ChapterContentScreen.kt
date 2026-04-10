@@ -8,6 +8,9 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,6 +28,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowForward
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -123,71 +127,86 @@ private fun WebViewContent(
     onNextClicked: () -> Unit
 ) {
     val context = LocalContext.current
+    var isWebViewReady by remember { mutableStateOf(false) }
 
-    AndroidView(
-        factory = { ctx ->
-            WebView(ctx).apply {
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-                settings.javaScriptEnabled = true
-                settings.domStorageEnabled = true
-                setPadding(32, 0, 32, 0)
+    Box(modifier = Modifier.fillMaxSize()) {
 
-                viewTreeObserver.addOnScrollChangedListener {
-                    if (contentHeight > 0 && scrollY > 0) {
-                        val percentage = (scrollY.toFloat() / contentHeight * 100)
-                            .toInt()
-                            .coerceAtMost(100)
-                        onScrollChanged(percentage)
-                    }
-                }
+        AndroidView(
+            factory = { ctx ->
+                WebView(ctx).apply {
+                    setBackgroundColor(android.graphics.Color.WHITE)
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                    settings.javaScriptEnabled = true
+                    settings.domStorageEnabled = true
+                    setPadding(32, 0, 32, 0)
 
-                webViewClient = object : WebViewClient() {
-                    override fun onPageFinished(view: WebView?, url: String?) {
-                        super.onPageFinished(view, url)
-                        onScrollChanged(0)
+                    viewTreeObserver.addOnScrollChangedListener {
+                        if (contentHeight > 0 && scrollY > 0) {
+                            val percentage = (scrollY.toFloat() / contentHeight * 100)
+                                .toInt()
+                                .coerceAtMost(100)
+                            onScrollChanged(percentage)
+                        }
                     }
 
-                    override fun shouldOverrideUrlLoading(
-                        view: WebView?,
-                        request: WebResourceRequest?
-                    ): Boolean {
-                        val url = request?.url?.toString() ?: return false
-
-                        if (url.startsWith("http")) {
-                            edu.emory.diabetes.education.Utils.launchUrl(context, url)
-                            return true
+                    webViewClient = object : WebViewClient() {
+                        override fun onPageFinished(view: WebView?, url: String?) {
+                            super.onPageFinished(view, url)
+                            isWebViewReady = true
+                            onScrollChanged(0)
                         }
 
-                        if (url.contains("next")) {
-                            onNextClicked()
+                        override fun shouldOverrideUrlLoading(
+                            view: WebView?,
+                            request: WebResourceRequest?
+                        ): Boolean {
+                            val url = request?.url?.toString() ?: return false
+
+                            if (url.startsWith("http")) {
+                                edu.emory.diabetes.education.Utils.launchUrl(context, url)
+                                return true
+                            }
+
+                            if (url.contains("next")) {
+                                onNextClicked()
+                                return true
+                            }
+
                             return true
                         }
-
-                        return true
                     }
-                }
 
-                webChromeClient = object : WebChromeClient() {
-                    override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
-                        consoleMessage?.message()
-                            ?.let { android.util.Log.d("WebView", it) }
-                        return true
+                    webChromeClient = object : WebChromeClient() {
+                        override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
+                            consoleMessage?.message()
+                                ?.let { android.util.Log.d("WebView", it) }
+                            return true
+                        }
                     }
-                }
 
-                loadUrl(pageUrl)
+                    loadUrl(pageUrl)
+                }
+            },
+            update = { webView ->
+                if (webView.url != pageUrl) {
+                    webView.loadUrl(pageUrl)
+                }
+            },
+            modifier = Modifier.fillMaxSize()
+        )
+        if (!isWebViewReady) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+            ) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
-        },
-        update = { webView ->
-            if (webView.url != pageUrl) {
-                webView.loadUrl(pageUrl)
-            }
-        },
-        modifier = Modifier.fillMaxSize()
-    )
+        }
+    }
 }
 
 @Composable

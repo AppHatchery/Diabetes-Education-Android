@@ -14,6 +14,12 @@ import edu.emory.diabetes.education.presentation.fragments.newResources.screens.
 import edu.emory.diabetes.education.presentation.fragments.newResources.screens.course.ChapterFinishScreen
 import edu.emory.diabetes.education.presentation.fragments.newResources.screens.course.CourseListScreen
 import edu.emory.diabetes.education.presentation.fragments.newResources.screens.course.CourseViewModel
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 
 
 private val courseIdArg = listOf(
@@ -28,7 +34,11 @@ fun NewResourcesNavigation(
 
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
+        enterTransition = { fadeIn(animationSpec = tween(0)) },
+        exitTransition = { fadeOut(animationSpec = tween(0)) },
+        popEnterTransition = { fadeIn(animationSpec = tween(0)) },
+        popExitTransition = { fadeOut(animationSpec = tween(0)) }
     ) {
 
         composable(NewResourcesScreen.NewResourcesMain.route) {
@@ -69,7 +79,11 @@ fun NewResourcesNavigation(
         // ── Chapter content (WebView) ──
         composable(
             route = NewResourcesScreen.ChapterContent.route,
-            arguments = courseIdArg
+            arguments = courseIdArg,
+            enterTransition = { fadeIn(animationSpec = tween(300)) },
+            exitTransition = { fadeOut(animationSpec = tween(300)) },
+            popEnterTransition = { fadeIn(animationSpec = tween(300)) },
+            popExitTransition = { fadeOut(animationSpec = tween(300)) }
         ) { backStackEntry ->
             val courseId = backStackEntry.arguments?.getInt("courseId") ?: 0
 

@@ -87,7 +87,7 @@ fun HandBook(
                         )
                     }
                 },
-                //windowInsets = WindowInsets.statusBars.add(WindowInsets(top = 8.dp))
+                windowInsets = WindowInsets.statusBars//.add(WindowInsets(top = 8.dp))
                 )
         },
         modifier = Modifier
