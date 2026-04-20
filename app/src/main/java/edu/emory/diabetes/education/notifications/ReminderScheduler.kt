@@ -11,7 +11,7 @@ import java.util.Date
 import java.util.Locale
 
 object ReminderScheduler{
-    private  const val REQUEST_CODE = 2001
+    const val REQUEST_CODE = 2001
     private const val TAG = "reminder_scheduler"
 
     fun scheduleReminder(context: Context, durationMinutes: Int, route: String) {

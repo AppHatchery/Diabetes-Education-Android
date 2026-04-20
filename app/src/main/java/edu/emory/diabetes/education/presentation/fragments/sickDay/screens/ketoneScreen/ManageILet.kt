@@ -45,6 +45,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDaySc
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.BulletPoint
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.InsulinPumpText
 import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import sdk.pendo.io.Pendo
 
 @Composable
 fun ManageILet(
@@ -259,6 +260,13 @@ fun HighKetoneContent(
             },
             onSkipReminder = {
                 // User explicitly skipped — clear checkpoint then navigate
+                val properties = hashMapOf<String, Any>()
+                properties["source"] = "ManageILet"
+                properties["action"] = "Skip This Reminder"
+                properties["reminderId"] = ReminderScheduler.REQUEST_CODE
+                properties["testType"] = "iletPump"
+                properties["iletPump"] = "true"
+                Pendo.track("Reminder Skip", properties)
                 onSkipReminder()
                 navController.navigate("${SickDayScreen.ILetKetone.route}/$type")
             }
@@ -382,6 +390,13 @@ fun ModerateKetoneContent(
             },
             onSkipReminder = {
                 // User explicitly skipped — clear checkpoint then navigate
+                val properties = hashMapOf<String, Any>()
+                properties["source"] = "ManageILet"
+                properties["action"] = "Skip This Reminder"
+                properties["reminderId"] = ReminderScheduler.REQUEST_CODE
+                properties["testType"] = "iletPump"
+                properties["iletPump"] = "true"
+                Pendo.track("Reminder Skip", properties)
                 onSkipReminder()
                 navController.navigate("${SickDayScreen.ILetKetone.route}/$type")
             }
@@ -502,6 +517,13 @@ fun LowKetoneContent(
             },
             onSkipReminder = {
                 // User explicitly skipped — clear checkpoint then navigate
+                val properties = hashMapOf<String, Any>()
+                properties["source"] = "ManageILet"
+                properties["action"] = "Skip This Reminder"
+                properties["reminderId"] = ReminderScheduler.REQUEST_CODE
+                properties["testType"] = "iletPump"
+                properties["iletPump"] = "true"
+                Pendo.track("Reminder Skip", properties)
                 onSkipReminder()
                 navController.navigate("${SickDayScreen.ILetKetone.route}/$type")
             }

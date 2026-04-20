@@ -102,6 +102,19 @@ fun ManageAtHome(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 AfterCorrectionCard()
+
+                Spacer(modifier = Modifier.height(50.dp))
+
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CustomTransparentTextButton(
+                        onClick = onExitToMain,
+                        buttonText = "Exit",
+                        buttonTextColor = colorResource(R.color.primaryGreen),
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(23.dp))
@@ -219,6 +232,7 @@ fun InjectionContent(){
                 append(", drink with sugar (e.g., Gatorade, Sprite)")
             }
         )
+        Spacer(modifier = Modifier.height(6.dp))
 
         BulletPoint(
             text = buildAnnotatedString {

@@ -80,6 +80,7 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.com
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.totalCarbsInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
 import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import sdk.pendo.io.Pendo
 
 enum class MealsHighSugarStep {
     MEAL_INPUT,
@@ -181,8 +182,6 @@ fun MealsHighSugarTotal(
         MealsHighSugarStep.HIGH_SUGAR_RESULT -> R.drawable.im_cal_hbs
         MealsHighSugarStep.TOTAL_RESULT -> null
     }
-
-
 
     // Track previous keyboard visibility to detect dismiss
     var wasKeyboardVisible by remember { mutableStateOf(false) }
@@ -426,6 +425,10 @@ fun MealsHighSugarTotal(
                         }
                         // ── Step 2: Meal result ──────────────────────────
                         MealsHighSugarStep.MEAL_RESULT -> {
+                            val properties = hashMapOf<String, Any>()
+                            properties["carbs"] = uiState.totalCarbs
+                            properties["ratio"] = uiState.carbRatio
+                            Pendo.track("Calculate_insulin_for_food", properties)
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically
@@ -564,6 +567,11 @@ fun MealsHighSugarTotal(
 
                         // ── Step 4: High sugar result ────────────────────
                         MealsHighSugarStep.HIGH_SUGAR_RESULT -> {
+                            val properties = hashMapOf<String, Any>()
+                            properties["correction_factor"] = highSugarUiState.correctionFactor
+                            properties["blood_sugar"] = highSugarUiState.currentBloodSugar
+                            properties["target_blood_sugar"] = highSugarUiState.targetBloodSugar
+                            Pendo.track("Calculate_insulin_for_hbs", properties)
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically
@@ -649,6 +657,12 @@ fun MealsHighSugarTotal(
                             val highSugarUnits = highSugarUiState.insulinUnits
                             val total = mealUnits + highSugarUnits
                             val totalFormatted = if (total % 1.0 == 0.0) total.toInt().toString() else total.toString()
+
+                            val properties = hashMapOf<String, Any>()
+                            properties["for_food"] = mealUnits
+                            properties["for_hbs"] = highSugarUnits
+                            properties["total"] = totalFormatted
+                            Pendo.track("Calculator_results", properties)
 
                             //lottie setup:
                             val composition by rememberLottieComposition(LottieCompositionSpec.Asset("confetti.json"))

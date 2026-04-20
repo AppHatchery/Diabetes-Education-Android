@@ -72,6 +72,7 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.com
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import sdk.pendo.io.Pendo
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -161,6 +162,11 @@ fun HighSugarCalculator(
         if (wasKeyboardVisible && !isKeyboardVisible) {
             when {
                 canCalculate && !isBloodSugarInverted -> {
+                    val properties = hashMapOf<String, Any>()
+                    properties["correction_factor"] = uiState.correctionFactor
+                    properties["blood_sugar"] = uiState.currentBloodSugar
+                    properties["target_blood_sugar"] = uiState.targetBloodSugar
+                    Pendo.track("Calculate_insulin_for_hbs", properties)
                     viewModel.calculateHighSugar()
                     showNoInsulinNeeded = false
                 }
@@ -407,6 +413,11 @@ fun HighSugarCalculator(
                             when {
                                 !isBloodSugarInverted -> {
                                     viewModel.calculateHighSugar()
+                                    val properties = hashMapOf<String, Any>()
+                                    properties["correction_factor"] = uiState.correctionFactor
+                                    properties["blood_sugar"] = uiState.currentBloodSugar
+                                    properties["target_blood_sugar"] = uiState.targetBloodSugar
+                                    Pendo.track("Calculate_insulin_for_hbs", properties)
                                     showNoInsulinNeeded = false
                                 }
                                 isBloodSugarInverted -> {

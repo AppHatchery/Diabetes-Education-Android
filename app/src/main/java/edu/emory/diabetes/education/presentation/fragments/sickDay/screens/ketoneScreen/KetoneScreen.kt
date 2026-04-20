@@ -101,7 +101,7 @@ fun KetoneScreen(
     //bottom modal states
     var showKetoneGuide by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = false
+        skipPartiallyExpanded = true
     )
 
     //bottom modal for ketone guide

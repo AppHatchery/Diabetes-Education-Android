@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
@@ -80,10 +83,11 @@ fun DurationQuestionScreen(
                 .padding(innerPadding)
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState())
                 .background(Color.White)
         ) {
             Text(
-                text = "Is your child's blood sugar over 300?",
+                text = "Is your child's blood sugar over 300 mg/dl?",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
                 fontFamily = gothamRounded,
@@ -165,6 +169,7 @@ fun DurationQuestionScreen(
             }
 
             Spacer(modifier = Modifier.weight(1f))
+            //Spacer(modifier = Modifier.height(500.dp))
 
             NextButton(
                 onClick = {
@@ -182,7 +187,7 @@ fun DurationQuestionScreen(
                 isSelected = isNextEnabled
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(50.dp))
         }
     }
 }
@@ -194,7 +199,7 @@ fun DurationQuestionScreenPreview(){
     val navController = rememberNavController()
     DurationQuestionScreen(
         navController = navController,
-        viewModel = SickDayViewModel(),
+        viewModel = viewModel(),
         instrumentType = "injection",
         onExitToMain = {}
     )
