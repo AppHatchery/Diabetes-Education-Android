@@ -288,7 +288,8 @@ private fun resolveKetoneNavDestination(
     over300: Boolean,
     over300Other: Boolean
 ): String {
-    val isLowKetone = selectedUrineLevel in setOf("Neg", "Low")
+    val isLowIletKetone = selectedUrineLevel in setOf("Neg", "Low")
+    val isLowKetone = selectedUrineLevel in setOf("Neg","5", "Low")
     val isLow = false
 
     return when (instrument) {
@@ -311,7 +312,7 @@ private fun resolveKetoneNavDestination(
             }
         }
         else -> when { // iLet
-            isLowKetone -> "${SickDayScreen.ManageILet.route}/Low"
+            isLowIletKetone -> "${SickDayScreen.ManageILet.route}/Low"
             over300 && iLetKetone == "Moderate" -> "${SickDayScreen.ManageILet.route}/Moderate"
             over300 -> "${SickDayScreen.ManageILet.route}/High"
             else -> "${SickDayScreen.BloodSugar.route}/$instrument"

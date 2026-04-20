@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -18,6 +19,7 @@ import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.databinding.FragmentMainBinding
 import edu.emory.diabetes.education.presentation.BaseFragment
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
+import edu.emory.diabetes.education.presentation.fragments.newResources.nav.NewResourcesScreen
 import kotlin.math.roundToInt
 
 class MainFragment : Fragment(R.layout.fragment_main) {
@@ -46,10 +48,21 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     onGetHelpClick = {
                         navigateToSickDay()
                     },
-                    onNutritionClick = {},
-                    onManagementClick = {},
-                    onDiabetesBasicsClick = {},
-                    onEducationalResourcesClick = {}
+                    onNutritionClick = {
+                        navigateToNewResourcesCourse(courseId = 1)
+                    },
+                    onManagementClick = {
+                        navigateToNewResourcesCourse(courseId = 2)
+                    },
+                    onDiabetesBasicsClick = {
+                        navigateToNewResourcesCourse(courseId = 0)
+                    },
+                    onEducationalResourcesClick = {
+                        navigateToNewResourcesMain()
+                    },
+                    onReferencesClick = {
+                        navigateToReferences()
+                    }
                 )
             }
         }
@@ -80,6 +93,23 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         findNavController().navigate(R.id.action_mainFragment_to_newCalculatorFragment3, bundle)
     }
 
+    private fun navigateToNewResourcesMain(){
+        findNavController().navigate(R.id.action_mainFragment_to_newResourcesFragment)
+    }
+
+    private fun navigateToNewResourcesCourse(courseId: Int) {
+        val bundle = Bundle().apply {
+            putString("startDestination", NewResourcesScreen.CourseList.createRoute(courseId))
+        }
+        findNavController().navigate(R.id.action_mainFragment_to_newResourcesFragment, bundle)
+    }
+
+    private fun navigateToReferences(){
+        val bundle = Bundle().apply {
+            putString("startDestination", NewResourcesScreen.MedicalReferences.route)
+        }
+        findNavController().navigate(R.id.action_mainFragment_to_newResourcesFragment, bundle)
+    }
 
 
 //    private fun navigateToInsulinCalculator() {

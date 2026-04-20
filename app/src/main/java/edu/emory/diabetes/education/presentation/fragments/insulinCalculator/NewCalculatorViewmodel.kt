@@ -1,7 +1,11 @@
 package edu.emory.diabetes.education.presentation.fragments.insulinCalculator
 
 import android.content.Context
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens.MealsHighSugarStep
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -59,6 +63,17 @@ class NewCalculatorViewmodel: ViewModel() {
 
     private val _highSugarUiState = MutableStateFlow(HighSugarCalculatorUiState())
     val highSugarUiState: StateFlow<HighSugarCalculatorUiState> = _highSugarUiState.asStateFlow()
+
+    private val _currentStep = MutableStateFlow(MealsHighSugarStep.MEAL_INPUT)
+    val currentStep: StateFlow<MealsHighSugarStep> = _currentStep.asStateFlow()
+
+    fun setStep(step: MealsHighSugarStep) {
+        _currentStep.value = step
+    }
+
+    fun resetStep() {
+        _currentStep.value = MealsHighSugarStep.MEAL_INPUT
+    }
 
     fun loadSavedConstants(context: Context) {
         val prefs = context.getSharedPreferences("calculator_constants", Context.MODE_PRIVATE)

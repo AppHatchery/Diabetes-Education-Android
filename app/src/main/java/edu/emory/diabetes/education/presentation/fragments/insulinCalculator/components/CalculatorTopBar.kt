@@ -56,7 +56,7 @@ fun CalculatorTopBar(
             actionIconContentColor = Color.Black
         ),
         modifier = Modifier.background(color = color),
-        windowInsets = WindowInsets.statusBars.add(WindowInsets(top = 20.dp)),
+        windowInsets = WindowInsets.statusBars//.add(WindowInsets(top = 5.dp)),
     )
 }
 

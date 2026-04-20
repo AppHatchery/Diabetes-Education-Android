@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -43,7 +44,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -51,6 +55,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.presentation.theme.gothamRounded
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,14 +67,27 @@ fun HandBook(
     onDiabetesBasicsClick: () -> Unit,
     onNutritionClick: () -> Unit,
     onManagementClick: () -> Unit,
-    onEducationalResourcesClick: () -> Unit
+    onEducationalResourcesClick: () -> Unit,
+    onReferencesClick: () -> Unit
 ) {
     Scaffold(
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+        //contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
             TopAppBar(
-                title = { Text(text = "") },
-                windowInsets = WindowInsets.statusBars //.add(WindowInsets(top = 8.dp))
+                title = {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "Type U",
+                            textAlign = TextAlign.Center,
+                            fontFamily = gothamRounded,
+                            fontWeight = FontWeight.W500
+                        )
+                    }
+                },
+                windowInsets = WindowInsets.statusBars//.add(WindowInsets(top = 8.dp))
                 )
         },
         modifier = Modifier
@@ -78,7 +96,7 @@ fun HandBook(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.Transparent)
+                    .background(Color.White)
                     .padding(innerPadding)
             ) {
                 LazyColumn(
@@ -86,7 +104,7 @@ fun HandBook(
                         .fillMaxSize()
                         .padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(vertical = 24.dp)
+                    contentPadding = PaddingValues(vertical = 4.dp)
                 ) {
                     item {
                         InsulinCalculatorCard(
@@ -109,6 +127,30 @@ fun HandBook(
                             onManagementClick = onManagementClick,
                             onSeeAllClick = onEducationalResourcesClick
                         )
+                    }
+
+                    item {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Medical References",
+                                color = Color(0xFF1976D2),
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            IconButton(
+                                onClick = onReferencesClick
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.ArrowForward,
+                                    contentDescription = "See all resources",
+                                    tint = Color(0xFF1976D2)
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -240,16 +282,6 @@ fun InsulinCalculatorCard(
                 }
             }
         }
-//        Box(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(24.dp)
-//        ){
-//            Box(
-//                modifier = Modifier
-//                    .align(Alignment.TopEnd)
-//            )
-//        }
 
     }
 
@@ -262,18 +294,27 @@ fun UrgentHealthCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(20.dp)),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFC62828)),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+            //.height(176.dp)
+            .clip(shape = RoundedCornerShape(12.dp))
+            .background(
+                brush = Brush.radialGradient(
+                    colors = listOf(
+                        colorResource(R.color.red_radio_start),
+                        colorResource(R.color.red_radio_middle),
+                        colorResource(R.color.red_radio_end)
+                    )
+                )
+            ),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top =24.dp,start = 20.dp)
         ) {
-
             Column(
-                modifier = Modifier.fillMaxWidth(0.65f)
+                modifier = Modifier
+                    .fillMaxWidth(0.65f)
+                    .padding(top = 24.dp, start = 20.dp, bottom = 20.dp)
             ) {
                 Text(
                     text = "Unsure About an Urgent Health Concern?",
@@ -325,8 +366,11 @@ fun UrgentHealthCard(
                     painter = painterResource(R.drawable.im_get_help),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(180.dp)
-                        .align(Alignment.BottomEnd)
+                        .size(150.dp)
+                        .align(Alignment.BottomEnd),
+                    contentScale = ContentScale.Crop
+
+                    //    .padding(top = 28.dp)
                 )
 
         }
@@ -347,9 +391,7 @@ fun EducationalResourcesSection(
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(20.dp)
-        ) {
+        Column() {
             // Header
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -380,11 +422,11 @@ fun EducationalResourcesSection(
             ) {
                 item {
                     ResourceCard(
-                        title = "Diabetes Basics",
+                        title = "Diabetes\nBasics",
                         backgroundColor = Color(0xFFE8F5E8),
                         textColor = Color(0xFF4CAF50),
                         onClick = onDiabetesBasicsClick,
-                        imageResId = R.drawable.im_diabetes_basics,
+                        imageResId = R.drawable.im_basics,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -402,7 +444,7 @@ fun EducationalResourcesSection(
 
                 item{
                     ResourceCard(
-                        title = "Diabetes Management",
+                        title = "Diabetes Self Management",
                         backgroundColor = Color(0xFFF3E5F5),
                         textColor = Color(0xFF9C27B0),
                         onClick = onManagementClick,
@@ -428,7 +470,7 @@ fun ResourceCard(
 ) {
     Card(
         modifier = modifier
-            .aspectRatio(0.8f)
+            //.aspectRatio(0.8f)
             .clickable { onClick() }
             .width(140.dp)
             .height(180.dp),
@@ -436,28 +478,33 @@ fun ResourceCard(
         shape = RoundedCornerShape(12.dp)
     ) {
 
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize(),
-           // horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Bottom
         ) {
-            Text(
-                text = title,
-                color = textColor,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Start,
-                modifier = Modifier
-                    .padding(12.dp)
-                    .align(Alignment.TopStart)
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Text(
+                    text = title,
+                    color = textColor,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier
+                        .padding(12.dp)
+                )
+            }
+
 
             Image(
                 painter = painterResource(imageResId),
                 contentDescription = null,
                 modifier = Modifier
                     .size(120.dp)
-                    .align(Alignment.BottomCenter)
             )
         }
         }
@@ -476,7 +523,8 @@ fun HandBookPreview(){
         onNutritionClick = {},
         onDiabetesBasicsClick = {},
         onManagementClick = {},
-        onEducationalResourcesClick = {}
+        onEducationalResourcesClick = {},
+        onReferencesClick = {}
     )
 }
 

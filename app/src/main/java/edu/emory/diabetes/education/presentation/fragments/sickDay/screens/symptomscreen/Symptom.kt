@@ -54,9 +54,9 @@ object SymptomData {
         title = "Is your child having any of these symptoms?",
         subtitle = null,
         symptoms = listOf(
-            Symptom("nausea", "Nausea", R.drawable.im_confused),
-            Symptom("abdominal", "Abdominal Pain", R.drawable.im_confused),
-            Symptom("vomiting", "Vomiting", R.drawable.im_confused)
+            Symptom("nausea", "Nausea", R.drawable.im_nausea),
+            Symptom("abdominal", "Abdominal Pain", R.drawable.im_abdominal),
+            Symptom("vomiting", "Vomiting", R.drawable.im_dka)
         )
     )
 }

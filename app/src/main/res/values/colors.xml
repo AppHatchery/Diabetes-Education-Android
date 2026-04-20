@@ -51,6 +51,21 @@
     <color name="green_050">#F2FAF6</color>
     <color name="green_200_sick">#BFE9D3</color>
     <color name="secondary_sunset_orange">#F58220</color>
+    <color name="secondary_sunset_orange_shade100">#FEF3E9</color>
+    <color name="secondary_Orchid_Purple_shade100">#F9EBF5</color>
     <color name="secondary_ocean_blue">#005DA4</color>
+    <color name="greenGradientDark">#62A43A</color>
+    <color name="greenGradientLight">#72BF44</color>
+    <color name="orangeGradientDark">#E07A24</color>
+    <color name="orangeGradientLight">#F58220</color>
+    <color name="purpleGradientDark">#B7268B</color>
+    <color name="purpleGradientLight">#BD2F92</color>
+    <color name="secondaryMeadowGreen">#F1F9ED</color>
+    <color name="secondaryMeadowGreen_300">#72BF44</color>
+    <color name="progressColor">#F0B545</color>
+    <color name="progressColorInactive">#EAF3F1</color>
+    <color name="red_radio_start">#ED1C24</color>
+    <color name="red_radio_middle">#D1171E</color>
+    <color name="red_radio_end">#8D0A0F</color>
 </resources>
 

@@ -21,8 +21,8 @@ val cFactorInfo = infoText {
     }
     append("range.\n\n")
     withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Example:\n") }
-    append("If your correction factor is 50mg/dl and your blood sugar is 200 with a target of 100.\n\n")
-    append("You can calculate (200 - 100) ÷ 50 = 2, so take 2 units of insulin.")
+    append("If your correction factor is 50 mg/dL and your blood sugar is 200 with a target of 100. \n\n")
+    append("You calculate (200 - 100) ÷ 50 = 2, so take 2 units of insulin.")
 }
 
 val targetBSInfo = infoText {

@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens
 
+import android.view.ViewTreeObserver
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -34,6 +35,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -44,8 +46,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -53,9 +57,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.NewCalculatorViewmodel
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.CalculatorTopBar
@@ -97,9 +107,29 @@ fun MealsHighSugarTotal(
     val isKeyboardVisible = WindowInsets.isImeVisible
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    val view = LocalView.current
+    val keyboardHeight = remember { mutableStateOf(0.dp) }
+
+    DisposableEffect(view) {
+        val listener = ViewTreeObserver.OnGlobalLayoutListener {
+            val insets = ViewCompat.getRootWindowInsets(view)
+            val imeHeight = insets?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 0
+            val navBar = insets?.getInsets(WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0
+            val density = view.resources.displayMetrics.density
+            keyboardHeight.value = ((imeHeight - navBar).coerceAtLeast(0) / density).dp
+        }
+        view.viewTreeObserver.addOnGlobalLayoutListener(listener)
+        onDispose {
+            view.viewTreeObserver.removeOnGlobalLayoutListener(listener)
+        }
+    }
+
+    val isKeyboardOpen = keyboardHeight.value > 0.dp
+
     var showNoInsulinNeeded by remember { mutableStateOf(false) }
 
-    var currentStep by remember { mutableStateOf(MealsHighSugarStep.MEAL_INPUT) }
+    //var currentStep by remember { mutableStateOf(MealsHighSugarStep.MEAL_INPUT) }
+    val currentStep by viewModel.currentStep.collectAsState()
 
     // Validation attempt trackers — trigger red state on failed Next tap
     var mealValidationAttempted by remember { mutableStateOf(false) }
@@ -128,14 +158,31 @@ fun MealsHighSugarTotal(
     val errorColor = colorResource(R.color.secondary_fire_red_300)
     val warningColor = colorResource(R.color.secondary_sunset_orange)
 
+    val title = when (currentStep) {
+        MealsHighSugarStep.MEAL_INPUT,
+        MealsHighSugarStep.MEAL_RESULT -> "Step 1"
+        MealsHighSugarStep.HIGH_SUGAR_INPUT,
+        MealsHighSugarStep.HIGH_SUGAR_RESULT -> "Step 2"
+        MealsHighSugarStep.TOTAL_RESULT -> ""
+    }
 
     val stepTitle = when (currentStep) {
         MealsHighSugarStep.MEAL_INPUT,
-        MealsHighSugarStep.MEAL_RESULT -> "Step 1\nInsulin for Food"
+        MealsHighSugarStep.MEAL_RESULT -> "Insulin for Food"
         MealsHighSugarStep.HIGH_SUGAR_INPUT,
-        MealsHighSugarStep.HIGH_SUGAR_RESULT -> "Step 2\nInsulin for\nHigh Blood Sugar"
+        MealsHighSugarStep.HIGH_SUGAR_RESULT -> "Insulin for\nHigh Blood Sugar"
         MealsHighSugarStep.TOTAL_RESULT -> ""
     }
+
+    val stepImage = when (currentStep) {
+        MealsHighSugarStep.MEAL_INPUT,
+        MealsHighSugarStep.MEAL_RESULT -> R.drawable.im_mean_cal
+        MealsHighSugarStep.HIGH_SUGAR_INPUT,
+        MealsHighSugarStep.HIGH_SUGAR_RESULT -> R.drawable.im_cal_hbs
+        MealsHighSugarStep.TOTAL_RESULT -> null
+    }
+
+
 
     // Track previous keyboard visibility to detect dismiss
     var wasKeyboardVisible by remember { mutableStateOf(false) }
@@ -147,7 +194,7 @@ fun MealsHighSugarTotal(
                 MealsHighSugarStep.MEAL_INPUT -> {
                     if (canCalculateMeal) {
                         viewModel.calculate()
-                        currentStep = MealsHighSugarStep.MEAL_RESULT
+                        viewModel.setStep(MealsHighSugarStep.MEAL_RESULT)
                     }
                 }
                 MealsHighSugarStep.HIGH_SUGAR_INPUT -> {
@@ -155,12 +202,12 @@ fun MealsHighSugarTotal(
                         canCalculateHS -> {
                             viewModel.calculateHighSugar()
                             showNoInsulinNeeded = false
-                            currentStep = MealsHighSugarStep.HIGH_SUGAR_RESULT
+                            viewModel.setStep(MealsHighSugarStep.HIGH_SUGAR_RESULT)
                         }
 
                         isBloodSugarInverted && highSugarUiState.correctionFactor.isNotBlank() -> {
                             showNoInsulinNeeded = true
-                            currentStep = MealsHighSugarStep.HIGH_SUGAR_RESULT
+                            viewModel.setStep(MealsHighSugarStep.HIGH_SUGAR_RESULT)
                         }
                     }
                 }
@@ -240,9 +287,9 @@ fun MealsHighSugarTotal(
                     MealsHighSugarStep.MEAL_RESULT -> onExitToMain()
 
                     MealsHighSugarStep.HIGH_SUGAR_INPUT,
-                    MealsHighSugarStep.HIGH_SUGAR_RESULT -> currentStep = MealsHighSugarStep.MEAL_RESULT
+                    MealsHighSugarStep.HIGH_SUGAR_RESULT -> viewModel.setStep(MealsHighSugarStep.MEAL_RESULT)
 
-                    MealsHighSugarStep.TOTAL_RESULT -> currentStep = MealsHighSugarStep.HIGH_SUGAR_RESULT
+                    MealsHighSugarStep.TOTAL_RESULT -> viewModel.setStep(MealsHighSugarStep.HIGH_SUGAR_RESULT)
                 } },
                 showEdit = if (currentStep == MealsHighSugarStep.TOTAL_RESULT)
                     false
@@ -281,16 +328,26 @@ fun MealsHighSugarTotal(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = stepTitle,
-                            fontSize = 20.sp,
-                            color = colorResource(R.color.secondary_ocean_blue),
-                            fontWeight = FontWeight.W700,
-                            fontFamily = gothamRounded,
-                        )
+                        Column {
+                            Text(
+                                text = title,
+                                fontSize = 16.sp,
+                                color = Color.Black,
+                                fontWeight = FontWeight.W400,
+                                fontFamily = gothamRounded,
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = stepTitle,
+                                fontSize = 20.sp,
+                                color = colorResource(R.color.secondary_ocean_blue),
+                                fontWeight = FontWeight.W700,
+                                fontFamily = gothamRounded,
+                            )
+                        }
                         Spacer(modifier = Modifier.width(30.dp))
                         Image(
-                            painter = painterResource(R.drawable.im_mean_cal),
+                            painter = painterResource(stepImage!!),
                             contentDescription = null,
                             modifier = Modifier.height(155.dp).width(150.dp)
                         )
@@ -302,11 +359,12 @@ fun MealsHighSugarTotal(
                     modifier = Modifier
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
-                        .imePadding()
-                        .defaultMinSize(minHeight = 600.dp)
+                        //.imePadding()
+                        //.defaultMinSize(minHeight = 600.dp)
                         .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
                         .background(Color.White)
-                        .padding(start = 20.dp, end = 20.dp, top = 40.dp),
+                        .padding(start = 20.dp, end = 20.dp, top = 40.dp)
+                        .padding(bottom = keyboardHeight.value + 60.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     when (currentStep) {
@@ -413,6 +471,7 @@ fun MealsHighSugarTotal(
                                 cardLabel = "Insulin for food",
                                 infoOnClick = {showInsulinForFood = true}
                             )
+                            Spacer(modifier = Modifier.height(24.dp))
                         }
 
                         // ── Step 3: High sugar input ─────────────────────
@@ -467,7 +526,7 @@ fun MealsHighSugarTotal(
                                     label = "Target Blood\nSugar",
                                     isMeal = false,
                                     infoIcon = true,
-                                    placeholder = "180",
+                                    placeholder = "100",
                                     modifier = Modifier.weight(1f),
                                     dividerColor = if (targetBSError) errorColor
                                     else colorResource(R.color.gray_100_sick),
@@ -488,10 +547,10 @@ fun MealsHighSugarTotal(
                                 UnderlinedNumberField(
                                     value = highSugarUiState.correctionFactor,
                                     onValueChange = { if (!it.contains('.')) viewModel.onCorrectionFactorChanged(it) },
-                                    label = "Correction\nFactor",
+                                    label = "Correction Factor",
                                     isMeal = false,
                                     infoIcon = true,
-                                    placeholder = "25",
+                                    placeholder = "2",
                                     modifier = Modifier.weight(1f),
                                     dividerColor = if (correctionError) errorColor
                                     else colorResource(R.color.gray_100_sick),
@@ -554,7 +613,7 @@ fun MealsHighSugarTotal(
                                 UnderlinedNumberField(
                                     value = highSugarUiState.correctionFactor,
                                     onValueChange = { viewModel.onCorrectionFactorChanged(it) },
-                                    label = "Correction\nFactor",
+                                    label = "Correction Factor",
                                     isMeal = false,
                                     infoIcon = true,
                                     placeholder = "25",
@@ -580,6 +639,8 @@ fun MealsHighSugarTotal(
                                     infoOnClick = {showInsulinForHBS}
                                 )
                             }
+
+                            Spacer(modifier = Modifier.height(24.dp))
                         }
 
                         // ── Step 5: Total result ─────────────────────────
@@ -589,7 +650,23 @@ fun MealsHighSugarTotal(
                             val total = mealUnits + highSugarUnits
                             val totalFormatted = if (total % 1.0 == 0.0) total.toInt().toString() else total.toString()
 
+                            //lottie setup:
+                            val composition by rememberLottieComposition(LottieCompositionSpec.Asset("confetti.json"))
+                            val progress by animateLottieCompositionAsState(
+                                composition = composition,
+                                iterations = 1,
+                                isPlaying = true
+                            )
+
                             Box(modifier = Modifier.fillMaxSize()) {
+                                LottieAnimation(
+                                    composition = composition,
+                                    progress = { progress },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(400.dp)
+                                        .align(Alignment.TopCenter)
+                                )
                                 Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -598,11 +675,12 @@ fun MealsHighSugarTotal(
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     Image(
-                                        painter = painterResource(R.drawable.im_mean_cal),
+                                        painter = painterResource(R.drawable.im_total),
                                         contentDescription = null,
                                         modifier = Modifier
-                                            .height(252.dp)
-                                            .width(252.dp)
+                                            .height(275.dp)
+                                            .width(275.dp),
+                                        contentScale = ContentScale.Crop
                                     )
                                     // Result card
                                     Column(
@@ -701,7 +779,7 @@ fun MealsHighSugarTotal(
                                     ) {
                                         Text(
                                             text = "Exit  ×",
-                                            fontSize = 16.sp,
+                                            fontSize = 20.sp,
                                             fontWeight = FontWeight.W700,
                                             fontFamily = gothamRounded
                                         )
@@ -710,7 +788,7 @@ fun MealsHighSugarTotal(
                                     Spacer(modifier = Modifier.height(16.dp))
 
                                     TextButton(onClick = {
-                                        currentStep = MealsHighSugarStep.MEAL_INPUT
+                                        viewModel.resetStep()
                                     }) {
                                         Text(
                                             text = "New Calculation",
@@ -737,6 +815,7 @@ fun MealsHighSugarTotal(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
+                            .padding(bottom = keyboardHeight.value)
                             .background(Color(0xFFF0F0F0))
                     ) {
                         Row(
@@ -749,7 +828,7 @@ fun MealsHighSugarTotal(
                                 onClick = {
                                     viewModel.calculate()
                                     keyboardController?.hide()
-                                    currentStep = MealsHighSugarStep.MEAL_RESULT
+                                    viewModel.setStep(MealsHighSugarStep.MEAL_RESULT)
                                 }
                             ) {
                                 Text(
@@ -770,7 +849,7 @@ fun MealsHighSugarTotal(
                                 if (canCalculateMeal) {
                                     viewModel.calculate()
                                     mealValidationAttempted = false
-                                    currentStep = MealsHighSugarStep.MEAL_RESULT
+                                    viewModel.setStep(MealsHighSugarStep.MEAL_RESULT)
                                 } else {
                                     mealValidationAttempted = true
                                 }
@@ -778,7 +857,7 @@ fun MealsHighSugarTotal(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .align(Alignment.BottomCenter)
-                                .padding(start = 20.dp, end = 20.dp, bottom = 40.dp),
+                                .padding(start = 20.dp, top = 10.dp, end = 20.dp, bottom = 40.dp),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = colorResource(R.color.primaryGreen),
                                 disabledContainerColor = colorResource(R.color.primaryGreen)
@@ -818,6 +897,7 @@ fun MealsHighSugarTotal(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
+                            .padding(bottom = keyboardHeight.value)
                             .background(Color(0xFFF0F0F0))
                     ) {
                         Row(
@@ -838,7 +918,7 @@ fun MealsHighSugarTotal(
                                         }
                                     }
                                     keyboardController?.hide()
-                                    currentStep = MealsHighSugarStep.HIGH_SUGAR_RESULT
+                                    viewModel.setStep(MealsHighSugarStep.HIGH_SUGAR_RESULT)
                                 }
                             ) {
                                 Text(
@@ -862,13 +942,13 @@ fun MealsHighSugarTotal(
                                     isBloodSugarInverted && highSugarUiState.correctionFactor.isNotBlank() -> {
                                         showNoInsulinNeeded = true
                                         highSugarValidationAttempted = false
-                                        currentStep = MealsHighSugarStep.HIGH_SUGAR_RESULT
+                                        viewModel.setStep(MealsHighSugarStep.HIGH_SUGAR_RESULT)
                                     }
                                     canCalculateHS -> {
                                         viewModel.calculateHighSugar()
                                         showNoInsulinNeeded = false
                                         highSugarValidationAttempted = false
-                                        currentStep = MealsHighSugarStep.HIGH_SUGAR_RESULT
+                                        viewModel.setStep(MealsHighSugarStep.HIGH_SUGAR_RESULT)
                                     }
                                     else -> {
                                         highSugarValidationAttempted = true
@@ -878,7 +958,7 @@ fun MealsHighSugarTotal(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .align(Alignment.BottomCenter)
-                                .padding(start = 20.dp, end = 20.dp, bottom = 40.dp),
+                                .padding(start = 20.dp, top = 10.dp, end = 20.dp, bottom = 40.dp),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = colorResource(R.color.primaryGreen),
                                 disabledContainerColor = colorResource(R.color.primaryGreen)
@@ -918,6 +998,7 @@ fun MealsHighSugarTotal(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
+                            .padding(bottom = keyboardHeight.value)
                             .background(Color(0xFFF0F0F0))
                     ) {
                         Row(
@@ -946,11 +1027,11 @@ fun MealsHighSugarTotal(
                     // Next only visible when keyboard is dismissed
                     if (!isKeyboardVisible) {
                         Button(
-                            onClick = { currentStep = MealsHighSugarStep.HIGH_SUGAR_INPUT },
+                            onClick = { viewModel.setStep(MealsHighSugarStep.HIGH_SUGAR_INPUT) },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .align(Alignment.BottomCenter)
-                                .padding(start = 20.dp, end = 20.dp, bottom = 40.dp),
+                                .padding(start = 20.dp, top = 10.dp, end = 20.dp, bottom = 40.dp),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = colorResource(R.color.primaryGreen)
                             ),
@@ -988,6 +1069,7 @@ fun MealsHighSugarTotal(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
+                            .padding(bottom = keyboardHeight.value)
                             .background(Color(0xFFF0F0F0))
                     ) {
                         Row(
@@ -1025,11 +1107,11 @@ fun MealsHighSugarTotal(
                     // Next only visible when keyboard is dismissed
                     if (!isKeyboardVisible) {
                         Button(
-                            onClick = { currentStep = MealsHighSugarStep.TOTAL_RESULT },
+                            onClick = { viewModel.setStep(MealsHighSugarStep.TOTAL_RESULT) },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .align(Alignment.BottomCenter)
-                                .padding(start = 20.dp, end = 20.dp, bottom = 40.dp),
+                                .padding(start = 20.dp, top = 10.dp, end = 20.dp, bottom = 40.dp),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = colorResource(R.color.primaryGreen)
                             ),

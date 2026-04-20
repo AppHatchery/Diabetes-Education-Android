@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens
 
+import android.view.ViewTreeObserver
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.isImeVisible
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -30,6 +32,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -42,6 +45,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -50,6 +54,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -84,6 +90,25 @@ fun HighSugarCalculator(
 
     val isKeyboardVisible = WindowInsets.isImeVisible
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    val view = LocalView.current
+    val keyboardHeight = remember { mutableStateOf(0.dp) }
+
+    DisposableEffect(view) {
+        val listener = ViewTreeObserver.OnGlobalLayoutListener {
+            val insets = ViewCompat.getRootWindowInsets(view)
+            val imeHeight = insets?.getInsets(WindowInsetsCompat.Type.ime())?.bottom ?: 0
+            val navBar = insets?.getInsets(WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0
+            val density = view.resources.displayMetrics.density
+            keyboardHeight.value = ((imeHeight - navBar).coerceAtLeast(0) / density).dp
+        }
+        view.viewTreeObserver.addOnGlobalLayoutListener(listener)
+        onDispose {
+            view.viewTreeObserver.removeOnGlobalLayoutListener(listener)
+        }
+    }
+
+    val isKeyboardOpen = keyboardHeight.value > 0.dp
 
     val canCalculate = uiState.currentBloodSugar.isNotBlank() && uiState.targetBloodSugar.isNotBlank() && uiState.correctionFactor.isNotBlank()
 
@@ -190,14 +215,14 @@ fun HighSugarCalculator(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column {
-                        Text(
-                            text = "Step 1",
-                            fontSize = 14.sp,
-                            color = Color.Black,
-                            fontWeight = FontWeight.W400,
-                            fontFamily = gothamRounded,
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
+//                        Text(
+//                            text = "Step 1",
+//                            fontSize = 16.sp,
+//                            color = Color.Black,
+//                            fontWeight = FontWeight.W400,
+//                            fontFamily = gothamRounded,
+//                        )
+//                        Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = "Insulin for\nHigh Blood Sugar",
                             fontSize = 20.sp,
@@ -210,7 +235,7 @@ fun HighSugarCalculator(
                     Spacer(modifier = Modifier.width(30.dp))
 
                     Image(
-                        painter = painterResource(R.drawable.im_mean_cal),
+                        painter = painterResource(R.drawable.im_cal_hbs),
                         contentDescription = null,
                         modifier = Modifier
                             .height(155.dp)
@@ -222,11 +247,12 @@ fun HighSugarCalculator(
                     modifier = Modifier
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
-                        .imePadding()
-                        .defaultMinSize(minHeight = 600.dp)
+                        //.imePadding()
+                        //.defaultMinSize(minHeight = 600.dp)
                         .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
                         .background(Color.White)
-                        .padding(start = 20.dp, end = 20.dp, top = 40.dp),
+                        .padding(start = 20.dp, end = 20.dp, top = 40.dp)
+                        .padding(bottom = keyboardHeight.value + 60.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
@@ -297,7 +323,7 @@ fun HighSugarCalculator(
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Row(
-                        modifier = Modifier.width(150.dp),
+                        modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -308,7 +334,7 @@ fun HighSugarCalculator(
                             isMeal = false,
                             infoIcon = true,
                             placeholder = "2",
-                            modifier = Modifier.weight(1f),
+                            modifier = Modifier.width(150.dp),
                             dividerColor = if (correctionError) errorColor else colorResource(R.color.gray_100_sick),
                             labelColor = if (correctionError) errorColor else Color.Black,
                             isError = correctionError,
@@ -361,12 +387,13 @@ fun HighSugarCalculator(
             }
 
             AnimatedVisibility(
-                visible = isKeyboardVisible && canCalculate,
+                visible = isKeyboardOpen && canCalculate,
                 enter = slideInVertically(initialOffsetY = { it }),
                 exit = slideOutVertically(targetOffsetY = { it }),
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
+                    .padding(bottom = keyboardHeight.value)
                     .background(Color(0xFFF0F0F0))
             ) {
                 Row(

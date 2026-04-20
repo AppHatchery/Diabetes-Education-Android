@@ -59,6 +59,9 @@
         <action
             android:id="@+id/action_mainFragment_to_newCalculatorFragment3"
             app:destination="@id/newCalculatorFragment3" />
+        <action
+            android:id="@+id/action_mainFragment_to_newResourcesFragment"
+            app:destination="@id/newResourcesFragment" />
     </fragment>
     <fragment
         android:id="@+id/calculatorFragment"
@@ -703,5 +706,9 @@
         android:id="@+id/newCalculatorFragment3"
         android:name="edu.emory.diabetes.education.presentation.fragments.insulinCalculator.NewCalculatorFragment"
         android:label="NewCalculatorFragment" />
+    <fragment
+        android:id="@+id/newResourcesFragment"
+        android:name="edu.emory.diabetes.education.presentation.fragments.newResources.NewResourcesFragment"
+        android:label="NewResourcesFragment" />
 
 </navigation>

@@ -1,7 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
@@ -13,6 +12,12 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.scr
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens.MealsHighSugarTotal
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens.editConstants.EditConstantsScreen
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens.editConstants.EditConstantsViewModel
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 
 
 @Composable
@@ -26,7 +31,11 @@ fun NewCalculatorNav(
 
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
+        enterTransition = { fadeIn(animationSpec = tween(0)) },
+        exitTransition = { fadeOut(animationSpec = tween(0)) },
+        popEnterTransition = { fadeIn(animationSpec = tween(0)) },
+        popExitTransition = { fadeOut(animationSpec = tween(0)) }
     ){
 
         composable(NewCalculatorScreen.MealCalculator.route) {

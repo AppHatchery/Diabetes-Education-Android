@@ -69,7 +69,7 @@ fun SickDayTopBar(
             titleContentColor = iconColor,
             actionIconContentColor = iconColor
         ),
-        windowInsets = WindowInsets.statusBars.add(WindowInsets(top = 20.dp)),
+        windowInsets = WindowInsets.statusBars//.add(WindowInsets(top = 20.dp)),
     )
 }
 
