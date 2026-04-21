@@ -216,6 +216,36 @@ fun MealsHighSugarTotal(
         wasKeyboardVisible = isKeyboardVisible
     }
 
+    LaunchedEffect(currentStep) {
+        when (currentStep) {
+            MealsHighSugarStep.MEAL_RESULT -> {
+                val properties = hashMapOf<String, Any>()
+                properties["carbs"] = uiState.totalCarbs
+                properties["ratio"] = uiState.carbRatio
+                Pendo.track("Calculate_insulin_for_food", properties)
+            }
+            MealsHighSugarStep.HIGH_SUGAR_RESULT -> {
+                val properties = hashMapOf<String, Any>()
+                properties["correction_factor"] = highSugarUiState.correctionFactor
+                properties["blood_sugar"] = highSugarUiState.currentBloodSugar
+                properties["target_blood_sugar"] = highSugarUiState.targetBloodSugar
+                Pendo.track("Calculate_insulin_for_hbs", properties)
+            }
+            MealsHighSugarStep.TOTAL_RESULT -> {
+                val mealUnits = uiState.insulinUnits
+                val highSugarUnits = highSugarUiState.insulinUnits
+                val total = mealUnits + highSugarUnits
+                val totalFormatted = if (total % 1.0 == 0.0) total.toInt().toString() else total.toString()
+                val properties = hashMapOf<String, Any>()
+                properties["for_food"] = mealUnits
+                properties["for_hbs"] = highSugarUnits
+                properties["total"] = totalFormatted
+                Pendo.track("Calculator_results", properties)
+            }
+            else -> Unit
+        }
+    }
+
     var showCarbRatioInfo by remember { mutableStateOf(false) }
     var showTotalCarbsInfo by remember { mutableStateOf(false) }
     var showInsulinForFood by remember { mutableStateOf(false) }
@@ -425,10 +455,6 @@ fun MealsHighSugarTotal(
                         }
                         // ── Step 2: Meal result ──────────────────────────
                         MealsHighSugarStep.MEAL_RESULT -> {
-                            val properties = hashMapOf<String, Any>()
-                            properties["carbs"] = uiState.totalCarbs
-                            properties["ratio"] = uiState.carbRatio
-                            Pendo.track("Calculate_insulin_for_food", properties)
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically
@@ -567,11 +593,6 @@ fun MealsHighSugarTotal(
 
                         // ── Step 4: High sugar result ────────────────────
                         MealsHighSugarStep.HIGH_SUGAR_RESULT -> {
-                            val properties = hashMapOf<String, Any>()
-                            properties["correction_factor"] = highSugarUiState.correctionFactor
-                            properties["blood_sugar"] = highSugarUiState.currentBloodSugar
-                            properties["target_blood_sugar"] = highSugarUiState.targetBloodSugar
-                            Pendo.track("Calculate_insulin_for_hbs", properties)
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically
@@ -657,12 +678,6 @@ fun MealsHighSugarTotal(
                             val highSugarUnits = highSugarUiState.insulinUnits
                             val total = mealUnits + highSugarUnits
                             val totalFormatted = if (total % 1.0 == 0.0) total.toInt().toString() else total.toString()
-
-                            val properties = hashMapOf<String, Any>()
-                            properties["for_food"] = mealUnits
-                            properties["for_hbs"] = highSugarUnits
-                            properties["total"] = totalFormatted
-                            Pendo.track("Calculator_results", properties)
 
                             //lottie setup:
                             val composition by rememberLottieComposition(LottieCompositionSpec.Asset("confetti.json"))
