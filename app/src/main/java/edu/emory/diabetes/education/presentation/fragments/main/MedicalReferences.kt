@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.BulletPoint
 import edu.emory.diabetes.education.presentation.theme.gothamRounded
 
 
@@ -42,7 +43,6 @@ fun MedicalReferences(
         topBar = {
             TopAppBar(
                 title = {
-
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
@@ -67,7 +67,7 @@ fun MedicalReferences(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background
                 ),
-                windowInsets = WindowInsets.statusBars.add(WindowInsets(top = 20.dp)),
+                windowInsets = WindowInsets.statusBars,
             )
         }
     ) { innerPadding ->
@@ -88,7 +88,7 @@ fun MedicalReferences(
             // Intro text
             Text(
                 text = "All medical recommendations contained on this app are derived from the following sources:",
-                fontSize = 15.sp,
+                fontSize = 16.sp,
                 fontFamily = gothamRounded,
                 fontWeight = FontWeight.W400,
                 color = Color.Black,
@@ -123,6 +123,61 @@ fun MedicalReferences(
             AcknowledgmentsSection()
 
             Spacer(modifier = Modifier.height(24.dp))
+
+            Column(modifier = Modifier.fillMaxWidth()) {
+
+                Text(
+                    text = "Built by the AppHatchery",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = gothamRounded,
+                    color = colorResource(R.color.primaryBlue)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "The AppHatchery is an interdisciplinary team of researchers, designers, and software developers from Emory University, Georgia Tech, and the Gloabl Health Informatics Institute (in Malawi), funded by the Georgia Clinical and Translational Science Alliance (Georgia CTSA). They work on bringing research ideas to the general public via mobile and web apps.",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W400,
+                    fontFamily = gothamRounded,
+                    color = Color.Black,
+                    lineHeight = 22.sp
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "The team that built this app includes: Aby Joe Kottoor, Maxwell Kapezi, Naomi Nyama, Upasana Bhattacharjee, Freja Zhang," +
+                            " Innocent Kumwenda, Wiza Munthali, Kennedy" +
+                            " Linzie, Comfort Mwalija, Tanishk" +
+                            " Deo, Rasika Punde, Morgan Greenleaf, Maren Parsell," +
+                            " and Santiago Arconada Alvarez.",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W400,
+                    fontFamily = gothamRounded,
+                    color = Color.Black,
+                    lineHeight = 22.sp
+                )
+            }
+
+            Spacer(modifier = Modifier.height(35.dp))
+
+            Image(
+                painter = painterResource(id = R.drawable.im_apphatchery_logo),
+                contentDescription = "AppHatchery Logo",
+                modifier = Modifier
+                    .height(60.dp)
+                    .wrapContentWidth()
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "Powered by AppHatchery 2026",
+                fontSize = 13.sp,
+                color = Color.Gray,
+                fontWeight = FontWeight.W400,
+                fontFamily = gothamRounded,
+                lineHeight = 22.sp
+            )
+            Spacer(modifier = Modifier.height(35.dp))
         }
     }
 }
@@ -202,6 +257,57 @@ private fun AcknowledgmentsSection() {
             fontFamily = gothamRounded,
             color = Color.Black,
             lineHeight = 22.sp
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "We would like to give a special mention to the following individuals for contributing their time and expertise:",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.W400,
+            fontFamily = gothamRounded,
+            color = Color.Black,
+            lineHeight = 22.sp
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+        BulletPointNotAnnotated(
+            text = "Dina Alsalih, Medical Education Specialist"
+        )
+        BulletPointNotAnnotated(
+            text = "The Diabetes Education Team at Children's Healthcare of Atlanta, led by Anna Albritton and Alison Higgins"
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "This work was made possible through the generous financial support of our donors and the 1998 Society",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.W400,
+            fontFamily = gothamRounded,
+            color = Color.Black,
+            lineHeight = 22.sp
+        )
+
+
+    }
+}
+
+@Composable
+fun BulletPointNotAnnotated(text: String) {
+    Row(
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "• ",
+            fontSize = 18.sp,
+            fontFamily = gothamRounded,
+            modifier = Modifier.padding(end = 8.dp, top = 4.dp)
+        )
+        Text(
+            text = text,
+            fontSize = 18.sp,
+            lineHeight = 28.sp,
+            fontFamily = gothamRounded,
+            letterSpacing = (-0.41).sp
         )
     }
 }

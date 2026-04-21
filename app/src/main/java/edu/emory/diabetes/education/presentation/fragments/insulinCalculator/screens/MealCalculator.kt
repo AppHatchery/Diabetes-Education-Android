@@ -75,6 +75,7 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.com
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import sdk.pendo.io.Pendo
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -118,6 +119,8 @@ fun MealCalculator(
     var showTotalCarbsInfo by remember { mutableStateOf(false) }
     var showInsulinForFood by remember { mutableStateOf(false) }
 
+    var wasKeyboardVisible by remember { mutableStateOf(false) }
+
     if (showCarbRatioInfo) {
         InfoDialog(
             title = "Carb Ratio",
@@ -140,6 +143,21 @@ fun MealCalculator(
             description = insulinForFood,
             onDismiss = { showInsulinForFood = false }
         )
+    }
+
+    LaunchedEffect(isKeyboardVisible) {
+        if (wasKeyboardVisible && !isKeyboardVisible) {
+            when {
+                canCalculate -> {
+                    val properties = hashMapOf<String, Any>()
+                    properties["carbs"] = uiState.totalCarbs
+                    properties["ratio"] = uiState.carbRatio
+                    Pendo.track("Calculate_insulin_for_food", properties)
+                    viewModel.calculate()
+                }
+            }
+        }
+        wasKeyboardVisible = isKeyboardVisible
     }
 
     Scaffold(
@@ -185,14 +203,6 @@ fun MealCalculator(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column {
-//                        Text(
-//                            text = "Step 1",
-//                            fontSize = 16.sp,
-//                            color = Color.Black,
-//                            fontWeight = FontWeight.W400,
-//                            fontFamily = gothamRounded,
-//                        )
-//                        Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = "Insulin for Food",
                             fontSize = 20.sp,
@@ -328,6 +338,10 @@ fun MealCalculator(
                 ) {
                     TextButton(
                         onClick = {
+                            val properties = hashMapOf<String, Any>()
+                            properties["carbs"] = uiState.totalCarbs
+                            properties["ratio"] = uiState.carbRatio
+                            Pendo.track("Calculate_insulin_for_food", properties)
                             viewModel.calculate()
                             keyboardController?.hide()
                         }

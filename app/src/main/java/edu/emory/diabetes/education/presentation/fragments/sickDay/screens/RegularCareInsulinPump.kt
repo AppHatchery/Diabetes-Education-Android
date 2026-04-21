@@ -47,6 +47,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Cu
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
 import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import sdk.pendo.io.Pendo
 
 @Composable
 fun RegularCareInsulinPump(
@@ -207,6 +208,13 @@ fun RegularCareInsulinPump(
                 },
                 onSkipReminder = {
                     // User explicitly skipped — clear checkpoint then navigate
+                    val properties = hashMapOf<String, Any>()
+                    properties["source"] = "RegularCareInsulinPump"
+                    properties["action"] = "Skip This Reminder"
+                    properties["reminderId"] = ReminderScheduler.REQUEST_CODE
+                    properties["testType"] = "pump"
+                    properties["iletPump"] = "false"
+                    Pendo.track("Reminder Skip", properties)
                     prefs.clearReminderCheckpoint()
                     navController.navigate(SickDayScreen.KetoneReminder.route)
                 }
