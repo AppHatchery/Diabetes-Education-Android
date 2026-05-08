@@ -1,6 +1,5 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,12 +9,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -32,7 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @Composable
 fun KetoneGuideContent(onClose: () -> Unit) {
@@ -46,7 +43,7 @@ fun KetoneGuideContent(onClose: () -> Unit) {
             text = "How to measure ketones",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             color = colorResource(R.color.primaryGreen)
         )
 
@@ -59,7 +56,7 @@ fun KetoneGuideContent(onClose: () -> Unit) {
                 text = "⚠️ Make sure your ketone strips have not expired!",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 color = colorResource(R.color.secondary_sunset_orange)
             )
         }
@@ -71,7 +68,7 @@ fun KetoneGuideContent(onClose: () -> Unit) {
             text = "Measuring Urine Ketones",
             fontSize = 16.sp,
             fontWeight = FontWeight.W700,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             color = colorResource(R.color.primaryGreen)
         )
         Spacer(modifier = Modifier.height(12.dp))
@@ -87,7 +84,7 @@ fun KetoneGuideContent(onClose: () -> Unit) {
                 text = "${index + 1}. $step",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.W400,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 modifier = Modifier.padding(vertical = 3.dp)
             )
         }
@@ -99,7 +96,7 @@ fun KetoneGuideContent(onClose: () -> Unit) {
             text = "Measuring Blood Ketones",
             fontSize = 16.sp,
             fontWeight = FontWeight.W700,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             color = colorResource(R.color.primaryGreen)
         )
         Spacer(modifier = Modifier.height(12.dp))
@@ -115,7 +112,7 @@ fun KetoneGuideContent(onClose: () -> Unit) {
                 text = "${index + 1}. $step",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.W400,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 modifier = Modifier.padding(vertical = 3.dp)
             )
         }
@@ -140,7 +137,7 @@ fun KetoneGuideContent(onClose: () -> Unit) {
                     text = "Close",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.W500,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     modifier = Modifier.padding(end = 2.dp),
                     color = Color.White,
                     textAlign = TextAlign.Center

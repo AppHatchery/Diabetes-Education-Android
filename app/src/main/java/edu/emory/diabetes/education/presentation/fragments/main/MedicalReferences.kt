@@ -9,9 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowLeft
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,8 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.BulletPoint
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.arial
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,7 +48,7 @@ fun MedicalReferences(
                         Text(
                             text = "Medical References",
                             textAlign = TextAlign.Center,
-                            fontFamily = gothamRounded,
+                            fontFamily = nunito,
                             fontWeight = FontWeight.W500
                         )
                     }
@@ -89,8 +87,6 @@ fun MedicalReferences(
             Text(
                 text = "All medical recommendations contained on this app are derived from the following sources:",
                 fontSize = 16.sp,
-                fontFamily = gothamRounded,
-                fontWeight = FontWeight.W400,
                 color = Color.Black,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -128,9 +124,9 @@ fun MedicalReferences(
 
                 Text(
                     text = "Built by the AppHatchery",
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     color = colorResource(R.color.primaryBlue)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -138,7 +134,6 @@ fun MedicalReferences(
                     text = "The AppHatchery is an interdisciplinary team of researchers, designers, and software developers from Emory University, Georgia Tech, and the Gloabl Health Informatics Institute (in Malawi), funded by the Georgia Clinical and Translational Science Alliance (Georgia CTSA). They work on bringing research ideas to the general public via mobile and web apps.",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W400,
-                    fontFamily = gothamRounded,
                     color = Color.Black,
                     lineHeight = 22.sp
                 )
@@ -151,7 +146,6 @@ fun MedicalReferences(
                             " and Santiago Arconada Alvarez.",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W400,
-                    fontFamily = gothamRounded,
                     color = Color.Black,
                     lineHeight = 22.sp
                 )
@@ -174,7 +168,6 @@ fun MedicalReferences(
                 fontSize = 13.sp,
                 color = Color.Gray,
                 fontWeight = FontWeight.W400,
-                fontFamily = gothamRounded,
                 lineHeight = 22.sp
             )
             Spacer(modifier = Modifier.height(35.dp))
@@ -211,17 +204,15 @@ private fun ReferenceSection(
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = title,
-            fontSize = 16.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             color = colorResource(R.color.primaryBlue)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = description,
             fontSize = 16.sp,
-            fontWeight = FontWeight.W400,
-            fontFamily = gothamRounded,
             color = Color.Black,
             lineHeight = 22.sp
         )
@@ -231,8 +222,6 @@ private fun ReferenceSection(
             fontSize = 14.sp,
             color = colorResource(R.color.primaryBlue),
             textDecoration = TextDecoration.Underline,
-            fontWeight = FontWeight.W400,
-            fontFamily = gothamRounded,
             modifier = Modifier
                 .clickable { uriHandler.openUri(linkUrl) }
         )
@@ -244,9 +233,9 @@ private fun AcknowledgmentsSection() {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = "Acknowledgments",
-            fontSize = 16.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             color = colorResource(R.color.primaryBlue)
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -254,7 +243,6 @@ private fun AcknowledgmentsSection() {
             text = "This app was designed and developed in partnership with the dedicated team of Diabetes Educators and Endocrinologists at Children's Healthcare of Atlanta. Their clinical expertise and commitment to patient care are at the heart of every recommendation within this app.",
             fontSize = 16.sp,
             fontWeight = FontWeight.W400,
-            fontFamily = gothamRounded,
             color = Color.Black,
             lineHeight = 22.sp
         )
@@ -263,8 +251,6 @@ private fun AcknowledgmentsSection() {
         Text(
             text = "We would like to give a special mention to the following individuals for contributing their time and expertise:",
             fontSize = 16.sp,
-            fontWeight = FontWeight.W400,
-            fontFamily = gothamRounded,
             color = Color.Black,
             lineHeight = 22.sp
         )
@@ -281,8 +267,6 @@ private fun AcknowledgmentsSection() {
         Text(
             text = "This work was made possible through the generous financial support of our donors and the 1998 Society",
             fontSize = 16.sp,
-            fontWeight = FontWeight.W400,
-            fontFamily = gothamRounded,
             color = Color.Black,
             lineHeight = 22.sp
         )
@@ -299,15 +283,13 @@ fun BulletPointNotAnnotated(text: String) {
         Text(
             text = "• ",
             fontSize = 18.sp,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             modifier = Modifier.padding(end = 8.dp, top = 4.dp)
         )
         Text(
             text = text,
-            fontSize = 18.sp,
-            lineHeight = 28.sp,
-            fontFamily = gothamRounded,
-            letterSpacing = (-0.41).sp
+            fontSize = 16.sp,
+            lineHeight = 22.sp,
         )
     }
 }

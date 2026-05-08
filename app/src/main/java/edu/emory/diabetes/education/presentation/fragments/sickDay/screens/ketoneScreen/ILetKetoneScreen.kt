@@ -1,6 +1,5 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -46,15 +44,12 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
-import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomWidthInactiveButton
-import edu.emory.diabetes.education.presentation.fragments.sickDay.components.INSTRUMENT_TYPE
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.KETONE
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.KetoneGuideContent
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
-import kotlin.collections.contains
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -176,7 +171,7 @@ fun IletKetoneScreen(
                 text = "Check your child's ketone level",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -190,7 +185,7 @@ fun IletKetoneScreen(
                         textDecoration = TextDecoration.Underline
                     ),
                     fontSize = 18.sp,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     color = colorResource(R.color.primaryBlue)
                 )
             }
@@ -201,7 +196,7 @@ fun IletKetoneScreen(
                 text = "What are the ketone test results?",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 color = colorResource(R.color.primaryBlue),
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -246,7 +241,7 @@ fun IletKetoneScreen(
                             textDecoration = TextDecoration.Underline
                         ),
                         fontSize = 18.sp,
-                        fontFamily = gothamRounded,
+                        fontFamily = nunito,
                         color = colorResource(R.color.primaryBlue)
                     )
                 }

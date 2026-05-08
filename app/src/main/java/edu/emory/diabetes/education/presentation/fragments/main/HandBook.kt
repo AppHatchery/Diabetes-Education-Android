@@ -12,17 +12,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.add
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -55,7 +51,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -82,7 +78,7 @@ fun HandBook(
                         Text(
                             text = "Type U",
                             textAlign = TextAlign.Center,
-                            fontFamily = gothamRounded,
+                            fontFamily = nunito,
                             fontWeight = FontWeight.W500
                         )
                     }
@@ -189,7 +185,9 @@ fun InsulinCalculatorCard(
                     Text(
                         text = "Insulin Calculator",
                         color = Color.White,
+                        //color = colorResource(R.color.blue_200),
                         fontSize = 16.sp,
+                        fontFamily = nunito,
                         fontWeight = FontWeight.W400
                     )
 
@@ -198,7 +196,8 @@ fun InsulinCalculatorCard(
                         text = "Calculate how much insulin you need for",
                         color = Color.White,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.W500,
+                        fontFamily = nunito,
+                        fontWeight = FontWeight.Bold,
                         lineHeight = 32.sp
                     )
                 }
@@ -232,6 +231,7 @@ fun InsulinCalculatorCard(
                         text = "Meals + High Sugar",
                         color = Color(0xFF1976D2),
                         fontWeight = FontWeight.Bold,
+                        fontFamily = nunito,
                         fontSize = 16.sp,
                     )
                 }
@@ -257,6 +257,7 @@ fun InsulinCalculatorCard(
                             text = "Meals",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
+                            fontFamily = nunito,
                             modifier = Modifier.padding(vertical = 8.dp)
                         )
                     }
@@ -274,6 +275,7 @@ fun InsulinCalculatorCard(
                     ) {
                         Text(
                             text = "High Sugar",
+                            fontFamily = nunito,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(vertical = 5.dp)
@@ -320,6 +322,7 @@ fun UrgentHealthCard(
                     text = "Unsure About an Urgent Health Concern?",
                     color = Color.White,
                     fontSize = 22.sp,
+                    fontFamily = nunito,
                     fontWeight = FontWeight.Bold,
                     lineHeight = 28.sp
                 )
@@ -329,6 +332,7 @@ fun UrgentHealthCard(
                 Text(
                     text = "Get guidance on what to do next",
                     color = Color.White.copy(alpha = 0.9f),
+                    fontFamily = nunito,
                     fontSize = 16.sp
                 )
 
@@ -348,6 +352,7 @@ fun UrgentHealthCard(
                         Text(
                             text = "Get Help",
                             color = Color(0xFFC62828),
+                            fontFamily = nunito,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp
                         )
@@ -401,12 +406,13 @@ fun EducationalResourcesSection(
                 Text(
                     text = "Educational Resources",
                     color = Color(0xFF1976D2),
+                    fontFamily = nunito,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
                 IconButton(onClick = onSeeAllClick) {
                     Icon(
-                        imageVector = Icons.Default.ArrowForward,
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                         contentDescription = "See all resources",
                         tint = Color(0xFF1976D2)
                     )
@@ -493,6 +499,7 @@ fun ResourceCard(
                     color = textColor,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
+                    fontFamily = nunito,
                     textAlign = TextAlign.Start,
                     modifier = Modifier
                         .padding(12.dp)

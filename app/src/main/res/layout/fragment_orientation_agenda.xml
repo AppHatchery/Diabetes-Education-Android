@@ -48,7 +48,7 @@
                 android:textSize="16sp"
                 android:layout_marginEnd="16dp"
                 android:textColor="@color/gray_200"
-                android:fontFamily="@font/gotham_rounded"
+                android:fontFamily="@font/nunito"
                 android:text="Education of diabetes management"
                 android:clickable="true"
                 app:layout_constraintEnd_toEndOf="@+id/appCompatTextView"

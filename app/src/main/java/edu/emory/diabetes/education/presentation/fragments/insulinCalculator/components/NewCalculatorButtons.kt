@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -19,7 +17,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @Composable
 fun CustomTransparentTextButton(
@@ -39,7 +37,7 @@ fun CustomTransparentTextButton(
             text = buttonText,
             fontSize = 16.sp,
             fontWeight = FontWeight.W400,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             color = buttonTextColor
         )
         Spacer(modifier = modifier.padding(start = 2.dp))

@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.NewResourcesTopBar
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.graphics.Path
 
@@ -93,7 +93,7 @@ fun ChapterFinishScreen(
                     text = "Woohoo! You did it!",
                     color = Color.White,
                     fontSize = 32.sp,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
@@ -120,6 +120,7 @@ fun ChapterFinishScreen(
                             },
                             fontSize = 16.sp,
                             textAlign = TextAlign.Center,
+                            fontFamily = nunito,
                             lineHeight = 20.sp,
                             color = Color.Black,
                             modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)

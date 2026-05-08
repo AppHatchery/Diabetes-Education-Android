@@ -41,8 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.NewResourcesTopBar
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
-import sdk.pendo.io.h2.a
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 private val GrayDescription = Color(0xFF6B6B6B)
 
@@ -140,7 +139,7 @@ private fun CourseHeader(
                 text = course.title,
                 color = Color.White,
                 fontSize = 20.sp,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)
             )
@@ -200,14 +199,14 @@ private fun ChapterListItem(
                     text = chapter.title,
                     color = colorResource(R.color.primaryBlue),
                     fontSize = 20.sp,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = chapter.description,
                     color = colorResource(R.color.gray_600),
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     fontSize = 14.sp,
                     lineHeight = 18.sp
                 )

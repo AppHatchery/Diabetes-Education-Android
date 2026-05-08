@@ -1,7 +1,5 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen
 
-import android.content.Context
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -44,7 +42,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Si
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.BulletPoint
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.InsulinPumpText
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 import sdk.pendo.io.Pendo
 
 @Composable
@@ -95,7 +93,7 @@ fun ManageILet(
                 text = "You can manage this at home by following these steps:",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -209,7 +207,7 @@ fun HighKetoneContent(
             text = "Stay hydrated, drink fluids based on age",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             color = colorResource(R.color.primaryBlue),
         )
 
@@ -218,7 +216,7 @@ fun HighKetoneContent(
         Text(
             text = "Example: A 2-year-old drinks 2oz per hour",
             fontSize = 16.sp,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
         )
 
         Spacer(modifier = Modifier.height(5.dp))
@@ -282,7 +280,7 @@ fun HighKetoneContent(
                 }
                 append("since your last ketone test?")
             },
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             fontSize = 16.sp
         )
 
@@ -339,7 +337,7 @@ fun ModerateKetoneContent(
             text = "Stay hydrated, drink fluids based on age",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             color = colorResource(R.color.primaryBlue),
         )
 
@@ -348,7 +346,7 @@ fun ModerateKetoneContent(
         Text(
             text = "Example: A 2-year-old drinks 2oz per hour",
             fontSize = 16.sp,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
         )
 
         Spacer(modifier = Modifier.height(5.dp))
@@ -412,7 +410,7 @@ fun ModerateKetoneContent(
                 }
                 append("since your last ketone test?")
             },
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             fontSize = 16.sp
         )
 
@@ -466,7 +464,7 @@ fun LowKetoneContent(
             text = "Stay hydrated, drink fluids based on age",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             color = colorResource(R.color.primaryBlue),
         )
 
@@ -475,7 +473,7 @@ fun LowKetoneContent(
         Text(
             text = "Example: A 2-year-old drinks 2oz per hour",
             fontSize = 16.sp,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
         )
 
         Spacer(modifier = Modifier.height(5.dp))
@@ -540,7 +538,7 @@ fun LowKetoneContent(
                 append("since your last ketone test?")
             },
             fontSize = 16.sp,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -569,7 +567,7 @@ fun ManageILetPreview(){
     val navController = rememberNavController()
     ManageILet(
         navController = navController,
-        type = "high",
+        type = "moderate",
         onExitToMain = {},
         viewModel = viewModel()
     )

@@ -36,7 +36,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Cu
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @Composable
 fun BloodSugarScreen(
@@ -89,8 +89,8 @@ fun BloodSugarScreen(
             Text(
                 text = text,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Medium,
-                fontFamily = gothamRounded,
+                fontWeight = FontWeight.Bold,
+                fontFamily = nunito,
                 color = colorResource(R.color.primaryBlue),
             )
             Spacer(modifier = Modifier.height(12.dp))

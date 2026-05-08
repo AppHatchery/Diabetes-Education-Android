@@ -84,7 +84,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:visibility="gone"
-            app:fontFamily="@font/gotham_rounded_light"
+            app:fontFamily="@font/nunito_light"
             app:layout_constraintEnd_toEndOf="@+id/linearLayoutCompat8"
             app:layout_constraintStart_toStartOf="@+id/linearLayoutCompat8"
             app:layout_constraintTop_toBottomOf="@+id/iconAnswer" />

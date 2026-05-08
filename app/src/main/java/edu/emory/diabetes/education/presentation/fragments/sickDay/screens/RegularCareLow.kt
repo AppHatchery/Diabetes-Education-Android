@@ -4,7 +4,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,11 +17,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,7 +45,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Ch
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 import sdk.pendo.io.Pendo
 
 @Composable
@@ -117,7 +114,7 @@ fun RegularCareLow(
                 text = "Continue regular diabetes care",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -210,14 +207,14 @@ fun BulletPoint(text: androidx.compose.ui.text.AnnotatedString) {
         Text(
             text = "• ",
             fontSize = 18.sp,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             modifier = Modifier.padding(end = 8.dp, top = 4.dp)
         )
         Text(
             text = text,
             fontSize = 18.sp,
             lineHeight = 28.sp,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             letterSpacing = (-0.41).sp
         )
     }

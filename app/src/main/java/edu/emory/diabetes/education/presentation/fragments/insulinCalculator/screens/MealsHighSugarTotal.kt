@@ -13,11 +13,9 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -79,7 +77,8 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.com
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.targetBSInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.totalCarbsInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.arial
+import edu.emory.diabetes.education.presentation.theme.nunito
 import sdk.pendo.io.Pendo
 
 enum class MealsHighSugarStep {
@@ -363,15 +362,15 @@ fun MealsHighSugarTotal(
                                 fontSize = 16.sp,
                                 color = Color.Black,
                                 fontWeight = FontWeight.W400,
-                                fontFamily = gothamRounded,
+                                fontFamily = nunito,
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = stepTitle,
                                 fontSize = 20.sp,
                                 color = colorResource(R.color.secondary_ocean_blue),
-                                fontWeight = FontWeight.W700,
-                                fontFamily = gothamRounded,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = nunito,
                             )
                         }
                         Spacer(modifier = Modifier.width(30.dp))
@@ -429,7 +428,7 @@ fun MealsHighSugarTotal(
                                     text = "/",
                                     fontSize = 48.sp,
                                     fontWeight = FontWeight.W500,
-                                    fontFamily = gothamRounded,
+                                    fontFamily = nunito,
                                     color = Color.Black,
                                     modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 18.dp)
                                 )
@@ -452,6 +451,22 @@ fun MealsHighSugarTotal(
                                     infoOnClick = {showCarbRatioInfo = true}
                                 )
                             }
+                            Spacer(modifier = Modifier.height(344.dp))
+                            if(totalCarbsError || carbRatioError){
+                                val errorText = when {
+                                    totalCarbsError && carbRatioError -> "Please enter the missing information"
+                                    totalCarbsError -> "Please enter the number of carbs"
+                                    else -> "Please enter the carb ratio"
+                                }
+                                Text(
+                                    text = errorText,
+                                    fontFamily = arial,
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = errorColor
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(24.dp))
                         }
                         // ── Step 2: Meal result ──────────────────────────
                         MealsHighSugarStep.MEAL_RESULT -> {
@@ -476,7 +491,7 @@ fun MealsHighSugarTotal(
                                     text = "/",
                                     fontSize = 48.sp,
                                     fontWeight = FontWeight.W500,
-                                    fontFamily = gothamRounded,
+                                    fontFamily = nunito,
                                     color = Color.Black,
                                     modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 18.dp)
                                 )
@@ -542,7 +557,7 @@ fun MealsHighSugarTotal(
                                     text = "-",
                                     fontSize = 48.sp,
                                     fontWeight = FontWeight.W500,
-                                    fontFamily = gothamRounded,
+                                    fontFamily = nunito,
                                     color = colorResource(R.color.gray_600),
                                     modifier = Modifier.padding(start = 26.dp, end = 26.dp, bottom = 18.dp)
                                 )
@@ -589,6 +604,23 @@ fun MealsHighSugarTotal(
                                     infoOnClick = {showCFactorInfo = true}
                                 )
                             }
+
+                            Spacer(modifier = Modifier.height(204.dp))
+                            if(correctionError || currentBSError || targetBSError){
+                                val errorText = when {
+                                    correctionError && currentBSError && targetBSError -> "Please enter the missing information"
+                                    correctionError -> "Please enter your correction factor"
+                                    currentBSError -> "Please enter the blood sugar"
+                                    else -> "Please enter your target blood sugar (it may be 100 during the day and 150 at night)"
+                                }
+                                Text(
+                                    text = errorText,
+                                    fontFamily = arial,
+                                    fontSize = 13.sp,
+                                    color = errorColor,
+                                    fontWeight = FontWeight.Bold,
+                                )
+                            }
                         }
 
                         // ── Step 4: High sugar result ────────────────────
@@ -614,7 +646,7 @@ fun MealsHighSugarTotal(
                                     text = "-",
                                     fontSize = 48.sp,
                                     fontWeight = FontWeight.W500,
-                                    fontFamily = gothamRounded,
+                                    fontFamily = nunito,
                                     color = colorResource(R.color.gray_600),
                                     modifier = Modifier.padding(start = 26.dp, end = 26.dp, bottom = 18.dp)
                                 )
@@ -722,7 +754,7 @@ fun MealsHighSugarTotal(
                                             text = "Total Insulin Dose",
                                             fontSize = 20.sp,
                                             fontWeight = FontWeight.W700,
-                                            fontFamily = gothamRounded,
+                                            fontFamily = nunito,
                                             color = colorResource(R.color.secondary_ocean_blue)
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
@@ -730,7 +762,7 @@ fun MealsHighSugarTotal(
                                             text = "$totalFormatted units",
                                             fontSize = 32.sp,
                                             fontWeight = FontWeight.W700,
-                                            fontFamily = gothamRounded,
+                                            fontFamily = nunito,
                                             color = colorResource(R.color.primaryGreen)
                                         )
                                         Spacer(modifier = Modifier.height(16.dp))
@@ -749,7 +781,7 @@ fun MealsHighSugarTotal(
                                                 Text(
                                                     text = "Carb Bolus",
                                                     fontSize = 16.sp,
-                                                    fontFamily = gothamRounded,
+                                                    fontFamily = nunito,
                                                     fontWeight = FontWeight.W600,
                                                     color = Color.Black
                                                 )
@@ -758,7 +790,7 @@ fun MealsHighSugarTotal(
                                                     text = "${uiState.formatUnits()} units",
                                                     fontSize = 20.sp,
                                                     fontWeight = FontWeight.W700,
-                                                    fontFamily = gothamRounded,
+                                                    fontFamily = nunito,
                                                     color = colorResource(R.color.primaryGreen)
                                                 )
                                             }
@@ -777,7 +809,7 @@ fun MealsHighSugarTotal(
                                                 Text(
                                                     text = "Correction Bolus",
                                                     fontSize = 16.sp,
-                                                    fontFamily = gothamRounded,
+                                                    fontFamily = nunito,
                                                     fontWeight = FontWeight.W600,
                                                     color = Color.Black
                                                 )
@@ -786,7 +818,7 @@ fun MealsHighSugarTotal(
                                                     text = "${highSugarUiState.formatUnits()} units",
                                                     fontSize = 20.sp,
                                                     fontWeight = FontWeight.W700,
-                                                    fontFamily = gothamRounded,
+                                                    fontFamily = nunito,
                                                     color = colorResource(R.color.primaryGreen)
                                                 )
                                             }
@@ -810,7 +842,7 @@ fun MealsHighSugarTotal(
                                             text = "Exit  ×",
                                             fontSize = 20.sp,
                                             fontWeight = FontWeight.W700,
-                                            fontFamily = gothamRounded
+                                            fontFamily = nunito
                                         )
                                     }
 
@@ -823,7 +855,7 @@ fun MealsHighSugarTotal(
                                             text = "New Calculation",
                                             fontSize = 16.sp,
                                             fontWeight = FontWeight.W700,
-                                            fontFamily = gothamRounded,
+                                            fontFamily = nunito,
                                             color = colorResource(R.color.primaryGreen)
                                         )
                                     }
@@ -864,7 +896,7 @@ fun MealsHighSugarTotal(
                                     text = "Calculate",
                                     fontSize = 22.sp,
                                     fontWeight = FontWeight.W600,
-                                    fontFamily = gothamRounded,
+                                    fontFamily = nunito,
                                     color = colorResource(R.color.primaryGreen)
                                 )
                             }
@@ -954,7 +986,7 @@ fun MealsHighSugarTotal(
                                     text = "Calculate",
                                     fontSize = 22.sp,
                                     fontWeight = FontWeight.W600,
-                                    fontFamily = gothamRounded,
+                                    fontFamily = nunito,
                                     color = colorResource(R.color.primaryGreen)
                                 )
                             }
@@ -1046,7 +1078,7 @@ fun MealsHighSugarTotal(
                                     text = "Calculate",
                                     fontSize = 22.sp,
                                     fontWeight = FontWeight.W600,
-                                    fontFamily = gothamRounded,
+                                    fontFamily = nunito,
                                     color = colorResource(R.color.primaryGreen)
                                 )
                             }
@@ -1126,7 +1158,7 @@ fun MealsHighSugarTotal(
                                     text = "Calculate",
                                     fontSize = 22.sp,
                                     fontWeight = FontWeight.W600,
-                                    fontFamily = gothamRounded,
+                                    fontFamily = nunito,
                                     color = colorResource(R.color.primaryGreen)
                                 )
                             }

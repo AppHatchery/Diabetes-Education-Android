@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{data.title}"
-                    app:fontFamily="@font/gotham_rounded_bold"
+                    app:fontFamily="@font/nunito_bold"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     tools:text="My Sugar" />

@@ -69,7 +69,7 @@
                     android:maxLines="1"
                     android:text="@{quiz.description}"
                     android:textColor="@color/gray_200"
-                    app:fontFamily="@font/gotham_rounded"
+                    app:fontFamily="@font/nunito"
                     app:layout_constraintEnd_toEndOf="@+id/title"
                     app:layout_constraintStart_toStartOf="@+id/title"
                     app:layout_constraintTop_toBottomOf="@+id/title"
