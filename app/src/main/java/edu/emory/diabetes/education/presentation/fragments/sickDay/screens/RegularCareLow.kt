@@ -121,7 +121,7 @@ fun RegularCareLow(
             Spacer(modifier = Modifier.height(24.dp))
 
             Image(
-                painter = painterResource(R.drawable.im_normal_care),
+                painter = painterResource(R.drawable.im_sick_clock),
                 contentDescription = null,
                 modifier = Modifier
                     .height(236.dp)
@@ -193,6 +193,8 @@ fun RegularCareLow(
                     iconColor = colorResource(R.color.primaryBlue)
                 )
             }
+
+            Spacer(modifier = Modifier.height(30.dp))
 
 
         }

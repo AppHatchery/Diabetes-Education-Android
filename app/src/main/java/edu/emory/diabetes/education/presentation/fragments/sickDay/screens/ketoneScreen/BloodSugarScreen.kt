@@ -57,9 +57,9 @@ fun BloodSugarScreen(
     }
 
     val text = if(instrument == "ilet"){
-        "Is your child's blood sugar 180 mg/dL or higher?"
+        "Is your child's blood sugar higher than 180mg/dL?"
     }else{
-        "Is your child's blood sugar over 150 mg/dl or higher?"
+        "Is your child's blood sugar higher than 150mg/dL?"
     }
 
     Scaffold(
@@ -99,6 +99,7 @@ fun BloodSugarScreen(
             ) {
 
                 CustomWidthInactiveButton(
+                    modifier = Modifier.weight(1f),
                     onClick = {
                         questionAnswer = if (questionAnswer == "yes") null else "yes"
                         questionAnswer
@@ -112,6 +113,7 @@ fun BloodSugarScreen(
                 Spacer(modifier = Modifier.width(16.dp))
 
                 CustomWidthInactiveButton(
+                    modifier = Modifier.weight(1f),
                     onClick = {
                         questionAnswer = if (questionAnswer == "no") null else "no"
                         questionAnswer

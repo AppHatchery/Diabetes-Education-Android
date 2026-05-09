@@ -106,12 +106,14 @@ fun UrineKetone(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
+                val anySelected = selectedLevel != null
                 ketoneData.forEach { ketone ->
                     KetoneValueCard(
                         value = ketone.value,
                         label = ketone.label,
                         color = ketone.color,
                         isSelected = selectedLevel == ketone.value,
+                        anySelected = anySelected,
                         onClick = { onLevelSelected(ketone.value) },
                         modifier = Modifier.weight(1f)
                     )
@@ -127,9 +129,15 @@ fun KetoneValueCard(
     label: String,
     color: Color,
     isSelected: Boolean,
+    anySelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val backgroundColor = if (!anySelected || isSelected) {
+        color
+    } else {
+        color.copy(alpha = 0.3f)
+    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.padding(horizontal = 2.dp)
@@ -138,6 +146,7 @@ fun KetoneValueCard(
             modifier = Modifier
                 .size(50.dp)
                 .clip(RoundedCornerShape(4.dp))
+                .background(backgroundColor)
                 .background(
                     if (isSelected) color else color.copy(alpha = 0.3f)
                 )
@@ -171,16 +180,19 @@ fun BloodKetoneValueCard(
     image: Int,
     imageDisabled: Int,
     isSelected: Boolean,
+    anySelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val showActive = !anySelected || isSelected
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.padding(horizontal = 2.dp)
     ) {
         Image(
             painter = painterResource(
-                if(isSelected) image else imageDisabled
+                if (showActive) image else imageDisabled
             ),
             contentDescription = null,
             modifier = Modifier
@@ -260,12 +272,14 @@ fun BloodKetone(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
+                val anySelected = selectedLevel != null
                 bloodKetoneData.forEach { ketone ->
                     BloodKetoneValueCard(
                         label = ketone.label,
                         image = ketone.image,
                         imageDisabled = ketone.imageDisabled,
                         isSelected = selectedLevel == ketone.label,
+                        anySelected = anySelected,
                         onClick = { onLevelSelected(ketone.label) },
                         modifier = Modifier.weight(1f)
                     )

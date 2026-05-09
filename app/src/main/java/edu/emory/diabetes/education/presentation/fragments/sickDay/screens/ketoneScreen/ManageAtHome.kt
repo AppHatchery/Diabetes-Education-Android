@@ -263,11 +263,10 @@ fun InsulinPumpHighContent(){
 
         InsulinPumpText(
             text = buildAnnotatedString {
-                append("Confirm your ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
-                    append("pump site is securely connected")
+                    append("Remove")
                 }
-                append(" and not leaking.")
+                append(" the pump site.")
             },
             image = R.drawable.im_insulin_pump
         )
@@ -397,6 +396,6 @@ fun ManageAtHomePreview(){
         navController = navController,
         onExitToMain = {},
         instrument = "insulin_pump",
-        isLow = true
+        isLow = false
     )
 }

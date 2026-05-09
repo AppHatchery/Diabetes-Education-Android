@@ -67,7 +67,7 @@ fun ILetBloodSugarScreen(
                 .background(Color.White)
         ) {
             Text(
-                text = "Is your child's blood sugar 180 mg/dl or higher?",
+                text = "Is your child's blood sugar higher than 180mg/dL?",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = nunito,
@@ -79,6 +79,7 @@ fun ILetBloodSugarScreen(
             ) {
 
                 CustomWidthInactiveButton(
+                    modifier = Modifier.weight(1f),
                     onClick = {
                         questionAnswer = if (questionAnswer == "yes") {
                             null
@@ -93,6 +94,7 @@ fun ILetBloodSugarScreen(
                 Spacer(modifier = Modifier.width(16.dp))
 
                 CustomWidthInactiveButton(
+                    modifier = Modifier.weight(1f),
                     onClick = {
                         questionAnswer = if (questionAnswer == "no") {
                             null

@@ -96,7 +96,7 @@ fun ChapterContentScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .background(Color.White)
-                .padding(horizontal = 20.dp)
+                //.padding(horizontal = 20.dp)
         ) {
             // ── WebView ──
             Box(modifier = Modifier.weight(1f)) {
@@ -145,7 +145,7 @@ private fun WebViewContent(
                     )
                     settings.javaScriptEnabled = true
                     settings.domStorageEnabled = true
-                    setPadding(32, 0, 32, 0)
+                    setPadding(0, 0, 0, 20)
 
                     viewTreeObserver.addOnScrollChangedListener {
                         if (contentHeight > 0 && scrollY > 0) {

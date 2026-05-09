@@ -45,6 +45,9 @@ object CourseDataProvider {
                 icon = R.drawable.im_what_is_diabetes,
                 title = "What is Diabetes?",
                 description = "Types, causes, and symptoms of diabetes",
+                chapterEndText = "and learned about its types, causes, and symptoms.",
+                chapterEndTitle = "Woohoo! You did it!",
+                chapterEndImage = R.drawable.im_basics,
                 pages = listOf(
                     ChapterPage(pageUrl = "1_1_1_whatisdiabetes", title = "What is Diabetes?"),
                     ChapterPage(pageUrl = "1_1_2_type_1_diabetes", title = "Type 1 diabetes"),
@@ -58,6 +61,9 @@ object CourseDataProvider {
                 icon = R.drawable.im_basics,
                 title = "Blood Sugar Checks",
                 description = "Key times to check blood sugar and how to do it properly.",
+                chapterEndText = "and learned when and how to check blood sugar.",
+                chapterEndTitle = "Awesome work!",
+                chapterEndImage = R.drawable.im_what_is_diabetes,
                 pages = listOf(
                     ChapterPage(pageUrl = "1_2_1_when_to_check_bg", title = "When to Check Blood Sugar"),
                     ChapterPage(pageUrl = "1_2_2_steps_to_check_bg", title = "Steps to Check Blood Sugar"),
@@ -68,6 +74,9 @@ object CourseDataProvider {
                 icon = R.drawable.im_injection,
                 title = "Types of Insulin",
                 description = "Insulin types, storage guidelines, and proper injection sites.",
+                chapterEndText = " and discovered how each type works and how to store them.",
+                chapterEndTitle = "Way to go!",
+                chapterEndImage = R.drawable.im_basics,
                 pages = listOf(
                     ChapterPage(pageUrl = "1_3_1_types_of_insulin", title = "Types of Insulin"),
                     ChapterPage(pageUrl = "1_3_2_storage_of_insulin", title = "Storage of Insulin"),
@@ -79,6 +88,9 @@ object CourseDataProvider {
                 icon = R.drawable.im_insulin_pump,
                 title = "Insulin Administration",
                 description = "Steps for insulin pen, syringe, and site rotation.",
+                chapterEndText = "and learned the right way to give insulin and rotate sites.",
+                chapterEndTitle = "Fantastic!",
+                chapterEndImage = R.drawable.im_insulin_pen_happy,
                 pages = listOf(
                     ChapterPage(pageUrl = "1_4_1_with_pen", title = "With Insulin Pen"),
                     ChapterPage(pageUrl = "1_4_2_with_syringe_and_vial", title = "With Syringe and Vial"),
@@ -90,6 +102,9 @@ object CourseDataProvider {
                 icon = R.drawable.im_urine_ketone,
                 title = "Check for Ketones",
                 description = "Symptoms, testing times, and steps to check ketones.",
+                chapterEndText = "and now know when to test and what your results mean.",
+                chapterEndTitle = "You did it!",
+                chapterEndImage = R.drawable.im_ketone_testing,
                 pages = listOf(
                     ChapterPage(pageUrl = "1_5_1_managing_ketones", title = "managing Ketones"),
                     ChapterPage(pageUrl = "1_5_2_steps_to_check_ketones", title = "Steps to Check Ketones"),
@@ -111,6 +126,9 @@ object CourseDataProvider {
                 icon = R.drawable.im_nutri,
                 title = "Nutritional Food Groups",
                 description = "Carbohydrates, fats, and proteins and their effects on blood sugar.",
+                chapterEndText = "and learned how carbs, fats, and proteins affect blood sugar.",
+                chapterEndTitle = "Woohoo! You did it!",
+                chapterEndImage = R.drawable.im_nutri,
                 pages = listOf(
                     ChapterPage(pageUrl = "2_1_1_nutritonal_food_groups", title = "Nutritional Food Groups"),
                 )
@@ -120,6 +138,9 @@ object CourseDataProvider {
                 icon = R.drawable.im_what_is_diabetes,
                 title = "How to Count Carbohydrates",
                 description = "Methods for counting carbs using food lists and nutrition labels.",
+                chapterEndText = "and learned to use food lists and labels to track carbs.",
+                chapterEndTitle = "Awesome work!",
+                chapterEndImage = R.drawable.im_hungry,
                 pages = listOf(
                     ChapterPage(pageUrl = "2_2_1_how_to_count_carbs", title = "How to Count Carbohydrates"),
                 )
@@ -129,6 +150,9 @@ object CourseDataProvider {
                 icon = R.drawable.im_injection,
                 title = "How to Calculate Insulin Dosages",
                 description = "Long-acting doses and rapid-acting for meals and highs.",
+                chapterEndText = "and learned to balance long-acting and rapid-acting insulin.",
+                chapterEndTitle = "Great job!",
+                chapterEndImage = R.drawable.im_nutri_carbs,
                 pages = listOf(
                     ChapterPage(pageUrl = "2_3_1_how_to_calculate_insulin_dosages", title = "How to calculate Insulin Dosages"),
                     ChapterPage(pageUrl = "2_3_2_how_to_calculate_insulin_dosages", title = "How to Calculate Insulin Dosages"),
@@ -151,6 +175,9 @@ object CourseDataProvider {
                 icon = R.drawable.im_dka,
                 title = "Managing Low Blood Sugar",
                 description = "Symptoms, step-by-step treatment, and glucagon use.",
+                chapterEndText = "and learned symptoms and how to treat low blood sugar.",
+                chapterEndTitle = "Woohoo! You did it!",
+                chapterEndImage = R.drawable.im_nutri,
                 pages = listOf(
                     ChapterPage(pageUrl = "3_1_1_managing_low_blood_sugar", title = "Managing Low Blood Sugar"),
                     ChapterPage(pageUrl = "3_1_2_managing_low_blood_sugar", title = "Managing Low Blood Sugar"),
@@ -162,6 +189,9 @@ object CourseDataProvider {
                 icon = R.drawable.im_call_doc,
                 title = "When to Call the Doctor",
                 description = "Situations for urgent or routine doctor contact.",
+                chapterEndImage = R.drawable.im_normal_call,
+                chapterEndText = "",
+                chapterEndTitle = "Great job!",
                 pages = listOf(
                     ChapterPage(pageUrl = "3_2_1_when_to_call_a_doctor", title = "When to Call the Doctor"),
                 )

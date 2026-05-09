@@ -182,6 +182,7 @@ fun KetoneScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 CardWithImageCustomSize(
+                    modifier = Modifier.weight(1f),
                     cardText = "Urine Ketone Level",
                     cardOnclick = {
                         selectedMeasure = if (selectedMeasure == "urine_ketone") null else "urine_ketone"
@@ -198,6 +199,7 @@ fun KetoneScreen(
                 Spacer(modifier = Modifier.width(16.dp))
 
                 CardWithImageCustomSize(
+                    modifier = Modifier.weight(1f),
                     cardText = "Blood Ketone Level",
                     cardOnclick = {
                         selectedMeasure = if (selectedMeasure == "blood_ketone") null else "blood_ketone"
@@ -214,6 +216,7 @@ fun KetoneScreen(
             }
 
             Spacer(modifier = Modifier.height(40.dp))
+
 
 
             if (selectedMeasure != null) {
@@ -235,6 +238,7 @@ fun KetoneScreen(
                             viewModel.saveAnswer(FlowAnswerKeys.KETONE_LEVEL, level)
                         }
                     )
+                    Spacer(modifier = Modifier.height(90.dp))
                 } else {
                     BloodKetone(
                         selectedLevel = selectedUrineLevel,
@@ -243,10 +247,11 @@ fun KetoneScreen(
                             viewModel.saveAnswer(FlowAnswerKeys.KETONE_LEVEL, level)
                         }
                     )
+                    Spacer(modifier = Modifier.height(90.dp))
                 }
+            }else{
+                Spacer(modifier = Modifier.height(300.dp))
             }
-
-            Spacer(modifier = Modifier.weight(1f))
 
             val isNextEnabled = selectedUrineLevel != null && selectedMeasure != null
 

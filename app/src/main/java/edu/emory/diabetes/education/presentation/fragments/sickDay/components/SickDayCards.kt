@@ -137,7 +137,6 @@ fun CardWithoutImage(
         }
     }
 }
-
 @Composable
 fun CardWithImageCustomSize(
     modifier: Modifier = Modifier,
@@ -145,63 +144,69 @@ fun CardWithImageCustomSize(
     imageResId: Int,
     cardOnclick: () -> Unit,
     isSelected: Boolean = false
-){
+) {
     Card(
         modifier = modifier
-            .clickable{cardOnclick()}
-            .width(173.dp)
+            .clickable { cardOnclick() }
             .height(148.dp),
-        colors = CardDefaults.cardColors(containerColor =
-            if(isSelected){
+        colors = CardDefaults.cardColors(
+            containerColor = if (isSelected) {
                 colorResource(R.color.primaryBlue)
-            } else{
+            } else {
                 Color.Transparent
             }
         ),
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(width = 1.dp, color = colorResource(R.color.blue_300))
-    ){
-        Box(
-            modifier = modifier
+    ) {
+        Column(
+            modifier = Modifier
                 .fillMaxSize()
-        ){
+                .padding(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Image area at top
             Box(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 10.dp, start = 10.dp, end = 10.dp)
                     .background(
                         colorResource(R.color.gray_500),
                         shape = RoundedCornerShape(8.dp)
-                    )
-                    .align(Alignment.TopCenter)
-            ){
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
                 Image(
                     painter = painterResource(imageResId),
                     contentDescription = null,
-                    modifier = modifier
-                        .size(80.dp)
-                        .align(Alignment.Center)
+                    modifier = Modifier.size(70.dp)
                 )
             }
 
-            Text(
-                text = cardText,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = nunito,
-                color =
-                    if (isSelected){
+            // Text fills remaining vertical space and centers itself
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = cardText,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = nunito,
+                    textAlign = TextAlign.Center,
+                    color = if (isSelected) {
                         Color.White
-                    }else{
-                       colorResource(R.color.primaryBlue)
+                    } else {
+                        colorResource(R.color.primaryBlue)
                     },
-                modifier = modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 20.dp)
-            )
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
     }
 }
+
 
 @Composable
 fun TextWithButtons(
@@ -222,6 +227,7 @@ fun TextWithButtons(
             fontFamily = nunito,
             color = colorResource(R.color.primaryBlue)
         )
+        Spacer(modifier = Modifier.height(12.dp))
 
         Row(
             modifier = modifier.fillMaxWidth(),
@@ -229,13 +235,16 @@ fun TextWithButtons(
             CustomWidthInactiveButton(
                 onClick = buttonAonClick,
                 buttonText = "Yes",
-                modifier = modifier.padding(end = 16.dp),
+                modifier = Modifier.weight(1f),
                 isSelected = isYesSelected
             )
+
+            Spacer(modifier = Modifier.width(16.dp))
 
             CustomWidthInactiveButton(
                 onClick = buttonBonClick,
                 buttonText = "No",
+                modifier = Modifier.weight(1f),
                 isSelected = isNoSelected
             )
         }

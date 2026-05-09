@@ -154,139 +154,141 @@ fun HandBook(
     )
 
 }
-
-
 @Composable
 fun InsulinCalculatorCard(
     onMainClick: () -> Unit,
     onMealsClick: () -> Unit,
     onHighSugarClick: () -> Unit,
-){
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp)),
-        colors = CardDefaults.cardColors(containerColor =  Color(0xFF015DA4)),
-    ){
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 20.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+    ) {
+        Box(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Row (
-                modifier = Modifier.fillMaxWidth(),
-            ){
-                Spacer(modifier = Modifier.width(20.dp))
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(top = 20.dp),
-                ) {
-                    Text(
-                        text = "Insulin Calculator",
-                        color = Color.White,
-                        //color = colorResource(R.color.blue_200),
-                        fontSize = 16.sp,
-                        fontFamily = nunito,
-                        fontWeight = FontWeight.W400
-                    )
+            // Background image fills the entire card
+            Image(
+                painter = painterResource(id = R.drawable.im_emergency_management),
+                contentDescription = null,
+                modifier = Modifier.matchParentSize(),
+                contentScale = ContentScale.Crop
+            )
 
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Text(
-                        text = "Calculate how much insulin you need for",
-                        color = Color.White,
-                        fontSize = 20.sp,
-                        fontFamily = nunito,
-                        fontWeight = FontWeight.Bold,
-                        lineHeight = 32.sp
-                    )
-                }
-
-                Image(
-                    painter = painterResource(id = R.drawable.im_home_calculator),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(150.dp)
-                        .align(Alignment.CenterVertically)
-                )
-            }
-            // Spacer(modifier = Modifier.height(24.dp))
-
+            // Existing content sits on top
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
+                    .padding(vertical = 10.dp),
             ) {
-                Button(
-                    onClick = onMainClick,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White
-                    ),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Text(
-                        text = "Meals + High Sugar",
-                        color = Color(0xFF1976D2),
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = nunito,
-                        fontSize = 16.sp,
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    OutlinedButton(
-                        onClick = onMealsClick,
+                    Spacer(modifier = Modifier.width(20.dp))
+                    Column(
                         modifier = Modifier
                             .weight(1f)
-                            .height(52.dp),
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            contentColor = Color.White
-                        ),
-                        border = BorderStroke(1.dp, Color.White),
-                        shape = RoundedCornerShape(12.dp)
+                            .padding(top = 20.dp),
                     ) {
+                        Spacer(modifier = Modifier.height(20.dp))
                         Text(
-                            text = "Meals",
+                            text = "Insulin Calculator",
+                            color = Color.White,
                             fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold,
                             fontFamily = nunito,
-                            modifier = Modifier.padding(vertical = 8.dp)
+                            fontWeight = FontWeight.Bold
                         )
                     }
 
-                    OutlinedButton(
-                        onClick = onHighSugarClick,
+                    Image(
+                        painter = painterResource(id = R.drawable.im_home_calculator),
+                        contentDescription = null,
                         modifier = Modifier
-                            .weight(1f)
+                            .size(150.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                ) {
+                    Button(
+                        onClick = onMainClick,
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .height(52.dp),
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            contentColor = Color.White
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White
                         ),
-                        border = BorderStroke(1.dp, Color.White),
                         shape = RoundedCornerShape(12.dp)
                     ) {
                         Text(
-                            text = "High Sugar",
-                            fontFamily = nunito,
-                            fontSize = 20.sp,
+                            text = "Meals + Correction",
+                            color = Color(0xFF1976D2),
                             fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(vertical = 5.dp)
+                            fontFamily = nunito,
+                            textAlign = TextAlign.Center,
+                            fontSize = 20.sp,
+                            modifier = Modifier.fillMaxWidth()
                         )
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        OutlinedButton(
+                            onClick = onMealsClick,
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(52.dp),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = Color.White
+                            ),
+                            border = BorderStroke(1.dp, Color.White),
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Text(
+                                text = "Meals",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = nunito,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+
+                        OutlinedButton(
+                            onClick = onHighSugarClick,
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(52.dp),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = Color.White
+                            ),
+                            border = BorderStroke(1.dp, Color.White),
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Text(
+                                text = "Correction",
+                                fontFamily = nunito,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
                     }
                 }
             }
         }
-
     }
-
 }
 
 @Composable

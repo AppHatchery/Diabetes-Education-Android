@@ -99,6 +99,7 @@ fun DurationQuestionScreen(
             ){
 
                 CustomWidthInactiveButton(
+                    modifier = Modifier.weight(1f),
                     onClick = {
                         firstQuestionAnswer = if (firstQuestionAnswer == "yes") null else "yes"
                         viewModel.saveAnswer(FlowAnswerKeys.DURATION_Q1, firstQuestionAnswer ?: "")
@@ -113,6 +114,7 @@ fun DurationQuestionScreen(
                 Spacer(modifier = Modifier.width(16.dp))
 
                 CustomWidthInactiveButton(
+                    modifier = Modifier.weight(1f),
                     onClick = {
                         firstQuestionAnswer = if (firstQuestionAnswer == "no") null else "no"
                         firstQuestionAnswer
@@ -173,12 +175,16 @@ fun DurationQuestionScreen(
 
             NextButton(
                 onClick = {
-                    val isOver300 = firstQuestionAnswer == "yes" && isILet
+                    val isOver300 = secondQuestionAnswer == "yes" && isILet
                     val isOver300Other = firstQuestionAnswer == "yes"
                     viewModel.saveAnswer(FlowAnswerKeys.OVER_300, isOver300.toString())
                     viewModel.saveAnswer(FlowAnswerKeys.OVER_300_OTHER, isOver300Other.toString())
 
-                    val finalAnswer = firstQuestionAnswer
+                    val finalAnswer = if (firstQuestionAnswer == "yes") {
+                        secondQuestionAnswer
+                    } else {
+                        firstQuestionAnswer
+                    }
 
                     val answerSet = finalAnswer?.let { setOf(it) } ?: emptySet()
                     val nextRoute = viewModel.determineNextRoute(questionId, answerSet)

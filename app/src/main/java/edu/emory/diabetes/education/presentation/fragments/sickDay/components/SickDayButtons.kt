@@ -134,7 +134,7 @@ fun CustomWidthInactiveButton(
         },
         shape = RoundedCornerShape(12.dp),
         border = BorderStroke(width = 1.dp, color = colorResource(R.color.blue_300)),
-        modifier = modifier.width(173.dp)
+        modifier = modifier
     ) {
 
         Row(
@@ -146,6 +146,7 @@ fun CustomWidthInactiveButton(
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = nunito,
+                textAlign = TextAlign.Center,
                 modifier = modifier.padding(end = 2.dp),
                 color = if (isSelected){
                     Color.White
