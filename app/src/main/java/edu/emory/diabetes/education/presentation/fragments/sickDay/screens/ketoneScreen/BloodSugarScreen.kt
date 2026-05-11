@@ -157,11 +157,9 @@ fun BloodSugarScreen(
                             }
                         }
                     }
-
                 },
                 isSelected = isNextEnabled
             )
-
             Spacer(modifier = Modifier.height(20.dp))
         }
     }
