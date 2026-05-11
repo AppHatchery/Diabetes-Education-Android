@@ -63,7 +63,7 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.com
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.targetBSInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
-import edu.emory.diabetes.education.presentation.theme.nunitor
+import edu.emory.diabetes.education.presentation.theme.nunito
 import sdk.pendo.io.Pendo
 
 @OptIn(ExperimentalLayoutApi::class)
