@@ -24,7 +24,7 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.ClassRecapCard
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.NewResourcesTopBar
 import edu.emory.diabetes.education.presentation.fragments.newResources.nav.NewResourcesScreen
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @Composable
 fun NewResourcesMain(
@@ -52,7 +52,7 @@ fun NewResourcesMain(
             Text(
                 text = "Beyond Basics Class Recap",
                 fontSize = 20.sp,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 color = colorResource(R.color.primaryBlue),
                 fontWeight = FontWeight.W700
             )

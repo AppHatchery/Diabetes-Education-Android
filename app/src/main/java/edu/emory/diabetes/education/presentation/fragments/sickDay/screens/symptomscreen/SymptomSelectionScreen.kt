@@ -1,6 +1,5 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +22,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -41,14 +39,13 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKey
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CardWithImage
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CardWithoutImage
-import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomWidthInactiveButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.FullWidthInactiveButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.INSTRUMENT_TYPE
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.TextWithButtons
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -135,8 +132,8 @@ fun SymptomSelectionScreen(
             Text(
                 text = category.title,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Medium,
-                fontFamily = gothamRounded,
+                fontWeight = FontWeight.Bold,
+                fontFamily = nunito,
                 color = colorResource(R.color.primaryBlue),
             )
 

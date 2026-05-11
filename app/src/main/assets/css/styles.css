@@ -1,18 +1,7 @@
-@font-face {
-    font-family: GothamRoundedBook;
-    src: url("../font/gotham-rounded/GothamRoundedBook.ttf");
-
-}
-
-@font-face{
-     font-family: AvenirRoman;
-             src: url("../font/AvenirRoman.otf");
-}
-
 h3 {
-    font-family: GothamRoundedBook, -apple-system,
+    font-family: Arial, -apple-system,
     BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji" !important;
 }
 

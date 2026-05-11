@@ -36,7 +36,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Cu
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @Composable
 fun BloodSugarScreen(
@@ -57,9 +57,9 @@ fun BloodSugarScreen(
     }
 
     val text = if(instrument == "ilet"){
-        "Is your child's blood sugar 180 mg/dL or higher?"
+        "Is your child's blood sugar higher than 180mg/dL?"
     }else{
-        "Is your child's blood sugar over 150 mg/dl or higher?"
+        "Is your child's blood sugar higher than 150mg/dL?"
     }
 
     Scaffold(
@@ -89,8 +89,8 @@ fun BloodSugarScreen(
             Text(
                 text = text,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Medium,
-                fontFamily = gothamRounded,
+                fontWeight = FontWeight.Bold,
+                fontFamily = nunito,
                 color = colorResource(R.color.primaryBlue),
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -99,6 +99,7 @@ fun BloodSugarScreen(
             ) {
 
                 CustomWidthInactiveButton(
+                    modifier = Modifier.weight(1f),
                     onClick = {
                         questionAnswer = if (questionAnswer == "yes") null else "yes"
                         questionAnswer
@@ -112,6 +113,7 @@ fun BloodSugarScreen(
                 Spacer(modifier = Modifier.width(16.dp))
 
                 CustomWidthInactiveButton(
+                    modifier = Modifier.weight(1f),
                     onClick = {
                         questionAnswer = if (questionAnswer == "no") null else "no"
                         questionAnswer
@@ -155,11 +157,9 @@ fun BloodSugarScreen(
                             }
                         }
                     }
-
                 },
                 isSelected = isNextEnabled
             )
-
             Spacer(modifier = Modifier.height(20.dp))
         }
     }

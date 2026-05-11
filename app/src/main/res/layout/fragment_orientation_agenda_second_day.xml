@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:fontFamily="@font/gotham_rounded"
+            android:fontFamily="@font/nunito"
             android:text="Second day"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintStart_toEndOf="@+id/view"
@@ -70,7 +70,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:fontFamily="@font/gotham_rounded"
+                    android:fontFamily="@font/nunito"
                     android:text="Morning"
                     android:textColor="@color/yellow_500"
                     app:layout_constraintBottom_toBottomOf="@+id/appCompatImageView3"
@@ -96,7 +96,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/gotham_rounded"
+                        android:fontFamily="@font/nunito"
                         android:text="• Section 3: Diabetes self-management" />
 
 
@@ -104,16 +104,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:fontFamily="@font/avenir_roman"
+                        android:fontFamily="arial"
                         android:text="@string/fa_orientation_agenda_second_day_morning"
                         android:textColor="@color/gray_200"
-                        app:fontFamily="@font/gotham_rounded" />
+                        app:fontFamily="@font/nunito" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:fontFamily="@font/gotham_rounded"
+                        android:fontFamily="@font/nunito"
                         android:text="• Discharging Education" />
 
 

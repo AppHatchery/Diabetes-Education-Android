@@ -96,7 +96,7 @@ fun ChapterContentScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
                 .background(Color.White)
-                .padding(horizontal = 20.dp)
+                //.padding(horizontal = 20.dp)
         ) {
             // ── WebView ──
             Box(modifier = Modifier.weight(1f)) {
@@ -129,19 +129,23 @@ private fun WebViewContent(
     val context = LocalContext.current
     var isWebViewReady by remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.White)
+    ) {
 
         AndroidView(
             factory = { ctx ->
                 WebView(ctx).apply {
                     setBackgroundColor(android.graphics.Color.WHITE)
+                    visibility = android.view.View.INVISIBLE
                     layoutParams = ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT
                     )
                     settings.javaScriptEnabled = true
                     settings.domStorageEnabled = true
-                    setPadding(32, 0, 32, 0)
+                    setPadding(0, 0, 0, 20)
 
                     viewTreeObserver.addOnScrollChangedListener {
                         if (contentHeight > 0 && scrollY > 0) {
@@ -155,8 +159,13 @@ private fun WebViewContent(
                     webViewClient = object : WebViewClient() {
                         override fun onPageFinished(view: WebView?, url: String?) {
                             super.onPageFinished(view, url)
-                            isWebViewReady = true
-                            onScrollChanged(0)
+                            view?.postDelayed({
+                                view.visibility = android.view.View.VISIBLE
+                                isWebViewReady = true
+                                onScrollChanged(0)
+                            }, 80)
+//                            isWebViewReady = true
+//                            onScrollChanged(0)
                         }
 
                         override fun shouldOverrideUrlLoading(
@@ -192,6 +201,7 @@ private fun WebViewContent(
             },
             update = { webView ->
                 if (webView.url != pageUrl) {
+                    webView.visibility = android.view.View.INVISIBLE
                     webView.loadUrl(pageUrl)
                 }
             },

@@ -1,6 +1,5 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -51,7 +50,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Ke
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -146,7 +145,7 @@ fun KetoneScreen(
                 text = "Check your child's ketone level",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -162,7 +161,7 @@ fun KetoneScreen(
                         textDecoration = TextDecoration.Underline
                     ),
                     fontSize = 18.sp,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     color = colorResource(R.color.primaryBlue)
                 )
             }
@@ -173,7 +172,7 @@ fun KetoneScreen(
                 text = "How did your child measure ketones?",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -183,6 +182,7 @@ fun KetoneScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 CardWithImageCustomSize(
+                    modifier = Modifier.weight(1f),
                     cardText = "Urine Ketone Level",
                     cardOnclick = {
                         selectedMeasure = if (selectedMeasure == "urine_ketone") null else "urine_ketone"
@@ -199,6 +199,7 @@ fun KetoneScreen(
                 Spacer(modifier = Modifier.width(16.dp))
 
                 CardWithImageCustomSize(
+                    modifier = Modifier.weight(1f),
                     cardText = "Blood Ketone Level",
                     cardOnclick = {
                         selectedMeasure = if (selectedMeasure == "blood_ketone") null else "blood_ketone"
@@ -217,12 +218,13 @@ fun KetoneScreen(
             Spacer(modifier = Modifier.height(40.dp))
 
 
+
             if (selectedMeasure != null) {
                 Text(
                     text = "What are the ketone results?",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     color = colorResource(R.color.primaryBlue),
                 )
 
@@ -236,6 +238,7 @@ fun KetoneScreen(
                             viewModel.saveAnswer(FlowAnswerKeys.KETONE_LEVEL, level)
                         }
                     )
+                    Spacer(modifier = Modifier.height(90.dp))
                 } else {
                     BloodKetone(
                         selectedLevel = selectedUrineLevel,
@@ -244,10 +247,11 @@ fun KetoneScreen(
                             viewModel.saveAnswer(FlowAnswerKeys.KETONE_LEVEL, level)
                         }
                     )
+                    Spacer(modifier = Modifier.height(90.dp))
                 }
+            }else{
+                Spacer(modifier = Modifier.height(300.dp))
             }
-
-            Spacer(modifier = Modifier.weight(1f))
 
             val isNextEnabled = selectedUrineLevel != null && selectedMeasure != null
 

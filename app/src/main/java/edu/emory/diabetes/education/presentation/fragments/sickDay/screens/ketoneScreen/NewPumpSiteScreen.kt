@@ -3,7 +3,6 @@ package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.keto
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,7 +33,7 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.InsulinPumpText
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @Composable
 fun NewPumpSiteScreen(
@@ -68,7 +67,7 @@ fun NewPumpSiteScreen(
                 text = "Continue regular diabetes care",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 color = colorResource(R.color.primaryBlue),
             )
 

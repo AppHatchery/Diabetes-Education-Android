@@ -13,22 +13,15 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.ime
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -50,9 +43,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -68,13 +59,11 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.com
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.ResultCard
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.UnderlinedNumberField
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.carbRatioInfo
-import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.infoText
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.insulinForFood
-import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.insulinForHBS
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.totalCarbsInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 import sdk.pendo.io.Pendo
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -207,8 +196,8 @@ fun MealCalculator(
                             text = "Insulin for Food",
                             fontSize = 20.sp,
                             color = colorResource(R.color.secondary_ocean_blue),
-                            fontWeight = FontWeight.W700,
-                            fontFamily = gothamRounded,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = nunito,
                         )
                     }
 
@@ -258,7 +247,7 @@ fun MealCalculator(
                             text = "/",
                             fontSize = 48.sp,
                             fontWeight = FontWeight.W500,
-                            fontFamily = gothamRounded,
+                            fontFamily = nunito,
                             color = Color.Black,
                             modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 18.dp)
                         )
@@ -350,7 +339,7 @@ fun MealCalculator(
                             text = "Calculate",
                             fontSize = 22.sp,
                             fontWeight = FontWeight.W600,
-                            fontFamily = gothamRounded,
+                            fontFamily = nunito,
                             color = colorResource(R.color.primaryGreen)
                         )
                     }

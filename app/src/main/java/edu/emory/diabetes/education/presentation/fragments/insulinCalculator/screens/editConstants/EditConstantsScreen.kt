@@ -50,7 +50,7 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.com
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.cFactorInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.carbRatioInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.targetBSInfo
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @Composable
 fun EditConstantsScreen(
@@ -178,7 +178,7 @@ fun EditConstantsScreen(
                     text = "Save",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.W600,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     color = Color.White
                 )
             }
@@ -193,7 +193,7 @@ fun EditConstantsScreen(
                     text = "Cancel",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.W700,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     color = colorResource(R.color.primaryGreen)
                 )
             }
@@ -221,7 +221,7 @@ private fun ConstantInputField(
                 text = label,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.W600,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 color = Color.Black
             )
             Spacer(modifier = Modifier.width(6.dp))
@@ -245,14 +245,14 @@ private fun ConstantInputField(
             textStyle = TextStyle(
                 fontSize = 20.sp,
                 color = Color.Black,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 fontWeight = FontWeight.W700
             ),
             placeholder = {
                 Text(
                     text = placeholder,
                     color = Color.LightGray,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     fontSize = 20.sp,
                 )
             },
@@ -263,7 +263,7 @@ private fun ConstantInputField(
                         fontSize = 20.sp,
                         color = Color.Black,
                         fontWeight = FontWeight.W700,
-                        fontFamily = gothamRounded,
+                        fontFamily = nunito,
                         modifier = Modifier.padding(end = 12.dp)
                     )
                 }

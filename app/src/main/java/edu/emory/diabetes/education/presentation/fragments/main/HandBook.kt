@@ -12,17 +12,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.add
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -55,7 +51,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -82,7 +78,7 @@ fun HandBook(
                         Text(
                             text = "Type U",
                             textAlign = TextAlign.Center,
-                            fontFamily = gothamRounded,
+                            fontFamily = nunito,
                             fontWeight = FontWeight.W500
                         )
                     }
@@ -158,133 +154,141 @@ fun HandBook(
     )
 
 }
-
-
 @Composable
 fun InsulinCalculatorCard(
     onMainClick: () -> Unit,
     onMealsClick: () -> Unit,
     onHighSugarClick: () -> Unit,
-){
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp)),
-        colors = CardDefaults.cardColors(containerColor =  Color(0xFF015DA4)),
-    ){
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 20.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+    ) {
+        Box(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Row (
-                modifier = Modifier.fillMaxWidth(),
-            ){
-                Spacer(modifier = Modifier.width(20.dp))
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(top = 20.dp),
-                ) {
-                    Text(
-                        text = "Insulin Calculator",
-                        color = Color.White,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.W400
-                    )
+            // Background image fills the entire card
+            Image(
+                painter = painterResource(id = R.drawable.im_emergency_management),
+                contentDescription = null,
+                modifier = Modifier.matchParentSize(),
+                contentScale = ContentScale.Crop
+            )
 
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Text(
-                        text = "Calculate how much insulin you need for",
-                        color = Color.White,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.W500,
-                        lineHeight = 32.sp
-                    )
-                }
-
-                Image(
-                    painter = painterResource(id = R.drawable.im_home_calculator),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(150.dp)
-                        .align(Alignment.CenterVertically)
-                )
-            }
-            // Spacer(modifier = Modifier.height(24.dp))
-
+            // Existing content sits on top
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
+                    .padding(vertical = 10.dp),
             ) {
-                Button(
-                    onClick = onMainClick,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White
-                    ),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Text(
-                        text = "Meals + High Sugar",
-                        color = Color(0xFF1976D2),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    OutlinedButton(
-                        onClick = onMealsClick,
+                    Spacer(modifier = Modifier.width(20.dp))
+                    Column(
                         modifier = Modifier
                             .weight(1f)
-                            .height(52.dp),
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            contentColor = Color.White
-                        ),
-                        border = BorderStroke(1.dp, Color.White),
-                        shape = RoundedCornerShape(12.dp)
+                            .padding(top = 20.dp),
                     ) {
+                        Spacer(modifier = Modifier.height(20.dp))
                         Text(
-                            text = "Meals",
+                            text = "Insulin Calculator",
+                            color = Color.White,
                             fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(vertical = 8.dp)
+                            fontFamily = nunito,
+                            fontWeight = FontWeight.Bold
                         )
                     }
 
-                    OutlinedButton(
-                        onClick = onHighSugarClick,
+                    Image(
+                        painter = painterResource(id = R.drawable.im_home_calculator),
+                        contentDescription = null,
                         modifier = Modifier
-                            .weight(1f)
+                            .size(150.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                ) {
+                    Button(
+                        onClick = onMainClick,
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .height(52.dp),
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            contentColor = Color.White
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White
                         ),
-                        border = BorderStroke(1.dp, Color.White),
                         shape = RoundedCornerShape(12.dp)
                     ) {
                         Text(
-                            text = "High Sugar",
-                            fontSize = 20.sp,
+                            text = "Meals + Correction",
+                            color = Color(0xFF1976D2),
                             fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(vertical = 5.dp)
+                            fontFamily = nunito,
+                            textAlign = TextAlign.Center,
+                            fontSize = 20.sp,
+                            modifier = Modifier.fillMaxWidth()
                         )
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        OutlinedButton(
+                            onClick = onMealsClick,
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(52.dp),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = Color.White
+                            ),
+                            border = BorderStroke(1.dp, Color.White),
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Text(
+                                text = "Meals",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = nunito,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+
+                        OutlinedButton(
+                            onClick = onHighSugarClick,
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(52.dp),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = Color.White
+                            ),
+                            border = BorderStroke(1.dp, Color.White),
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Text(
+                                text = "Correction",
+                                fontFamily = nunito,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
                     }
                 }
             }
         }
-
     }
-
 }
 
 @Composable
@@ -320,6 +324,7 @@ fun UrgentHealthCard(
                     text = "Unsure About an Urgent Health Concern?",
                     color = Color.White,
                     fontSize = 22.sp,
+                    fontFamily = nunito,
                     fontWeight = FontWeight.Bold,
                     lineHeight = 28.sp
                 )
@@ -329,6 +334,7 @@ fun UrgentHealthCard(
                 Text(
                     text = "Get guidance on what to do next",
                     color = Color.White.copy(alpha = 0.9f),
+                    fontFamily = nunito,
                     fontSize = 16.sp
                 )
 
@@ -348,6 +354,7 @@ fun UrgentHealthCard(
                         Text(
                             text = "Get Help",
                             color = Color(0xFFC62828),
+                            fontFamily = nunito,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp
                         )
@@ -401,12 +408,13 @@ fun EducationalResourcesSection(
                 Text(
                     text = "Educational Resources",
                     color = Color(0xFF1976D2),
+                    fontFamily = nunito,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
                 IconButton(onClick = onSeeAllClick) {
                     Icon(
-                        imageVector = Icons.Default.ArrowForward,
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                         contentDescription = "See all resources",
                         tint = Color(0xFF1976D2)
                     )
@@ -493,6 +501,7 @@ fun ResourceCard(
                     color = textColor,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
+                    fontFamily = nunito,
                     textAlign = TextAlign.Start,
                     modifier = Modifier
                         .padding(12.dp)

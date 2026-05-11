@@ -9,9 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,7 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @Composable
 fun CallDoctorScreen(
@@ -70,7 +67,7 @@ fun CallDoctorScreen(
                         text = "Call your",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        fontFamily = gothamRounded,
+                        fontFamily = nunito,
                         color = colorResource(R.color.primaryBlue),
                         textAlign = TextAlign.Center,
                         lineHeight = 32.sp
@@ -80,7 +77,7 @@ fun CallDoctorScreen(
                         text = "care team or doctor for",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        fontFamily = gothamRounded,
+                        fontFamily = nunito,
                         color = colorResource(R.color.primaryBlue),
                         textAlign = TextAlign.Center,
                         lineHeight = 32.sp
@@ -90,7 +87,7 @@ fun CallDoctorScreen(
                         text = "further instructions",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        fontFamily = gothamRounded,
+                        fontFamily = nunito,
                         color = colorResource(R.color.primaryBlue),
                         textAlign = TextAlign.Center,
                         lineHeight = 32.sp

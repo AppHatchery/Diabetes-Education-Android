@@ -36,6 +36,9 @@ data class Chapter(
     @DrawableRes val icon: Int,
     val title: String,
     val description: String,
+    val chapterEndText: String,
+    val chapterEndTitle: String,
+    @DrawableRes val chapterEndImage:  Int,
     val pages: List<ChapterPage>,
     val isCompleted: Boolean = false
 )

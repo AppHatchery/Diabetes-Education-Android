@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -49,7 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import edu.emory.diabetes.education.R
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @Composable
 fun UnderlinedNumberField(
@@ -123,7 +122,7 @@ fun UnderlinedNumberField(
                     text = label,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     textAlign = TextAlign.Center,
                     color = resolvedLabelColor
                 )
@@ -156,7 +155,7 @@ fun UnderlinedNumberField(
                         text = label,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
-                        fontFamily = gothamRounded,
+                        fontFamily = nunito,
                         textAlign = TextAlign.Center,
                         color = resolvedLabelColor,
                         modifier = Modifier.weight(1f, fill = false)
@@ -202,8 +201,8 @@ fun ResultCard(
             Text(
                 text = cardLabel,
                 fontSize = 20.sp,
-                fontWeight = FontWeight.W700,
-                fontFamily = gothamRounded,
+                fontWeight = FontWeight.Bold,
+                fontFamily = nunito,
                 color = colorResource(R.color.primaryBlue)
             )
             Spacer(modifier = Modifier.width(6.dp))
@@ -224,7 +223,7 @@ fun ResultCard(
             text = unitText,
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             color = unitTextColor
         )
     }
@@ -255,7 +254,7 @@ fun InfoDialog(
                     text = title,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.W700,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     color = colorResource(R.color.primaryGreen)
                 )
 
@@ -264,7 +263,7 @@ fun InfoDialog(
                 Text(
                     text = description,
                     fontSize = 16.sp,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     color = Color.Black,
                     lineHeight = 24.sp
                 )
@@ -285,7 +284,7 @@ fun InfoDialog(
                         text = "Close  ×",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.W600,
-                        fontFamily = gothamRounded,
+                        fontFamily = nunito,
                         color = Color.White
                     )
                 }
@@ -313,7 +312,7 @@ fun SuccessDialog(
                 text = "Success",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.W700,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 color = Color.Black,
                 textAlign = TextAlign.Center
             )
@@ -324,7 +323,7 @@ fun SuccessDialog(
                 text = "Constants saved successfully!",
                 fontSize = 15.sp,
                 fontWeight = FontWeight.W400,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 color = Color.Black,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 16.dp)
@@ -344,7 +343,7 @@ fun SuccessDialog(
                     text = "OK",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W400,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     color = Color(0xFF007AFF)
                 )
             }

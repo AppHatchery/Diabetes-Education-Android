@@ -1,8 +1,5 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens
 
-import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,24 +11,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -46,7 +36,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewMo
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.RedEmergencyButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 
 @Composable
@@ -88,7 +78,7 @@ fun EmergencyScreen(
                     text = "Seek Immediate\n Medical Attention",
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     textAlign = TextAlign.Center,
                     color = colorResource(R.color.secondary_fire_red_300),
                     lineHeight = 42.sp
@@ -158,7 +148,7 @@ fun EmergencyScreen(
                         text = "Go to the nearest",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        fontFamily = gothamRounded,
+                        fontFamily = nunito,
                         color = Color.Black,
                         textAlign = TextAlign.Center,
                         lineHeight = 32.sp
@@ -167,7 +157,7 @@ fun EmergencyScreen(
                         text = "Emergency Department",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        fontFamily = gothamRounded,
+                        fontFamily = nunito,
                         color = colorResource(R.color.secondary_fire_red_300),
                         textAlign = TextAlign.Center,
                         lineHeight = 32.sp

@@ -34,7 +34,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Cu
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.BulletPoint
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.InsulinPumpText
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @Composable
 fun ManageAtHome(
@@ -132,7 +132,7 @@ fun InjectionContent(){
             text = "You can manage this at home by following these steps:",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             color = colorResource(R.color.primaryBlue),
         )
 
@@ -210,7 +210,7 @@ fun InjectionContent(){
             text = "Stay hydrated, drink fluids based on age",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
             color = colorResource(R.color.primaryBlue),
         )
 
@@ -263,11 +263,10 @@ fun InsulinPumpHighContent(){
 
         InsulinPumpText(
             text = buildAnnotatedString {
-                append("Confirm your ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
-                    append("pump site is securely connected")
+                    append("Remove")
                 }
-                append(" and not leaking.")
+                append(" the pump site.")
             },
             image = R.drawable.im_insulin_pump
         )
@@ -396,7 +395,7 @@ fun ManageAtHomePreview(){
     ManageAtHome(
         navController = navController,
         onExitToMain = {},
-        instrument = "injection",
+        instrument = "insulin_pump",
         isLow = false
     )
 }

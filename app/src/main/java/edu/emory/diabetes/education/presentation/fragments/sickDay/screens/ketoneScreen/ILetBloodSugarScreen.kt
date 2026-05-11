@@ -31,7 +31,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Cu
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 
 @Composable
 fun ILetBloodSugarScreen(
@@ -67,10 +67,10 @@ fun ILetBloodSugarScreen(
                 .background(Color.White)
         ) {
             Text(
-                text = "Is your child's blood sugar 180 mg/dl or higher?",
+                text = "Is your child's blood sugar higher than 180mg/dL?",
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Medium,
-                fontFamily = gothamRounded,
+                fontWeight = FontWeight.Bold,
+                fontFamily = nunito,
                 color = colorResource(R.color.primaryBlue),
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -79,6 +79,7 @@ fun ILetBloodSugarScreen(
             ) {
 
                 CustomWidthInactiveButton(
+                    modifier = Modifier.weight(1f),
                     onClick = {
                         questionAnswer = if (questionAnswer == "yes") {
                             null
@@ -93,6 +94,7 @@ fun ILetBloodSugarScreen(
                 Spacer(modifier = Modifier.width(16.dp))
 
                 CustomWidthInactiveButton(
+                    modifier = Modifier.weight(1f),
                     onClick = {
                         questionAnswer = if (questionAnswer == "no") {
                             null

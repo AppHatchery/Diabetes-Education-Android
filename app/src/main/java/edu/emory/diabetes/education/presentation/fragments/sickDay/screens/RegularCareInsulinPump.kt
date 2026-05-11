@@ -20,7 +20,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,7 +45,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Ch
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 import sdk.pendo.io.Pendo
 
 @Composable
@@ -114,7 +113,7 @@ fun RegularCareInsulinPump(
                 text = "You can manage this at home by following these steps:",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -152,7 +151,7 @@ fun RegularCareInsulinPump(
                 text = "Stay hydrated, drink fluids based on age",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
                 color = colorResource(R.color.primaryBlue),
             )
 
@@ -161,7 +160,7 @@ fun RegularCareInsulinPump(
             Text(
                 text = "Example: A 2-year-old drinks 2oz per hour",
                 fontSize = 16.sp,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
             )
 
             Spacer(modifier = Modifier.height(5.dp))
@@ -231,7 +230,7 @@ fun RegularCareInsulinPump(
                     append("since your last ketone test?")
                 },
                 fontSize = 16.sp,
-                fontFamily = gothamRounded,
+                fontFamily = nunito,
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -277,7 +276,7 @@ fun InsulinPumpText(
         Text(
             text = text,
             fontSize = 16.sp,
-            fontFamily = gothamRounded,
+            fontFamily = nunito,
         )
     }
 }

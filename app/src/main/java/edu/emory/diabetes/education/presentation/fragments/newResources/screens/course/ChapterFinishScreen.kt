@@ -42,8 +42,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.NewResourcesTopBar
-import edu.emory.diabetes.education.presentation.theme.gothamRounded
+import edu.emory.diabetes.education.presentation.theme.nunito
 import androidx.compose.foundation.Canvas
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Path
 
 @Composable
@@ -55,10 +56,11 @@ fun ChapterFinishScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    val completedChapter = uiState.currentChapter
+    val completedChapter = remember { viewModel.uiState.value.currentChapter }
+    val isLastChapter = remember { viewModel.uiState.value.isLastChapter }
+
     val totalChapters = uiState.totalChapters
     val completedCount = uiState.completedChapterCount
-    val isLastChapter = uiState.isLastChapter
     val colors = uiState.course.colorScheme
 
     Scaffold(
@@ -90,10 +92,10 @@ fun ChapterFinishScreen(
                 Spacer(modifier = Modifier.height(118.dp))
 
                 Text(
-                    text = "Woohoo! You did it!",
+                    text = completedChapter.chapterEndTitle,
                     color = Color.White,
                     fontSize = 32.sp,
-                    fontFamily = gothamRounded,
+                    fontFamily = nunito,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
@@ -116,10 +118,12 @@ fun ChapterFinishScreen(
                                 withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = colorResource(R.color.primaryGreen))) {
                                     append(completedChapter.title)
                                 }
-                                append("\" and learned about its ${completedChapter.description.lowercase()}.")
+                                append(" ")
+                                append( completedChapter.chapterEndText)
                             },
                             fontSize = 16.sp,
                             textAlign = TextAlign.Center,
+                            fontFamily = nunito,
                             lineHeight = 20.sp,
                             color = Color.Black,
                             modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)
@@ -143,7 +147,7 @@ fun ChapterFinishScreen(
                     contentAlignment = Alignment.BottomCenter
                 ) {
                     Image(
-                        painter = painterResource(id = uiState.course.headerImage),
+                        painter = painterResource(id = completedChapter.chapterEndImage),
                         contentDescription = null,
                         modifier = Modifier.size(270.dp),
                         contentScale = ContentScale.Fit
