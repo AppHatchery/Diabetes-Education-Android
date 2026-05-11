@@ -44,8 +44,20 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.NewResourcesTopBar
 import edu.emory.diabetes.education.presentation.theme.nunito
 import androidx.compose.foundation.Canvas
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Path
+import kotlinx.coroutines.delay
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 
 @Composable
 fun ChapterFinishScreen(
@@ -56,12 +68,21 @@ fun ChapterFinishScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    var visibleStarCount by remember { mutableStateOf(0) }
+
     val completedChapter = remember { viewModel.uiState.value.currentChapter }
     val isLastChapter = remember { viewModel.uiState.value.isLastChapter }
 
     val totalChapters = uiState.totalChapters
     val completedCount = uiState.completedChapterCount
     val colors = uiState.course.colorScheme
+
+    LaunchedEffect(Unit) {
+        for (i in 1..completedCount) {
+            delay(300)
+            visibleStarCount = i
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -170,15 +191,44 @@ fun ChapterFinishScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         for (i in 0 until totalChapters) {
-                            Icon(
-                                painter = painterResource(
-                                    id = if (i < completedCount) R.drawable.ic_star_completed
-                                    else R.drawable.ic_star_not_completed
-                                ),
-                                contentDescription = null,
-                                tint = Color.Unspecified,
-                                modifier = Modifier.size(40.dp)
-                            )
+                            // Determine if this star should show as completed
+                            val isCompleted = i < completedCount
+                            val shouldShowCompleted = i < visibleStarCount
+
+                            Box(
+                                modifier = Modifier.size(40.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                // Always show the "not completed" star as the base
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_star_not_completed),
+                                    contentDescription = null,
+                                    tint = Color.Unspecified,
+                                    modifier = Modifier.size(40.dp)
+                                )
+
+                                // Overlay the "completed" star with animation
+                                if (isCompleted) {
+                                    androidx.compose.animation.AnimatedVisibility(
+                                        visible = shouldShowCompleted,
+                                        modifier = Modifier,
+                                        enter = scaleIn(
+                                            initialScale = 0f,
+                                            animationSpec = spring(
+                                                dampingRatio = Spring.DampingRatioMediumBouncy,
+                                                stiffness = Spring.StiffnessLow
+                                            )
+                                        ) + fadeIn()
+                                    ) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.ic_star_completed),
+                                            contentDescription = null,
+                                            tint = Color.Unspecified,
+                                            modifier = Modifier.size(40.dp)
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
 
