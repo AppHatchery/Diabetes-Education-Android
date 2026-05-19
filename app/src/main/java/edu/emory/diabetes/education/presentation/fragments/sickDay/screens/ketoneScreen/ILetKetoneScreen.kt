@@ -2,6 +2,7 @@ package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.keto
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -88,22 +91,21 @@ fun IletKetoneScreen(
     val savedType = viewModel.getAnswer(typeKey)
     val typeChanged = savedType != null && savedType != type
 
-    var selectedMeasure by remember {
-        mutableStateOf(
-            if (typeChanged) {
-                if (ketone == "urine_ketone") "urine_ketone" else "blood_ketone"
-            } else {
-                viewModel.getAnswer(FlowAnswerKeys.ILET_KETONE_MEASURE)
-                    ?: if (ketone == "urine_ketone") "urine_ketone" else "blood_ketone"
-            }
-        )
+
+    LaunchedEffect(typeChanged) {
+        if (typeChanged) {
+            viewModel.clearAnswer(FlowAnswerKeys.ILET_KETONE_MEASURE)
+            viewModel.clearAnswer(FlowAnswerKeys.ILET_KETONE_LEVEL)
+        }
+        viewModel.saveAnswer(typeKey, type)
     }
 
-    var selectedUrineLevel by remember {
-        mutableStateOf(
-            if (typeChanged) null
-            else viewModel.getAnswer(FlowAnswerKeys.ILET_KETONE_LEVEL)
-        )
+    var selectedMeasure by rememberSaveable {
+        mutableStateOf(if (ketone == "urine_ketone") "urine_ketone" else "blood_ketone")
+    }
+
+    var selectedUrineLevel by rememberSaveable {
+        mutableStateOf<String?>(null)
     }
 
     // Clear stale answers and stamp current type
@@ -155,6 +157,47 @@ fun IletKetoneScreen(
                 isCloseVisible = true,
                 onExitToMain = onExitToMain
             )
+        },
+        bottomBar = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White)
+                    .navigationBarsPadding()
+                    .padding(start = 16.dp, end = 16.dp)
+            ) {
+                val isNextEnabled = selectedUrineLevel != null && selectedMeasure != null
+                NextButton(
+                    onClick = {
+                        when(type){
+                            "lowKetone" -> {
+                                if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low"){
+                                    navController.navigate(SickDayScreen.RegularCare.route)
+                                }else if(selectedUrineLevel == "Moderate" || selectedUrineLevel == "5" || selectedUrineLevel == "15" || selectedUrineLevel == "40"){
+                                    navController.navigate("${SickDayScreen.ManageILet.route}/Moderate")
+                                }else{
+                                    navController.navigate("${SickDayScreen.ManageILet.route}/High")
+                                }
+                            }
+                            "moderateKetone" -> {
+                                if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low"){
+                                    navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/low")
+                                }else{
+                                    navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/medium")
+                                }
+                            }
+                            else -> {
+                                if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low"){
+                                    navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/low")
+                                }else{
+                                    navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/medium")
+                                }
+                            }
+                        }
+                    },
+                    isSelected = isNextEnabled
+                )
+            }
         },
         containerColor = Color.White
     ) { innerPadding ->
@@ -248,40 +291,6 @@ fun IletKetoneScreen(
             }
 
             Spacer(modifier = Modifier.weight(1f))
-
-            val isNextEnabled = selectedUrineLevel != null && selectedMeasure != null
-
-
-            NextButton(
-                onClick = {
-                    when(type){
-                        "lowKetone" -> {
-                            if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low"){
-                                navController.navigate(SickDayScreen.RegularCare.route)
-                            }else if(selectedUrineLevel == "Moderate" || selectedUrineLevel == "5" || selectedUrineLevel == "15" || selectedUrineLevel == "40"){
-                                navController.navigate("${SickDayScreen.ManageILet.route}/Moderate")
-                            }else{
-                                navController.navigate("${SickDayScreen.ManageILet.route}/High")
-                            }
-                        }
-                        "moderateKetone" -> {
-                            if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low"){
-                                navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/low")
-                            }else{
-                                navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/medium")
-                            }
-                        }
-                        else -> {
-                            if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low"){
-                                navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/low")
-                            }else{
-                                navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/medium")
-                            }
-                        }
-                    }
-                },
-                isSelected = isNextEnabled
-            )
 
             Spacer(modifier = Modifier.height(20.dp))
         }

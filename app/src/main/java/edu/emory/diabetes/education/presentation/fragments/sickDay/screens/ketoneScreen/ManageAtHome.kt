@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -67,6 +68,7 @@ fun ManageAtHome(
                 .padding(horizontal = 20.dp)
                 .background(Color.White)
                 .verticalScroll(rememberScrollState())
+                .navigationBarsPadding()
         ) {
 
             if (instrument == "insulin_pump" && isLow) {
@@ -96,6 +98,8 @@ fun ManageAtHome(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 AfterCorrectionCard()
+
+                Spacer(modifier = Modifier.height(20.dp))
             }else{
                 InjectionContent()
 
@@ -103,7 +107,7 @@ fun ManageAtHome(
 
                 AfterCorrectionCard()
 
-                Spacer(modifier = Modifier.height(50.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Column(
                     modifier = Modifier.fillMaxWidth(),
@@ -115,6 +119,7 @@ fun ManageAtHome(
                         buttonTextColor = colorResource(R.color.primaryGreen),
                     )
                 }
+                Spacer(modifier = Modifier.height(30.dp))
             }
 
             Spacer(modifier = Modifier.height(23.dp))
@@ -354,6 +359,7 @@ fun InsulinPumpContent(){
         Text(
             text = "You can manage this at home by following these steps:",
             fontSize = 18.sp,
+            fontFamily = nunito,
             fontWeight = FontWeight.W500,
             color = colorResource(R.color.primaryBlue),
         )
@@ -396,6 +402,6 @@ fun ManageAtHomePreview(){
         navController = navController,
         onExitToMain = {},
         instrument = "insulin_pump",
-        isLow = false
+        isLow = true
     )
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -108,6 +109,7 @@ fun RegularCareInsulinPump(
                 .padding(horizontal = 20.dp)
                 .background(Color.White)
                 .verticalScroll(rememberScrollState())
+                .navigationBarsPadding()
         ) {
             Text(
                 text = "You can manage this at home by following these steps:",
@@ -250,6 +252,7 @@ fun RegularCareInsulinPump(
                     iconColor = colorResource(R.color.primaryBlue)
                 )
             }
+            Spacer(modifier = Modifier.height(30.dp))
         }
     }
 }

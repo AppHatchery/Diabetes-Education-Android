@@ -77,8 +77,8 @@ fun RegularCareScreen(
                     painter = painterResource(R.drawable.im_regular_care),
                     contentDescription = null,
                     modifier = Modifier
-                        .height(400.dp)
-                        .width(400.dp)
+                        .height(300.dp)
+                        .width(245.dp)
                 )
 
                // Spacer(modifier = Modifier.weight(1f))

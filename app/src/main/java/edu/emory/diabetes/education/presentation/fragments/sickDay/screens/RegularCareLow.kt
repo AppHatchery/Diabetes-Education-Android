@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -109,6 +110,7 @@ fun RegularCareLow(
                 .padding(horizontal = 20.dp)
                 .background(Color.White)
                 .verticalScroll(rememberScrollState())
+                .navigationBarsPadding()
         ) {
             Text(
                 text = "Continue regular diabetes care",
@@ -176,7 +178,7 @@ fun RegularCareLow(
                 fontSize = 16.sp
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -194,7 +196,7 @@ fun RegularCareLow(
                 )
             }
 
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
 
         }

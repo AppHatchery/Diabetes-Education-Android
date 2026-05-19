@@ -7,9 +7,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
@@ -56,7 +59,9 @@ fun CallCHOAScreen(
                     .padding(innerPadding)
                     .fillMaxSize()
                     .padding(horizontal = 24.dp)
-                    .background(color = colorResource(R.color.blue_050)),
+                    .background(color = colorResource(R.color.blue_050))
+                    .verticalScroll(rememberScrollState())
+                    .navigationBarsPadding(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
@@ -127,6 +132,8 @@ fun CallCHOAScreen(
                         color = Color.White
                     )
                 }
+                
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Spacer(modifier = Modifier.weight(1f))
 

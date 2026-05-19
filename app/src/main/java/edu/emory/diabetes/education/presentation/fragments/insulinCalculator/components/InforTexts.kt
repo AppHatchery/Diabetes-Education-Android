@@ -10,8 +10,8 @@ val cFactorInfo = infoText {
         append("correction factor ")
     }
     append("shows how much ")
-    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("1 unit od insulin") }
-    append("lowers your ")
+    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("1 unit of insulin") }
+    append(" lowers your ")
     withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
         append("blood sugar ")
     }

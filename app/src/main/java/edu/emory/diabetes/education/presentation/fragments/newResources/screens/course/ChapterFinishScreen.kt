@@ -56,6 +56,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 
@@ -110,7 +111,7 @@ fun ChapterFinishScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom
             ) {
-                Spacer(modifier = Modifier.height(118.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
                     text = completedChapter.chapterEndTitle,
@@ -170,8 +171,9 @@ fun ChapterFinishScreen(
                     Image(
                         painter = painterResource(id = completedChapter.chapterEndImage),
                         contentDescription = null,
-                        modifier = Modifier.size(270.dp),
-                        contentScale = ContentScale.Fit
+                        modifier = Modifier.size(270.dp)
+                        //modifier = Modifier.size(470.dp),
+                        //contentScale = ContentScale.Fit
                     )
                 }
             }
