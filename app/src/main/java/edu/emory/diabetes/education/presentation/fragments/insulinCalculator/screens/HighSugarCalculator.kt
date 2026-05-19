@@ -340,7 +340,7 @@ fun HighSugarCalculator(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(79.dp))
+                    Spacer(modifier = Modifier.height(59.dp))
 
                     if (uiState.hasCalculated || showNoInsulinNeeded) {
                         ResultCard(
@@ -350,7 +350,8 @@ fun HighSugarCalculator(
                             infoOnClick = {showInsulinForHBS = true}
                         )
 
-                        Spacer(modifier = Modifier.height(54.dp))
+                        Spacer(modifier = Modifier.weight(1f))
+                       // Spacer(modifier = Modifier.height(54.dp))
 
                         Column(
                             modifier = Modifier.fillMaxWidth(),
@@ -364,10 +365,13 @@ fun HighSugarCalculator(
                             )
                         }
                     } else {
-                        Spacer(modifier = Modifier.height(100.dp))
+                        //Spacer(modifier = Modifier.height(50.dp))
+                        Spacer(modifier = Modifier.weight(1f))
 
                         Column(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 10.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             CustomTransparentTextButton(
@@ -378,7 +382,7 @@ fun HighSugarCalculator(
                             )
                         }
                     }
-                    Spacer(modifier = Modifier.height(30.dp))
+                    Spacer(modifier = Modifier.height(50.dp))
                 }
 
             }

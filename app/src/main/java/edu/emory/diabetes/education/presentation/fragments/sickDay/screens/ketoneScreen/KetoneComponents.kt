@@ -148,7 +148,7 @@ fun KetoneValueCard(
                 .clip(RoundedCornerShape(4.dp))
                 .background(backgroundColor)
                 .background(
-                    if (isSelected) color else color.copy(alpha = 0.3f)
+                    if (isSelected) color else color.copy(alpha = 0.1f)
                 )
                 .clickable(onClick = onClick),
             contentAlignment = Alignment.Center

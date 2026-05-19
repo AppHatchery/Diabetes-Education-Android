@@ -17,6 +17,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -63,7 +67,17 @@ class MainActivity : ComponentActivity() {
             .not()
 
         setContent {
-            AppNavHost(startFromReminder = startFromReminder)
+            val configuration = LocalConfiguration.current
+            val density = resources.displayMetrics.density
+            CompositionLocalProvider(
+                LocalDensity provides Density(
+                    density = density,
+                    fontScale = 1f
+                )
+            ) {
+                AppNavHost(startFromReminder = startFromReminder)
+            }
+           // AppNavHost(startFromReminder = startFromReminder)
         }
     }
 

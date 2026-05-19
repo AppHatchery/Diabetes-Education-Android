@@ -135,6 +135,7 @@ fun HandBook(
                                 text = "Medical References",
                                 color = Color(0xFF1976D2),
                                 fontSize = 20.sp,
+                                fontFamily = nunito,
                                 fontWeight = FontWeight.Bold
                             )
                             IconButton(
@@ -231,6 +232,7 @@ fun InsulinCalculatorCard(
                             color = Color(0xFF1976D2),
                             fontWeight = FontWeight.Bold,
                             fontFamily = nunito,
+                            maxLines = 1,
                             textAlign = TextAlign.Center,
                             fontSize = 20.sp,
                             modifier = Modifier.fillMaxWidth()
@@ -259,6 +261,7 @@ fun InsulinCalculatorCard(
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = nunito,
+                                maxLines = 1,
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier.fillMaxWidth()
                             )
@@ -279,6 +282,7 @@ fun InsulinCalculatorCard(
                                 text = "Correction",
                                 fontFamily = nunito,
                                 fontSize = 20.sp,
+                                maxLines = 1,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
                                 modifier = Modifier.fillMaxWidth()
@@ -315,13 +319,20 @@ fun UrgentHealthCard(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
+
+            Image(
+                painter = painterResource(id = R.drawable.im_urgent_bg),
+                contentDescription = null,
+                modifier = Modifier.matchParentSize(),
+                contentScale = ContentScale.Crop
+            )
             Column(
                 modifier = Modifier
                     .fillMaxWidth(0.65f)
                     .padding(top = 24.dp, start = 20.dp, bottom = 20.dp)
             ) {
                 Text(
-                    text = "Unsure About an Urgent Health Concern?",
+                    text = "Do you have an urgent health concern?",
                     color = Color.White,
                     fontSize = 22.sp,
                     fontFamily = nunito,

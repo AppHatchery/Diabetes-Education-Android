@@ -265,7 +265,7 @@ fun MealCalculator(
                             infoOnClick = {showCarbRatioInfo = true}
                         )
                     }
-                    Spacer(modifier = Modifier.height(200.dp))
+                    Spacer(modifier = Modifier.height(100.dp))
 
                     if(uiState.hasCalculated){
                         ResultCard(
@@ -275,11 +275,14 @@ fun MealCalculator(
                             infoOnClick = {showInsulinForFood = true}
                         )
 
-                        Spacer(modifier = Modifier.height(84.dp))
+                        //Spacer(modifier = Modifier.height(84.dp))
+                        Spacer(modifier = Modifier.weight(1f))
 
                         Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 10.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
                             CustomTransparentTextButton(
                                 onClick = onExitToMain,
@@ -289,7 +292,8 @@ fun MealCalculator(
                             )
                         }
                     }else{
-                        Spacer(modifier = Modifier.height(150.dp))
+                        //Spacer(modifier = Modifier.height(50.dp))
+                        Spacer(modifier = Modifier.weight(1f))
 
                         Column(
                             modifier = Modifier.fillMaxWidth(),

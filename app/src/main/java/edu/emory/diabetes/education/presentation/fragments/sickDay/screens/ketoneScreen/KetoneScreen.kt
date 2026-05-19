@@ -1,6 +1,7 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -129,6 +131,40 @@ fun KetoneScreen(
                 isCloseVisible = true,
                 onExitToMain = onExitToMain
             )
+        },
+        bottomBar = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White)
+                    .navigationBarsPadding()
+                    .padding(start = 16.dp, end = 16.dp)
+            ) {
+                val isNextEnabled = selectedUrineLevel != null && selectedMeasure != null
+                NextButton(
+                    onClick = {
+                        val iLetKetone = when (selectedUrineLevel) {
+                            in setOf("Neg", "Low") -> "Low"
+                            in setOf("5", "15", "40", "Moderate") -> "Moderate"
+                            else -> "High"
+                        }
+                        prefs.putString(KETONE, selectedMeasure)
+                        viewModel.saveAnswer(FlowAnswerKeys.KETONE_MEASURE, selectedMeasure.toString())
+                        prefs.putString("iLetKetone", iLetKetone)
+                        viewModel.saveAnswer(FlowAnswerKeys.ILET_KETONE, iLetKetone)
+
+                        val destination = resolveKetoneNavDestination(
+                            instrument = instrument,
+                            selectedUrineLevel = selectedUrineLevel ?: "",
+                            iLetKetone = iLetKetone,
+                            over300 = over300 == "true",
+                            over300Other = over300Other == "true"
+                        )
+                        navController.navigate(destination)
+                    },
+                    isSelected = isNextEnabled
+                )
+            }
         },
         containerColor = Color.White
     ) { innerPadding ->
@@ -254,31 +290,7 @@ fun KetoneScreen(
             }
 
             val isNextEnabled = selectedUrineLevel != null && selectedMeasure != null
-
-            NextButton(
-                onClick = {
-                   val iLetKetone = when (selectedUrineLevel) {
-                        in setOf("Neg", "Low") -> "Low"
-                        in setOf("5", "15", "40", "Moderate") -> "Moderate"
-                        else -> "High"
-                    }
-                    prefs.putString(KETONE, selectedMeasure)
-                    viewModel.saveAnswer(FlowAnswerKeys.KETONE_MEASURE, selectedMeasure.toString())
-                    prefs.putString("iLetKetone", iLetKetone)
-
-                    viewModel.saveAnswer(FlowAnswerKeys.ILET_KETONE, iLetKetone)
-
-                    val destination = resolveKetoneNavDestination(
-                        instrument = instrument,
-                        selectedUrineLevel = selectedUrineLevel ?: "",
-                        iLetKetone = iLetKetone,
-                        over300 = over300 == "true",
-                        over300Other = over300Other == "true"
-                    )
-                    navController.navigate(destination)
-                },
-                isSelected = isNextEnabled
-            )
+            
 
             Spacer(modifier = Modifier.height(20.dp))
         }

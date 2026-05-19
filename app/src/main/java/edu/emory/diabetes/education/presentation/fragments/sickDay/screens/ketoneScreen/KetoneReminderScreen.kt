@@ -2,6 +2,7 @@ package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.keto
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -182,6 +184,52 @@ fun KetoneReminderScreen(
                 onExitToMain = onExitToMain
             )
         },
+        bottomBar = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White)
+                    .navigationBarsPadding()
+                    .padding(start = 16.dp, end = 16.dp)
+            ) {
+                NextButton(
+                    onClick = {
+                        when (instrument) {
+                            "injection" -> {
+                                if (selectedUrineLevel in listOf("Neg", "5", "Low")) {
+                                    navController.navigate(SickDayScreen.RegularCare.route)
+                                } else {
+                                    // High ketone → go to question screen
+                                    navController.navigate("${SickDayScreen.KetoneBloodSugar.route}/$instrument/false")
+                                }
+                            }
+                            "insulin_pump" -> {
+                                if (selectedUrineLevel in listOf("Neg", "5", "Low")) {
+                                    // Low ketone → go to question screen
+                                    navController.navigate("${SickDayScreen.KetoneBloodSugar.route}/$instrument/true")
+                                } else {
+                                    // High ketone → go to question screen
+                                    navController.navigate("${SickDayScreen.KetoneBloodSugar.route}/$instrument/false")
+                                }
+                            }
+                            else -> {
+                                if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low" ){
+                                    navController.navigate(SickDayScreen.RegularCare.route)
+                                }else if(
+                                    selectedUrineLevel == "5" || selectedUrineLevel == "15" || selectedUrineLevel == "40" || selectedUrineLevel == "Moderate"
+                                ){
+                                    navController.navigate(SickDayScreen.CallCHOA.route)
+                                }
+                                else{
+                                    navController.navigate(SickDayScreen.CallCHOA.route)
+                                }
+                            }
+                        }
+                    },
+                    isSelected = isNextEnabled
+                )
+            }
+        },
         containerColor = Color.White
     ) { innerPadding ->
         Column(
@@ -274,45 +322,6 @@ fun KetoneReminderScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1f))
-
-
-            NextButton(
-                onClick = {
-                    when (instrument) {
-                        "injection" -> {
-                            if (selectedUrineLevel in listOf("Neg", "5", "Low")) {
-                                navController.navigate(SickDayScreen.RegularCare.route)
-                            } else {
-                                // High ketone → go to question screen
-                                navController.navigate("${SickDayScreen.KetoneBloodSugar.route}/$instrument/false")
-                            }
-                        }
-                        "insulin_pump" -> {
-                            if (selectedUrineLevel in listOf("Neg", "5", "Low")) {
-                                // Low ketone → go to question screen
-                                navController.navigate("${SickDayScreen.KetoneBloodSugar.route}/$instrument/true")
-                            } else {
-                                // High ketone → go to question screen
-                                navController.navigate("${SickDayScreen.KetoneBloodSugar.route}/$instrument/false")
-                            }
-                        }
-                        else -> {
-                            if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low" ){
-                                navController.navigate(SickDayScreen.RegularCare.route)
-                            }else if(
-                                selectedUrineLevel == "5" || selectedUrineLevel == "15" || selectedUrineLevel == "40" || selectedUrineLevel == "Moderate"
-                                ){
-                                navController.navigate(SickDayScreen.CallCHOA.route)
-                            }
-                            else{
-                                navController.navigate(SickDayScreen.CallCHOA.route)
-                            }
-                        }
-                    }
-                },
-                isSelected = isNextEnabled
-            )
 
             Spacer(modifier = Modifier.height(20.dp))
         }

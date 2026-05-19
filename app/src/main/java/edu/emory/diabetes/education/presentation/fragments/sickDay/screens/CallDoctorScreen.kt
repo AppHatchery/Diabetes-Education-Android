@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,12 +55,14 @@ fun CallDoctorScreen(
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .navigationBarsPadding()
                     .padding(horizontal = 24.dp)
                     .background(color = colorResource(R.color.blue_050)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                Spacer(modifier = Modifier.height(60.dp))
+                Spacer(modifier = Modifier.height(50.dp))
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -102,10 +107,12 @@ fun CallDoctorScreen(
                     modifier = Modifier
                         .height(352.dp)
                         .width(220.dp)
+                        .padding(bottom = 10.dp)
                 )
 
 
-                Spacer(modifier = Modifier.height(118.dp))
+                //Spacer(modifier =  Modifier.weight(1f))
+                Spacer(modifier = Modifier.height(50.dp))
 
                 CustomTransparentTextButton(
                     onClick = onExitToMain,
