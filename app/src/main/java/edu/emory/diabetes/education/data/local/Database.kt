@@ -15,7 +15,7 @@ import edu.emory.diabetes.education.data.local.entities.InsulinCalculatorEntity
         InsulinCalculatorEntity::class,
         ChapterSearchEntity::class
     ],
-    version = 1
+    version = 2
 )
 abstract class Database : RoomDatabase() {
     abstract val chapterDao: ChapterDao
