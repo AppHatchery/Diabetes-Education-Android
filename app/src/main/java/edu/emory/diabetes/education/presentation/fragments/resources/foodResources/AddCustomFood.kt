@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
@@ -30,6 +32,7 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -112,6 +115,8 @@ fun AddCustomFood(
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
+                    .navigationBarsPadding()
+                    .imePadding()
                     .padding(horizontal = 20.dp, vertical = 16.dp)
                     .height(56.dp)
             ) {
@@ -169,7 +174,11 @@ fun AddCustomFood(
                 onValueChange = { name = it },
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = colorResource(R.color.gray_200),
+                    unfocusedBorderColor = colorResource(R.color.gray_200)
+                ),
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -182,7 +191,11 @@ fun AddCustomFood(
                 shape = RoundedCornerShape(12.dp),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 trailingIcon = { Text(text = "g", fontFamily = nunito, fontSize = 18.sp) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = colorResource(R.color.gray_200),
+                    unfocusedBorderColor = colorResource(R.color.gray_200)
+                ),
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -193,7 +206,11 @@ fun AddCustomFood(
                 onValueChange = { portionSize = it },
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = colorResource(R.color.gray_200),
+                    unfocusedBorderColor = colorResource(R.color.gray_200)
+                ),
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -212,6 +229,10 @@ fun AddCustomFood(
                     trailingIcon = {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = categoryExpanded)
                     },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = colorResource(R.color.gray_200),
+                        unfocusedBorderColor = colorResource(R.color.gray_200)
+                    ),
                     modifier = Modifier
                         .fillMaxWidth()
                         .menuAnchor()

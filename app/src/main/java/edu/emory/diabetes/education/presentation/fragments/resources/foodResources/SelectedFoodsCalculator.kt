@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,6 +29,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -76,6 +78,7 @@ fun SelectedFoodsCalculator(
     }
 
     Scaffold(
+        modifier = Modifier.imePadding(),
         topBar = {
             Row(
                 modifier = Modifier
@@ -144,6 +147,10 @@ fun SelectedFoodsCalculator(
                     shape = RoundedCornerShape(8.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     trailingIcon = { Text(text = "g", fontFamily = nunito, fontSize = 18.sp) },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = colorResource(R.color.gray_200),
+                        unfocusedBorderColor = colorResource(R.color.gray_200)
+                    ),
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -156,7 +163,7 @@ fun SelectedFoodsCalculator(
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
                     .background(colorResource(R.color.secondary_sunset_orange_shade100))
-                    .padding(horizontal = 20.dp, vertical = 20.dp)
+                    .padding(horizontal = 20.dp, vertical = 15.dp)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     CarbNumberField(
@@ -343,7 +350,7 @@ private fun InsulinResultCard(
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(colorResource(R.color.secondary_sunset_orange))
-            .padding(horizontal = 16.dp, vertical = 18.dp)
+            .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
