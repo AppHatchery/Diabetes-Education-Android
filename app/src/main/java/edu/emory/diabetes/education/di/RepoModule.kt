@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import edu.emory.diabetes.education.data.local.Database
 import edu.emory.diabetes.education.data.local.repository.ChapterRepoImpl
+import edu.emory.diabetes.education.data.local.repository.CustomFoodRepoImpl
 import edu.emory.diabetes.education.data.local.repository.InsulinCalculatorRepoImpl
 import edu.emory.diabetes.education.data.local.repository.RepositoryImpl
 import javax.inject.Singleton
@@ -21,7 +22,8 @@ object RepoModule {
     ): RepositoryImpl {
         return RepositoryImpl(
             chapterRepoImpl = ChapterRepoImpl(db),
-            insulinCalculatorRepoImpl = InsulinCalculatorRepoImpl(db)
+            insulinCalculatorRepoImpl = InsulinCalculatorRepoImpl(db),
+            customFoodRepoImpl = CustomFoodRepoImpl(db)
         )
     }
 }

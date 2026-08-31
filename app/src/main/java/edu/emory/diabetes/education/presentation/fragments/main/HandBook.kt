@@ -64,7 +64,8 @@ fun HandBook(
     onNutritionClick: () -> Unit,
     onManagementClick: () -> Unit,
     onEducationalResourcesClick: () -> Unit,
-    onReferencesClick: () -> Unit
+    onReferencesClick: () -> Unit,
+    onKnowYourCarbsClick: () -> Unit
 ) {
     Scaffold(
         //contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -99,7 +100,7 @@ fun HandBook(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(horizontal = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(24.dp),
                     contentPadding = PaddingValues(vertical = 4.dp)
                 ) {
                     item {
@@ -122,6 +123,12 @@ fun HandBook(
                             onNutritionClick = onNutritionClick,
                             onManagementClick = onManagementClick,
                             onSeeAllClick = onEducationalResourcesClick
+                        )
+                    }
+                    
+                    item {
+                        KnowYourCarbCard(
+                            onClick = onKnowYourCarbsClick
                         )
                     }
 
@@ -474,7 +481,103 @@ fun EducationalResourcesSection(
 
 
             }
+
+            // know your carbs card
         }
+    }
+}
+
+@Composable
+fun KnowYourCarbCard(
+    onClick: () -> Unit
+){
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            //.height(176.dp)
+            .clip(shape = RoundedCornerShape(12.dp)),
+        colors = CardDefaults.cardColors(containerColor = colorResource(R.color.secondary_sunset_orange)),
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+
+            Image(
+                painter = painterResource(id = R.drawable.im_know_carbs_bg),
+                contentDescription = null,
+                modifier = Modifier.matchParentSize(),
+                contentScale = ContentScale.Crop
+            )
+            Image(
+                painter = painterResource(R.drawable.im_know_your_carbs_card),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(157.dp)
+                    .align(Alignment.BottomStart),
+                contentScale = ContentScale.Crop
+
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(0.65f)
+                    .align(Alignment.CenterEnd)
+                    .padding(top = 24.dp, start = 20.dp, bottom = 20.dp, end = 24.dp)
+            ) {
+                Text(
+                    text = "Know your carbs",
+                    color = Color.White,
+                    fontSize = 22.sp,
+                    fontFamily = nunito,
+                    fontWeight = FontWeight.Bold,
+                    lineHeight = 28.sp
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "Get guidance on what to do next",
+                    color = Color.White.copy(alpha = 0.9f),
+                    fontFamily = nunito,
+                    fontSize = 16.sp
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Button(
+                    onClick = onClick,
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .height(47.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text(
+                            text = "Search",
+                            color = Color(0xFFC62828),
+                            fontFamily = nunito,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
+                        )
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                            contentDescription = null,
+                            tint = Color(0xFFC62828),
+                            modifier = Modifier
+                                .size(20.dp)
+                                .align(Alignment.CenterVertically)
+                        )
+                    }
+                }
+            }
+        }
+
     }
 }
 
@@ -530,7 +633,11 @@ fun ResourceCard(
         }
     }
 
-
+@Preview
+@Composable
+fun KnowYourCarbsPreview() {
+    KnowYourCarbCard(onClick = {})
+}
 
 @Preview
 @Composable
@@ -544,9 +651,12 @@ fun HandBookPreview(){
         onDiabetesBasicsClick = {},
         onManagementClick = {},
         onEducationalResourcesClick = {},
-        onReferencesClick = {}
+        onReferencesClick = {},
+        onKnowYourCarbsClick = {}
     )
 }
+
+
 
 
 

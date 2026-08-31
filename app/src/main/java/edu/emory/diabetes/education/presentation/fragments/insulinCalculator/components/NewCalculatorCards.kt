@@ -65,7 +65,8 @@ fun UnderlinedNumberField(
     isError: Boolean = false,
     errorColor: Color = Color.Black,
     infoIcon: Boolean = false,
-    infoOnClick: () -> Unit = { }
+    infoOnClick: () -> Unit = { },
+    readOnly: Boolean = false
 ) {
     val resolvedValueColor   = if (isError) errorColor else valueColor
     val resolvedLabelColor   = if (isError) errorColor else labelColor
@@ -75,6 +76,7 @@ fun UnderlinedNumberField(
         BasicTextField(
             value = value,
             onValueChange = onValueChange,
+            readOnly = readOnly,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.NumberPassword,
                 imeAction = ImeAction.None
