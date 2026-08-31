@@ -8,9 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
+import androidx.navigation.NavController
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.navigation
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.remember
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.NewCalculatorViewmodel
@@ -20,6 +25,10 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.scr
 import edu.emory.diabetes.education.presentation.fragments.main.HandBook
 import edu.emory.diabetes.education.presentation.fragments.newResources.nav.NewResourcesNavigation
 import edu.emory.diabetes.education.presentation.fragments.newResources.nav.NewResourcesScreen
+import edu.emory.diabetes.education.presentation.fragments.resources.foodResources.KnowYourCarbs
+import edu.emory.diabetes.education.presentation.fragments.resources.foodResources.KnowYourCarbsViewModel
+import edu.emory.diabetes.education.presentation.fragments.resources.foodResources.AddCustomFood
+import edu.emory.diabetes.education.presentation.fragments.resources.foodResources.SelectedFoodsCalculator
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayNavigation
 
@@ -32,6 +41,14 @@ sealed class AppRoute(val route: String) {
     object Resources  : AppRoute("resources/{startDestination}") {
         fun create(start: String) = "resources/$start"
     }
+
+    object KnowYourCarbs : AppRoute("know_your_carbs")
+}
+
+private sealed class KnowYourCarbsRoute(val route: String) {
+    object List : KnowYourCarbsRoute("know_your_carbs/list")
+    object Add : KnowYourCarbsRoute("know_your_carbs/add")
+    object Insulin : KnowYourCarbsRoute("know_your_carbs/insulin")
 }
 
 @Composable
@@ -112,6 +129,9 @@ fun AppNavHost(startFromReminder: Boolean = false) {
                         )
                     )
                 },
+                onKnowYourCarbsClick = {
+                    navController.navigate(AppRoute.KnowYourCarbs.route)
+                }
             )
         }
 
@@ -174,5 +194,50 @@ fun AppNavHost(startFromReminder: Boolean = false) {
                 }
             )
         }
+
+        // Know your carbs
+        navigation(
+            startDestination = KnowYourCarbsRoute.List.route,
+            route = AppRoute.KnowYourCarbs.route
+        ) {
+            composable(KnowYourCarbsRoute.List.route) { entry ->
+                val vm = knowYourCarbsViewModel(navController, entry)
+                KnowYourCarbs(
+                    viewModel = vm,
+                    onNavigateBack = { navController.popBackStack() },
+                    onAddCustom = { navController.navigate(KnowYourCarbsRoute.Add.route) },
+                    onCalculateInsulin = { navController.navigate(KnowYourCarbsRoute.Insulin.route) }
+                )
+            }
+
+            composable(KnowYourCarbsRoute.Add.route) { entry ->
+                val vm = knowYourCarbsViewModel(navController, entry)
+                AddCustomFood(
+                    viewModel = vm,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(KnowYourCarbsRoute.Insulin.route) { entry ->
+                val vm = knowYourCarbsViewModel(navController, entry)
+                SelectedFoodsCalculator(
+                    viewModel = vm,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+        }
+
     }
+}
+
+/** Returns the KnowYourCarbs ViewModel scoped to the feature nav graph so it is shared across screens. */
+@Composable
+private fun knowYourCarbsViewModel(
+    navController: NavController,
+    entry: NavBackStackEntry
+): KnowYourCarbsViewModel {
+    val parentEntry = remember(entry) {
+        navController.getBackStackEntry(AppRoute.KnowYourCarbs.route)
+    }
+    return hiltViewModel(parentEntry)
 }

@@ -62,7 +62,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     },
                     onReferencesClick = {
                         navigateToReferences()
+                    },
+                    onKnowYourCarbsClick = {
+                        navigateToFoodResources()
                     }
+
                 )
             }
         }
@@ -70,6 +74,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun navigateToSickDay() {
         findNavController().navigate(R.id.action_mainFragment_to_sickDayFragment)
+    }
+
+    private fun navigateToFoodResources() {
+        findNavController().navigate(R.id.action_mainFragment_to_foodResourcesFragment)
     }
 
     private fun navigateToInsulinCalculator() {
