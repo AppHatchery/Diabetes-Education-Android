@@ -31,6 +31,7 @@ import edu.emory.diabetes.education.presentation.fragments.newResources.componen
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.FoodResourceCard
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.NewResourcesTopBar
 import edu.emory.diabetes.education.presentation.fragments.newResources.nav.NewResourcesScreen
+import edu.emory.diabetes.education.presentation.fragments.newResources.screens.foodNutrition.FoodNutritionPage
 import edu.emory.diabetes.education.presentation.fragments.resources.ResourceUtil
 import edu.emory.diabetes.education.presentation.theme.nunito
 
@@ -105,7 +106,13 @@ fun NewResourcesMain(
             )
             Spacer(modifier = Modifier.height(24.dp))
 
-            FoodAndNutritionResources()
+            FoodAndNutritionResources(
+                onFoodCardClick = { page ->
+                    navController.navigate(
+                        NewResourcesScreen.FoodNutrition.createRoute(page.ordinal)
+                    )
+                }
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -117,7 +124,9 @@ fun NewResourcesMain(
 }
 
 @Composable
-fun FoodAndNutritionResources(){
+fun FoodAndNutritionResources(
+    onFoodCardClick: (FoodNutritionPage) -> Unit = {}
+){
     Column {
         Text(
             text = "Food and Nutrition",
@@ -136,7 +145,7 @@ fun FoodAndNutritionResources(){
                 backgroundColor = colorResource(R.color.secondary_sunset_orange_shade100),
                 textColor = colorResource(R.color.secondary_sunset_orange),
                 modifier = Modifier.weight(1f),
-                onClick = {}
+                onClick = { onFoodCardClick(FoodNutritionPage.LOW_CARB_SNACKS) }
             )
             FoodResourceCard(
                 title = "Snacks\nrecipes",
@@ -155,14 +164,16 @@ fun FoodAndNutritionResources(){
                 imageRes = R.drawable.im_oreo_cookies,
                 backgroundColor = colorResource(R.color.secondary_fire_red_100),
                 textColor = colorResource(R.color.secondary_fire_red_300),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                onClick = { onFoodCardClick(FoodNutritionPage.FOODS_THAT_RAISE) }
             )
             FoodResourceCard(
                 title = "Doesn't raise\nblood sugar",
                 imageRes = R.drawable.im_salad_with_dressing,
                 backgroundColor = colorResource(R.color.secondaryMeadowGreen),
                 textColor = colorResource(R.color.secondaryMeadowGreen_300),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                onClick = { onFoodCardClick(FoodNutritionPage.FOODS_THAT_DONT_RAISE) }
             )
         }
     }
