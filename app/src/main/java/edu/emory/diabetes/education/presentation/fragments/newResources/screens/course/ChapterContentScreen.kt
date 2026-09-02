@@ -65,7 +65,6 @@ fun ChapterContentScreen(
     val context = LocalContext.current
     var webViewRef by remember { mutableStateOf<WebView?>(null) }
 
-    var hasReachedBottom by remember { mutableStateOf(false) }
 
     BackHandler {
         when (viewModel.onPreviousPage()) {
@@ -85,7 +84,7 @@ fun ChapterContentScreen(
                 },
                 color = Color.White,
                 iconColor = Color.Black,
-                scrollProgress = uiState.scrollProgress,
+                scrollProgress = uiState.sectionProgress,
                 isCloseVisible = true,
                 onExitToMain = onBack
             )
@@ -102,10 +101,6 @@ fun ChapterContentScreen(
             Box(modifier = Modifier.weight(1f)) {
                 WebViewContent(
                     pageUrl = uiState.currentPageFullUrl,
-                    onScrollChanged = { progress ->
-                        viewModel.updateScrollProgress(progress)
-                        if (progress >= 90) hasReachedBottom = true
-                    },
                     onNextClicked = {
                         // Handle "next" links inside HTML content
                         handleNext(viewModel, onChapterFinished)
@@ -123,7 +118,6 @@ fun ChapterContentScreen(
 @Composable
 private fun WebViewContent(
     pageUrl: String,
-    onScrollChanged: (Int) -> Unit,
     onNextClicked: () -> Unit
 ) {
     val context = LocalContext.current
@@ -147,25 +141,13 @@ private fun WebViewContent(
                     settings.domStorageEnabled = true
                     setPadding(0, 0, 0, 20)
 
-                    viewTreeObserver.addOnScrollChangedListener {
-                        if (contentHeight > 0 && scrollY > 0) {
-                            val percentage = (scrollY.toFloat() / contentHeight * 100)
-                                .toInt()
-                                .coerceAtMost(100)
-                            onScrollChanged(percentage)
-                        }
-                    }
-
                     webViewClient = object : WebViewClient() {
                         override fun onPageFinished(view: WebView?, url: String?) {
                             super.onPageFinished(view, url)
                             view?.postDelayed({
                                 view.visibility = android.view.View.VISIBLE
                                 isWebViewReady = true
-                                onScrollChanged(0)
                             }, 80)
-//                            isWebViewReady = true
-//                            onScrollChanged(0)
                         }
 
                         override fun shouldOverrideUrlLoading(

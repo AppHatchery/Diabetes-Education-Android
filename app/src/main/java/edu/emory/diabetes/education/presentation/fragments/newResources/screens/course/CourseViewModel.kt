@@ -17,7 +17,6 @@ data class CourseUiState(
     val course: Course,
     val currentChapterIndex: Int = 0,
     val currentPageIndex: Int = 0,
-    val scrollProgress: Int = 0,
     val isLoading: Boolean = true
 ) {
     val currentChapter: Chapter
@@ -51,6 +50,14 @@ data class CourseUiState(
         get() = if (totalPagesInChapter > 1) {
             "Page ${currentPageIndex + 1} of $totalPagesInChapter"
         } else ""
+
+    /** Progress through the current chapter as a 0-100 value; a completed chapter is always 100%. */
+    val sectionProgress: Int
+        get() = when {
+            currentChapter.isCompleted -> 100
+            totalPagesInChapter > 0 -> ((currentPageIndex + 1) * 100) / totalPagesInChapter
+            else -> 0
+        }
 }
 
 class CourseViewModel(
@@ -87,8 +94,7 @@ class CourseViewModel(
         _uiState.update {
             it.copy(
                 currentChapterIndex = chapterIndex,
-                currentPageIndex = 0,
-                scrollProgress = 0
+                currentPageIndex = 0
             )
         }
     }
@@ -97,7 +103,7 @@ class CourseViewModel(
         val state = _uiState.value
         return if (!state.isLastPageInChapter) {
             _uiState.update {
-                it.copy(currentPageIndex = it.currentPageIndex + 1, scrollProgress = 0)
+                it.copy(currentPageIndex = it.currentPageIndex + 1)
             }
             NextAction.NextPage
         } else {
@@ -110,14 +116,9 @@ class CourseViewModel(
         _uiState.update {
             it.copy(
                 currentChapterIndex = it.currentChapterIndex + 1,
-                currentPageIndex = 0,
-                scrollProgress = 0
+                currentPageIndex = 0
             )
         }
-    }
-
-    fun updateScrollProgress(progress: Int) {
-        _uiState.update { it.copy(scrollProgress = progress) }
     }
 
     private fun markCurrentChapterCompleted() {
@@ -144,7 +145,7 @@ class CourseViewModel(
     fun onPreviousPage(): PreviousAction {
         return if (_uiState.value.currentPageIndex > 0) {
             _uiState.update {
-                it.copy(currentPageIndex = it.currentPageIndex - 1, scrollProgress = 0)
+                it.copy(currentPageIndex = it.currentPageIndex - 1)
             }
             PreviousAction.PreviousPage
         } else {
