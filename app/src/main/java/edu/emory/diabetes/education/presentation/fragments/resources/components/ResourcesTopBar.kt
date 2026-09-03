@@ -29,6 +29,7 @@ fun ResourcesTopBar(
     showAdd: Boolean = false,
     onEditClick: () -> Unit = {},
     color: Color,
+    windowInsets: WindowInsets = WindowInsets.statusBars,
 ){
     TopAppBar(
         title = { Text(title) },
@@ -56,7 +57,7 @@ fun ResourcesTopBar(
             actionIconContentColor = Color.Black
         ),
         modifier = Modifier.background(color = color),
-        windowInsets = WindowInsets.statusBars//.add(WindowInsets(top = 5.dp)),
+        windowInsets = windowInsets,
     )
 }
 

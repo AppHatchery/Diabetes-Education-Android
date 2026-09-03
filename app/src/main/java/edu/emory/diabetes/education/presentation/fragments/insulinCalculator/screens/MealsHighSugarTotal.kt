@@ -441,7 +441,6 @@ fun MealsHighSugarTotal(
                                     label = "Carb Ratio",
                                     isMeal = true,
                                     infoIcon = true,
-                                    placeholder = "15",
                                     modifier = Modifier.weight(1f),
                                     dividerColor = if (carbRatioError) errorColor
                                     else colorResource(R.color.gray_100_sick),
@@ -501,7 +500,6 @@ fun MealsHighSugarTotal(
                                     label = "Carb Ratio",
                                     isMeal = true,
                                     infoIcon = true,
-                                    placeholder = "15",
                                     modifier = Modifier.weight(1f),
                                     dividerColor = colorResource(R.color.gray_100_sick),
                                     isError = uiState.carbRatioError,
@@ -570,7 +568,6 @@ fun MealsHighSugarTotal(
                                     label = "Target Blood\nSugar",
                                     isMeal = false,
                                     infoIcon = true,
-                                    placeholder = "100",
                                     modifier = Modifier.weight(1f),
                                     dividerColor = if (targetBSError) errorColor
                                     else colorResource(R.color.gray_100_sick),
@@ -594,7 +591,6 @@ fun MealsHighSugarTotal(
                                     label = "Correction Factor",
                                     isMeal = false,
                                     infoIcon = true,
-                                    placeholder = "2",
                                     modifier = Modifier.weight(1f),
                                     dividerColor = if (correctionError) errorColor
                                     else colorResource(R.color.gray_100_sick),
@@ -656,7 +652,6 @@ fun MealsHighSugarTotal(
                                     label = "Target Blood\nSugar",
                                     isMeal = false,
                                     infoIcon = true,
-                                    placeholder = "180",
                                     modifier = Modifier.weight(1f),
                                     dividerColor = colorResource(R.color.gray_100_sick),
                                     isError = highSugarUiState.targetBloodSugarError,
@@ -677,7 +672,6 @@ fun MealsHighSugarTotal(
                                     label = "Correction Factor",
                                     isMeal = false,
                                     infoIcon = true,
-                                    placeholder = "25",
                                     modifier = Modifier.weight(1f),
                                     dividerColor = colorResource(R.color.gray_100_sick),
                                     isError = highSugarUiState.correctionFactorError,

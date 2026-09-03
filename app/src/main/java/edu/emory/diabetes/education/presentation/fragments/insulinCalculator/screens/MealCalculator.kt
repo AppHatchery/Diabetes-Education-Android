@@ -258,7 +258,6 @@ fun MealCalculator(
                             label = "Carb Ratio",
                             isMeal = true,
                             infoIcon = true,
-                            placeholder = "15",
                             modifier = Modifier.weight(1f),
                             dividerColor = colorResource(R.color.gray_100_sick),
                             isError = uiState.carbRatioError,

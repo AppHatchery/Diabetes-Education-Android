@@ -68,5 +68,16 @@
     <color name="red_radio_middle">#D1171E</color>
     <color name="red_radio_end">#8D0A0F</color>
     <color name="blue_200">#BFD6E8</color>
+    <!-- Category chip colors -->
+    <color name="category_grains">#F9EBF5</color>
+    <color name="category_milk">#EDF9FD</color>
+    <color name="category_starchy_veg">#FEF3E9</color>
+    <color name="category_fruits">#F0EAF3</color>
+    <color name="category_snacks">#F1F9ED</color>
+    <color name="category_combos">#F0EAF3</color>
+    <color name="category_sweets">#F1F9ED</color>
+    <color name="category_condiments">#EDF9FD</color>
+    <color name="category_low_carb">#F0EAF3</color>
+    <color name="category_my_foods">#F9EBF5</color>
 </resources>
 
