@@ -36,7 +36,7 @@ private fun CustomFoodEntity.toCarbFood() = CarbFood(
     name = name,
     serving = portionSize,
     carbs = carbs,
-    image = null,
+    image = customFoodImage(category),
     id = id,
     isCustom = true
 )

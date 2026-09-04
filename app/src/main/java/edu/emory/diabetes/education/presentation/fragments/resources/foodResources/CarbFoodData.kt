@@ -198,3 +198,18 @@ val carbCategories: List<CarbCategory> = listOf(
         )
     )
 )
+
+/** Default image shown for a user's custom food, chosen by the category it was added under. */
+@DrawableRes
+fun customFoodImage(categoryTitle: String): Int = when (categoryTitle) {
+    "Grains" -> R.drawable.im_grains
+    "Milk" -> R.drawable.im_milk
+    "Starchy Vegetables" -> R.drawable.im_vegetables
+    "Fruits" -> R.drawable.im_fruits
+    "Snacks" -> R.drawable.im_snacks
+    "Combination foods" -> R.drawable.im_combination
+    "Desserts & Sweets" -> R.drawable.im_desserts
+    "Condiments" -> R.drawable.im_condiments
+    "Low-Carb Foods" -> R.drawable.im_lo_carbs
+    else -> R.drawable.im_croissant
+}
