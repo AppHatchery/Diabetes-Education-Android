@@ -14,6 +14,8 @@ import edu.emory.diabetes.education.presentation.fragments.newResources.screens.
 import edu.emory.diabetes.education.presentation.fragments.newResources.screens.course.ChapterFinishScreen
 import edu.emory.diabetes.education.presentation.fragments.newResources.screens.course.CourseListScreen
 import edu.emory.diabetes.education.presentation.fragments.newResources.screens.course.CourseViewModel
+import edu.emory.diabetes.education.presentation.fragments.newResources.screens.foodNutrition.FoodNutritionPage
+import edu.emory.diabetes.education.presentation.fragments.newResources.screens.foodNutrition.FoodNutritionScreen
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.fadeIn
@@ -149,6 +151,27 @@ fun NewResourcesNavigation(
                         inclusive = false
                     )
                 }
+            )
+        }
+
+        // Food & nutrition (WebView sequence)
+        composable(
+            route = NewResourcesScreen.FoodNutrition.route,
+            arguments = listOf(navArgument("pageIndex") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val pageIndex = backStackEntry.arguments?.getInt("pageIndex") ?: 0
+            val startPage = FoodNutritionPage.entries.getOrElse(pageIndex) { FoodNutritionPage.entries.first() }
+
+            FoodNutritionScreen(
+                startPage = startPage,
+                onBack = {
+                    if (navController.previousBackStackEntry != null) {
+                        navController.popBackStack()
+                    } else {
+                        onExitToMain()
+                    }
+                },
+                onExitToMain = { navController.popBackStack() }
             )
         }
 

@@ -63,19 +63,22 @@ object ResourceUtil {
             0,
             "A nonprofit organization serving children and teens living with type 1 diabetes ",
             R.drawable.im_strong4life,
-            "https://www.strong4life.com/en"
+            "https://www.strong4life.com/en",
+            "Strong4Life"
         ),
         Communities(
             1,
             "A nonprofit organization serving children and teens living with type 1 diabetes ",
             R.drawable.im_jrdf,
-            "https://www.jdrf.org/georgiasouthcarolina/"
+            "https://www.jdrf.org/georgiasouthcarolina/",
+            "JDRF"
         ),
         Communities(
             2,
             "A nonprofit organization serving children and teens living with type 1 diabetes ",
             R.drawable.im_camp_kudze,
-            "https://www.campkudzu.org/newly-diagnosed-resource-page/"
+            "https://www.campkudzu.org/newly-diagnosed-resource-page/",
+            "Camp Kudzu"
         )
     )
 

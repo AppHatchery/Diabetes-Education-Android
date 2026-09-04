@@ -8,5 +8,6 @@ data class Communities(
     val descriptor: String,
     @DrawableRes
     val image: Int = R.drawable.ic_rectangle,
-    val url: String
+    val url: String,
+    val name: String = ""
 )

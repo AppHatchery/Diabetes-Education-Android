@@ -17,6 +17,10 @@ sealed class NewResourcesScreen(val route: String){
         fun createRoute(courseId: Int) = "chapter_finish/$courseId"
     }
 
+    object FoodNutrition : NewResourcesScreen("food_nutrition/{pageIndex}") {
+        fun createRoute(pageIndex: Int) = "food_nutrition/$pageIndex"
+    }
+
     object MedicalReferences: NewResourcesScreen("medical_references")
 //    object CourseList: NewResourcesScreen("course_list")
 //    object ChapterContent : NewResourcesScreen("chapter_content")
