@@ -192,7 +192,6 @@ fun SelectedFoodsCalculator(
                         label = "Carb Ratio",
                         valueColor = colorResource(R.color.gray_600),
                         dividerColor = colorResource(R.color.gray_600),
-                        placeholder = "15",
                         onInfoClick = { showCarbRatioInfo = true },
                         modifier = Modifier.weight(1f)
                     )

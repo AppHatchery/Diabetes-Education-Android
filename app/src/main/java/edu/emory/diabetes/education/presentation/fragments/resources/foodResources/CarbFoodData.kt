@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.resources.foodResources
 
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import edu.emory.diabetes.education.R
 
@@ -18,7 +19,8 @@ data class CarbCategory(
     val title: String,
     val chipLabel: String,
     val items: List<CarbFood>,
-    @DrawableRes val chipImage: Int? = null
+    @DrawableRes val chipImage: Int? = null,
+    @ColorRes val chipColor: Int = R.color.gray_100_sick
 )
 
 /** Sample carb reference data. Names, servings and carb values can be edited freely. */
@@ -27,6 +29,7 @@ val carbCategories: List<CarbCategory> = listOf(
         title = "Grains",
         chipLabel = "Grains",
         chipImage = R.drawable.im_bread,
+        chipColor = R.color.category_grains,
         items = listOf(
             CarbFood("Bread", "per slice", 15, R.drawable.im_bread),
             CarbFood("Bagel", "1/2 piece", 30, R.drawable.im_bagel),
@@ -48,6 +51,7 @@ val carbCategories: List<CarbCategory> = listOf(
         title = "Milk",
         chipLabel = "Milk",
         chipImage = R.drawable.im_regular_milk,
+        chipColor = R.color.category_milk,
         items = listOf(
             CarbFood("Regular Milk", "1 cup", 12, R.drawable.im_regular_milk),
             CarbFood("Chocolate Milk", "1 cup", 24, R.drawable.im_chocolate_milk),
@@ -62,6 +66,7 @@ val carbCategories: List<CarbCategory> = listOf(
         title = "Starchy Vegetables",
         chipLabel = "Starchy Veg",
         chipImage = R.drawable.im_corn_on_the_cob,
+        chipColor = R.color.category_starchy_veg,
         items = listOf(
             CarbFood("Baked Potato", "1 small potato", 30, R.drawable.im_baked_potato),
             CarbFood("Fast Food French Fries", "small size", 30, R.drawable.im_mashed_potatoes),
@@ -82,6 +87,7 @@ val carbCategories: List<CarbCategory> = listOf(
         title = "Fruits",
         chipLabel = "Fruits",
         chipImage = R.drawable.im_apple,
+        chipColor = R.color.category_fruits,
         items = listOf(
             CarbFood("Orange", "small orange", 30, R.drawable.im_orange),
             CarbFood("Apple", "small apple", 15,R.drawable.im_apple),
@@ -104,6 +110,7 @@ val carbCategories: List<CarbCategory> = listOf(
         title = "Snacks",
         chipLabel = "Snacks",
         chipImage = R.drawable.im_oreo_cookies,
+        chipColor = R.color.category_snacks,
         items = listOf(
             CarbFood("Popcorn", "3 cups", 15, R.drawable.im_popcorn),
             CarbFood("Pretzel Sticks", "30 thin sticks", 15, R.drawable.im_pretzel_sticks),
@@ -125,6 +132,7 @@ val carbCategories: List<CarbCategory> = listOf(
         title = "Combination foods",
         chipLabel = "Combos",
         chipImage = R.drawable.im_pepperoni_pizza,
+        chipColor = R.color.category_combos,
         items = listOf(
             CarbFood("Pizza", "1 slice (1/8 of 14\")", 35, R.drawable.im_pepperoni_pizza),
             CarbFood("Meat & Cheese Taco", "1 taco", 15,R.drawable.im_taco),
@@ -146,6 +154,7 @@ val carbCategories: List<CarbCategory> = listOf(
         title = "Desserts & Sweets",
         chipLabel = "Sweets",
         chipImage = R.drawable.im_popsicle,
+        chipColor = R.color.category_sweets,
         items = listOf(
             CarbFood("Oreo / Choco Cookies", "2 small cookies", 15, R.drawable.im_oreo_cookies),
             CarbFood("Frosted Cake", "1 piece", 30, R.drawable.im_frosted_cake),
@@ -160,6 +169,7 @@ val carbCategories: List<CarbCategory> = listOf(
         title = "Condiments",
         chipLabel = "Condiments",
         chipImage = R.drawable.im_ketchup,
+        chipColor = R.color.category_condiments,
         items = listOf(
             CarbFood("Pancake Syrup", "1 tbsp", 35, R.drawable.im_pancake_syrup),
             CarbFood("Light Pancake Syrup", "2 tbsp", 15, R.drawable.im_light_pancake_syrup),
@@ -173,6 +183,7 @@ val carbCategories: List<CarbCategory> = listOf(
         title = "Low-Carb Foods",
         chipLabel = "Low Carb",
         chipImage = R.drawable.im_raw_veggies,
+        chipColor = R.color.category_low_carb,
         items = listOf(
             CarbFood("Raw Veggies", "1 cup", 5, R.drawable.im_raw_veggies),
             CarbFood("Salad with Dressing", "2 tbsp dressing", 5, R.drawable.im_salad_with_dressing),
@@ -187,3 +198,18 @@ val carbCategories: List<CarbCategory> = listOf(
         )
     )
 )
+
+/** Default image shown for a user's custom food, chosen by the category it was added under. */
+@DrawableRes
+fun customFoodImage(categoryTitle: String): Int = when (categoryTitle) {
+    "Grains" -> R.drawable.im_grains
+    "Milk" -> R.drawable.im_milk
+    "Starchy Vegetables" -> R.drawable.im_vegetables
+    "Fruits" -> R.drawable.im_fruits
+    "Snacks" -> R.drawable.im_snacks
+    "Combination foods" -> R.drawable.im_combination
+    "Desserts & Sweets" -> R.drawable.im_desserts
+    "Condiments" -> R.drawable.im_condiments
+    "Low-Carb Foods" -> R.drawable.im_lo_carbs
+    else -> R.drawable.im_croissant
+}

@@ -21,6 +21,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.NewCalculatorViewmodel
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorNav
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens.onboarding.CalculatorOnboardingScreen
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens.onboarding.CalculatorOnboardingViewModel
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens.onboarding.isCalculatorOnboardingCompleted
+import androidx.compose.ui.platform.LocalContext
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.screens.editConstants.EditConstantsViewModel
 import edu.emory.diabetes.education.presentation.fragments.main.HandBook
 import edu.emory.diabetes.education.presentation.fragments.newResources.nav.NewResourcesNavigation
@@ -37,6 +41,9 @@ sealed class AppRoute(val route: String) {
     object SickDay    : AppRoute("sick_day")
     object Calculator : AppRoute("calculator/{startDestination}") {
         fun create(start: String) = "calculator/$start"
+    }
+    object CalculatorOnboarding : AppRoute("calculator_onboarding/{startDestination}") {
+        fun create(start: String) = "calculator_onboarding/$start"
     }
     object Resources  : AppRoute("resources/{startDestination}") {
         fun create(start: String) = "resources/$start"
@@ -69,27 +76,27 @@ fun AppNavHost(startFromReminder: Boolean = false) {
 
         // ── Main / HandBook ──────────────────────────────────────────
         composable(AppRoute.Main.route) {
+            val context = LocalContext.current
+
+            // First calculator launch shows onboarding; afterwards go straight to the calculator.
+            fun openCalculator(destinationRoute: String) {
+                val encoded = Uri.encode(destinationRoute)
+                if (isCalculatorOnboardingCompleted(context)) {
+                    navController.navigate(AppRoute.Calculator.create(encoded))
+                } else {
+                    navController.navigate(AppRoute.CalculatorOnboarding.create(encoded))
+                }
+            }
+
             HandBook(
                 onInsulinCalculatorClick = {
-                    navController.navigate(
-                        AppRoute.Calculator.create(
-                            Uri.encode(NewCalculatorScreen.MealsHighSugarTotal.route)
-                        )
-                    )
+                    openCalculator(NewCalculatorScreen.MealsHighSugarTotal.route)
                 },
                 onMealsClick = {
-                    navController.navigate(
-                        AppRoute.Calculator.create(
-                            Uri.encode(NewCalculatorScreen.MealCalculator.route)
-                        )
-                    )
+                    openCalculator(NewCalculatorScreen.MealCalculator.route)
                 },
                 onHighSugarClick = {
-                    navController.navigate(
-                        AppRoute.Calculator.create(
-                            Uri.encode(NewCalculatorScreen.HighSugarCalculator.route)
-                        )
-                    )
+                    openCalculator(NewCalculatorScreen.HighSugarCalculator.route)
                 },
                 onGetHelpClick = {
                     navController.navigate(AppRoute.SickDay.route)
@@ -173,6 +180,33 @@ fun AppNavHost(startFromReminder: Boolean = false) {
                 editConstantsViewModel = editConstantsViewModel,
                 startDestination = start,
                 onExitToMain = {
+                    navController.navigate(AppRoute.Main.route) {
+                        popUpTo(AppRoute.Main.route) { inclusive = false }
+                    }
+                }
+            )
+        }
+
+// ── Calculator Onboarding ────────────────────────────────────
+        composable(
+            route = AppRoute.CalculatorOnboarding.route,
+            arguments = listOf(
+                navArgument("startDestination") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val rawStart = backStackEntry.arguments?.getString("startDestination") ?: ""
+            val start = Uri.decode(rawStart).ifEmpty { NewCalculatorScreen.MealCalculator.route }
+
+            val onboardingViewModel: CalculatorOnboardingViewModel = viewModel()
+
+            CalculatorOnboardingScreen(
+                viewModel = onboardingViewModel,
+                onFinish = {
+                    navController.navigate(AppRoute.Calculator.create(Uri.encode(start))) {
+                        popUpTo(AppRoute.CalculatorOnboarding.route) { inclusive = true }
+                    }
+                },
+                onExit = {
                     navController.navigate(AppRoute.Main.route) {
                         popUpTo(AppRoute.Main.route) { inclusive = false }
                     }

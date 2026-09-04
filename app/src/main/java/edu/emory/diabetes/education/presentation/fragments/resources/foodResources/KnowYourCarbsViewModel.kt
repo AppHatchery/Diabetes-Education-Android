@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.data.local.entities.CustomFoodEntity
 import edu.emory.diabetes.education.data.local.repository.RepositoryImpl
 import kotlinx.coroutines.flow.SharingStarted
@@ -35,7 +36,7 @@ private fun CustomFoodEntity.toCarbFood() = CarbFood(
     name = name,
     serving = portionSize,
     carbs = carbs,
-    image = null,
+    image = customFoodImage(category),
     id = id,
     isCustom = true
 )
@@ -63,10 +64,23 @@ class KnowYourCarbsViewModel @Inject constructor(
     var additionalCarbs by mutableStateOf("")
         private set
 
+    // Remembers whether the one-time carb disclaimer has been shown before.
+    private val uiPrefs = context.getSharedPreferences("know_your_carbs_prefs", Context.MODE_PRIVATE)
+
+    // Disclaimer is shown only on the first visit to the screen.
+    var showDisclaimer by mutableStateOf(false)
+        private set
+
     init {
         val prefs = context.getSharedPreferences("calculator_constants", Context.MODE_PRIVATE)
-        carbRatio = (prefs.getString("carb_ratio", "") ?: "").ifBlank { "15" }
+        carbRatio = prefs.getString("carb_ratio", "") ?: ""
+
+        val seen = uiPrefs.getBoolean("disclaimer_seen", false)
+        showDisclaimer = !seen
+        if (!seen) uiPrefs.edit().putBoolean("disclaimer_seen", true).apply()
     }
+
+    fun dismissDisclaimer() { showDisclaimer = false }
 
     val selectedCarbs: Int get() = _selected.values.sumOf { it.food.carbs * it.qty }
     val totalCarbs: Int get() = selectedCarbs + (additionalCarbs.toIntOrNull() ?: 0)
@@ -129,7 +143,8 @@ class KnowYourCarbsViewModel @Inject constructor(
         else merged + CarbCategory(
             title = "My Foods",
             chipLabel = "My Foods",
-            items = orphaned.map { it.toCarbFood() }
+            items = orphaned.map { it.toCarbFood() },
+            chipColor = R.color.category_my_foods
         )
     }
 }

@@ -1,11 +1,13 @@
 package edu.emory.diabetes.education.presentation.fragments.resources.foodResources
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -50,6 +52,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -77,10 +83,23 @@ fun KnowYourCarbs(
     val categories by viewModel.allCategories.collectAsState()
 
     var searchQuery by remember { mutableStateOf("") }
-    var disclaimerVisible by remember { mutableStateOf(true) }
+    val disclaimerVisible = viewModel.showDisclaimer
 
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
+
+    // Quick-return app bar: hidden while scrolling up (toward more items),
+    // shown again as soon as the user scrolls back down.
+    var topBarVisible by remember { mutableStateOf(true) }
+    val appBarScrollConnection = remember {
+        object : NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                if (available.y < -1f) topBarVisible = false
+                else if (available.y > 1f) topBarVisible = true
+                return Offset.Zero
+            }
+        }
+    }
 
     // Sections and their foods, filtered by the search query.
     val query = searchQuery.trim()
@@ -98,15 +117,6 @@ fun KnowYourCarbs(
     }
 
     Scaffold(
-        topBar = {
-            ResourcesTopBar(
-                title = "",
-                color = Color.White,
-                onNavigationClick = onNavigateBack,
-                showAdd = true,
-                onEditClick = onAddCustom
-            )
-        },
         bottomBar = {
             if (viewModel.selected.isNotEmpty()) {
                 TotalCarbsBar(
@@ -121,8 +131,20 @@ fun KnowYourCarbs(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .nestedScroll(appBarScrollConnection)
                 .background(Color.White)
         ) {
+            AnimatedVisibility(visible = topBarVisible) {
+                ResourcesTopBar(
+                    title = "",
+                    color = Color.White,
+                    onNavigationClick = onNavigateBack,
+                    showAdd = true,
+                    onEditClick = onAddCustom,
+                    windowInsets = WindowInsets(0, 0, 0, 0)
+                )
+            }
+
             SearchField(
                 query = searchQuery,
                 onQueryChange = { searchQuery = it }
@@ -147,7 +169,7 @@ fun KnowYourCarbs(
             ) {
                 if (disclaimerVisible) {
                     item(key = "disclaimer") {
-                        DisclaimerCard(onDismiss = { disclaimerVisible = false })
+                        DisclaimerCard(onDismiss = { viewModel.dismissDisclaimer() })
                     }
                 }
 
@@ -242,7 +264,7 @@ private fun CategoryChips(
                     modifier = Modifier
                         .size(56.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(colorResource(R.color.gray_100_sick)),
+                        .background(colorResource(category.chipColor)),
                     contentAlignment = Alignment.Center
                 ) {
                     category.chipImage?.let {
@@ -383,7 +405,7 @@ private fun FoodImage(food: CarbFood) {
         modifier = Modifier
             .size(64.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(colorResource(R.color.gray_100_sick)),
+            .background(colorResource(R.color.white)),
         contentAlignment = Alignment.Center
     ) {
         food.image?.let {

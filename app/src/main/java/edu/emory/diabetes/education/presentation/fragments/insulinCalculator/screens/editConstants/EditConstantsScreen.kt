@@ -131,7 +131,7 @@ fun EditConstantsScreen(
                 onValueChange = { if (!it.contains('.')) viewModel.onCarbRatioChanged(it) },
                 unit = "g/unit",
                 isError = uiState.carbRatioError,
-                placeholder = "15",
+                placeholder = "",
                 onInfoClick = { showCarbRatioInfo = true }
             )
 
@@ -143,7 +143,7 @@ fun EditConstantsScreen(
                 onValueChange = { if (!it.contains('.')) viewModel.onTargetBloodSugarChanged(it) },
                 unit = "mg/dL",
                 isError = uiState.targetBloodSugarError,
-                placeholder = "150",
+                placeholder = "",
                 onInfoClick = { showTargetBSInfo = true }
             )
 
@@ -155,7 +155,7 @@ fun EditConstantsScreen(
                 onValueChange = { if (!it.contains('.')) viewModel.onCorrectionFactorChanged(it) },
                 unit = "",
                 isError = uiState.correctionFactorError,
-                placeholder = "2",
+                placeholder = "",
                 onInfoClick = { showCFactorInfo = true }
             )
 
