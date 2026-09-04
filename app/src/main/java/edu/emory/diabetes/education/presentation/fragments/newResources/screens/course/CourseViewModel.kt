@@ -51,13 +51,11 @@ data class CourseUiState(
             "Page ${currentPageIndex + 1} of $totalPagesInChapter"
         } else ""
 
-    /** Progress through the current chapter as a 0-100 value; a completed chapter is always 100%. */
+    /** Progress through the current chapter as a 0-100 value; the last page is 100%. */
     val sectionProgress: Int
-        get() = when {
-            currentChapter.isCompleted -> 100
-            totalPagesInChapter > 0 -> ((currentPageIndex + 1) * 100) / totalPagesInChapter
-            else -> 0
-        }
+        get() = if (totalPagesInChapter > 0) {
+            ((currentPageIndex + 1) * 100) / totalPagesInChapter
+        } else 0
 }
 
 class CourseViewModel(
