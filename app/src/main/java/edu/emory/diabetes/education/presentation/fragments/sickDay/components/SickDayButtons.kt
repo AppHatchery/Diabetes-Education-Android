@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -167,7 +166,7 @@ fun RedEmergencyButton(
     val context = LocalContext.current
     Button(
         modifier = modifier
-            .width(314.dp)
+            .fillMaxWidth()
             .height(52.dp),
         onClick = {
             val intent = Intent(Intent.ACTION_DIAL).apply {
@@ -179,7 +178,7 @@ fun RedEmergencyButton(
         shape = RoundedCornerShape(12.dp)
     ) {
         Row(
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
@@ -187,7 +186,8 @@ fun RedEmergencyButton(
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = nunito,
-                modifier = modifier.padding(end = 2.dp)
+                color = Color.White,
+                modifier = Modifier.padding(end = 2.dp)
             )
         }
     }
