@@ -242,7 +242,7 @@ fun KetoneReminderScreen(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = "Check your child's ketone level",
+                text = "Check ketone level",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = nunito,

@@ -178,7 +178,7 @@ fun KetoneScreen(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = "Check your child's ketone level",
+                text = "Check ketone level",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = nunito,
@@ -205,7 +205,7 @@ fun KetoneScreen(
             Spacer(modifier = Modifier.height(40.dp))
 
             Text(
-                text = "How did your child measure ketones?",
+                text = "How were ketones measured?",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = nunito,

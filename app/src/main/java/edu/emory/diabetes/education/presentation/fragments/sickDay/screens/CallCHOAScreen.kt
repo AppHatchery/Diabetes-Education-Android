@@ -1,5 +1,7 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -41,12 +44,14 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.theme.nunito
+import androidx.core.net.toUri
 
 @Composable
 fun CallCHOAScreen(
     onExitToMain: () -> Unit,
     navController: NavController
 ){
+    val context = LocalContext.current
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
@@ -139,7 +144,12 @@ fun CallCHOAScreen(
                     Spacer(modifier = Modifier.height(24.dp))
 
                     Button(
-                        onClick = { },
+                        onClick = {
+                            val intent = Intent(Intent.ACTION_DIAL).apply {
+                                data = "tel:404-785-5437".toUri()
+                            }
+                            context.startActivity(intent)
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(47.dp),
