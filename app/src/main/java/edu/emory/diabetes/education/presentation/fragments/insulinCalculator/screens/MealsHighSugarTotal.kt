@@ -678,7 +678,7 @@ fun MealsHighSugarTotal(
                                     infoOnClick = {showCFactorInfo = true}
                                 )
                             }
-                            Spacer(modifier = Modifier.height(114.dp))
+                            Spacer(modifier = Modifier.height(50.dp))
                             if (showNoInsulinNeeded) {
                                 ResultCard(
                                     insulin = "No insulin needed",
@@ -726,7 +726,7 @@ fun MealsHighSugarTotal(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .align(Alignment.TopCenter)
-                                        .padding(top = 108.dp),
+                                        .padding(top = 80.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     Image(
@@ -742,7 +742,7 @@ fun MealsHighSugarTotal(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .background(colorResource(R.color.green_050))
-                                            .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 20.dp)
+                                            .padding(start = 12.dp, end = 12.dp, top = 20.dp, bottom = 20.dp)
                                     ) {
                                         Text(
                                             text = "Total Insulin Dose",
@@ -767,7 +767,7 @@ fun MealsHighSugarTotal(
                                                 .fillMaxWidth()
                                                 .clip(RoundedCornerShape(12.dp))
                                                 .background(Color.White)
-                                                .padding(vertical = 16.dp, horizontal = 12.dp),
+                                                .padding(vertical = 16.dp, horizontal = 8.dp),
                                             horizontalArrangement = Arrangement.Center,
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
@@ -776,7 +776,7 @@ fun MealsHighSugarTotal(
                                                     text = "Carb Bolus",
                                                     fontSize = 16.sp,
                                                     fontFamily = nunito,
-                                                    fontWeight = FontWeight.W600,
+                                                    fontWeight = FontWeight.SemiBold,
                                                     color = Color.Black
                                                 )
                                                 Spacer(modifier = Modifier.height(4.dp))
@@ -804,7 +804,7 @@ fun MealsHighSugarTotal(
                                                     text = "Correction Bolus",
                                                     fontSize = 16.sp,
                                                     fontFamily = nunito,
-                                                    fontWeight = FontWeight.W600,
+                                                    fontWeight = FontWeight.SemiBold,
                                                     color = Color.Black
                                                 )
                                                 Spacer(modifier = Modifier.height(4.dp))

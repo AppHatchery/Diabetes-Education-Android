@@ -69,7 +69,8 @@ val carbCategories: List<CarbCategory> = listOf(
         chipColor = R.color.category_starchy_veg,
         items = listOf(
             CarbFood("Baked Potato", "1 small potato", 30, R.drawable.im_baked_potato),
-            CarbFood("Fast Food French Fries", "small size", 30, R.drawable.im_mashed_potatoes),
+            CarbFood("Mashed Potato", "1 cup", 15, R.drawable.im_mashed_potatoes),
+            CarbFood("Fast Food French Fries", "small size", 30, R.drawable.im_french_fries),
             CarbFood("Sweet Potato", "1/2 cup", 15, R.drawable.im_sweet_potato),
             CarbFood("Green Peas", "1/2 cup", 15, R.drawable.im_green_peas),
             CarbFood("Corn", "1/2 cup | 1 small corn on cob", 15, R.drawable.im_corn_on_the_cob),
@@ -143,10 +144,10 @@ val carbCategories: List<CarbCategory> = listOf(
             CarbFood("Sausage Biscuit", "1 pc", 25, R.drawable.im_sausage_biscuit),
             CarbFood("Grilled Cheese Sandwich", "1 pc", 30, R.drawable.im_grilled_cheese_sandwich),
             CarbFood("Soup", "1 cup", 15, R.drawable.im_chicken_noodle_soup),
-            CarbFood("Sub Sandwich", "1 pc", 45, R.drawable.im_submarine_sandwich),
+            CarbFood("Sub Sandwich", "6” sub", 45, R.drawable.im_submarine_sandwich),
             CarbFood("Corndog", "1 pc", 25, R.drawable.im_corn_dog),
             CarbFood("Peanut Butter & Jelly Sandwich", "1 pc", 45, R.drawable.im_peanut_butter_jelly_sandwich),
-            CarbFood("Chicken Quesadilla", "1 pc", 30, R.drawable.im_quesadilla),
+            CarbFood("Cheese Quesadilla", "1 pc", 30, R.drawable.im_quesadilla),
             CarbFood("Popcorn Shrimp", "3/4 cup", 25, R.drawable.im_popcorn_shrimp),
         )
     ),
@@ -185,16 +186,16 @@ val carbCategories: List<CarbCategory> = listOf(
         chipImage = R.drawable.im_raw_veggies,
         chipColor = R.color.category_low_carb,
         items = listOf(
-            CarbFood("Raw Veggies", "1 cup", 5, R.drawable.im_raw_veggies),
-            CarbFood("Salad with Dressing", "2 tbsp dressing", 5, R.drawable.im_salad_with_dressing),
+            CarbFood("Raw Veggies", "1 tbsp", 5, R.drawable.im_raw_veggies),
+            CarbFood("Salad with Dressing", "2 tbsp", 5, R.drawable.im_salad_with_dressing),
             CarbFood("Broccoli, Cabbage, Carrots, Celery, Collards, Cucumber, Green Beans, Salad Greens.", "1/2 cup cooked | 1 cup raw", 5, R.drawable.im_mixed_vegetables),
-            CarbFood("Dill Pickles", "2 spears", 5, R.drawable.im_pickles),
-            CarbFood("String Cheese / Eggs / Deli Meats", "1 serving", 5, R.drawable.im_string_cheese_eggs),
-            CarbFood("Nuts", "1 handful", 5, R.drawable.im_mixed_nuts),
-            CarbFood("Sunflower Seeds", "1 handful", 5, R.drawable.im_sunflower_seeds),
-            CarbFood("Sugar-Free Jello", "1 cup", 5, R.drawable.im_jello),
-            CarbFood("Sugar-Free Popsicles", "1 popsicle", 5, R.drawable.im_popsicle),
-            CarbFood("Low-Carb Yogurt", "6 oz", 5, R.drawable.im_low_carb_yogurt)
+            CarbFood("Dill Pickles", "2 tbsp", 5, R.drawable.im_pickles),
+            CarbFood("String Cheese / Eggs / Deli Meats", "1 tbsp", 5, R.drawable.im_string_cheese_eggs),
+            CarbFood("Nuts", "1 tbsp", 5, R.drawable.im_mixed_nuts),
+            CarbFood("Sunflower Seeds", "1 tbsp", 5, R.drawable.im_sunflower_seeds),
+            CarbFood("Sugar-Free Jello", "1 tbsp", 5, R.drawable.im_jello),
+            CarbFood("Sugar-Free Popsicles", "1 tbsp", 5, R.drawable.im_popsicle),
+            CarbFood("Low-Carb Yogurt", "1 tbsp", 5, R.drawable.im_low_carb_yogurt)
         )
     )
 )
