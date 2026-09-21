@@ -536,7 +536,7 @@ fun KnowYourCarbCard(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Get guidance on what to do next",
+                    text = "Search foods to find their carb count",
                     color = Color.White.copy(alpha = 0.9f),
                     fontFamily = nunito,
                     fontSize = 16.sp
@@ -560,7 +560,7 @@ fun KnowYourCarbCard(
                     ) {
                         Text(
                             text = "Search",
-                            color = Color(0xFFC62828),
+                            color = colorResource(R.color.secondary_sunset_orange),
                             fontFamily = nunito,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp
@@ -568,7 +568,7 @@ fun KnowYourCarbCard(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                             contentDescription = null,
-                            tint = Color(0xFFC62828),
+                            tint = colorResource(R.color.secondary_sunset_orange),
                             modifier = Modifier
                                 .size(20.dp)
                                 .align(Alignment.CenterVertically)

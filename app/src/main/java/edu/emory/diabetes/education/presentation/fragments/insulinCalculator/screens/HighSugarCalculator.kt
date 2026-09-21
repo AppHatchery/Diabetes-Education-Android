@@ -369,7 +369,7 @@ fun HighSugarCalculator(
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(top = 10.dp),
+                                .padding(top = 20.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             CustomTransparentTextButton(
