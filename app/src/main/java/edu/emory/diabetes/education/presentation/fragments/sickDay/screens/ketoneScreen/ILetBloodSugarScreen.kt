@@ -72,7 +72,7 @@ fun ILetBloodSugarScreen(
                 .navigationBarsPadding()
         ) {
             Text(
-                text = "Is your child's blood sugar higher than 180mg/dL?",
+                text = "Is blood sugar higher than 180mg/dL?",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = nunito,
@@ -121,14 +121,14 @@ fun ILetBloodSugarScreen(
                     when(type){
                         "moderateKetone" -> {
                             if(questionAnswer == "yes" || measure == "medium"){
-                                navController.navigate(SickDayScreen.CallDoctor.route)
+                                navController.navigate(SickDayScreen.CallCHOA.route)
                             }else{
                                 navController.navigate(SickDayScreen.RegularCare.route)
                             }
                         }
                         else -> {
                             if(questionAnswer == "yes" || measure == "medium"){
-                                navController.navigate(SickDayScreen.CallDoctor.route)
+                                navController.navigate(SickDayScreen.CallCHOA.route)
                             }else{
                                 navController.navigate(SickDayScreen.NewPump.route)
                             }

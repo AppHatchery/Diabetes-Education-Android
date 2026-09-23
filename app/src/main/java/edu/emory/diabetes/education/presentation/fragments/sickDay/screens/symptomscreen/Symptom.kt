@@ -19,17 +19,17 @@ data class Symptom(
 object SymptomData {
     val firstSymptoms = SymptomCategory(
         id = "firstSymptoms",
-        title = "Select the issue your child is facing:",
+        title = "What's the issue?",
         subtitle = null,
         symptoms = listOf(
-            Symptom("Diabetic_Ketoacidosis","Sick Day",R.drawable.im_dka),
+            Symptom("Diabetic_Ketoacidosis","Sick day",R.drawable.im_dka),
             Symptom("High_Blood_Sugar","High Blood Sugar (Hyperglycemia)",R.drawable.im_high_blood),
             Symptom("Low_Blood_Sugar","Low Blood Sugar (Hypoglycemia)",R.drawable.im_low_blood),
         )
     )
     val regularSymptoms = SymptomCategory(
         id = "regular",
-        title = "Is your child having any of these symptoms?",
+        title = "Are any of these symptoms present?",
         subtitle = null,
         symptoms = listOf(
             Symptom("trouble_breathing", "Trouble breathing", R.drawable.im_trouble_breathing),
@@ -41,7 +41,7 @@ object SymptomData {
 
     val injectionSymptoms = SymptomCategory(
         id = "injection",
-        title = "How does your child take Insulin?",
+        title = "How is insulin taken?",
         subtitle = null,
         symptoms = listOf(
             Symptom("injection", "Injection/Insulin Pen", R.drawable.im_injection),
@@ -51,7 +51,7 @@ object SymptomData {
 
     val abdominalSymptoms = SymptomCategory(
         id = "abdominal",
-        title = "Is your child having any of these symptoms?",
+        title = "Are any of these symptoms present?",
         subtitle = null,
         symptoms = listOf(
             Symptom("nausea", "Nausea", R.drawable.im_nausea),

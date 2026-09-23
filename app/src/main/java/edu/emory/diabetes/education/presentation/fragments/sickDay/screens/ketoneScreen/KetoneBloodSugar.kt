@@ -51,9 +51,9 @@ fun KetoneBloodSugar(
     }
 
     val questionText = if (isLowKetone) {
-        "Is your child's blood sugar higher than 300 mg/dL?"
+        "Is blood sugar higher than 300 mg/dL?"
     } else {
-        "Is your child's blood sugar higher than 150mg/dL?"
+        "Is blood sugar higher than 150mg/dL?"
     }
 
     Scaffold(
@@ -133,7 +133,7 @@ fun KetoneBloodSugar(
                             if (questionAnswer == "yes") {
                                 navController.navigate("${SickDayScreen.ManageAtHome.route}/$instrument/false")
                             } else {
-                                navController.navigate(SickDayScreen.CallDoctor.route)
+                                navController.navigate(SickDayScreen.CallCHOA.route)
                             }
                         }
                         "insulin_pump" -> {

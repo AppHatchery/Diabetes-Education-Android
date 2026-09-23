@@ -90,7 +90,7 @@ fun DurationQuestionScreen(
 
         ) {
             Text(
-                text = "Is your child's blood sugar over 300 mg/dl?",
+                text = "Is blood sugar over 300 mg/dl?",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = nunito,
