@@ -3,6 +3,7 @@ package edu.emory.diabetes.education.presentation.fragments.resources.foodResour
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -68,11 +69,7 @@ import edu.emory.diabetes.education.presentation.fragments.resources.components.
 import edu.emory.diabetes.education.presentation.theme.nunito
 import kotlinx.coroutines.launch
 
-private sealed interface CarbListRow {
-    data class Header(val title: String) : CarbListRow
-    data class Item(val categoryTitle: String, val food: CarbFood) : CarbListRow
-}
-
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun KnowYourCarbs(
     viewModel: KnowYourCarbsViewModel = hiltViewModel(),
@@ -101,18 +98,13 @@ fun KnowYourCarbs(
         }
     }
 
-    // Sections and their foods, filtered by the search query.
+    // Sections (category + its matching foods), filtered by the search query.
     val query = searchQuery.trim()
-    val rows = remember(query, categories) {
-        buildList {
-            categories.forEach { category ->
-                val matches = if (query.isEmpty()) category.items
-                else category.items.filter { it.name.contains(query, ignoreCase = true) }
-                if (matches.isNotEmpty()) {
-                    add(CarbListRow.Header(category.title))
-                    matches.forEach { add(CarbListRow.Item(category.title, it)) }
-                }
-            }
+    val sections = remember(query, categories) {
+        categories.mapNotNull { category ->
+            val matches = if (query.isEmpty()) category.items
+            else category.items.filter { it.name.contains(query, ignoreCase = true) }
+            if (matches.isEmpty()) null else category to matches
         }
     }
 
@@ -153,12 +145,15 @@ fun KnowYourCarbs(
             CategoryChips(
                 categories = categories,
                 onCategoryClick = { category ->
-                    val headerIndex = rows.indexOfFirst {
-                        it is CarbListRow.Header && it.title == category.title
+                    // Each section contributes 1 sticky header + its item count to the index.
+                    var headerIndex = if (disclaimerVisible) 1 else 0
+                    var found = false
+                    for ((cat, matches) in sections) {
+                        if (cat.title == category.title) { found = true; break }
+                        headerIndex += 1 + matches.size
                     }
-                    if (headerIndex >= 0) {
-                        val offset = if (disclaimerVisible) 1 else 0
-                        scope.launch { listState.animateScrollToItem(offset + headerIndex) }
+                    if (found) {
+                        scope.launch { listState.animateScrollToItem(headerIndex) }
                     }
                 }
             )
@@ -173,38 +168,34 @@ fun KnowYourCarbs(
                     }
                 }
 
-                items(
-                    items = rows,
-                    key = { row ->
-                        when (row) {
-                            is CarbListRow.Header -> "header/${row.title}"
-                            is CarbListRow.Item -> selectionKey(row.food, row.categoryTitle)
-                        }
+                sections.forEach { (category, matches) ->
+                    stickyHeader(key = "header/${category.title}") {
+                        SectionHeader(category.title)
                     }
-                ) { row ->
-                    when (row) {
-                        is CarbListRow.Header -> SectionHeader(row.title)
-                        is CarbListRow.Item -> {
-                            val key = selectionKey(row.food, row.categoryTitle)
-                            if (row.food.isCustom) {
-                                SwipeToDeleteRow(
-                                    onDelete = { viewModel.deleteCustomFood(row.food.id) }
-                                ) {
-                                    FoodRow(
-                                        food = row.food,
-                                        quantity = viewModel.quantityOf(key),
-                                        onAdd = { viewModel.increment(row.food, row.categoryTitle) },
-                                        onRemove = { viewModel.decrement(key) }
-                                    )
-                                }
-                            } else {
+
+                    items(
+                        items = matches,
+                        key = { food -> selectionKey(food, category.title) }
+                    ) { food ->
+                        val key = selectionKey(food, category.title)
+                        if (food.isCustom) {
+                            SwipeToDeleteRow(
+                                onDelete = { viewModel.deleteCustomFood(food.id) }
+                            ) {
                                 FoodRow(
-                                    food = row.food,
+                                    food = food,
                                     quantity = viewModel.quantityOf(key),
-                                    onAdd = { viewModel.increment(row.food, row.categoryTitle) },
+                                    onAdd = { viewModel.increment(food, category.title) },
                                     onRemove = { viewModel.decrement(key) }
                                 )
                             }
+                        } else {
+                            FoodRow(
+                                food = food,
+                                quantity = viewModel.quantityOf(key),
+                                onAdd = { viewModel.increment(food, category.title) },
+                                onRemove = { viewModel.decrement(key) }
+                            )
                         }
                     }
                 }
@@ -341,7 +332,10 @@ private fun SectionHeader(title: String) {
         fontWeight = FontWeight.Bold,
         fontFamily = nunito,
         color = colorResource(R.color.secondary_ocean_blue),
-        modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 8.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 8.dp)
     )
 }
 
