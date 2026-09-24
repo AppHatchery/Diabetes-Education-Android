@@ -33,11 +33,15 @@ import edu.emory.diabetes.education.presentation.fragments.resources.foodResourc
 import edu.emory.diabetes.education.presentation.fragments.resources.foodResources.KnowYourCarbsViewModel
 import edu.emory.diabetes.education.presentation.fragments.resources.foodResources.AddCustomFood
 import edu.emory.diabetes.education.presentation.fragments.resources.foodResources.SelectedFoodsCalculator
+import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
+import edu.emory.diabetes.education.presentation.fragments.onboarding.OnboardingViewModel
+import edu.emory.diabetes.education.presentation.fragments.onboarding.nav.OnboardingNavigation
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayNavigation
 
 sealed class AppRoute(val route: String) {
     object Main       : AppRoute("main")
+    object Onboarding : AppRoute("onboarding")
     object SickDay    : AppRoute("sick_day")
     object Calculator : AppRoute("calculator/{startDestination}") {
         fun create(start: String) = "calculator/$start"
@@ -61,8 +65,12 @@ private sealed class KnowYourCarbsRoute(val route: String) {
 @Composable
 fun AppNavHost(startFromReminder: Boolean = false) {
     val navController = rememberNavController()
-    val startDestination = if (startFromReminder) AppRoute.SickDay.route
-    else AppRoute.Main.route
+    val context = LocalContext.current
+    val startDestination = when {
+        startFromReminder -> AppRoute.SickDay.route
+        !OnboardingPrefs.isOnboardingCompleted(context) -> AppRoute.Onboarding.route
+        else -> AppRoute.Main.route
+    }
 
     NavHost(
         navController = navController,
@@ -214,7 +222,20 @@ fun AppNavHost(startFromReminder: Boolean = false) {
             )
         }
 
-// ── SickDay ──────────────────────────────────────────────────
+// ── Onboarding ───────────────────────────────
+        composable(AppRoute.Onboarding.route) {
+            val onboardingViewModel: OnboardingViewModel = viewModel()
+            OnboardingNavigation(
+                viewModel = onboardingViewModel,
+                onComplete = {
+                    navController.navigate(AppRoute.Main.route) {
+                        popUpTo(AppRoute.Onboarding.route) { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        // ── SickDay ──────────────────────────────────────────────────
         composable(AppRoute.SickDay.route) {
             val sickDayViewModel: SickDayViewModel = viewModel()
 
