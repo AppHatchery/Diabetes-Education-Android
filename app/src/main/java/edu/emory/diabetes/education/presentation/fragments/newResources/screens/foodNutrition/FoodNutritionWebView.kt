@@ -23,7 +23,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 @Composable
 fun FoodNutritionWebView(
     pageUrl: String,
-    onNextClicked: () -> Unit
+    onNextClicked: () -> Unit = {}
 ) {
     var isWebViewReady by remember { mutableStateOf(false) }
     Box(

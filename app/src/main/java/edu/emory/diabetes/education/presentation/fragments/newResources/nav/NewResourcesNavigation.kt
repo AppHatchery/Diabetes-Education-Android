@@ -22,6 +22,9 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import edu.emory.diabetes.education.presentation.fragments.newResources.screens.foodNutrition.RecipeContentScreen
+import edu.emory.diabetes.education.presentation.fragments.newResources.screens.foodNutrition.RecipeScreen
+import edu.emory.diabetes.education.presentation.fragments.newResources.domain.RecipeData
 
 
 private val courseIdArg = listOf(
@@ -180,5 +183,39 @@ fun NewResourcesNavigation(
                 onBack = onExitToMain
             )
         }
+
+        // Snack recipes grid
+        composable(NewResourcesScreen.RecipeScreen.route) {
+            RecipeScreen(
+                onRecipeClick = { index ->
+                    navController.navigate(
+                        NewResourcesScreen.RecipeContentScreen.createRoute(index)
+                    )
+                },
+                onBack = {
+                    if (navController.previousBackStackEntry != null) {
+                        navController.popBackStack()
+                    } else {
+                        onExitToMain()
+                    }
+                }
+            )
+        }
+
+        // Single recipe page (WebView)
+        composable(
+            route = NewResourcesScreen.RecipeContentScreen.route,
+            arguments = listOf(navArgument("recipeIndex") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val recipeIndex = backStackEntry.arguments?.getInt("recipeIndex") ?: 0
+            val recipe = RecipeData.recipes.getOrElse(recipeIndex) { RecipeData.recipes.first() }
+
+            RecipeContentScreen(
+                recipe = recipe,
+                onBack = { navController.popBackStack() },
+                onExitToMain = {navController.popBackStack()}
+            )
+        }
+
     }
 }
