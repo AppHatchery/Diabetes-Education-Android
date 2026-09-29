@@ -111,7 +111,8 @@ fun NewResourcesMain(
                     navController.navigate(
                         NewResourcesScreen.FoodNutrition.createRoute(page.ordinal)
                     )
-                }
+                },
+                navController = navController
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -125,7 +126,8 @@ fun NewResourcesMain(
 
 @Composable
 fun FoodAndNutritionResources(
-    onFoodCardClick: (FoodNutritionPage) -> Unit = {}
+    onFoodCardClick: (FoodNutritionPage) -> Unit = {},
+    navController: NavController
 ){
     Column {
         Text(
@@ -152,7 +154,8 @@ fun FoodAndNutritionResources(
                 imageRes = R.drawable.im_snacks_receipes,
                 backgroundColor = colorResource(R.color.blue_100),
                 textColor = colorResource(R.color.primaryBlue),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                onClick = { navController.navigate(route = "recipe_screen") }
             )
         }
 
