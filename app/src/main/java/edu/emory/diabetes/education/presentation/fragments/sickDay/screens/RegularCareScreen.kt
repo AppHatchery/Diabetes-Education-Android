@@ -15,7 +15,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -40,15 +44,15 @@ fun RegularCareScreen(
         topBar = {
             SickDayTopBar(
                 title = "",
-                iconColor = Color.Black,
+                iconColor = Color.White,
                 showNavigation = true,
                 onNavigationClick = {
                     navController.popBackStack()
                 },
-                color = colorResource(R.color.green_050)
+                color = colorResource(R.color.secondaryMeadowGreen_300)
             )
         },
-        containerColor = colorResource(R.color.green_050),
+        containerColor = colorResource(R.color.secondaryMeadowGreen_300),
         content = { innerPadding ->
             Column(
                 modifier = Modifier
@@ -56,7 +60,15 @@ fun RegularCareScreen(
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 24.dp)
-                    .background(color = colorResource(R.color.green_050)),
+                    .background(
+                        //color = colorResource(R.color.secondaryMeadowGreen_300)
+                        brush =  Brush.radialGradient(
+                        colors = listOf(
+                            colorResource(R.color.secondaryMeadowGreen_600), colorResource(R.color.secondaryMeadowGreen_600), colorResource(R.color.secondaryMeadowGreen_300)),
+                            center = Offset.Unspecified,
+                            radius = Float.POSITIVE_INFINITY
+                        )
+                    ),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.height(40.dp))
@@ -66,18 +78,18 @@ fun RegularCareScreen(
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = nunito,
-                    color = colorResource(R.color.primaryGreen),
+                    color = colorResource(R.color.white),
                     textAlign = TextAlign.Center,
                     lineHeight = 32.sp
                 )
 
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(80.dp))
 
                 Image(
                     painter = painterResource(R.drawable.im_regular_care),
                     contentDescription = null,
                     modifier = Modifier
-                        .height(300.dp)
+                        .height(336.dp)
                         .width(245.dp)
                 )
 
@@ -86,7 +98,9 @@ fun RegularCareScreen(
 
                 CustomTransparentTextButton(
                     onClick = onExitToMain,
-                    buttonText = "Exit"
+                    buttonText = "Exit",
+                    iconColor = Color.White,
+                    buttonTextColor = Color.White
                 )
 
                 Spacer(modifier = Modifier.height(40.dp))

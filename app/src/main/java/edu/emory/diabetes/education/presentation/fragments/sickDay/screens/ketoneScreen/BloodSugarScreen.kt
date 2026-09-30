@@ -60,9 +60,9 @@ fun BloodSugarScreen(
     }
 
     val text = if(instrument == "ilet"){
-        "Is your child's blood sugar higher than 180mg/dL?"
+        "Is blood sugar higher than 180mg/dL?"
     }else{
-        "Is your child's blood sugar higher than 150mg/dL?"
+        "Is blood sugar higher than 150mg/dL?"
     }
 
     Scaffold(
@@ -140,7 +140,7 @@ fun BloodSugarScreen(
                         "ilet" ->{
                             if(over300 == "false"){
                                 if(questionAnswer == "no"){
-                                    navController.navigate(SickDayScreen.CallDoctor.route)
+                                    navController.navigate(SickDayScreen.CallCHOA.route)
                                 }else{
                                     if (iLetKetone == "Moderate" || iLetKetone == "High") {
                                         navController.navigate("${SickDayScreen.ManageILet.route}/$iLetKetone")
@@ -158,7 +158,7 @@ fun BloodSugarScreen(
                             if(questionAnswer == "yes"){
                                 navController.navigate("${SickDayScreen.ManageAtHome.route}/$instrument/$isLow")
                             }else{
-                                navController.navigate(SickDayScreen.CallDoctor.route)
+                                navController.navigate(SickDayScreen.CallCHOA.route)
                             }
                         }
                     }

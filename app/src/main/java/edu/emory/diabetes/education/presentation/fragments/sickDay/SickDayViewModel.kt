@@ -93,7 +93,7 @@ class SickDayViewModel : ViewModel() {
                     selectedSymptoms.contains("High_Blood_Sugar")) {
                     SickDayScreen.SymptomSelection.createRoute("regular")
                 } else {
-                    SickDayScreen.CallDoctor.route
+                    SickDayScreen.CallCHOA.route
                 }
             }
             "regular" -> {
