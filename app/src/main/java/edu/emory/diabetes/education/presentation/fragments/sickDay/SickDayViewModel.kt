@@ -44,6 +44,7 @@ object FlowAnswerKeys {
     const val REMINDER_KETONE_MEASURE  = "reminder_ketone_measure"
     const val REMINDER_KETONE_LEVEL    = "reminder_ketone_level"
     const val REMINDER_KETONE_Q1       = "reminder_ketone_q1"
+    const val REMINDER_KETONE_READING  = "reminder_ketone_reading"
     const val REMINDER_KETONE_SCREEN_INSTRUMENT = "reminder_ketone_screen_instrument"
     const val ILET_KETONE_MEASURE      = "ilet_ketone_measure"
     const val ILET_KETONE_LEVEL        = "ilet_ketone_level"

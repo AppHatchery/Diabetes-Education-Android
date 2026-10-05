@@ -253,6 +253,7 @@ fun SickDayNavigation(
                 navController = navController,
                 type = type,
                 measure = measure,
+                viewModel = viewModel,
                 onExitToMain = onExitToMain
             )
         }
