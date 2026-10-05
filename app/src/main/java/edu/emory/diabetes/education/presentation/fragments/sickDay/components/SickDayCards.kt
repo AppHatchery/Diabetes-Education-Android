@@ -1,9 +1,12 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.components
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,13 +18,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -35,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.Symptom
 import edu.emory.diabetes.education.presentation.theme.nunito
+import androidx.core.net.toUri
 
 @Composable
 fun CardWithImage(
@@ -322,6 +330,7 @@ fun CorrectionCard(
 fun AfterCorrectionCard(
     modifier: Modifier = Modifier
 ){
+    val context = LocalContext.current
     Card(
         modifier = modifier
             .fillMaxWidth(),
@@ -329,13 +338,14 @@ fun AfterCorrectionCard(
             CardDefaults.cardColors(containerColor = colorResource(R.color.blue_050)),
         shape = RoundedCornerShape(12.dp),
     ) {
-        Box(
-            modifier = modifier.fillMaxSize()
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(12.dp),
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(12.dp),
             ) {
                 Image(
                     painter = painterResource(R.drawable.im_sick_day_correction),
@@ -360,7 +370,11 @@ fun AfterCorrectionCard(
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
                         text = buildAnnotatedString {
-                            append("If ")
+                            //append("Call 404-785-5437 ")
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append("Call 404-785-5437 ")
+                            }
+                            append("if ")
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append("blood sugar")
                             }
@@ -372,11 +386,48 @@ fun AfterCorrectionCard(
                             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                                 append("after 2 corrections")
                             }
-                            append(" call your care team.")
                         },
                         fontFamily = nunito,
                         fontSize = 16.sp,
                         lineHeight = 28.sp,
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Button(
+                onClick = {
+                    val intent = Intent(Intent.ACTION_DIAL).apply {
+                        data = "tel:404-785-5437".toUri()
+                    }
+                    context.startActivity(intent)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(47.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(R.color.primaryBlue)
+                ),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_phone_call),
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text(
+                        text = "Call CHOA",
+                        fontSize = 20.sp,
+                        //fontWeight = FontWeight.Bold,
+                        fontFamily = nunito,
+                        color = Color.White
                     )
                 }
             }

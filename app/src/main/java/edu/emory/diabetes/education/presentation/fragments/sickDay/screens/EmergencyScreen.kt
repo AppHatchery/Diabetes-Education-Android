@@ -14,14 +14,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -39,7 +40,6 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Re
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.theme.nunito
 
-
 @Composable
 fun EmergencyScreen(
     navController: NavController,
@@ -51,100 +51,84 @@ fun EmergencyScreen(
       topBar = {
           SickDayTopBar(
               title = "",
-              iconColor = Color.Black,
+              iconColor = Color.White,
               showNavigation = true,
               onNavigationClick = {
                   navController.popBackStack()
               },
-              color = colorResource(R.color.secondary_fire_red_100)
+              color = colorResource(R.color.secondary_fire_red_300)
           )
       },
-      containerColor = colorResource(R.color.secondary_fire_red_100),
-      content = {innerPadding ->
+      containerColor = colorResource(R.color.secondary_fire_red_300),
+      content = { innerPadding ->
             Column(
                 modifier = Modifier
-                    //.padding(innerPadding)
                     .fillMaxSize()
                     .padding(innerPadding)
-                    .verticalScroll(rememberScrollState())
-                    .navigationBarsPadding()
-                    .padding(horizontal = 40.dp)
-                    .background(color = colorResource(R.color.secondary_fire_red_100)),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
             ) {
-
-                //Spacer(modifier = Modifier.height(47.dp))
-
-                Text(
-                    text = "Seek Immediate\n Medical Attention",
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = nunito,
-                    textAlign = TextAlign.Center,
-                    color = colorResource(R.color.secondary_fire_red_300),
-                    lineHeight = 42.sp
-                )
-
-                //change to box
-                Box(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Image(
-                        painter = painterResource(R.drawable.im_sick_day_running),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .height(144.dp)
-                            .width(184.dp)
-                            .align(Alignment.CenterStart)
-                    )
-                    Image(
-                        painter = painterResource(R.drawable.im_ambulance),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .height(126.dp)
-                            .width(156.dp)
-                            .align(Alignment.BottomEnd)
-                            .padding(top = 15.dp)
-                    )
-
-                }
-                Spacer(modifier = Modifier.height(40.dp))
-
-                RedEmergencyButton(
-                    onClick = {},
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    HorizontalDivider(
-                        modifier = Modifier.weight(1f),
-                        thickness = 1.dp,
-                        color = Color.Gray.copy(alpha = 0.4f)
-                    )
-                    Text(
-                        text = "or",
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        fontSize = 16.sp,
-                        color = Color.Black
-                    )
-                    HorizontalDivider(
-                        modifier = Modifier.weight(1f),
-                        thickness = 1.dp,
-                        color = Color.Gray.copy(alpha = 0.4f)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(36.dp))
-
+                // Red top section with the headline and illustration
                 Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .background(
+                            brush =  Brush.radialGradient(
+                                colors = listOf(
+                                    colorResource(R.color.medical_center_radio), colorResource(R.color.medical_center_radio), colorResource(R.color.secondary_fire_red_300)),
+                                center = Offset.Unspecified,
+                                radius = Float.POSITIVE_INFINITY
+                            )
+                        )
+                        .padding(horizontal = 24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxWidth()
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Seek immediate\nmedical attention",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = nunito,
+                        textAlign = TextAlign.Center,
+                        color = Color.White,
+                        lineHeight = 42.sp
+                    )
+
+                    Spacer(modifier = Modifier.height(40.dp))
+
+                    Box(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.im_sick_day_running),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .height(221.dp)
+                                .width(184.dp)
+                                .align(Alignment.CenterStart)
+                        )
+                        Image(
+                            painter = painterResource(R.drawable.im_ambulance),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .height(151.dp)
+                                .width(156.dp)
+                                .align(Alignment.BottomEnd)
+                                .padding(top = 15.dp)
+                        )
+                    }
+                }
+
+                // White bottom card with the actions
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            color = Color.White,
+                            shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
+                        )
+                        .navigationBarsPadding()
+                        .padding(horizontal = 40.dp, vertical = 32.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = "Go to the nearest",
@@ -164,16 +148,46 @@ fun EmergencyScreen(
                         textAlign = TextAlign.Center,
                         lineHeight = 32.sp
                     )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        HorizontalDivider(
+                            modifier = Modifier.weight(1f),
+                            thickness = 1.dp,
+                            color = Color.Gray.copy(alpha = 0.4f)
+                        )
+                        Text(
+                            text = "or",
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            fontSize = 16.sp,
+                            color = Color.Black
+                        )
+                        HorizontalDivider(
+                            modifier = Modifier.weight(1f),
+                            thickness = 1.dp,
+                            color = Color.Gray.copy(alpha = 0.4f)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    RedEmergencyButton(
+                        onClick = {},
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    CustomTransparentTextButton(
+                        onClick = onExitToMain,
+                        buttonText = "Exit"
+                    )
                 }
-
-                Spacer(modifier = Modifier.height(96.dp))
-
-                CustomTransparentTextButton(
-                    onClick = onExitToMain,
-                    buttonText = "Exit"
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
             }
         }
     )
