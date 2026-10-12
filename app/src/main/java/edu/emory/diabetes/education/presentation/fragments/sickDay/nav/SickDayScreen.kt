@@ -35,4 +35,15 @@ sealed class SickDayScreen(val route: String) {
     object NewPump: SickDayScreen("new_pump")
 
     object KetoneBloodSugar: SickDayScreen("ketone_blood_sugar")
+
+    //hypoglycemia screens
+
+    object HypoSymptomSelectionScreen: SickDayScreen("hypo_symptom_selection/{categoryId}") {
+        fun createRoute(categoryId: String) = "hypo_symptom_selection/$categoryId"
+    }
+    object CGMGlucoseTest: SickDayScreen("cgm_glucose_test")
+    object BloodSugarReading: SickDayScreen("blood_sugar_reading")
+    object HypoRegularCareScreen: SickDayScreen("hypo_regular_care")
+    object TreatLowBloodSugarScreen: SickDayScreen("treat_low_blood_sugar")
+
 }

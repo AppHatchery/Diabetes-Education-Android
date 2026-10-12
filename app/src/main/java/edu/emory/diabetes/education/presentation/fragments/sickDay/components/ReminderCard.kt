@@ -285,6 +285,232 @@ fun CountdownText(timeRemainingSeconds: Long) {
 }
 
 
+@Composable
+fun HypoCheckReminderCard(
+    modifier: Modifier = Modifier,
+    durationMinutes: Int = 15,
+    savedEndTimeMs: Long = 0L,
+    onReminderSet: () -> Unit,
+    onStartTest: () -> Unit,
+    onSkipReminder: () -> Unit = {},
+) {
+    val totalSeconds = durationMinutes * 60L
+
+    // On first composition, work out the remaining seconds from the saved end time.
+    // If savedEndTimeMs is 0 or already passed, start fresh.
+    val initialSecondsRemaining = remember {
+        if (savedEndTimeMs > 0L) {
+            val remainingMs = savedEndTimeMs - System.currentTimeMillis()
+            if (remainingMs > 0) remainingMs / 1000L else 0L
+        } else {
+            totalSeconds
+        }
+    }
+
+    // Resume counting down if there was a saved reminder that hasn't expired
+    var isCountingDown by remember { mutableStateOf(initialSecondsRemaining in 1..<totalSeconds) }
+    var isFinished by remember { mutableStateOf(initialSecondsRemaining == 0L && savedEndTimeMs > 0L) }
+    var timeRemainingSeconds by remember {
+        mutableStateOf(if (isFinished) 0L else initialSecondsRemaining)
+    }
+
+    val durationLabel = "$durationMinutes Minutes"
+
+    LaunchedEffect(isCountingDown) {
+        if (isCountingDown) {
+            while (timeRemainingSeconds > 0) {
+                delay(1.seconds)
+                timeRemainingSeconds--
+            }
+            isCountingDown = false
+            isFinished = true
+        }
+    }
+
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = colorResource(R.color.blue_050)
+        ),
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.im_clock),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .height(87.dp)
+                        .width(87.dp)
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Column {
+                    Text(
+                        text = if (isFinished) "Time to Check" else "Next Check in $durationLabel",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.W600,
+                        fontFamily = nunito,
+                        color = colorResource(
+                            if (isFinished) R.color.primaryGreen else R.color.primaryBlue
+                        ),
+                        textAlign = TextAlign.Start
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    when {
+                        isFinished -> {
+                            //hide text
+                        }
+                        isCountingDown -> {
+                            HypoCountdownText(timeRemainingSeconds = timeRemainingSeconds)
+                        }
+                        else -> {
+                            Text(
+                                text = buildAnnotatedString {
+                                    append("You'll need to recheck your ")
+                                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                        append("blood sugar")
+                                    }
+                                    append(" in ")
+                                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                        append(durationLabel)
+                                    }
+                                    append(".")
+                                },
+                                fontFamily = nunito,
+                                fontSize = 16.sp,
+                                lineHeight = 28.sp,
+                            )
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Primary action button — "Remind Me" / "Start Test"
+            // Hidden while countdown is active (replaced by Skip button below)
+            if (!isCountingDown) {
+                Button(
+                    onClick = {
+                        if (isFinished) {
+                            onStartTest()
+                        } else {
+                            isCountingDown = true
+                            timeRemainingSeconds = totalSeconds
+                            onReminderSet()
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(
+                            if (isFinished) R.color.primaryGreen else R.color.primaryBlue
+                        )
+                    )
+                ) {
+                    if (isFinished) {
+                        Text(
+                            text = "Start Test",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Outlined.ArrowForward,
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    } else {
+                        Icon(
+                            painter = painterResource(R.drawable.im_alarm),
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Remind Me",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = nunito,
+                        )
+                    }
+                }
+            }
+
+            // Skip button — only shown while the countdown is running
+            if (isCountingDown) {
+                OutlinedButton(
+                    onClick = onSkipReminder,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    border = BorderStroke(1.dp, colorResource(R.color.primaryBlue)),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        containerColor = Color.White,
+                        contentColor = colorResource(R.color.primaryBlue)
+                    )
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.im_alarm),
+                        contentDescription = null,
+                        tint = colorResource(R.color.primaryBlue),
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Skip this Reminder",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = nunito,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun HypoCountdownText(timeRemainingSeconds: Long) {
+    val minutes = timeRemainingSeconds / 60
+    val seconds = timeRemainingSeconds % 60
+
+    Text(
+        text = buildAnnotatedString {
+            withStyle(
+                style = SpanStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 32.sp,
+                    color = colorResource(R.color.primaryGreen)
+                )
+            ) {
+                append(String.format("%02d:%02d", minutes, seconds))
+            }
+        },
+        fontSize = 18.sp,
+        lineHeight = 26.sp,
+        fontFamily = nunito,
+        textAlign = TextAlign.Center
+    )
+}
+
+
 @Preview
 @Composable
 fun CheckReminderCardPreview(){

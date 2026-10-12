@@ -37,6 +37,7 @@ import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.presentation.fragments.onboarding.OnboardingViewModel
 import edu.emory.diabetes.education.presentation.fragments.onboarding.nav.OnboardingNavigation
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
+import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.HypoglycemiaViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayNavigation
 
 sealed class AppRoute(val route: String) {
@@ -238,9 +239,11 @@ fun AppNavHost(startFromReminder: Boolean = false) {
         // ── SickDay ──────────────────────────────────────────────────
         composable(AppRoute.SickDay.route) {
             val sickDayViewModel: SickDayViewModel = viewModel()
+            val hypoglycemiaViewModel: HypoglycemiaViewModel = viewModel()
 
             SickDayNavigation(
                 viewModel = sickDayViewModel,
+                hypoglycemiaViewModel = hypoglycemiaViewModel,
                 fromNotification = startFromReminder,
                 onExitToMain = {
                     navController.navigate(AppRoute.Main.route) {

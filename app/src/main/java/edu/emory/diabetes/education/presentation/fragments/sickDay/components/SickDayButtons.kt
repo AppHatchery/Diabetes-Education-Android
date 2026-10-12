@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,7 +40,8 @@ import edu.emory.diabetes.education.presentation.theme.nunito
 fun NextButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    isSelected: Boolean = false
+    isSelected: Boolean = false,
+    text: String = "Next"
 ){
     Button(
         modifier = modifier
@@ -61,7 +63,7 @@ fun NextButton(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Next",
+                text = text,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.W500,
                 modifier = modifier.padding(end = 2.dp),
@@ -225,6 +227,27 @@ fun CustomTransparentTextButton(
 
         }
     
+}
+
+@Composable
+fun BulletPointSmallText(text: AnnotatedString) {
+    Row(
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "• ",
+            fontSize = 15.sp,
+            fontFamily = nunito,
+            modifier = Modifier.padding(end = 8.dp, top = 4.dp)
+        )
+        Text(
+            text = text,
+            fontSize = 16.sp,
+            lineHeight = 24.sp,
+            fontFamily = nunito,
+            letterSpacing = (-0.41).sp
+        )
+    }
 }
 
 @Preview

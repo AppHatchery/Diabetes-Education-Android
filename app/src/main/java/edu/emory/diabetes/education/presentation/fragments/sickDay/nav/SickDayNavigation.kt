@@ -34,10 +34,17 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.HypoglycemiaViewModel
+import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.BloodSugarReadingScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.CGMGlucoseTest
+import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.HypoRegularCareScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.HypoSymptomSelectionScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.TreatLowBloodSugarScreen
 
 @Composable
 fun SickDayNavigation(
     viewModel: SickDayViewModel,
+    hypoglycemiaViewModel: HypoglycemiaViewModel,
     fromNotification: Boolean = false,
     onExitToMain: () -> Unit
 ){
@@ -262,6 +269,51 @@ fun SickDayNavigation(
             NewPumpSiteScreen(
                 navController = navController,
                 onExitToMain = onExitToMain
+            )
+        }
+
+        //hypoglycemia screens
+        composable(
+            route = SickDayScreen.HypoSymptomSelectionScreen.route,
+            arguments = listOf(
+                navArgument("categoryId"){type = NavType.StringType}
+            )
+        ){backStackEntry ->
+            val categoryId = backStackEntry.arguments?.getString("categoryId") ?: "hypoFirstQuestion"
+            HypoSymptomSelectionScreen(
+                categoryId = categoryId,
+                navController = navController,
+                viewModel = hypoglycemiaViewModel
+            )
+        }
+
+        composable(SickDayScreen.CGMGlucoseTest.route){
+            CGMGlucoseTest(
+                navController = navController,
+                onExitToMain = onExitToMain
+            )
+        }
+
+        composable(SickDayScreen.BloodSugarReading.route){
+            BloodSugarReadingScreen(
+                navController = navController,
+                viewModel = hypoglycemiaViewModel,
+                onExitToMain = onExitToMain
+            )
+        }
+
+        composable(SickDayScreen.HypoRegularCareScreen.route){
+            HypoRegularCareScreen(
+                navController = navController,
+                onExitToMain = onExitToMain
+            )
+        }
+
+        composable (SickDayScreen.TreatLowBloodSugarScreen.route){
+            TreatLowBloodSugarScreen(
+                navController = navController,
+                onExitToMain = onExitToMain,
+                viewModel = hypoglycemiaViewModel
             )
         }
     }

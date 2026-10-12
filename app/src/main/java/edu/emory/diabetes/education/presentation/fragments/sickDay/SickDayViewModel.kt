@@ -93,6 +93,8 @@ class SickDayViewModel : ViewModel() {
                 if (selectedSymptoms.contains("Diabetic_Ketoacidosis") ||
                     selectedSymptoms.contains("High_Blood_Sugar")) {
                     SickDayScreen.SymptomSelection.createRoute("regular")
+                } else if( selectedSymptoms.contains("Low_Blood_Sugar")) {
+                    SickDayScreen.HypoSymptomSelectionScreen.createRoute("hypoFirstQuestion")
                 } else {
                     SickDayScreen.CallCHOA.route
                 }

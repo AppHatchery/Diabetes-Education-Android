@@ -83,6 +83,8 @@ class SickDayPrefs(val context: Context){
         const val KEY_REMINDER_GROUP    = "reminder_group"
 
         const val REMINDER_GROUP_INJECTION = "injection_pump"
+
+        const val REMINDER_GROUP_LOW_BLOOD_SUGAR = "blood_sugar"
         const val REMINDER_GROUP_ILET      = "ilet"
     }
 }

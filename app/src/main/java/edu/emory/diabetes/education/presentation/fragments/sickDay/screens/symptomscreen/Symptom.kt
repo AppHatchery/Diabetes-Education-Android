@@ -59,4 +59,44 @@ object SymptomData {
             Symptom("vomiting", "Vomiting", R.drawable.im_dka)
         )
     )
+
+    val hypoFirstQuestion = SymptomCategory(
+        id = "hypoFirstQuestion",
+        title = "How was blood sugar checked?",
+        subtitle = null,
+        symptoms = listOf(
+            Symptom("glucose_meter", "Blood Glucose Meter",R.drawable.im_glucose_meter ),
+            Symptom("cgm", "CGM",R.drawable.im_cgm )
+        )
+    )
+
+    val bloodSugarSymptoms = SymptomCategory(
+        id = "bloodSugarSymptoms",
+        title = "Are any of these low blood sugar symptoms present?",
+        subtitle = null,
+        symptoms = listOf(
+            Symptom("shakiness", "Shakiness", R.drawable.im_shakiness),
+            Symptom("fast_heartbeat", "Fast Heartbeat", R.drawable.im_heartbeat),
+            Symptom("sweating", "Sweating", R.drawable.im_sweating),
+            Symptom("dizziness", "Dizziness", R.drawable.im_dizziness),
+            Symptom("anxiety", "Anxiety", R.drawable.im_stressed),
+            Symptom("hungry", "Hungry", R.drawable.im_hungry),
+            Symptom("blurry_vision", "Blurry vision", R.drawable.im_blurry_vision),
+            Symptom("fatigue", "Fatigue", R.drawable.im_fatigue),
+            Symptom("headache", "Headache", R.drawable.im_headache),
+            Symptom("irritability", "Irritability", R.drawable.im_angry),
+        )
+
+    )
+
+    val vomiting = SymptomCategory(
+        id = "vomiting",
+        title = "Is there vomiting or loss of consciousness?",
+        subtitle = null,
+        symptoms = listOf(
+            Symptom("vomiting", "Vomiting", R.drawable.im_dka),
+            Symptom("consciousness", "Loss of consciousness", R.drawable.im_dizziness),
+        )
+
+    )
 }
