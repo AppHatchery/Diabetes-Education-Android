@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.BloodSugarReadingField
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.BloodSugarDialog
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
@@ -44,6 +46,11 @@ fun BloodSugarReadingScreen(
     onExitToMain: () -> Unit
 ){
 
+    val context = LocalContext.current
+    val onboardingPrefs = OnboardingPrefs(context)
+
+    val personAge = onboardingPrefs.personAge?.toIntOrNull() ?: 0
+    val maxBloodSugarValue = if(personAge <= 5) 80 else 70
     var reading by remember {
         mutableStateOf(viewModel.getAnswer(HypoFlowAnswerKeys.BLOOD_SUGAR_READING) ?: "")
     }
@@ -108,7 +115,7 @@ fun BloodSugarReadingScreen(
                     if((readingValue ?: Int.MAX_VALUE) > 300){
                         showLowDialog = true
                     }else{
-                        if ((readingValue ?: Int.MAX_VALUE) < 70){
+                        if ((readingValue ?: Int.MAX_VALUE) < maxBloodSugarValue){
                             val createRoute = SickDayScreen.HypoSymptomSelectionScreen.createRoute("injection")
                             navController.navigate(createRoute) {
                                 popUpTo(createRoute) { inclusive = true }

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
@@ -172,13 +173,30 @@ fun SymptomCircleMultiGrid(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(symptoms) { symptom ->
+        // When the final row would hold a single leftover item, let it span the
+        // full width so it sits centered instead of hugging the left edge.
+        val hasLoneLastItem = symptoms.size % 3 == 1
+        val gridItems = if (hasLoneLastItem) symptoms.dropLast(1) else symptoms
+
+        items(gridItems) { symptom ->
             SymptomCircleCard(
                 symptom = symptom,
                 isSelected = selectedSymptoms.contains(symptom.id),
                 onClick = { onSymptomToggle(symptom.id) },
                 modifier = Modifier.fillMaxWidth()
             )
+        }
+
+        if (hasLoneLastItem) {
+            val lastSymptom = symptoms.last()
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                SymptomCircleCard(
+                    symptom = lastSymptom,
+                    isSelected = selectedSymptoms.contains(lastSymptom.id),
+                    onClick = { onSymptomToggle(lastSymptom.id) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
     }
 }

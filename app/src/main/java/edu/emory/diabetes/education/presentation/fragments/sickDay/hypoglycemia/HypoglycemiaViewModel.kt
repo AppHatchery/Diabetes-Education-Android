@@ -1,7 +1,8 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
+import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomCategory
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomData
@@ -10,8 +11,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-const val MAX_TREAT_ATTEMPTS = 3
-const val SAFE_BLOOD_SUGAR = 70
+const val MAX_TREAT_ATTEMPTS = 4
+
+val personAge = OnboardingPrefs.KEY_PERSON_AGE.toIntOrNull() ?: 0
+
+val SAFE_BLOOD_SUGAR = if(personAge <= 5) 80 else 70
 data class HypoFlowState(
     val answers: Map<String, String> = emptyMap(),
     val selections: Map<String, Set<String>> = emptyMap(),
@@ -83,7 +87,7 @@ class HypoglycemiaViewModel : ViewModel() {
         }
     }
 
-    fun determineNextRoute(categoryId: String, selectedSymptoms: Set<String>): String {
+    fun determineNextRoute(categoryId: String, selectedSymptoms: Set<String>, isCHOAPatient: Boolean = false): String {
         return when (categoryId) {
             "hypoFirstQuestion" -> {
                 if (selectedSymptoms.contains("glucose_meter")) {
@@ -96,7 +100,13 @@ class HypoglycemiaViewModel : ViewModel() {
                 if (selectedSymptoms.contains("none_of_above")) {
                     SickDayScreen.HypoRegularCareScreen.route
                 } else {
-                    SickDayScreen.CallCHOA.route
+                    // Not CHOA patient
+                    if (isCHOAPatient) {
+                        Log.d("skibidi", "determineNextRoute: ${true}")
+                        SickDayScreen.CallCHOA.route
+                    } else {
+                        SickDayScreen.HypoCallDoctorScreen.route
+                    }
                 }
             }
             else -> SickDayScreen.CallCHOA.route

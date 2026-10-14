@@ -37,6 +37,8 @@ import androidx.compose.animation.slideOutHorizontally
 import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.HypoglycemiaViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.BloodSugarReadingScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.CGMGlucoseTest
+import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.GlucagonScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.HypoCallDoctorScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.HypoRegularCareScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.HypoSymptomSelectionScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.TreatLowBloodSugarScreen
@@ -283,7 +285,8 @@ fun SickDayNavigation(
             HypoSymptomSelectionScreen(
                 categoryId = categoryId,
                 navController = navController,
-                viewModel = hypoglycemiaViewModel
+                viewModel = hypoglycemiaViewModel,
+                onExitToMain = onExitToMain
             )
         }
 
@@ -314,6 +317,20 @@ fun SickDayNavigation(
                 navController = navController,
                 onExitToMain = onExitToMain,
                 viewModel = hypoglycemiaViewModel
+            )
+        }
+
+        composable (SickDayScreen.HypoCallDoctorScreen.route){
+            HypoCallDoctorScreen(
+                onExitToMain = onExitToMain,
+                navController = navController
+            )
+        }
+
+        composable (SickDayScreen.GlucagonScreen.route){
+           GlucagonScreen(
+                onExitToMain = onExitToMain,
+                navController = navController
             )
         }
     }

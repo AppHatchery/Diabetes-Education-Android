@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.BloodSugarReadingField
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomWidthInactiveButton
@@ -49,11 +51,16 @@ fun HypoSymptomSelectionScreen(
     categoryId: String,
     navController: NavController,
     viewModel: HypoglycemiaViewModel,
+    onExitToMain: () -> Unit
 ) {
+
+    val context = LocalContext.current
 
     val category = remember(categoryId) {
         viewModel.getSymptomCategory(categoryId)
     }
+
+    val onboardingPrefs = OnboardingPrefs(context)
 
     val symptomKey = HypoFlowAnswerKeys.symptomKey(categoryId)
 
@@ -88,7 +95,7 @@ fun HypoSymptomSelectionScreen(
                 color = Color.White,
                 iconColor = Color.Black,
                 isCloseVisible = true,
-                onExitToMain = {}
+                onExitToMain = onExitToMain
             )
         },
         containerColor = Color.White
@@ -161,8 +168,10 @@ fun HypoSymptomSelectionScreen(
                     NextButton(
                         text = "I notice these symptoms",
                         onClick = {
+                            val isCHOApPatient = OnboardingPrefs(context).isChoaPatient
+                            Log.d("skibidi", "HypoSymptomSelectionScreen: $isCHOApPatient")
                             navController.navigate(
-                                viewModel.determineNextRoute(categoryId, selectedSymptoms)
+                                viewModel.determineNextRoute(categoryId, selectedSymptoms, isCHOApPatient)
                             )
                         },
                         isSelected = true
@@ -340,15 +349,22 @@ fun HypoSymptomSelectionScreen(
                                         RecheckResult.RegularCare ->
                                             navController.navigate(SickDayScreen.RegularCare.route)
 
-                                        RecheckResult.CallCHOA ->
-                                            navController.navigate(SickDayScreen.CallCHOA.route)
+                                        RecheckResult.CallCHOA -> {
+                                            if (onboardingPrefs.isChoaPatient){
+                                                navController.navigate(SickDayScreen.CallCHOA.route)
+                                            }else if(onboardingPrefs.userType == OnboardingPrefs.USER_TYPE_SCHOOL_NURSE){
+                                                navController.navigate(SickDayScreen.GlucagonScreen.route)
+                                            }else{
+                                                navController.navigate(SickDayScreen.HypoCallDoctorScreen.route)
+                                            }
+                                        }
 
                                         RecheckResult.TreatAgain -> {
                                             val returned = navController.popBackStack(
                                                 SickDayScreen.TreatLowBloodSugarScreen.route,
                                                 inclusive = false
                                             )
-                                            // Fallback if Treat isn't on the stack (e.g. app opened via the reminder notification)
+                                            // Fallback if Treat isn't on the stack
                                             if (!returned) {
                                                 navController.navigate(SickDayScreen.TreatLowBloodSugarScreen.route) {
                                                     launchSingleTop = true
@@ -356,14 +372,17 @@ fun HypoSymptomSelectionScreen(
                                             }
                                         }
                                     }
-//                                    if(reading.toIntOrNull() != null && reading.toInt() > 70){
-//                                        navController.navigate(SickDayScreen.RegularCare.route)
-//                                    }else{
-//                                        navController.navigate(SickDayScreen.TreatLowBloodSugarScreen.route)
-//                                    }
                                 }
                                 else -> {
-                                    navController.navigate(SickDayScreen.CallCHOA.route)
+
+                                    when {
+                                        onboardingPrefs.userType == OnboardingPrefs.USER_TYPE_SCHOOL_NURSE ->
+                                            navController.navigate(SickDayScreen.GlucagonScreen.route)
+                                        onboardingPrefs.isChoaPatient ->
+                                            navController.navigate(SickDayScreen.CallCHOA.route)
+                                        else ->
+                                            navController.navigate(SickDayScreen.HypoCallDoctorScreen.route)
+                                    }
                                 }
                             }
                         }
@@ -384,6 +403,7 @@ fun HypoSymptomSelectionScreenPreview() {
     HypoSymptomSelectionScreen(
         categoryId = "bloodSugarSymptoms",
         navController = navController,
-        viewModel = HypoglycemiaViewModel()
+        viewModel = HypoglycemiaViewModel(),
+        onExitToMain = {}
     )
 }
