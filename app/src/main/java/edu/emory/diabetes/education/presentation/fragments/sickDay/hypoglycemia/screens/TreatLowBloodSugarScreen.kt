@@ -59,6 +59,9 @@ fun TreatLowBloodSugarScreen(
     val context = LocalContext.current
     val prefs = remember { SickDayPrefs(context) }
 
+    // True when this screen was opened directly from Get Help while its reminder is active
+    val isStartDestination = remember { navController.previousBackStackEntry == null }
+
     val flowState by viewModel.flowState.collectAsStateWithLifecycle()
     val attempt = flowState.treatAttempt
 
@@ -100,7 +103,8 @@ fun TreatLowBloodSugarScreen(
                 title = "",
                 showNavigation = true,
                 onNavigationClick = {
-                    navController.popBackStack()
+                    // Opened from Get Help with nothing behind it, so go back home
+                    if (isStartDestination) onExitToMain() else navController.popBackStack()
                 },
                 isCloseVisible = false,
                 onExitToMain = onExitToMain,
@@ -185,6 +189,7 @@ fun TreatLowBloodSugarScreen(
                     ReminderScheduler.scheduleReminder(context, durationMinutes = 15, route = SickDayScreen.HypoSymptomSelectionScreen.createRoute("vomiting"))
                     prefs.saveReminderCheckpoint(
                         route = SickDayScreen.HypoSymptomSelectionScreen.createRoute("vomiting"),
+                        reminderScreenRoute = SickDayScreen.TreatLowBloodSugarScreen.route,
                         durationMinutes = 15,
                         group = SickDayPrefs.REMINDER_GROUP_LOW_BLOOD_SUGAR
                     )

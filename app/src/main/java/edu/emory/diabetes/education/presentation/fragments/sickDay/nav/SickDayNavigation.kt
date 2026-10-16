@@ -4,14 +4,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -58,8 +52,7 @@ fun SickDayNavigation(
 
     // Decided once: is this a resume from the low blood sugar reminder?
     val isLowBloodSugarResume = remember(hypoglycemiaViewModel) {
-        fromNotification &&
-            prefs.getReminderCheckpoint() != null &&
+        prefs.getReminderCheckpoint() != null &&
             prefs.getReminderGroup() == SickDayPrefs.REMINDER_GROUP_LOW_BLOOD_SUGAR
     }
 
@@ -67,25 +60,15 @@ fun SickDayNavigation(
     // screens read their values; bindPersistence only acts on its first call.
     hypoglycemiaViewModel.bindPersistence(context, isLowBloodSugarResume)
 
-    // The graph always starts at firstSymptoms so it is a stable popUpTo target.
-    // A reminder resume is handled by the effect below, which jumps to the saved
-    // screen and clears this back stack instead of stacking on top of it.
-    val startDestination = SickDayScreen.SymptomSelection.createRoute("firstSymptoms")
-
-    // Resume from a reminder exactly once, landing on the saved screen as the
-    // single entry so the earlier flow doesn't stay stacked underneath it.
-    var hasResumedFromReminder by rememberSaveable { mutableStateOf(false) }
-    LaunchedEffect(Unit) {
-        if (fromNotification && !hasResumedFromReminder) {
-            hasResumedFromReminder = true
-            prefs.getReminderCheckpoint()?.let { checkpoint ->
-                navController.navigate(checkpoint) {
-                    popUpTo(navController.graph.findStartDestination().id) {
-                        inclusive = true
-                    }
-                    launchSingleTop = true
-                }
-            }
+    // Open straight on the resume screen so the first frame is already the right one.
+    // A notification tap goes to the step after the reminder; Get Help goes back to
+    // the reminder screen itself while the reminder is still active.
+    val startDestination = remember {
+        val checkpoint = prefs.getReminderCheckpoint()
+        when {
+            checkpoint == null -> SickDayScreen.SymptomSelection.createRoute("firstSymptoms")
+            fromNotification -> checkpoint
+            else -> prefs.getReminderScreenRoute() ?: checkpoint
         }
     }
 
