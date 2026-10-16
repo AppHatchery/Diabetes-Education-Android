@@ -1,9 +1,17 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.nav
 
-import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,29 +19,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.CallCHOAScreen
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.CallDoctorScreen
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.DurationQuestionScreen
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.EmergencyScreen
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareInsulinPump
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareLow
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneScreen
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareScreen
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.BloodSugarScreen
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.ILetBloodSugarScreen
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.IletKetoneScreen
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneBloodSugar
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneReminderScreen
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.ManageILet
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.ManageAtHome
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.NewPumpSiteScreen
-import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomSelectionScreen
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.EaseInOut
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.HypoglycemiaViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.BloodSugarReadingScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.CGMGlucoseTest
@@ -42,6 +27,23 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.
 import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.HypoRegularCareScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.HypoSymptomSelectionScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens.TreatLowBloodSugarScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.CallCHOAScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.CallDoctorScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.DurationQuestionScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.EmergencyScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareInsulinPump
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareLow
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.RegularCareScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.BloodSugarScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.ILetBloodSugarScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.IletKetoneScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneBloodSugar
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneReminderScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.KetoneScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.ManageAtHome
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.ManageILet
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.NewPumpSiteScreen
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomSelectionScreen
 
 @Composable
 fun SickDayNavigation(
@@ -54,16 +56,36 @@ fun SickDayNavigation(
     val context = LocalContext.current
     val prefs = remember { SickDayPrefs(context) }
 
-    // Check once on composition
+    // Decided once: is this a resume from the low blood sugar reminder?
+    val isLowBloodSugarResume = remember(hypoglycemiaViewModel) {
+        fromNotification &&
+            prefs.getReminderCheckpoint() != null &&
+            prefs.getReminderGroup() == SickDayPrefs.REMINDER_GROUP_LOW_BLOOD_SUGAR
+    }
 
-    val startDestination = remember {
-        if (fromNotification) {
-            // Notification tap — resume to the screen where the reminder was set
-            prefs.getReminderCheckpoint()
-                ?: SickDayScreen.SymptomSelection.createRoute("firstSymptoms")
-        } else {
-            // Normal button tap — always start fresh
-            SickDayScreen.SymptomSelection.createRoute("firstSymptoms")
+    // Restore the saved progress on that resume, otherwise clear it. Runs before the
+    // screens read their values; bindPersistence only acts on its first call.
+    hypoglycemiaViewModel.bindPersistence(context, isLowBloodSugarResume)
+
+    // The graph always starts at firstSymptoms so it is a stable popUpTo target.
+    // A reminder resume is handled by the effect below, which jumps to the saved
+    // screen and clears this back stack instead of stacking on top of it.
+    val startDestination = SickDayScreen.SymptomSelection.createRoute("firstSymptoms")
+
+    // Resume from a reminder exactly once, landing on the saved screen as the
+    // single entry so the earlier flow doesn't stay stacked underneath it.
+    var hasResumedFromReminder by rememberSaveable { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        if (fromNotification && !hasResumedFromReminder) {
+            hasResumedFromReminder = true
+            prefs.getReminderCheckpoint()?.let { checkpoint ->
+                navController.navigate(checkpoint) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
+            }
         }
     }
 

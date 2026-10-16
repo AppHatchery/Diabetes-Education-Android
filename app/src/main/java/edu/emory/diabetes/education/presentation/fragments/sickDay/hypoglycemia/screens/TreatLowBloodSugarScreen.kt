@@ -59,12 +59,14 @@ fun TreatLowBloodSugarScreen(
     val context = LocalContext.current
     val prefs = remember { SickDayPrefs(context) }
 
-    val savedEndTimeMs = remember {
-        prefs.getSavedEndTimeMsForGroup(SickDayPrefs.REMINDER_GROUP_LOW_BLOOD_SUGAR)
-    }
-
     val flowState by viewModel.flowState.collectAsStateWithLifecycle()
     val attempt = flowState.treatAttempt
+
+    // Recompute per attempt so a finished timer from a previous attempt
+    // doesn't carry over into the next one.
+    val savedEndTimeMs = remember(attempt) {
+        prefs.getSavedEndTimeMsForGroup(SickDayPrefs.REMINDER_GROUP_LOW_BLOOD_SUGAR)
+    }
 
     val bloodSugar = viewModel.getAnswer(HypoFlowAnswerKeys.BLOOD_SUGAR_READING)?.toInt() ?: 0
     val cgmReading = viewModel.getAnswer(HypoFlowAnswerKeys.CGM_READING) ?: "no"
@@ -177,6 +179,7 @@ fun TreatLowBloodSugarScreen(
             HypoCheckReminderCard(
                 durationMinutes = 15,
                 savedEndTimeMs = savedEndTimeMs,
+                resetKey = attempt,
                 onReminderSet = {
                     // User started the timer — persist the checkpoint
                     ReminderScheduler.scheduleReminder(context, durationMinutes = 15, route = SickDayScreen.HypoSymptomSelectionScreen.createRoute("vomiting"))

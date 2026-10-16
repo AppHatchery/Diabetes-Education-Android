@@ -31,6 +31,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
+import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.BloodSugarReadingField
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomWidthInactiveButton
@@ -55,6 +56,7 @@ fun HypoSymptomSelectionScreen(
 ) {
 
     val context = LocalContext.current
+    val prefs = remember { SickDayPrefs(context) }
 
     val category = remember(categoryId) {
         viewModel.getSymptomCategory(categoryId)
@@ -309,13 +311,16 @@ fun HypoSymptomSelectionScreen(
             if(categoryId == "vomiting" || categoryId == "injection") {
                 Spacer(modifier = Modifier.weight(1f))
 
-                val isNextEnabled = remember(selectedSymptom, isCGMReading, categoryId) {
+                val isNextEnabled = remember(selectedSymptom, isCGMReading, categoryId, reading) {
                     when {
                         categoryId == "injection" -> {
                             if (selectedSymptom == "Insulin_pump") isCGMReading != null
                             else selectedSymptom != null
                         }
-                        else -> selectedSymptom != null
+                        else -> {
+                            if (selectedSymptom == "neither") reading.isNotBlank()
+                            else selectedSymptom != null
+                        }
                     }
                 }
 
@@ -344,6 +349,10 @@ fun HypoSymptomSelectionScreen(
                             when(selectedSymptom){
                                 "neither" -> {
                                     val value = reading.toIntOrNull() ?: return@NextButton   // don't navigate on blank/garbage
+
+                                    // Reminder has done its job (brought the user back to recheck);
+                                    // clear it so the next Treat Low Blood Sugar screen starts fresh.
+                                    prefs.clearReminderCheckpoint()
 
                                     when (viewModel.evaluateRecheck(value)) {
                                         RecheckResult.RegularCare ->

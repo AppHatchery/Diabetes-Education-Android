@@ -290,6 +290,7 @@ fun HypoCheckReminderCard(
     modifier: Modifier = Modifier,
     durationMinutes: Int = 15,
     savedEndTimeMs: Long = 0L,
+    resetKey: Any? = Unit,
     onReminderSet: () -> Unit,
     onStartTest: () -> Unit,
     onSkipReminder: () -> Unit = {},
@@ -298,7 +299,7 @@ fun HypoCheckReminderCard(
 
     // On first composition, work out the remaining seconds from the saved end time.
     // If savedEndTimeMs is 0 or already passed, start fresh.
-    val initialSecondsRemaining = remember {
+    val initialSecondsRemaining = remember(resetKey) {
         if (savedEndTimeMs > 0L) {
             val remainingMs = savedEndTimeMs - System.currentTimeMillis()
             if (remainingMs > 0) remainingMs / 1000L else 0L
@@ -307,10 +308,11 @@ fun HypoCheckReminderCard(
         }
     }
 
-    // Resume counting down if there was a saved reminder that hasn't expired
-    var isCountingDown by remember { mutableStateOf(initialSecondsRemaining in 1..<totalSeconds) }
-    var isFinished by remember { mutableStateOf(initialSecondsRemaining == 0L && savedEndTimeMs > 0L) }
-    var timeRemainingSeconds by remember {
+    // Resume counting down if there was a saved reminder that hasn't expired.
+    // Keyed on resetKey so each new scenario/attempt gets a fresh timer.
+    var isCountingDown by remember(resetKey) { mutableStateOf(initialSecondsRemaining in 1..<totalSeconds) }
+    var isFinished by remember(resetKey) { mutableStateOf(initialSecondsRemaining == 0L && savedEndTimeMs > 0L) }
+    var timeRemainingSeconds by remember(resetKey) {
         mutableStateOf(if (isFinished) 0L else initialSecondsRemaining)
     }
 

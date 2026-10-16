@@ -1,7 +1,10 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import edu.emory.diabetes.education.data.prefs.HypoFlowPrefs
 import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomCategory
@@ -10,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 const val MAX_TREAT_ATTEMPTS = 4
 
@@ -56,6 +60,33 @@ class HypoglycemiaViewModel : ViewModel() {
 
     private val _flowState = MutableStateFlow(HypoFlowState())
     val flowState: StateFlow<HypoFlowState> = _flowState.asStateFlow()
+
+    private var flowPrefs: HypoFlowPrefs? = null
+
+    // Connects the flow state to storage once. On a low blood sugar reminder resume the
+    // saved progress is restored; otherwise it is cleared so a new flow starts fresh.
+    fun bindPersistence(context: Context, restoreSavedProgress: Boolean) {
+        if (flowPrefs != null) return
+        val store = HypoFlowPrefs(context.applicationContext)
+        flowPrefs = store
+
+        if (restoreSavedProgress) {
+            _flowState.value = HypoFlowState(
+                answers = store.loadAnswers(),
+                selections = store.loadSelections(),
+                treatAttempt = store.loadTreatAttempt()
+            )
+        } else {
+            store.clear()
+        }
+
+        // Save every change so the progress is never lost while a reminder is pending
+        viewModelScope.launch {
+            _flowState.collect { state ->
+                store.save(state.answers, state.selections, state.treatAttempt)
+            }
+        }
+    }
 
     fun saveAnswer(key: String, value: String) {
         _flowState.update { it.withAnswer(key, value) }
