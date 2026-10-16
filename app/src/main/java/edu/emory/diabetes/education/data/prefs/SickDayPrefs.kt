@@ -39,6 +39,7 @@ class SickDayPrefs(val context: Context){
         prefs.edit {
             remove(KEY_REMINDER_ROUTE)
             remove(KEY_REMINDER_SCREEN_ROUTE)
+            remove(KEY_REMINDER_SCREEN_DISMISSED)
             putBoolean(KEY_REMINDER_ACTIVE, false)
         }
     }
@@ -53,6 +54,7 @@ class SickDayPrefs(val context: Context){
         prefs.edit {
             putString(KEY_REMINDER_ROUTE, route)
             putString(KEY_REMINDER_SCREEN_ROUTE, reminderScreenRoute)
+            putBoolean(KEY_REMINDER_SCREEN_DISMISSED, false)
             putBoolean(KEY_REMINDER_ACTIVE, true)
             putLong(KEY_REMINDER_END_TIME, endTimeMs)
             putString(KEY_REMINDER_GROUP, group)
@@ -74,13 +76,21 @@ class SickDayPrefs(val context: Context){
         }
     }
 
-    // Route of the screen where the active reminder was set
+    // Route of the screen where the active reminder was set, until the user has closed it once
     fun getReminderScreenRoute(): String? {
-        return if (getBoolean(KEY_REMINDER_ACTIVE, false)) {
+        return if (
+            getBoolean(KEY_REMINDER_ACTIVE, false) &&
+            !getBoolean(KEY_REMINDER_SCREEN_DISMISSED, false)
+        ) {
             getString(KEY_REMINDER_SCREEN_ROUTE, null)
         } else {
             null
         }
+    }
+
+    // Stops reopening the reminder screen; the scheduled reminder itself stays active
+    fun markReminderScreenDismissed() {
+        putBoolean(KEY_REMINDER_SCREEN_DISMISSED, true)
     }
 
     // Returns the saved end time only if the active reminder belongs to this group.
@@ -95,6 +105,7 @@ class SickDayPrefs(val context: Context){
         const val PREFS_NAME = "prefs"
         const val KEY_REMINDER_ROUTE     = "reminder_route"
         const val KEY_REMINDER_SCREEN_ROUTE = "reminder_screen_route"
+        const val KEY_REMINDER_SCREEN_DISMISSED = "reminder_screen_dismissed"
         const val KEY_REMINDER_ACTIVE    = "reminder_active"
         const val KEY_REMINDER_END_TIME = "reminder_end_time"
         const val KEY_REMINDER_GROUP    = "reminder_group"

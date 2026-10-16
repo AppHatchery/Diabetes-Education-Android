@@ -50,9 +50,24 @@ fun SickDayNavigation(
     val context = LocalContext.current
     val prefs = remember { SickDayPrefs(context) }
 
+    val firstSymptomsRoute = SickDayScreen.SymptomSelection.createRoute("firstSymptoms")
+    val reminderScreenRoute = remember { prefs.getReminderScreenRoute() }
+
+    // Open straight on the resume screen so the first frame is already the right one.
+    // A notification tap goes to the step after the reminder. Otherwise the reminder
+    // screen opens until the user closes it once, then the protocol starts from scratch.
+    val startDestination = remember {
+        val checkpoint = prefs.getReminderCheckpoint()
+        when {
+            checkpoint == null -> firstSymptomsRoute
+            fromNotification -> checkpoint
+            else -> reminderScreenRoute ?: firstSymptomsRoute
+        }
+    }
+
     // Decided once: is this a resume from the low blood sugar reminder?
     val isLowBloodSugarResume = remember(hypoglycemiaViewModel) {
-        prefs.getReminderCheckpoint() != null &&
+        startDestination != firstSymptomsRoute &&
             prefs.getReminderGroup() == SickDayPrefs.REMINDER_GROUP_LOW_BLOOD_SUGAR
     }
 
@@ -60,16 +75,11 @@ fun SickDayNavigation(
     // screens read their values; bindPersistence only acts on its first call.
     hypoglycemiaViewModel.bindPersistence(context, isLowBloodSugarResume)
 
-    // Open straight on the resume screen so the first frame is already the right one.
-    // A notification tap goes to the step after the reminder; Get Help goes back to
-    // the reminder screen itself while the reminder is still active.
-    val startDestination = remember {
-        val checkpoint = prefs.getReminderCheckpoint()
-        when {
-            checkpoint == null -> SickDayScreen.SymptomSelection.createRoute("firstSymptoms")
-            fromNotification -> checkpoint
-            else -> prefs.getReminderScreenRoute() ?: checkpoint
-        }
+    // Leaving a protocol that opened on the reminder screen counts as closing that screen
+    val openedOnReminderScreen = startDestination == reminderScreenRoute
+    val exitToMain: () -> Unit = {
+        if (openedOnReminderScreen) prefs.markReminderScreenDismissed()
+        onExitToMain()
     }
 
     NavHost(
@@ -93,7 +103,7 @@ fun SickDayNavigation(
                 categoryId = categoryId,
                 navController = navController,
                 viewModel = viewModel,
-                onExitToMain = onExitToMain
+                onExitToMain = exitToMain
             )
         }
 
@@ -101,14 +111,14 @@ fun SickDayNavigation(
             EmergencyScreen(
                 navController = navController,
                 viewModel = viewModel,
-                onExitToMain = onExitToMain
+                onExitToMain = exitToMain
             )
         }
 
         composable(SickDayScreen.CallCHOA.route) {
             CallCHOAScreen(
                 navController = navController,
-                onExitToMain = onExitToMain
+                onExitToMain = exitToMain
             )
         }
 
@@ -123,21 +133,21 @@ fun SickDayNavigation(
                 navController = navController,
                 viewModel = viewModel,
                 instrumentType = instrumentId,
-                onExitToMain = onExitToMain
+                onExitToMain = exitToMain
             )
         }
 
         composable(SickDayScreen.RegularCare.route) {
             RegularCareScreen(
                 navController = navController,
-                onExitToMain = onExitToMain
+                onExitToMain = exitToMain
             )
         }
 
         composable(SickDayScreen.Ketone.route) {
             KetoneScreen(
                 navController = navController,
-                onExitToMain = onExitToMain,
+                onExitToMain = exitToMain,
                 viewModel = viewModel
             )
         }
@@ -145,7 +155,7 @@ fun SickDayNavigation(
         composable(SickDayScreen.RegularCareLow.route) {
             RegularCareLow(
                 navController = navController,
-                onExitToMain = onExitToMain,
+                onExitToMain = exitToMain,
                 viewModel = viewModel
             )
         }
@@ -153,7 +163,7 @@ fun SickDayNavigation(
         composable(SickDayScreen.RegularCareInsulinPump.route) {
             RegularCareInsulinPump(
                 navController = navController,
-                onExitToMain = onExitToMain,
+                onExitToMain = exitToMain,
                 viewModel = viewModel
             )
         }
@@ -161,7 +171,7 @@ fun SickDayNavigation(
         composable(SickDayScreen.KetoneReminder.route) {
             KetoneReminderScreen(
                 navController = navController,
-                onExitToMain = onExitToMain,
+                onExitToMain = exitToMain,
                 viewModel = viewModel
             )
         }
@@ -177,7 +187,7 @@ fun SickDayNavigation(
             val isLow = backStackEntry.arguments?.getBoolean("isLow") ?: false
             ManageAtHome(
                 navController = navController,
-                onExitToMain = onExitToMain,
+                onExitToMain = exitToMain,
                 instrument = instrument,
                 isLow = isLow
             )
@@ -196,7 +206,7 @@ fun SickDayNavigation(
                 navController = navController,
                 instrument = instrument,
                 isLowKetone = isLowKetone,
-                onExitToMain = onExitToMain,
+                onExitToMain = exitToMain,
                 viewModel = viewModel
             )
 
@@ -212,7 +222,7 @@ fun SickDayNavigation(
             BloodSugarScreen(
                 navController = navController,
                 instrument = instrument,
-                onExitToMain = onExitToMain,
+                onExitToMain = exitToMain,
                 viewModel = viewModel
             )
         }
@@ -227,7 +237,7 @@ fun SickDayNavigation(
             ManageILet(
                 navController = navController,
                 type = type,
-                onExitToMain = onExitToMain,
+                onExitToMain = exitToMain,
                 viewModel = viewModel
             )
         }
@@ -235,7 +245,7 @@ fun SickDayNavigation(
         composable(SickDayScreen.CallDoctor.route){
             CallDoctorScreen(
                 navController = navController,
-                onExitToMain = onExitToMain
+                onExitToMain = exitToMain
             )
         }
 
@@ -249,7 +259,7 @@ fun SickDayNavigation(
             IletKetoneScreen(
                 navController = navController,
                 type = type,
-                onExitToMain = onExitToMain,
+                onExitToMain = exitToMain,
                 viewModel = viewModel
             )
         }
@@ -268,14 +278,14 @@ fun SickDayNavigation(
                 type = type,
                 measure = measure,
                 viewModel = viewModel,
-                onExitToMain = onExitToMain
+                onExitToMain = exitToMain
             )
         }
 
         composable(SickDayScreen.NewPump.route){
             NewPumpSiteScreen(
                 navController = navController,
-                onExitToMain = onExitToMain
+                onExitToMain = exitToMain
             )
         }
 
@@ -291,14 +301,14 @@ fun SickDayNavigation(
                 categoryId = categoryId,
                 navController = navController,
                 viewModel = hypoglycemiaViewModel,
-                onExitToMain = onExitToMain
+                onExitToMain = exitToMain
             )
         }
 
         composable(SickDayScreen.CGMGlucoseTest.route){
             CGMGlucoseTest(
                 navController = navController,
-                onExitToMain = onExitToMain
+                onExitToMain = exitToMain
             )
         }
 
@@ -306,35 +316,35 @@ fun SickDayNavigation(
             BloodSugarReadingScreen(
                 navController = navController,
                 viewModel = hypoglycemiaViewModel,
-                onExitToMain = onExitToMain
+                onExitToMain = exitToMain
             )
         }
 
         composable(SickDayScreen.HypoRegularCareScreen.route){
             HypoRegularCareScreen(
                 navController = navController,
-                onExitToMain = onExitToMain
+                onExitToMain = exitToMain
             )
         }
 
         composable (SickDayScreen.TreatLowBloodSugarScreen.route){
             TreatLowBloodSugarScreen(
                 navController = navController,
-                onExitToMain = onExitToMain,
+                onExitToMain = exitToMain,
                 viewModel = hypoglycemiaViewModel
             )
         }
 
         composable (SickDayScreen.HypoCallDoctorScreen.route){
             HypoCallDoctorScreen(
-                onExitToMain = onExitToMain,
+                onExitToMain = exitToMain,
                 navController = navController
             )
         }
 
         composable (SickDayScreen.GlucagonScreen.route){
            GlucagonScreen(
-                onExitToMain = onExitToMain,
+                onExitToMain = exitToMain,
                 navController = navController
             )
         }

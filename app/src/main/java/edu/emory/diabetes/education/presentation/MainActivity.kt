@@ -34,6 +34,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.databinding.ActivityMainBinding
 import edu.emory.diabetes.education.notifications.CheckReminderReceiver
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayFragment
@@ -66,6 +67,11 @@ class MainActivity : ComponentActivity() {
             .isNullOrEmpty()
             .not()
 
+        // Fresh launch while a reminder is active opens its reminder screen instead of home
+        val startOnReminderScreen = savedInstanceState == null &&
+            !startFromReminder &&
+            SickDayPrefs(this).getReminderScreenRoute() != null
+
         setContent {
             val configuration = LocalConfiguration.current
             val density = resources.displayMetrics.density
@@ -75,7 +81,10 @@ class MainActivity : ComponentActivity() {
                     fontScale = 1f
                 )
             ) {
-                AppNavHost(startFromReminder = startFromReminder)
+                AppNavHost(
+                    startFromReminder = startFromReminder,
+                    startOnReminderScreen = startOnReminderScreen
+                )
             }
            // AppNavHost(startFromReminder = startFromReminder)
         }

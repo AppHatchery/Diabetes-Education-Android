@@ -18,6 +18,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,6 +59,11 @@ fun ManageILet(
 
     // True when this screen was opened directly from Get Help while its reminder is active
     val isStartDestination = remember { navController.previousBackStackEntry == null }
+
+    // System back from the reminder screen also goes home
+    BackHandler(enabled = isStartDestination) {
+        onExitToMain()
+    }
 
     val savedEndTimeMs = remember {
         prefs.getSavedEndTimeMsForGroup(SickDayPrefs.REMINDER_GROUP_ILET)
