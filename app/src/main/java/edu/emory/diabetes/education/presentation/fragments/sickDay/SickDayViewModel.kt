@@ -87,14 +87,27 @@ class SickDayViewModel : ViewModel() {
         }
     }
 
-    fun determineNextRoute(categoryId: String, selectedSymptoms: Set<String>): String {
+    fun determineNextRoute(
+        categoryId: String,
+        selectedSymptoms: Set<String>,
+        isChoaPatient: Boolean = false
+    ): String {
+        // CHOA patients call CHOA, everyone else calls their own doctor
+        val callForHelpRoute = if (isChoaPatient) {
+            SickDayScreen.CallCHOA.route
+        } else {
+            SickDayScreen.HypoCallDoctorScreen.route
+        }
+
         return when (categoryId) {
             "firstSymptoms" -> {
                 if (selectedSymptoms.contains("Diabetic_Ketoacidosis") ||
                     selectedSymptoms.contains("High_Blood_Sugar")) {
                     SickDayScreen.SymptomSelection.createRoute("regular")
+                } else if( selectedSymptoms.contains("Low_Blood_Sugar")) {
+                    SickDayScreen.HypoSymptomSelectionScreen.createRoute("hypoFirstQuestion")
                 } else {
-                    SickDayScreen.CallCHOA.route
+                    callForHelpRoute
                 }
             }
             "regular" -> {
@@ -120,7 +133,7 @@ class SickDayViewModel : ViewModel() {
                     SickDayScreen.Ketone.route
                 }
             }
-            else -> SickDayScreen.CallCHOA.route
+            else -> callForHelpRoute
         }
     }
 

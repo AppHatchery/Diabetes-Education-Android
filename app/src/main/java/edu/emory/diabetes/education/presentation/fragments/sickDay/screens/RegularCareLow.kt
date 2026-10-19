@@ -66,7 +66,6 @@ fun RegularCareLow(
 
     // Intercept system back when there's nothing behind us
     BackHandler(enabled = isStartDestination) {
-        prefs.clearReminderCheckpoint()
         viewModel.clearFlow()
         onExitToMain()
     }
@@ -141,6 +140,7 @@ fun RegularCareLow(
                     ReminderScheduler.scheduleReminder(context, durationMinutes = 120, route = SickDayScreen.KetoneReminder.route)
                     prefs.saveReminderCheckpoint(
                         route = SickDayScreen.KetoneReminder.route,
+                        reminderScreenRoute = SickDayScreen.RegularCareLow.route,
                         durationMinutes = 120,
                         group = SickDayPrefs.REMINDER_GROUP_INJECTION
                     )

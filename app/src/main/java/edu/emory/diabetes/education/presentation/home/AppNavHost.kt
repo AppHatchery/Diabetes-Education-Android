@@ -3,8 +3,17 @@ package edu.emory.diabetes.education.presentation.home
 import android.net.Uri
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
@@ -37,7 +46,12 @@ import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.presentation.fragments.onboarding.OnboardingViewModel
 import edu.emory.diabetes.education.presentation.fragments.onboarding.nav.OnboardingNavigation
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
+import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.HypoglycemiaViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayNavigation
+import kotlinx.coroutines.delay
+
+private const val REMINDER_REDIRECT_DELAY_MS = 500L
+private const val REMINDER_TRANSITION_MS = 350
 
 sealed class AppRoute(val route: String) {
     object Main       : AppRoute("main")
@@ -63,13 +77,32 @@ private sealed class KnowYourCarbsRoute(val route: String) {
 }
 
 @Composable
-fun AppNavHost(startFromReminder: Boolean = false) {
+fun AppNavHost(
+    startFromReminder: Boolean = false,
+    startOnReminderScreen: Boolean = false
+) {
     val navController = rememberNavController()
     val context = LocalContext.current
     val startDestination = when {
         startFromReminder -> AppRoute.SickDay.route
         !OnboardingPrefs.isOnboardingCompleted(context) -> AppRoute.Onboarding.route
         else -> AppRoute.Main.route
+    }
+
+    // Animates only the automatic move from home to the reminder screen on launch
+    var animateReminderEntry by remember { mutableStateOf(false) }
+    var hasOpenedReminderScreen by rememberSaveable { mutableStateOf(false) }
+
+    // Show home briefly, then slide in the active reminder screen
+    LaunchedEffect(Unit) {
+        if (startOnReminderScreen && startDestination == AppRoute.Main.route && !hasOpenedReminderScreen) {
+            hasOpenedReminderScreen = true
+            delay(REMINDER_REDIRECT_DELAY_MS)
+            animateReminderEntry = true
+            navController.navigate(AppRoute.SickDay.route) { launchSingleTop = true }
+            delay(REMINDER_TRANSITION_MS.toLong())
+            animateReminderEntry = false
+        }
     }
 
     NavHost(
@@ -83,7 +116,12 @@ fun AppNavHost(startFromReminder: Boolean = false) {
     ) {
 
         // ── Main / HandBook ──────────────────────────────────────────
-        composable(AppRoute.Main.route) {
+        composable(
+            route = AppRoute.Main.route,
+            exitTransition = {
+                if (animateReminderEntry) fadeOut(tween(REMINDER_TRANSITION_MS)) else ExitTransition.None
+            }
+        ) {
             val context = LocalContext.current
 
             // First calculator launch shows onboarding; afterwards go straight to the calculator.
@@ -236,15 +274,30 @@ fun AppNavHost(startFromReminder: Boolean = false) {
         }
 
         // ── SickDay ──────────────────────────────────────────────────
-        composable(AppRoute.SickDay.route) {
+        composable(
+            route = AppRoute.SickDay.route,
+            enterTransition = {
+                if (animateReminderEntry) {
+                    slideInHorizontally(tween(REMINDER_TRANSITION_MS)) { fullWidth -> fullWidth } +
+                        fadeIn(tween(REMINDER_TRANSITION_MS))
+                } else {
+                    EnterTransition.None
+                }
+            }
+        ) {
             val sickDayViewModel: SickDayViewModel = viewModel()
+            val hypoglycemiaViewModel: HypoglycemiaViewModel = viewModel()
 
             SickDayNavigation(
                 viewModel = sickDayViewModel,
+                hypoglycemiaViewModel = hypoglycemiaViewModel,
                 fromNotification = startFromReminder,
                 onExitToMain = {
-                    navController.navigate(AppRoute.Main.route) {
-                        popUpTo(AppRoute.Main.route) { inclusive = false }
+                    // Return to Main if it is underneath, otherwise replace the whole stack with it
+                    if (!navController.popBackStack(AppRoute.Main.route, inclusive = false)) {
+                        navController.navigate(AppRoute.Main.route) {
+                            popUpTo(navController.graph.id) { inclusive = true }
+                        }
                     }
                 }
             )

@@ -10,11 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import edu.emory.diabetes.education.notifications.CheckReminderReceiver
+import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.HypoglycemiaViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayNavigation
 
 class SickDayFragment: Fragment() {
 
     private val viewModel: SickDayViewModel by viewModels()
+    private val hypoViewModel: HypoglycemiaViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +35,7 @@ class SickDayFragment: Fragment() {
                 activity?.intent?.removeExtra(CheckReminderReceiver.EXTRA_ROUTE)
                 SickDayNavigation(
                     viewModel = viewModel,
+                    hypoglycemiaViewModel = hypoViewModel,
                     fromNotification = fromNotification,
                     onExitToMain = {
                         fragmentNavController.popBackStack()

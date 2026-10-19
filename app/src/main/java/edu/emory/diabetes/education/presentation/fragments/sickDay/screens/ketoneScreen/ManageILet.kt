@@ -18,6 +18,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -56,6 +57,14 @@ fun ManageILet(
     val context = LocalContext.current
     val prefs = remember { SickDayPrefs(context) }
 
+    // True when this screen was opened directly from Get Help while its reminder is active
+    val isStartDestination = remember { navController.previousBackStackEntry == null }
+
+    // System back from the reminder screen also goes home
+    BackHandler(enabled = isStartDestination) {
+        onExitToMain()
+    }
+
     val savedEndTimeMs = remember {
         prefs.getSavedEndTimeMsForGroup(SickDayPrefs.REMINDER_GROUP_ILET)
     }
@@ -66,7 +75,8 @@ fun ManageILet(
                 title = "",
                 showNavigation = true,
                 onNavigationClick = {
-                    navController.popBackStack()
+                    // Opened from Get Help with nothing behind it, so go back home
+                    if (isStartDestination) onExitToMain() else navController.popBackStack()
                 },
                 color = Color.White,
                 iconColor = Color.Black,
@@ -107,6 +117,7 @@ fun ManageILet(
                         ReminderScheduler.scheduleReminder(context, durationMinutes = 90, route = "${SickDayScreen.ILetKetone.route}/lowKetone")
                         prefs.saveReminderCheckpoint(
                             route = "${SickDayScreen.ILetKetone.route}/lowKetone",
+                            reminderScreenRoute = "${SickDayScreen.ManageILet.route}/$type",
                             durationMinutes = 90,
                             group = SickDayPrefs.REMINDER_GROUP_ILET
                         )
@@ -122,6 +133,7 @@ fun ManageILet(
                         ReminderScheduler.scheduleReminder(context, durationMinutes = 90, route = "${SickDayScreen.ILetKetone.route}/moderateKetone")
                         prefs.saveReminderCheckpoint(
                             route = "${SickDayScreen.ILetKetone.route}/moderateKetone",
+                            reminderScreenRoute = "${SickDayScreen.ManageILet.route}/$type",
                             durationMinutes = 90,
                             group = SickDayPrefs.REMINDER_GROUP_ILET
                         )
@@ -137,6 +149,7 @@ fun ManageILet(
                         ReminderScheduler.scheduleReminder(context, durationMinutes = 90, route = "${SickDayScreen.ILetKetone.route}/highKetone")
                         prefs.saveReminderCheckpoint(
                             route = "${SickDayScreen.ILetKetone.route}/highKetone",
+                            reminderScreenRoute = "${SickDayScreen.ManageILet.route}/$type",
                             durationMinutes = 90,
                             group = SickDayPrefs.REMINDER_GROUP_ILET
                         )

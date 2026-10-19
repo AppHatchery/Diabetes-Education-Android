@@ -28,11 +28,13 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.ui.platform.LocalContext
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.BloodSugarReadingField
-import edu.emory.diabetes.education.presentation.fragments.sickDay.components.LowBloodSugarDialog
+import edu.emory.diabetes.education.presentation.fragments.sickDay.components.BloodSugarDialog
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SICK_DAY_LOW_THRESHOLD
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
@@ -49,6 +51,13 @@ fun BloodSugarScreen(
     val over300 = viewModel.getAnswer(FlowAnswerKeys.OVER_300) ?: "false"
     val iLetKetone = viewModel.getAnswer(FlowAnswerKeys.ILET_KETONE) ?: "Moderate"
     val isLow = false
+
+    // CHOA patients call CHOA, everyone else calls their own doctor
+    val callForHelpRoute = if (OnboardingPrefs(LocalContext.current).isChoaPatient) {
+        SickDayScreen.CallCHOA.route
+    } else {
+        SickDayScreen.HypoCallDoctorScreen.route
+    }
 
     // Threshold the reading is compared against to take the high path.
     val threshold = if (instrument == "ilet") 180 else 150
@@ -68,7 +77,7 @@ fun BloodSugarScreen(
             "ilet" -> {
                 if (over300 == "false") {
                     if (answer == "no") {
-                        navController.navigate(SickDayScreen.CallCHOA.route)
+                        navController.navigate(callForHelpRoute)
                     } else {
                         if (iLetKetone == "Moderate" || iLetKetone == "High") {
                             navController.navigate("${SickDayScreen.ManageILet.route}/$iLetKetone")
@@ -86,7 +95,7 @@ fun BloodSugarScreen(
                 if (answer == "yes") {
                     navController.navigate("${SickDayScreen.ManageAtHome.route}/$instrument/$isLow")
                 } else {
-                    navController.navigate(SickDayScreen.CallCHOA.route)
+                    navController.navigate(callForHelpRoute)
                 }
             }
         }
@@ -156,7 +165,7 @@ fun BloodSugarScreen(
     }
 
     if (showLowDialog) {
-        LowBloodSugarDialog(
+        BloodSugarDialog(
             onChooseDifferentSymptom = {
                 showLowDialog = false
                 // Wipe every answer so the user restarts the protocol from scratch.

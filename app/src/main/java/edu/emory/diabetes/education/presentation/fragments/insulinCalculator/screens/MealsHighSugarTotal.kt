@@ -77,6 +77,7 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.com
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.targetBSInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.totalCarbsInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.roundTotalInsulin
 import edu.emory.diabetes.education.presentation.theme.arial
 import edu.emory.diabetes.education.presentation.theme.nunito
 import sdk.pendo.io.Pendo
@@ -231,9 +232,9 @@ fun MealsHighSugarTotal(
                 Pendo.track("Calculate_insulin_for_hbs", properties)
             }
             MealsHighSugarStep.TOTAL_RESULT -> {
-                val mealUnits = uiState.insulinUnits
-                val highSugarUnits = highSugarUiState.insulinUnits
-                val total = mealUnits + highSugarUnits
+                val mealUnits = uiState.rawInsulinUnits
+                val highSugarUnits = highSugarUiState.rawInsulinUnits
+                val total = roundTotalInsulin(mealUnits + highSugarUnits)
                 val totalFormatted = if (total % 1.0 == 0.0) total.toInt().toString() else total.toString()
                 val properties = hashMapOf<String, Any>()
                 properties["for_food"] = mealUnits
@@ -508,7 +509,7 @@ fun MealsHighSugarTotal(
                             }
                             Spacer(modifier = Modifier.height(204.dp))
                             ResultCard(
-                                insulin = uiState.formatUnits(),
+                                insulin = uiState.formatRawUnits(),
                                 isAbove = true,
                                 cardLabel = "Insulin for food",
                                 infoOnClick = {showInsulinForFood = true}
@@ -688,7 +689,7 @@ fun MealsHighSugarTotal(
                                 )
                             } else {
                                 ResultCard(
-                                    insulin = highSugarUiState.formatUnits(),
+                                    insulin = highSugarUiState.formatRawUnits(),
                                     isAbove = true,
                                     cardLabel = "Insulin for High Blood Sugar",
                                     infoOnClick = {showInsulinForHBS}
@@ -700,9 +701,9 @@ fun MealsHighSugarTotal(
 
                         // ── Step 5: Total result ─────────────────────────
                         MealsHighSugarStep.TOTAL_RESULT -> {
-                            val mealUnits = uiState.insulinUnits
-                            val highSugarUnits = highSugarUiState.insulinUnits
-                            val total = mealUnits + highSugarUnits
+                            val mealUnits = uiState.rawInsulinUnits
+                            val highSugarUnits = highSugarUiState.rawInsulinUnits
+                            val total = roundTotalInsulin(mealUnits + highSugarUnits)
                             val totalFormatted = if (total % 1.0 == 0.0) total.toInt().toString() else total.toString()
 
                             //lottie setup:
@@ -781,7 +782,7 @@ fun MealsHighSugarTotal(
                                                 )
                                                 Spacer(modifier = Modifier.height(4.dp))
                                                 Text(
-                                                    text = "${uiState.formatUnits()} units",
+                                                    text = "${uiState.formatRawUnits()} units",
                                                     fontSize = 20.sp,
                                                     fontWeight = FontWeight.W700,
                                                     fontFamily = nunito,
@@ -809,7 +810,7 @@ fun MealsHighSugarTotal(
                                                 )
                                                 Spacer(modifier = Modifier.height(4.dp))
                                                 Text(
-                                                    text = "${highSugarUiState.formatUnits()} units",
+                                                    text = "${highSugarUiState.formatRawUnits()} units",
                                                     fontSize = 20.sp,
                                                     fontWeight = FontWeight.W700,
                                                     fontFamily = nunito,

@@ -37,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
@@ -49,13 +50,15 @@ fun CardWithImage(
     modifier: Modifier = Modifier,
     symptom: Symptom,
     isSelected: Boolean,
+    cardHeight: Dp = 221.dp,
+    imageSize: Dp = 153.dp,
     cardOnclick: () -> Unit
 ){
     Card(
         modifier = modifier
             .clickable{cardOnclick()}
             .width(173.dp)
-            .height(221.dp),
+            .height(cardHeight),
         colors = if (isSelected){
             CardDefaults.cardColors(containerColor = colorResource((R.color.primaryBlue)))
         }else{
@@ -81,7 +84,7 @@ fun CardWithImage(
                     painter = painterResource(symptom.image),
                     contentDescription = null,
                     modifier = modifier
-                        .size(153.dp)
+                        .size(imageSize)
                 )
             }
 
