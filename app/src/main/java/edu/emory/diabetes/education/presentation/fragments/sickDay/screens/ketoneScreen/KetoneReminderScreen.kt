@@ -43,6 +43,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
@@ -64,6 +65,13 @@ fun KetoneReminderScreen(
     val categoryId = "ketone"
     val context = LocalContext.current
     val prefs = SickDayPrefs(context)
+
+    // CHOA patients call CHOA, everyone else calls their own doctor
+    val callForHelpRoute = if (OnboardingPrefs(context).isChoaPatient) {
+        SickDayScreen.CallCHOA.route
+    } else {
+        SickDayScreen.HypoCallDoctorScreen.route
+    }
 
     // True when this screen was launched as the start destination
     val isStartDestination = remember {
@@ -218,10 +226,10 @@ fun KetoneReminderScreen(
                                 }else if(
                                     selectedUrineLevel == "5" || selectedUrineLevel == "15" || selectedUrineLevel == "40" || selectedUrineLevel == "Moderate"
                                 ){
-                                    navController.navigate(SickDayScreen.CallCHOA.route)
+                                    navController.navigate(callForHelpRoute)
                                 }
                                 else{
-                                    navController.navigate(SickDayScreen.CallCHOA.route)
+                                    navController.navigate(callForHelpRoute)
                                 }
                             }
                         }

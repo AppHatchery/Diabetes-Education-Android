@@ -115,7 +115,7 @@ fun BloodSugarReadingScreen(
                     if((readingValue ?: Int.MAX_VALUE) > 300){
                         showLowDialog = true
                     }else{
-                        if ((readingValue ?: Int.MAX_VALUE) < maxBloodSugarValue){
+                        if ((readingValue ?: Int.MAX_VALUE) <= maxBloodSugarValue){
                             val createRoute = SickDayScreen.HypoSymptomSelectionScreen.createRoute("injection")
                             navController.navigate(createRoute) {
                                 popUpTo(createRoute) { inclusive = true }

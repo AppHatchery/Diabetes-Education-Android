@@ -37,6 +37,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
@@ -251,7 +252,11 @@ fun SymptomSelectionScreen(
                         navController.navigate("${SickDayScreen.Duration.route}/$instrumentType")
                     } else {
                         val symptomsSet = selectedSymptom?.let { setOf(it) } ?: emptySet()
-                        val nextRoute = viewModel.determineNextRoute(categoryId, symptomsSet)
+                        val nextRoute = viewModel.determineNextRoute(
+                            categoryId,
+                            symptomsSet,
+                            OnboardingPrefs(context).isChoaPatient
+                        )
                         navController.navigate(nextRoute)
                     }
                 },
