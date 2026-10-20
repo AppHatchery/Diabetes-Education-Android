@@ -63,6 +63,7 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.com
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.targetBSInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
+import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
 import edu.emory.diabetes.education.presentation.theme.nunito
 import sdk.pendo.io.Pendo
 
@@ -232,7 +233,13 @@ fun HighSugarCalculator(
                     Spacer(modifier = Modifier.width(30.dp))
 
                     Image(
-                        painter = painterResource(R.drawable.im_cal_hbs),
+                        painter = painterResource(
+                            if(LocalHalloweenEnabled.current){
+                                R.drawable.im_cal_hbs_hallo
+                            }else{
+                                R.drawable.im_cal_hbs
+                            }
+                        ),
                         contentDescription = null,
                         modifier = Modifier
                             .height(155.dp)

@@ -40,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -55,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
 import edu.emory.diabetes.education.presentation.theme.nunito
 
 @Composable
@@ -83,7 +85,11 @@ fun CalculatorOnboardingScreen(
             QuestionStep(
                 progress = 0.2f,
                 bubble = R.drawable.im_cal_carb_text,
-                mascot = R.drawable.im_mean_cal,
+                mascot = if(LocalHalloweenEnabled.current){
+                    R.drawable.im_meal_onboarding_hallo
+                }else{
+                    R.drawable.im_meal_onboarding
+                },
                 question = "What's your carb ratio?",
                 value = uiState.carbRatio,
                 onValueChange = { if (!it.contains('.')) viewModel.onCarbRatioChanged(it) },
@@ -99,7 +105,11 @@ fun CalculatorOnboardingScreen(
             QuestionStep(
                 progress = 0.4f,
                 bubble = R.drawable.im_cal_target_text,
-                mascot = R.drawable.im_cal_hbs,
+                mascot = if(LocalHalloweenEnabled.current){
+                    R.drawable.im_hbs_onboarding_hallo
+                }else{
+                    R.drawable.im_hbs_onboarding
+                },
                 question = "What's your target blood sugar?",
                 value = uiState.targetBloodSugar,
                 onValueChange = { if (!it.contains('.')) viewModel.onTargetBloodSugarChanged(it) },
@@ -115,7 +125,11 @@ fun CalculatorOnboardingScreen(
             QuestionStep(
                 progress = 0.6f,
                 bubble = R.drawable.im_cal_correction_text,
-                mascot = R.drawable.im_cal_hbs,
+                mascot =  if(LocalHalloweenEnabled.current){
+                    R.drawable.im_hbs_onboarding_hallo
+                }else{
+                    R.drawable.im_hbs_onboarding
+                },
                 question = "What's your correction factor?",
                 value = uiState.correctionFactor,
                 onValueChange = { if (!it.contains('.')) viewModel.onCorrectionFactorChanged(it) },
@@ -141,76 +155,127 @@ private fun IntroStep(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
-            .windowInsetsPadding(WindowInsets.systemBars)
-            .padding(horizontal = 10.dp),
+            .background(
+                if(LocalHalloweenEnabled.current){
+                    Color(0xFFF6FBF8)
+                }else{
+                    Color.White
+                }
+            )
+            .windowInsetsPadding(WindowInsets.systemBars),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+        Box(
+            modifier = Modifier.fillMaxSize()
         ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowLeft,
-                contentDescription = "Back",
+            if(LocalHalloweenEnabled.current){
+                Image(
+                    painter = painterResource(R.drawable.im_total_insulin_bg),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxWidth(),
+                    contentScale = ContentScale.FillWidth
+                )
+            }else{
+                Color.White
+            }
+
+
+            Column(
                 modifier = Modifier
-                    .size(30.dp)
-                    .clickable { onExit() },
-                tint = Color.Black
-            )
-            Icon(
-                imageVector = Icons.Outlined.Close,
-                contentDescription = "Close",
+                    .fillMaxWidth()
+                    .align(Alignment.TopCenter)
+                    .padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowLeft,
+                        contentDescription = "Back",
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clickable { onExit() },
+                        tint = Color.Black
+                    )
+                    Icon(
+                        imageVector = Icons.Outlined.Close,
+                        contentDescription = "Close",
+                        modifier = Modifier
+                            .size(26.dp)
+                            .clickable { onExit() },
+                        tint = Color.Black
+                    )
+                }
+
+                  Spacer(modifier = Modifier.weight(1f))
+
+                SpeechBubble(
+                    bubbleImage = R.drawable.im_cal_intro_text,
+                    modifier = Modifier
+                        .padding(horizontal = 24.dp)
+                        .width(260.dp)
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Image(
+                    painter = painterResource(
+                        if (LocalHalloweenEnabled.current) {
+                            R.drawable.im_cal_intro_hallo
+                        } else {
+                            R.drawable.im_cal_intro
+                        }
+                        //R.drawable.im_cal_intro
+                    ),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .height(270.dp)
+                        .width(186.dp)
+                )
+
+                 Spacer(modifier = Modifier.weight(1f))
+
+                PrimaryNextButton(enabled = true, onClick = onNext)
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = "Skip",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = nunito,
+                    color = colorResource(R.color.primaryGreen),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onSkip() }
+                        .padding(vertical = 12.dp)
+                )
+
+                Spacer(modifier = Modifier.height(30.dp))
+
+            }
+
+            Box(
                 modifier = Modifier
-                    .size(26.dp)
-                    .clickable { onExit() },
-                tint = Color.Black
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .background(
+                        if(LocalHalloweenEnabled.current){
+                            Color(0xFFF6FBF8)
+                        }else{
+                            Color.White
+                        }
+                    )
+                    .height(40.dp)
             )
         }
 
-        Spacer(modifier = Modifier.weight(1f))
-
-        SpeechBubble(
-            bubbleImage = R.drawable.im_cal_intro_text,
-            modifier = Modifier
-                .padding(horizontal = 24.dp)
-                .width(260.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Image(
-            painter = painterResource(R.drawable.im_cal_intro),
-            contentDescription = null,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .height(270.dp)
-                .width(186.dp)
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        PrimaryNextButton(enabled = true, onClick = onNext)
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        Text(
-            text = "Skip",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold,
-            fontFamily = nunito,
-            color = colorResource(R.color.primaryGreen),
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { onSkip() }
-                .padding(vertical = 12.dp)
-        )
-
-        Spacer(modifier = Modifier.height(30.dp))
     }
 }
 

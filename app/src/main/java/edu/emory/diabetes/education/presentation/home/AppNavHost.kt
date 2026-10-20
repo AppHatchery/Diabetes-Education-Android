@@ -15,6 +15,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.navigation
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
+import edu.emory.diabetes.education.presentation.remoteconfig.RemoteConfigViewModel
 import androidx.compose.runtime.remember
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,6 +77,10 @@ fun AppNavHost(startFromReminder: Boolean = false) {
         else -> AppRoute.Main.route
     }
 
+    val remoteConfigViewModel: RemoteConfigViewModel = hiltViewModel()
+    val halloweenEnabled by remoteConfigViewModel.halloweenEnabled.collectAsState()
+
+    CompositionLocalProvider(LocalHalloweenEnabled provides halloweenEnabled) {
     NavHost(
         navController = navController,
         startDestination = startDestination,
@@ -282,6 +291,7 @@ fun AppNavHost(startFromReminder: Boolean = false) {
             }
         }
 
+    }
     }
 }
 

@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlin.math.floor
+import kotlin.math.roundToInt
 
 data class MealCalculatorUiState(
     val totalCarbs: String = "",
@@ -27,6 +28,20 @@ data class MealCalculatorUiState(
             return if (ratio == 0) 0.0
             else floor((carbs / ratio.toDouble()) * 2) / 2.0
         }
+
+    // Unrounded insulin units, before any rounding
+    val rawInsulinUnits: Double
+        get() {
+            val carbs = totalCarbs.toIntOrNull() ?: 0
+            val ratio = carbRatio.toIntOrNull() ?: 0
+            return if (ratio == 0) 0.0 else carbs / ratio.toDouble()
+        }
+
+    // Shows the raw units trimmed to at most two decimals
+    fun formatRawUnits(): String {
+        val display = (rawInsulinUnits * 100).roundToInt() / 100.0
+        return if (display % 1.0 == 0.0) display.toInt().toString() else display.toString()
+    }
 
     fun formatUnits(): String =
         if (insulinUnits % 1.0 == 0.0) insulinUnits.toInt().toString()
@@ -52,10 +67,28 @@ data class HighSugarCalculatorUiState(
             else floor(((current - target) / correction.toDouble()) * 2) / 2.0
         }
 
+    // Unrounded insulin units, before any rounding
+    val rawInsulinUnits: Double
+        get() {
+            val current = currentBloodSugar.toIntOrNull() ?: 0
+            val target = targetBloodSugar.toIntOrNull() ?: 0
+            val correction = correctionFactor.toIntOrNull() ?: 0
+            return if (correction == 0) 0.0 else (current - target) / correction.toDouble()
+        }
+
+    // Shows the raw units trimmed to at most two decimals
+    fun formatRawUnits(): String {
+        val display = (rawInsulinUnits * 100).roundToInt() / 100.0
+        return if (display % 1.0 == 0.0) display.toInt().toString() else display.toString()
+    }
+
     fun formatUnits(): String =
         if (insulinUnits % 1.0 == 0.0) insulinUnits.toInt().toString()
         else insulinUnits.toString()
 }
+
+// Rounds the combined dose to the nearest whole unit, applied once at the end
+fun roundTotalInsulin(units: Double): Double = units.roundToInt().toDouble()
 
 class NewCalculatorViewmodel: ViewModel() {
     private val _uiState = MutableStateFlow(MealCalculatorUiState())
