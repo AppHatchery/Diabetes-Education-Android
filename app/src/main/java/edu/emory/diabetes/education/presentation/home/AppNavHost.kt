@@ -21,6 +21,10 @@ import androidx.compose.runtime.getValue
 import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
 import edu.emory.diabetes.education.presentation.remoteconfig.RemoteConfigViewModel
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import kotlinx.coroutines.delay
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.NewCalculatorViewmodel
@@ -38,14 +42,23 @@ import edu.emory.diabetes.education.presentation.fragments.resources.foodResourc
 import edu.emory.diabetes.education.presentation.fragments.resources.foodResources.KnowYourCarbsViewModel
 import edu.emory.diabetes.education.presentation.fragments.resources.foodResources.AddCustomFood
 import edu.emory.diabetes.education.presentation.fragments.resources.foodResources.SelectedFoodsCalculator
+import edu.emory.diabetes.education.data.prefs.HalloweenPrefs
+import edu.emory.diabetes.education.data.prefs.IntroPrefs
 import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
+import edu.emory.diabetes.education.presentation.intro.IntroVideoScreen
+import edu.emory.diabetes.education.presentation.loading.LoadingScreen
 import edu.emory.diabetes.education.presentation.fragments.onboarding.OnboardingViewModel
 import edu.emory.diabetes.education.presentation.fragments.onboarding.nav.OnboardingNavigation
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayNavigation
 
+// Safety cap: if Remote Config never resolves on first launch, leave the loading screen after this.
+private const val LOADING_TIMEOUT_MS = 8000L
+
 sealed class AppRoute(val route: String) {
     object Main       : AppRoute("main")
+    object Intro      : AppRoute("intro")
+    object Loading    : AppRoute("loading")
     object Onboarding : AppRoute("onboarding")
     object SickDay    : AppRoute("sick_day")
     object Calculator : AppRoute("calculator/{startDestination}") {
@@ -68,17 +81,25 @@ private sealed class KnowYourCarbsRoute(val route: String) {
 }
 
 @Composable
-fun AppNavHost(startFromReminder: Boolean = false) {
+fun AppNavHost(startFromReminder: Boolean = false, onFirstScreenReady: () -> Unit = {}) {
     val navController = rememberNavController()
     val context = LocalContext.current
-    val startDestination = when {
-        startFromReminder -> AppRoute.SickDay.route
-        !OnboardingPrefs.isOnboardingCompleted(context) -> AppRoute.Onboarding.route
-        else -> AppRoute.Main.route
-    }
 
     val remoteConfigViewModel: RemoteConfigViewModel = hiltViewModel()
     val halloweenEnabled by remoteConfigViewModel.halloweenEnabled.collectAsState()
+
+    // Only the very first launch (before any successful fetch) waits on Remote Config via the
+    // loading screen; later launches decide instantly from the cached flag. Reminders skip both.
+    val startDestination = remember {
+        when {
+            startFromReminder -> AppRoute.SickDay.route
+            IntroPrefs.hasShownIntro(context) -> AppRoute.Main.route
+            HalloweenPrefs.hasFetched(context) ->
+                if (HalloweenPrefs.isCachedHalloweenEnabled(context)) AppRoute.Intro.route
+                else AppRoute.Main.route
+            else -> AppRoute.Loading.route
+        }
+    }
 
     CompositionLocalProvider(LocalHalloweenEnabled provides halloweenEnabled) {
     NavHost(
@@ -91,8 +112,37 @@ fun AppNavHost(startFromReminder: Boolean = false) {
         popExitTransition = { ExitTransition.None }
     ) {
 
+        // Loading: first launch only. Shows a spinner until Remote Config resolves, then routes.
+        composable(AppRoute.Loading.route) {
+            LaunchedEffect(Unit) { onFirstScreenReady() }
+            val ready by remoteConfigViewModel.isReady.collectAsState()
+            var timedOut by remember { mutableStateOf(false) }
+            var navigated by remember { mutableStateOf(false) }
+            LaunchedEffect(Unit) {
+                delay(LOADING_TIMEOUT_MS)
+                timedOut = true
+            }
+
+            LoadingScreen()
+
+            LaunchedEffect(ready, timedOut) {
+                if (!navigated && (ready || timedOut)) {
+                    navigated = true
+                    val next = if (halloweenEnabled && !IntroPrefs.hasShownIntro(context)) {
+                        AppRoute.Intro.route
+                    } else {
+                        AppRoute.Main.route
+                    }
+                    navController.navigate(next) {
+                        popUpTo(AppRoute.Loading.route) { inclusive = true }
+                    }
+                }
+            }
+        }
+
         // ── Main / HandBook ──────────────────────────────────────────
         composable(AppRoute.Main.route) {
+            LaunchedEffect(Unit) { onFirstScreenReady() }
             val context = LocalContext.current
 
             // First calculator launch shows onboarding; afterwards go straight to the calculator.
@@ -256,6 +306,25 @@ fun AppNavHost(startFromReminder: Boolean = false) {
                         popUpTo(AppRoute.Main.route) { inclusive = false }
                     }
                 }
+            )
+        }
+
+        // Intro video: plays once, then routes on to onboarding or the home screen.
+        composable(AppRoute.Intro.route) {
+            IntroVideoScreen(
+                onFinish = {
+                    IntroPrefs.markIntroShown(context)
+                    // Onboarding disabled for now; go straight to the home screen.
+                    // val next = if (!OnboardingPrefs.isOnboardingCompleted(context)) {
+                    //     AppRoute.Onboarding.route
+                    // } else {
+                    //     AppRoute.Main.route
+                    // }
+                    navController.navigate(AppRoute.Main.route) {
+                        popUpTo(AppRoute.Intro.route) { inclusive = true }
+                    }
+                },
+                onFirstFrame = onFirstScreenReady
             )
         }
 

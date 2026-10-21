@@ -54,7 +54,6 @@ import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.ScrollProgressTopBar
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChapterContentScreen(
     viewModel: CourseViewModel,

@@ -11,4 +11,5 @@ class RemoteConfigViewModel @Inject constructor(
     repository: RemoteConfigRepository
 ) : ViewModel() {
     val halloweenEnabled: StateFlow<Boolean> = repository.halloweenEnabled
+    val isReady: StateFlow<Boolean> = repository.isReady
 }

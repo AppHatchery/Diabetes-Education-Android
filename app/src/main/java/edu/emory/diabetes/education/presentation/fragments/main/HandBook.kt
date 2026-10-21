@@ -37,8 +37,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -55,6 +61,7 @@ import edu.emory.diabetes.education.presentation.fragments.main.halloween.Insuli
 import edu.emory.diabetes.education.presentation.fragments.main.halloween.UrgentCareHalloween
 import edu.emory.diabetes.education.presentation.fragments.main.halloween.KnowYourCarbsHalloween
 import edu.emory.diabetes.education.presentation.fragments.main.halloween.ResourceCardHalloween
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.HomeHalloweenOverlay
 import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
 import edu.emory.diabetes.education.presentation.theme.nunito
 
@@ -72,6 +79,21 @@ fun HandBook(
     onReferencesClick: () -> Unit,
     onKnowYourCarbsClick: () -> Unit
 ) {
+    val halloweenOn = LocalHalloweenEnabled.current
+    var overlayRunning by remember { mutableStateOf(true) }
+    // Stop the ghosts on the first tap or scroll, without consuming the event
+    // so it still reaches the screen below.
+    val overlayDetector = if (halloweenOn) {
+        Modifier.pointerInput(Unit) {
+            awaitPointerEventScope {
+                awaitPointerEvent(PointerEventPass.Initial)
+                overlayRunning = false
+            }
+        }
+    } else {
+        Modifier
+    }
+    Box(modifier = Modifier.fillMaxSize().then(overlayDetector)) {
     Scaffold(
         //contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
@@ -182,6 +204,11 @@ fun HandBook(
         }
     )
 
+        // Halloween ghost overlay, shown only while the seasonal theme is on.
+        if (halloweenOn && overlayRunning) {
+            HomeHalloweenOverlay()
+        }
+    }
 }
 @Composable
 fun InsulinCalculatorCard(

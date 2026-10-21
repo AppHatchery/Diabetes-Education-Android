@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -311,12 +314,42 @@ fun MealsHighSugarTotal(
     }
 
 
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                if (currentStep == MealsHighSugarStep.TOTAL_RESULT && LocalHalloweenEnabled.current)
+                    Color(0xFFF6FBF8)
+                else
+                    Color.Transparent
+            )
+    ) {
+        if (currentStep == MealsHighSugarStep.TOTAL_RESULT && LocalHalloweenEnabled.current) {
+            Image(
+                painter = painterResource(R.drawable.im_total_insulin_bg),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .statusBarsPadding()
+                    .align(Alignment.TopCenter),
+                contentScale = ContentScale.FillWidth
+            )
+            // Status bar background strip (image stays below the status bar, like the intro)
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.TopCenter)
+                    .windowInsetsTopHeight(WindowInsets.statusBars)
+                    .background(Color(0xFFECF7F1))
+            )
+        }
+
     Scaffold(
         topBar = {
             CalculatorTopBar(
                 title = "",
                 color = if (currentStep == MealsHighSugarStep.TOTAL_RESULT)
-                    Color.White
+                    if (LocalHalloweenEnabled.current) Color.Transparent else Color.White
                 else
                     colorResource(R.color.green_050),
                 onNavigationClick = { when (currentStep) {
@@ -340,7 +373,7 @@ fun MealsHighSugarTotal(
             )
         },
         containerColor = if (currentStep == MealsHighSugarStep.TOTAL_RESULT)
-            Color.White
+            if (LocalHalloweenEnabled.current) Color.Transparent else Color.White
         else
             colorResource(R.color.green_050),
     ) { innerPadding ->
@@ -353,7 +386,12 @@ fun MealsHighSugarTotal(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = colorResource(R.color.green_050)),
+                    .background(
+                        color = if (currentStep == MealsHighSugarStep.TOTAL_RESULT && LocalHalloweenEnabled.current)
+                            Color.Transparent
+                        else
+                            colorResource(R.color.green_050)
+                    ),
             ) {
                 // ── Top header ──────────────────────────────────────────
                 if (currentStep != MealsHighSugarStep.TOTAL_RESULT) {
@@ -399,7 +437,12 @@ fun MealsHighSugarTotal(
                         //.imePadding()
                         //.defaultMinSize(minHeight = 600.dp)
                         .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
-                        .background(Color.White)
+                        .background(
+                            if (currentStep == MealsHighSugarStep.TOTAL_RESULT && LocalHalloweenEnabled.current)
+                                Color.Transparent
+                            else
+                                Color.White
+                        )
                         .padding(start = 20.dp, end = 20.dp, top = 40.dp)
                         .padding(bottom = keyboardHeight.value + 60.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -739,7 +782,13 @@ fun MealsHighSugarTotal(
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     Image(
-                                        painter = painterResource(R.drawable.im_total),
+                                        painter = painterResource(
+                                            if (LocalHalloweenEnabled.current){
+                                                R.drawable.im_total_insulin_hallo
+                                            }else{
+                                                R.drawable.im_total
+                                            }
+                                        ),
                                         contentDescription = null,
                                         modifier = Modifier
                                             .height(275.dp)
@@ -1201,6 +1250,7 @@ fun MealsHighSugarTotal(
                 MealsHighSugarStep.TOTAL_RESULT -> { /* nothing */ }
             }
         }
+    }
     }
 }
 

@@ -27,6 +27,7 @@
             android:exported="false"/>
         <activity
             android:name=".presentation.MainActivity"
+            android:theme="@style/Theme.DiabetesEducation.Splash"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
             <intent-filter>

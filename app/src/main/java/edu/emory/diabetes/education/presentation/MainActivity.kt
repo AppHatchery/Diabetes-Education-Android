@@ -15,6 +15,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.CompositionLocalProvider
@@ -52,7 +53,20 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        val startFromReminder = intent
+            .getStringExtra(CheckReminderReceiver.EXTRA_ROUTE)
+            .isNullOrEmpty()
+            .not()
+
+        // Keep the system splash up until the first real screen is shown (reminders skip the
+        // wait). A safety timeout makes sure it is never held indefinitely.
+        var keepSplashOnScreen = !startFromReminder
+        splashScreen.setKeepOnScreenCondition { keepSplashOnScreen }
+        window.decorView.postDelayed({ keepSplashOnScreen = false }, SPLASH_TIMEOUT_MS)
+
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
                 Color.TRANSPARENT,
@@ -60,11 +74,6 @@ class MainActivity : ComponentActivity() {
             )
         )
         requestNotificationPermission()
-
-        val startFromReminder = intent
-            .getStringExtra(CheckReminderReceiver.EXTRA_ROUTE)
-            .isNullOrEmpty()
-            .not()
 
         setContent {
             val configuration = LocalConfiguration.current
@@ -75,9 +84,11 @@ class MainActivity : ComponentActivity() {
                     fontScale = 1f
                 )
             ) {
-                AppNavHost(startFromReminder = startFromReminder)
+                AppNavHost(
+                    startFromReminder = startFromReminder,
+                    onFirstScreenReady = { keepSplashOnScreen = false }
+                )
             }
-           // AppNavHost(startFromReminder = startFromReminder)
         }
     }
 
@@ -98,6 +109,11 @@ class MainActivity : ComponentActivity() {
                 notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
+    }
+
+    companion object {
+        // Backstop so the splash is never held longer than this if the first frame never signals.
+        private const val SPLASH_TIMEOUT_MS = 2500L
     }
 }
 //@AndroidEntryPoint

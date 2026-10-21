@@ -43,6 +43,14 @@ import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.NewResourcesTopBar
 import edu.emory.diabetes.education.presentation.theme.nunito
+import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
+import androidx.compose.material3.MaterialTheme
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -59,6 +67,7 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun ChapterFinishScreen(
@@ -77,6 +86,23 @@ fun ChapterFinishScreen(
     val totalChapters = uiState.totalChapters
     val completedCount = uiState.completedChapterCount
     val colors = uiState.course.colorScheme
+    val isHalloween = LocalHalloweenEnabled.current
+
+    // Use light (white) status bar icons while this screen is shown, over its dark background
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        DisposableEffect(Unit) {
+            val window = view.context.findActivity()?.window
+            val controller = window?.let { WindowInsetsControllerCompat(it, view) }
+            val previous = controller?.isAppearanceLightStatusBars
+            controller?.isAppearanceLightStatusBars = false
+            onDispose {
+                if (controller != null && previous != null) {
+                    controller.isAppearanceLightStatusBars = previous
+                }
+            }
+        }
+    }
 
     LaunchedEffect(Unit) {
         for (i in 1..completedCount) {
@@ -85,24 +111,39 @@ fun ChapterFinishScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            NewResourcesTopBar(
-                title = "",
-                onNavigationClick = onBackToList,
-                color = colors.chapterFinishBackground,
-                iconColor = Color.White,
-                isCloseVisible = true,
-                onExitToMain = onBackToList
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        // Halloween background image that fills the screen, reaching behind the status bar
+        if (isHalloween) {
+            Image(
+                painter = painterResource(id = completedChapter.chapterEndBgImage),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
             )
         }
-    ) {innerPadding ->
+
+        Scaffold(
+            containerColor = if (isHalloween) Color.Transparent else MaterialTheme.colorScheme.background,
+            topBar = {
+                NewResourcesTopBar(
+                    title = "",
+                    onNavigationClick = onBackToList,
+                    color = if (isHalloween) Color.Transparent else colors.chapterFinishBackground,
+                    iconColor = Color.White,
+                    isCloseVisible = true,
+                    onExitToMain = onBackToList
+                )
+            }
+        ) { innerPadding ->
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(colors.chapterFinishBackground)
+                .background(if (isHalloween) Color.Transparent else colors.chapterFinishBackground)
         ) {
             Column(
                 modifier = Modifier
@@ -111,6 +152,9 @@ fun ChapterFinishScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom
             ) {
+                // In Halloween mode the title, speech bubble and character are hidden
+                // so only the star card shows over the background image.
+                if (!isHalloween) {
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
@@ -176,7 +220,9 @@ fun ChapterFinishScreen(
                         //contentScale = ContentScale.Fit
                     )
                 }
+                }
             }
+            //star card
             Card(
                 shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -287,18 +333,25 @@ fun ChapterFinishScreen(
             }
         }
     }
+    }
 }
 
 @Preview
 @Composable
 fun ChapterFinishScreenPreview(){
-//    ChapterFinishContent (
-//        uiState = CourseUiState(
-//            course = CourseDataProvider.diabetesSelfManagement,
-//            isLoading = false
-//        ),
-//        onNextChapter = {},
-//        onBackToList = {},
-//        onClose = {}
-//    )
+    ChapterFinishScreen(
+        viewModel = viewModel(),
+        onNextChapter = {},
+        onBackToList = {},
+        onClose = {}
+    )
+}
+
+private fun Context.findActivity(): Activity? {
+    var ctx: Context = this
+    while (ctx is ContextWrapper) {
+        if (ctx is Activity) return ctx
+        ctx = ctx.baseContext
+    }
+    return null
 }

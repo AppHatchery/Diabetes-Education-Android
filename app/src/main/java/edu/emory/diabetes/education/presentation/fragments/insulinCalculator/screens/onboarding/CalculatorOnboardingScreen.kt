@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -153,18 +154,32 @@ private fun IntroStep(
     onExit: () -> Unit
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                if(LocalHalloweenEnabled.current){
-                    Color(0xFFF6FBF8)
-                }else{
-                    Color.White
-                }
-            )
-            .windowInsetsPadding(WindowInsets.systemBars),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        // Status bar background for the intro page
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .windowInsetsTopHeight(WindowInsets.statusBars)
+                .background(
+                    if (LocalHalloweenEnabled.current) Color(0xFFECF7F1) else Color.White
+                )
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    if(LocalHalloweenEnabled.current){
+                        Color(0xFFF6FBF8)
+                    }else{
+                        Color.White
+                    }
+                )
+                .windowInsetsPadding(WindowInsets.navigationBars),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -185,6 +200,7 @@ private fun IntroStep(
                     .fillMaxWidth()
                     .align(Alignment.TopCenter)
                     .padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Row(
                     modifier = Modifier
@@ -274,6 +290,7 @@ private fun IntroStep(
                     )
                     .height(40.dp)
             )
+        }
         }
 
     }
@@ -496,22 +513,7 @@ private fun SpeechBubble(
         contentDescription = "Speech bubble",
         modifier = modifier
     )
-//    Box(
-//        modifier = modifier
-//            .clip(RoundedCornerShape(16.dp))
-//            .background(Color.White)
-//            .androidBorder(colorResource(R.color.gray_200_calc))
-//            .padding(horizontal = 16.dp, vertical = 12.dp)
-//    ) {
-//        Text(
-//            text = text,
-//            fontSize = 16.sp,
-//            fontWeight = FontWeight.W500,
-//            fontFamily = nunito,
-//            color = Color.Black,
-//            lineHeight = 22.sp
-//        )
-//    }
+
 }
 
 @Composable

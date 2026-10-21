@@ -26,13 +26,18 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils
+import edu.emory.diabetes.education.presentation.fragments.main.KnowYourCarbCard
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.KnowYourCarbsHalloween
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.ClassRecapCard
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.CommunityCard
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.FoodResourceCard
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.NewResourcesTopBar
+import edu.emory.diabetes.education.presentation.fragments.newResources.components.newResourcesHalloweenComponents.ClassRecapCardHalloween
+import edu.emory.diabetes.education.presentation.fragments.newResources.components.newResourcesHalloweenComponents.FoodResourceCardHalloween
 import edu.emory.diabetes.education.presentation.fragments.newResources.nav.NewResourcesScreen
 import edu.emory.diabetes.education.presentation.fragments.newResources.screens.foodNutrition.FoodNutritionPage
 import edu.emory.diabetes.education.presentation.fragments.resources.ResourceUtil
+import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
 import edu.emory.diabetes.education.presentation.theme.nunito
 
 @Composable
@@ -68,42 +73,75 @@ fun NewResourcesMain(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            ClassRecapCard(
-                title = "Diabetes Basics",
-                description = "Understanding diabetes, monitoring, and insulin use.",
-                imageRes = R.drawable.im_basics,
-                gradientStart = colorResource(R.color.greenGradientLight),
-                gradientEnd = colorResource(R.color.greenGradientDark),
-                onClick = {
-                    navController.navigate(NewResourcesScreen.CourseList.createRoute(0))
-                }
-            )
+            if (LocalHalloweenEnabled.current) {
+                ClassRecapCardHalloween(
+                    imageRes = R.drawable.im_nutri_card_hallo,
+                    onClick = {
+                        navController.navigate(NewResourcesScreen.CourseList.createRoute(0))
+                    }
+                )
+            } else {
+                ClassRecapCard(
+                    title = "Diabetes Basics",
+                    description = "Understanding diabetes, monitoring, and insulin use.",
+                    imageRes = R.drawable.im_basics,
+                    gradientStart = colorResource(R.color.greenGradientLight),
+                    gradientEnd = colorResource(R.color.greenGradientDark),
+                    onClick = {
+                        navController.navigate(NewResourcesScreen.CourseList.createRoute(0))
+                    }
+                )
+            }
+
+
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            ClassRecapCard(
-                title = "Nutrition and\nCarb Counting",
-                description = "Essential dietary guidance for managing diabetes.",
-                imageRes = R.drawable.im_nutri_carbs,
-                gradientStart = colorResource(R.color.orangeGradientLight),
-                gradientEnd = colorResource(R.color.orangeGradientDark),
-                onClick = {
-                    navController.navigate(NewResourcesScreen.CourseList.createRoute(1))
-                }
-            )
+            if (LocalHalloweenEnabled.current) {
+                ClassRecapCardHalloween(
+                    imageRes = R.drawable.im_mngt_card_hallo,
+                    onClick = {
+                        navController.navigate(NewResourcesScreen.CourseList.createRoute(1))
+                    }
+                )
+            } else {
+                ClassRecapCard(
+                    title = "Nutrition and\nCarb Counting",
+                    description = "Essential dietary guidance for managing diabetes.",
+                    imageRes = R.drawable.im_nutri_carbs,
+                    gradientStart = colorResource(R.color.orangeGradientLight),
+                    gradientEnd = colorResource(R.color.orangeGradientDark),
+                    onClick = {
+                        navController.navigate(NewResourcesScreen.CourseList.createRoute(1))
+                    }
+                )
+            }
+
+
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            ClassRecapCard(
-                title = "Diabetes\nSelf-Management",
-                description = "Key strategies for daily care and emergencies.",
-                imageRes = R.drawable.im_management,
-                gradientStart = colorResource(R.color.purpleGradientLight),
-                gradientEnd = colorResource(R.color.purpleGradientDark),
-                onClick = {
-                    navController.navigate(NewResourcesScreen.CourseList.createRoute(2))
-                }
-            )
+            if (LocalHalloweenEnabled.current) {
+                ClassRecapCardHalloween(
+                    imageRes = R.drawable.im_basics_card_hallo,
+                    onClick = {
+                        navController.navigate(NewResourcesScreen.CourseList.createRoute(2))
+                    }
+                )
+            } else {
+                ClassRecapCard(
+                    title = "Diabetes\nSelf-Management",
+                    description = "Key strategies for daily care and emergencies.",
+                    imageRes = R.drawable.im_management,
+                    gradientStart = colorResource(R.color.purpleGradientLight),
+                    gradientEnd = colorResource(R.color.purpleGradientDark),
+                    onClick = {
+                        navController.navigate(NewResourcesScreen.CourseList.createRoute(2))
+                    }
+                )
+            }
+
+
             Spacer(modifier = Modifier.height(24.dp))
 
             FoodAndNutritionResources(
@@ -141,43 +179,80 @@ fun FoodAndNutritionResources(
         Spacer(modifier = Modifier.height(16.dp))
 
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            FoodResourceCard(
-                title = "Low-carb\nsnacks",
-                imageRes = R.drawable.im_raw_veggies,
-                backgroundColor = colorResource(R.color.secondary_sunset_orange_shade100),
-                textColor = colorResource(R.color.secondary_sunset_orange),
-                modifier = Modifier.weight(1f),
-                onClick = { onFoodCardClick(FoodNutritionPage.LOW_CARB_SNACKS) }
-            )
-            FoodResourceCard(
-                title = "Snacks\nrecipes",
-                imageRes = R.drawable.im_snacks_receipes,
-                backgroundColor = colorResource(R.color.blue_100),
-                textColor = colorResource(R.color.primaryBlue),
-                modifier = Modifier.weight(1f),
-                onClick = { navController.navigate(route = "recipe_screen") }
-            )
+            if (LocalHalloweenEnabled.current) {
+                FoodResourceCardHalloween(
+                    imageRes = R.drawable.im_low_carbs_hallo,
+                    onClick = { onFoodCardClick(FoodNutritionPage.LOW_CARB_SNACKS) },
+                    modifier = Modifier.weight(1f)
+                )
+            } else {
+                FoodResourceCard(
+                    title = "Low-carb\nsnacks",
+                    imageRes = R.drawable.im_raw_veggies,
+                    backgroundColor = colorResource(R.color.secondary_sunset_orange_shade100),
+                    textColor = colorResource(R.color.secondary_sunset_orange),
+                    modifier = Modifier.weight(1f),
+                    onClick = { onFoodCardClick(FoodNutritionPage.LOW_CARB_SNACKS) }
+                )
+            }
+
+            if (LocalHalloweenEnabled.current) {
+                FoodResourceCardHalloween(
+                    imageRes = R.drawable.im_snacks_hallo,
+                    onClick = { navController.navigate(route = "recipe_screen") },
+                    modifier = Modifier.weight(1f)
+                )
+            } else {
+                FoodResourceCard(
+                    title = "Snacks\nrecipes",
+                    imageRes = R.drawable.im_snacks_receipes,
+                    backgroundColor = colorResource(R.color.blue_100),
+                    textColor = colorResource(R.color.primaryBlue),
+                    modifier = Modifier.weight(1f),
+                    onClick = { navController.navigate(route = "recipe_screen") }
+                )
+            }
+
+
         }
 
         Spacer(modifier = Modifier.height(12.dp))
 
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            FoodResourceCard(
-                title = "Raises blood\nsugar",
-                imageRes = R.drawable.im_oreo_cookies,
-                backgroundColor = colorResource(R.color.secondary_fire_red_100),
-                textColor = colorResource(R.color.secondary_fire_red_300),
-                modifier = Modifier.weight(1f),
-                onClick = { onFoodCardClick(FoodNutritionPage.FOODS_THAT_RAISE) }
-            )
-            FoodResourceCard(
-                title = "Doesn't raise\nblood sugar",
-                imageRes = R.drawable.im_salad_with_dressing,
-                backgroundColor = colorResource(R.color.secondaryMeadowGreen),
-                textColor = colorResource(R.color.secondaryMeadowGreen_300),
-                modifier = Modifier.weight(1f),
-                onClick = { onFoodCardClick(FoodNutritionPage.FOODS_THAT_DONT_RAISE) }
-            )
+
+            if (LocalHalloweenEnabled.current) {
+                FoodResourceCardHalloween(
+                    imageRes = R.drawable.im_raises_sugar_hallo,
+                    onClick = { onFoodCardClick(FoodNutritionPage.FOODS_THAT_RAISE) },
+                    modifier = Modifier.weight(1f)
+                )
+            } else {
+                FoodResourceCard(
+                    title = "Raises blood\nsugar",
+                    imageRes = R.drawable.im_oreo_cookies,
+                    backgroundColor = colorResource(R.color.secondary_fire_red_100),
+                    textColor = colorResource(R.color.secondary_fire_red_300),
+                    modifier = Modifier.weight(1f),
+                    onClick = { onFoodCardClick(FoodNutritionPage.FOODS_THAT_RAISE) }
+                )
+            }
+            if (LocalHalloweenEnabled.current) {
+                FoodResourceCardHalloween(
+                    imageRes = R.drawable.im_does_not_raise_hallo,
+                    onClick = { onFoodCardClick(FoodNutritionPage.FOODS_THAT_DONT_RAISE) },
+                    modifier = Modifier.weight(1f)
+                )
+            } else {
+                FoodResourceCard(
+                    title = "Doesn't raise\nblood sugar",
+                    imageRes = R.drawable.im_salad_with_dressing,
+                    backgroundColor = colorResource(R.color.secondaryMeadowGreen),
+                    textColor = colorResource(R.color.secondaryMeadowGreen_300),
+                    modifier = Modifier.weight(1f),
+                    onClick = { onFoodCardClick(FoodNutritionPage.FOODS_THAT_DONT_RAISE) }
+                )
+            }
+
         }
     }
 }

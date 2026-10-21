@@ -5,6 +5,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import edu.emory.diabetes.education.R
 
 data class CourseColorScheme(
     @ColorRes val gradientStartRes: Int,
@@ -39,6 +40,7 @@ data class Chapter(
     val chapterEndText: String,
     val chapterEndTitle: String,
     @DrawableRes val chapterEndImage:  Int,
+    @DrawableRes val chapterEndBgImage:  Int = R.drawable.im_what_is_diabetes_bg_hallo,
     val pages: List<ChapterPage>,
     val isCompleted: Boolean = false
 )
@@ -51,6 +53,7 @@ data class Course(
     val title: String,
     val description: String = "",
     @DrawableRes val headerImage: Int,
+    @DrawableRes val headerImageHalloween: Int = R.drawable.im_diabetes_basic_img_hallo,
     val colorScheme: CourseColorScheme,
     val chapters: List<Chapter>,
     val basePath: String = "pages"

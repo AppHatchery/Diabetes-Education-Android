@@ -26,4 +26,11 @@
         <item name="colorPrimary">@color/green_900</item>
     </style>
 
+    <!-- Launch splash: shows the app icon centered, then hands off to the main theme. -->
+    <style name="Theme.DiabetesEducation.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/ic_launcher_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.DiabetesEducation</item>
+    </style>
+
 </resources>
