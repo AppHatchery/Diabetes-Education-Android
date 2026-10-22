@@ -38,14 +38,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerEventPass
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -81,20 +75,7 @@ fun HandBook(
     onKnowYourCarbsClick: () -> Unit
 ) {
     val halloweenOn = LocalHalloweenEnabled.current
-    var overlayRunning by remember { mutableStateOf(true) }
-    // Stop the ghosts on the first tap or scroll, without consuming the event
-    // so it still reaches the screen below.
-    val overlayDetector = if (halloweenOn) {
-        Modifier.pointerInput(Unit) {
-            awaitPointerEventScope {
-                awaitPointerEvent(PointerEventPass.Initial)
-                overlayRunning = false
-            }
-        }
-    } else {
-        Modifier
-    }
-    Box(modifier = Modifier.fillMaxSize().then(overlayDetector)) {
+    Box(modifier = Modifier.fillMaxSize()) {
     Scaffold(
         //contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
@@ -208,8 +189,8 @@ fun HandBook(
         }
     )
 
-        // Halloween ghost overlay, shown only while the seasonal theme is on.
-        if (halloweenOn && overlayRunning) {
+        // Halloween falling-leaves overlay, shown while the seasonal theme is on.
+        if (halloweenOn) {
             HomeHalloweenOverlay()
         }
     }

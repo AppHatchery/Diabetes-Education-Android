@@ -64,6 +64,7 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.com
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.SeasonalLottieOverlay
 import edu.emory.diabetes.education.presentation.theme.nunito
 import sdk.pendo.io.Pendo
 
@@ -171,6 +172,7 @@ fun HighSugarCalculator(
         wasKeyboardVisible = isKeyboardVisible
     }
 
+    Box(modifier = Modifier.fillMaxSize()) {
     Scaffold(
         topBar = {
             CalculatorTopBar(
@@ -437,6 +439,10 @@ fun HighSugarCalculator(
                     }
                 }
             }
+        }
+    }
+        if (LocalHalloweenEnabled.current) {
+            SeasonalLottieOverlay("bat_flyby.json")
         }
     }
 }

@@ -58,6 +58,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
+import androidx.compose.ui.zIndex
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.SeasonalLottieOverlay
 import edu.emory.diabetes.education.presentation.theme.nunito
 
 @Composable
@@ -70,6 +72,7 @@ fun CalculatorOnboardingScreen(
     val step by viewModel.currentStep.collectAsState()
     val context = LocalContext.current
 
+    Box(modifier = Modifier.fillMaxSize()) {
     when (step) {
         OnboardingStep.INTRO -> {
             IntroStep(
@@ -148,6 +151,10 @@ fun CalculatorOnboardingScreen(
             )
         }
     }
+        if (LocalHalloweenEnabled.current && step == OnboardingStep.TARGET_BLOOD_SUGAR) {
+            SeasonalLottieOverlay("ghost_drift.json")
+        }
+    }
 }
 
 @Composable
@@ -186,6 +193,9 @@ private fun IntroStep(
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
+            if (LocalHalloweenEnabled.current) {
+                SeasonalLottieOverlay("falling_leaves.json", Modifier.zIndex(1f))
+            }
             if(LocalHalloweenEnabled.current){
                 Image(
                     painter = painterResource(R.drawable.im_total_insulin_bg),

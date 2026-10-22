@@ -82,6 +82,7 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.com
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.roundTotalInsulin
 import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.SeasonalLottieOverlay
 import edu.emory.diabetes.education.presentation.theme.arial
 import edu.emory.diabetes.education.presentation.theme.nunito
 import sdk.pendo.io.Pendo
@@ -1249,6 +1250,18 @@ fun MealsHighSugarTotal(
             }
         }
     }
+        if (LocalHalloweenEnabled.current) {
+            val seasonalAsset = when (currentStep) {
+                MealsHighSugarStep.MEAL_INPUT,
+                MealsHighSugarStep.MEAL_RESULT -> "spider_drop.json"
+                MealsHighSugarStep.HIGH_SUGAR_INPUT,
+                MealsHighSugarStep.HIGH_SUGAR_RESULT -> "bat_flyby.json"
+                MealsHighSugarStep.TOTAL_RESULT -> null
+            }
+            if (seasonalAsset != null) {
+                SeasonalLottieOverlay(seasonalAsset)
+            }
+        }
     }
 }
 

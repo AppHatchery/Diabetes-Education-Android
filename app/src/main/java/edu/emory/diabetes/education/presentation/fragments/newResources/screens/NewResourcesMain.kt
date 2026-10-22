@@ -2,6 +2,7 @@ package edu.emory.diabetes.education.presentation.fragments.newResources.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,6 +29,7 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.Utils
 import edu.emory.diabetes.education.presentation.fragments.main.KnowYourCarbCard
 import edu.emory.diabetes.education.presentation.fragments.main.halloween.KnowYourCarbsHalloween
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.SeasonalLottieOverlay
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.ClassRecapCard
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.CommunityCard
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.FoodResourceCard
@@ -45,6 +47,7 @@ fun NewResourcesMain(
     navController: NavController,
     onExitToMain: () -> Unit
 ){
+    Box(modifier = Modifier.fillMaxSize()) {
     Scaffold(
         topBar = {
             NewResourcesTopBar(
@@ -158,6 +161,10 @@ fun NewResourcesMain(
             CommunitiesResources()
 
             Spacer(modifier = Modifier.height(24.dp))
+        }
+    }
+        if (LocalHalloweenEnabled.current) {
+            SeasonalLottieOverlay("bats_flyby.json")
         }
     }
 }

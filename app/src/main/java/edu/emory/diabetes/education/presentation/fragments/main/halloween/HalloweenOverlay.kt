@@ -20,9 +20,15 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import edu.emory.diabetes.education.R
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import kotlin.math.PI
 import kotlin.math.floor
 import kotlin.math.max
@@ -67,10 +73,50 @@ val GhostDriftLayer = HalloweenLayer(
     wobble = 28f
 )
 
-// Ghost drift overlay for the Home screen.
+// Falling leaves overlay for the Home screen, rendered from a Lottie animation.
+// It only draws and never handles touches, so taps and scrolls pass through to
+// the screen below. It hides itself when the system Reduce Motion (animations
+// off) setting is on.
 @Composable
 fun HomeHalloweenOverlay(modifier: Modifier = Modifier) {
-    HalloweenOverlay(layers = listOf(GhostDriftLayer), modifier = modifier)
+    val animationsEnabled = remember { ValueAnimator.areAnimatorsEnabled() }
+    if (!animationsEnabled) return
+
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.Asset("falling_leaves.json")
+    )
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever
+    )
+    LottieAnimation(
+        composition = composition,
+        progress = { progress },
+        modifier = modifier.fillMaxSize(),
+        contentScale = ContentScale.Crop
+    )
+}
+
+// A seasonal Lottie overlay played above a screen, from an asset in assets/. It loops continuously
+// while visible (it does not stop when the screen is tapped), draws above the screen, and lets
+// every tap and scroll pass through to the screen below. It hides itself when the system Reduce
+// Motion (animations off) setting is on. Host screens gate it on the Halloween flag.
+@Composable
+fun SeasonalLottieOverlay(asset: String, modifier: Modifier = Modifier) {
+    val animationsEnabled = remember { ValueAnimator.areAnimatorsEnabled() }
+    if (!animationsEnabled) return
+
+    val composition by rememberLottieComposition(LottieCompositionSpec.Asset(asset))
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever
+    )
+    LottieAnimation(
+        composition = composition,
+        progress = { progress },
+        contentScale = ContentScale.Crop,
+        modifier = modifier.fillMaxSize()
+    )
 }
 
 // A full-screen overlay that draws Halloween creatures above a screen. It only

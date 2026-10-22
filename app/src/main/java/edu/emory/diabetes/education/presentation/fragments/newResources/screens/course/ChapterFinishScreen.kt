@@ -44,6 +44,7 @@ import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.NewResourcesTopBar
 import edu.emory.diabetes.education.presentation.theme.nunito
 import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.SeasonalLottieOverlay
 import androidx.compose.material3.MaterialTheme
 import android.app.Activity
 import android.content.Context
@@ -333,6 +334,9 @@ fun ChapterFinishScreen(
             }
         }
     }
+        if (isHalloween) {
+            SeasonalLottieOverlay("falling_leaves.json")
+        }
     }
 }
 
