@@ -28,9 +28,15 @@
 
     <!-- Launch splash: shows the app icon centered, then hands off to the main theme. -->
     <style name="Theme.DiabetesEducation.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/ic_launcher_background</item>
+        <item name="windowSplashScreenBackground">@color/primaryGreen</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
         <item name="postSplashScreenTheme">@style/Theme.DiabetesEducation</item>
+    </style>
+
+    <!-- Halloween launch splash: orange background with the Halloween icon. -->
+    <style name="Theme.DiabetesEducation.Splash.Halloween">
+        <item name="windowSplashScreenBackground">@color/splash_hallo_color</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_logo_halloween_foreground</item>
     </style>
 
 </resources>

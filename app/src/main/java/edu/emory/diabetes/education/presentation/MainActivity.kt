@@ -35,6 +35,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.data.prefs.HalloweenPrefs
 import edu.emory.diabetes.education.databinding.ActivityMainBinding
 import edu.emory.diabetes.education.notifications.CheckReminderReceiver
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayFragment
@@ -53,6 +54,10 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Use the Halloween splash variant when the cached flag is on.
+        if (HalloweenPrefs.isCachedHalloweenEnabled(this)) {
+            setTheme(R.style.Theme_DiabetesEducation_Splash_Halloween)
+        }
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
 
