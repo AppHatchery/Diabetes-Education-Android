@@ -1,8 +1,17 @@
 package edu.emory.diabetes.education.presentation.home
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -141,7 +150,18 @@ fun AppNavHost(startFromReminder: Boolean = false, onFirstScreenReady: () -> Uni
         }
 
         // ── Main / HandBook ──────────────────────────────────────────
-        composable(AppRoute.Main.route) {
+        composable(
+            route = AppRoute.Main.route,
+            // Dissolve in from the intro video so the handoff has no visible pause.
+            enterTransition = {
+                if (initialState.destination.route == AppRoute.Intro.route)
+                    fadeIn(animationSpec = tween(300)) else EnterTransition.None
+            },
+            popEnterTransition = {
+                if (initialState.destination.route == AppRoute.Intro.route)
+                    fadeIn(animationSpec = tween(300)) else EnterTransition.None
+            }
+        ) {
             LaunchedEffect(Unit) { onFirstScreenReady() }
             val context = LocalContext.current
 
@@ -152,6 +172,26 @@ fun AppNavHost(startFromReminder: Boolean = false, onFirstScreenReady: () -> Uni
                     navController.navigate(AppRoute.Calculator.create(encoded))
                 } else {
                     navController.navigate(AppRoute.CalculatorOnboarding.create(encoded))
+                }
+            }
+
+            // Ask for notification access when entering the sick day protocol (its reminders
+            // need it), then open the protocol whether or not the user grants it.
+            val notificationPermissionLauncher = rememberLauncherForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) {
+                navController.navigate(AppRoute.SickDay.route)
+            }
+
+            fun openSickDay() {
+                val needsPermission = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                    ContextCompat.checkSelfPermission(
+                        context, Manifest.permission.POST_NOTIFICATIONS
+                    ) != PackageManager.PERMISSION_GRANTED
+                if (needsPermission) {
+                    notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                } else {
+                    navController.navigate(AppRoute.SickDay.route)
                 }
             }
 
@@ -166,7 +206,7 @@ fun AppNavHost(startFromReminder: Boolean = false, onFirstScreenReady: () -> Uni
                     openCalculator(NewCalculatorScreen.HighSugarCalculator.route)
                 },
                 onGetHelpClick = {
-                    navController.navigate(AppRoute.SickDay.route)
+                    openSickDay()
                 },
                 onNutritionClick = {
                     navController.navigate(
@@ -310,7 +350,18 @@ fun AppNavHost(startFromReminder: Boolean = false, onFirstScreenReady: () -> Uni
         }
 
         // Intro video: plays once, then routes on to onboarding or the home screen.
-        composable(AppRoute.Intro.route) {
+        composable(
+            route = AppRoute.Intro.route,
+            // Keep the final video frame on screen, fading out as the home screen fades in.
+            exitTransition = {
+                if (targetState.destination.route == AppRoute.Main.route)
+                    fadeOut(animationSpec = tween(300)) else ExitTransition.None
+            },
+            popExitTransition = {
+                if (targetState.destination.route == AppRoute.Main.route)
+                    fadeOut(animationSpec = tween(300)) else ExitTransition.None
+            }
+        ) {
             IntroVideoScreen(
                 onFinish = {
                     IntroPrefs.markIntroShown(context)

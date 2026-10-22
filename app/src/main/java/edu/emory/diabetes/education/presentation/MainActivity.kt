@@ -1,13 +1,9 @@
 package edu.emory.diabetes.education.presentation
 
-import android.Manifest
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.content.pm.PackageManager
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,13 +12,11 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -43,15 +37,6 @@ import edu.emory.diabetes.education.presentation.home.AppNavHost
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    private val TAG = "MainActivity"
-
-    private val notificationPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) Log.d(TAG, "POST_NOTIFICATIONS granted")
-        else Log.w(TAG, "POST_NOTIFICATIONS DENIED")
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Use the Halloween splash variant when the cached flag is on.
@@ -78,7 +63,6 @@ class MainActivity : ComponentActivity() {
                 Color.TRANSPARENT
             )
         )
-        requestNotificationPermission()
 
         setContent {
             val configuration = LocalConfiguration.current
@@ -103,17 +87,6 @@ class MainActivity : ComponentActivity() {
         // restart with the new intent so the NavHost picks it up
         setIntent(intent)
         recreate()
-    }
-
-    private fun requestNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this, Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-            }
-        }
     }
 
     companion object {
