@@ -368,11 +368,14 @@ fun InsulinPumpContent(){
 
         InsulinPumpText(
             text = buildAnnotatedString {
-                append("Confirm your ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
-                    append("pump site is securely connected")
+                    append("Change pump site ")
                 }
-                append(" and not leaking.")
+                append(" and give ")
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                    append("correction dose ")
+                }
+                append("through the new site")
             },
             image = R.drawable.im_insulin_pump
         )

@@ -34,6 +34,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen.LowKetoneIletBloodSugarScreen
 
 @Composable
 fun SickDayNavigation(
@@ -256,6 +257,22 @@ fun SickDayNavigation(
                 viewModel = viewModel,
                 onExitToMain = onExitToMain
             )
+        }
+
+        composable(
+            route = "${SickDayScreen.LowKetoneIletBloodSugar.route}/{urineValue}",
+            arguments = listOf(
+                navArgument("urineValue"){type = NavType.StringType}
+            )
+        ){backStackEntry ->
+            val urineValue = backStackEntry.arguments?.getString("urineValue") ?: "low"
+            LowKetoneIletBloodSugarScreen(
+                navController = navController,
+                urineValue = urineValue,
+                viewModel = viewModel,
+                onExitToMain = onExitToMain
+            )
+
         }
 
         composable(SickDayScreen.NewPump.route){

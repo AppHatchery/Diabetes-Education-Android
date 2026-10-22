@@ -566,6 +566,37 @@ fun MealsHighSugarTotal(
                                 infoOnClick = {showInsulinForFood = true}
                             )
                             Spacer(modifier = Modifier.height(24.dp))
+                            if (!isKeyboardVisible) {
+                                Button(
+                                    onClick = { viewModel.setStep(MealsHighSugarStep.HIGH_SUGAR_INPUT) },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = colorResource(R.color.primaryGreen)
+                                    ),
+                                    shape = RoundedCornerShape(12.dp)
+                                ) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.Center,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = "Next",
+                                            fontSize = 20.sp,
+                                            fontWeight = FontWeight.W500,
+                                            modifier = Modifier.padding(end = 2.dp),
+                                            color = Color.White,
+                                            textAlign = TextAlign.Center
+                                        )
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                            contentDescription = null,
+                                            tint = Color.White,
+                                            modifier = Modifier.size(12.dp)
+                                        )
+                                    }
+                                }
+                            }
                         }
 
                         // ── Step 3: High sugar input ─────────────────────
@@ -748,6 +779,37 @@ fun MealsHighSugarTotal(
                             }
 
                             Spacer(modifier = Modifier.height(24.dp))
+                            if (!isKeyboardVisible) {
+                                Button(
+                                    onClick = { viewModel.setStep(MealsHighSugarStep.TOTAL_RESULT) },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = colorResource(R.color.primaryGreen)
+                                    ),
+                                    shape = RoundedCornerShape(12.dp)
+                                ) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.Center,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = "Next",
+                                            fontSize = 20.sp,
+                                            fontWeight = FontWeight.W500,
+                                            modifier = Modifier.padding(end = 2.dp),
+                                            color = Color.White,
+                                            textAlign = TextAlign.Center
+                                        )
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                            contentDescription = null,
+                                            tint = Color.White,
+                                            modifier = Modifier.size(12.dp)
+                                        )
+                                    }
+                                }
+                            }
                         }
 
                         // ── Step 5: Total result ─────────────────────────
@@ -778,7 +840,7 @@ fun MealsHighSugarTotal(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .align(Alignment.TopCenter)
-                                        .padding(top = 80.dp),
+                                        .padding(top = 30.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     Image(
@@ -877,7 +939,7 @@ fun MealsHighSugarTotal(
                                         }
                                     }
 
-                                    Spacer(modifier = Modifier.height(32.dp))
+                                    Spacer(modifier = Modifier.height(20.dp))
 
                                     // Exit button
                                     Button(
@@ -915,7 +977,7 @@ fun MealsHighSugarTotal(
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.height(30.dp))
+                   // Spacer(modifier = Modifier.height(30.dp))
                 }
             }
             when (currentStep) {
@@ -1102,7 +1164,7 @@ fun MealsHighSugarTotal(
                     }
                 }
 
-                // ── Result steps: always-visible Next button ─────────────────
+                // Result steps: keyboard Calculate button (Next now sits below the result card)
                 MealsHighSugarStep.MEAL_RESULT -> {
                     AnimatedVisibility(
                         visible = isKeyboardVisible && canCalculateMeal,
@@ -1137,41 +1199,6 @@ fun MealsHighSugarTotal(
                         }
                     }
 
-                    // Next only visible when keyboard is dismissed
-                    if (!isKeyboardVisible) {
-                        Button(
-                            onClick = { viewModel.setStep(MealsHighSugarStep.HIGH_SUGAR_INPUT) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .align(Alignment.BottomCenter)
-                                .padding(start = 20.dp, top = 10.dp, end = 20.dp, bottom = 40.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = colorResource(R.color.primaryGreen)
-                            ),
-                            shape = RoundedCornerShape(12.dp)
-                        ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = "Next",
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.W500,
-                                    modifier = Modifier.padding(end = 2.dp),
-                                    color = Color.White,
-                                    textAlign = TextAlign.Center
-                                )
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                    contentDescription = null,
-                                    tint = Color.White,
-                                    modifier = Modifier.size(12.dp)
-                                )
-                            }
-                        }
-                    }
                 }
 
                 MealsHighSugarStep.HIGH_SUGAR_RESULT -> {
@@ -1217,35 +1244,6 @@ fun MealsHighSugarTotal(
                         }
                     }
 
-                    // Next only visible when keyboard is dismissed
-                    if (!isKeyboardVisible) {
-                        Button(
-                            onClick = { viewModel.setStep(MealsHighSugarStep.TOTAL_RESULT) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .align(Alignment.BottomCenter)
-                                .padding(start = 20.dp, top = 10.dp, end = 20.dp, bottom = 40.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = colorResource(R.color.primaryGreen)
-                            ),
-                            shape = RoundedCornerShape(12.dp)
-                        ) {
-                            Text(
-                                text = "Next",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.W500,
-                                modifier = Modifier.padding(end = 2.dp),
-                                color = Color.White,
-                                textAlign = TextAlign.Center
-                            )
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                contentDescription = null,
-                                tint = Color.White,
-                                modifier = Modifier.size(12.dp)
-                            )
-                        }
-                    }
                 }
                 MealsHighSugarStep.TOTAL_RESULT -> { /* nothing */ }
             }

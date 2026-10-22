@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -152,7 +153,7 @@ fun CallCHOAScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(47.dp),
+                            .heightIn(min = 47.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = colorResource(R.color.primaryBlue)
                         ),
@@ -174,7 +175,8 @@ fun CallCHOAScreen(
                                 fontSize = 20.sp,
                                 //fontWeight = FontWeight.Bold,
                                 fontFamily = nunito,
-                                color = Color.White
+                                color = Color.White,
+                                textAlign = TextAlign.Center
                             )
                         }
                     }

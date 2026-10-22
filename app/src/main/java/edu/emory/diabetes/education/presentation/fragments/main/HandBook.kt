@@ -36,6 +36,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -111,6 +112,9 @@ fun HandBook(
                         )
                     }
                 },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.White,
+                ),
                 windowInsets = WindowInsets.statusBars//.add(WindowInsets(top = 8.dp))
                 )
         },
@@ -248,14 +252,25 @@ fun InsulinCalculatorCard(
                             .weight(1f)
                             .padding(top = 20.dp),
                     ) {
-                        Spacer(modifier = Modifier.height(20.dp))
+                        Spacer(modifier = Modifier.height(10.dp))
                         Text(
                             text = "Insulin Calculator",
+                            color = colorResource(R.color.blue_200),
+                            fontSize = 16.sp,
+                            fontFamily = nunito,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.height(30.dp))
+
+                        Text(
+                            text = "Calculate how much insulin you need for",
                             color = Color.White,
                             fontSize = 20.sp,
                             fontFamily = nunito,
                             fontWeight = FontWeight.Bold
                         )
+
+
                     }
 
                     Image(
@@ -334,7 +349,7 @@ fun InsulinCalculatorCard(
                             shape = RoundedCornerShape(12.dp)
                         ) {
                             Text(
-                                text = "Correction",
+                                text = "High Sugar",
                                 fontFamily = nunito,
                                 fontSize = 20.sp,
                                 maxLines = 1,

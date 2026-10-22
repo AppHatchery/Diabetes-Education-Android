@@ -86,6 +86,7 @@ fun CalculatorOnboardingScreen(
             QuestionStep(
                 progress = 0.2f,
                 bubble = R.drawable.im_cal_carb_text,
+                chatBubbleHeight = 84,
                 mascot = if(LocalHalloweenEnabled.current){
                     R.drawable.im_meal_onboarding_hallo
                 }else{
@@ -106,6 +107,7 @@ fun CalculatorOnboardingScreen(
             QuestionStep(
                 progress = 0.4f,
                 bubble = R.drawable.im_cal_target_text,
+                chatBubbleHeight = 64,
                 mascot = if(LocalHalloweenEnabled.current){
                     R.drawable.im_hbs_onboarding_hallo
                 }else{
@@ -126,6 +128,7 @@ fun CalculatorOnboardingScreen(
             QuestionStep(
                 progress = 0.6f,
                 bubble = R.drawable.im_cal_correction_text,
+                chatBubbleHeight = 84,
                 mascot =  if(LocalHalloweenEnabled.current){
                     R.drawable.im_hbs_onboarding_hallo
                 }else{
@@ -234,6 +237,7 @@ private fun IntroStep(
                     modifier = Modifier
                         .padding(horizontal = 24.dp)
                         .width(260.dp)
+                        .height(81.dp)
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -300,6 +304,7 @@ private fun IntroStep(
 private fun QuestionStep(
     progress: Float,
     bubble: Int,
+    chatBubbleHeight: Int,
     mascot: Int,
     question: String,
     value: String,
@@ -365,7 +370,9 @@ private fun QuestionStep(
             Spacer(modifier = Modifier.width(8.dp))
             SpeechBubble(
                 bubbleImage = bubble,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .height(chatBubbleHeight.dp)
             )
         }
 
@@ -559,6 +566,7 @@ fun CalculatorOnboardingScreenPreview() {
 fun CalculatorQuestionScreenPreview() {
     QuestionStep(
         question = "What is your target blood sugar?",
+        chatBubbleHeight = 84,
         value = "100",
         unit = "mg/dL",
         progress = 0.5f,
@@ -568,7 +576,7 @@ fun CalculatorQuestionScreenPreview() {
         onExit = {},
         onBack = {},
         mascot = R.drawable.im_cal_correction,
-        bubble = R.drawable.im_cal_target_text,
+        bubble = R.drawable.im_cal_carb_text,
 
     )
 }
