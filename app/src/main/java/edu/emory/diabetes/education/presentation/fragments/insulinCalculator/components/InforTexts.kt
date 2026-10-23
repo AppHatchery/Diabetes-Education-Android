@@ -68,3 +68,13 @@ val insulinForFood = infoText{
 val insulinForHBS = infoText {
     append("Insulin for high blood sugar helps lower blood sugar that’s too high by helping your body use sugar for energy and keep levels in a healthy range.")
 }
+val roundingInfo = infoText {
+    append("This determines how your calculated insulin dose is rounded.\n\n")
+    append("• ")
+    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Half unit: ") }
+    append("Rounds to the nearest 0.5 unit (e.g., 2.3 \u2192 2.5 units).\n")
+    append("• ")
+    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append("Whole unit: ") }
+    append("Rounds to the nearest 1 unit (e.g., 2.3 \u2192 2 units).\n\n")
+    append("Choose the option recommended by your diabetes care team and supported by your insulin delivery device.")
+}

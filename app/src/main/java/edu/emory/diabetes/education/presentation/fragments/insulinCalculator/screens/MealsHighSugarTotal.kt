@@ -251,7 +251,7 @@ fun MealsHighSugarTotal(
             MealsHighSugarStep.TOTAL_RESULT -> {
                 val mealUnits = uiState.rawInsulinUnits
                 val highSugarUnits = highSugarUiState.rawInsulinUnits
-                val total = roundTotalInsulin(mealUnits + highSugarUnits)
+                val total = roundTotalInsulin(mealUnits + highSugarUnits, uiState.roundingRule)
                 val totalFormatted = if (total % 1.0 == 0.0) total.toInt().toString() else total.toString()
                 val properties = hashMapOf<String, Any>()
                 properties["for_food"] = mealUnits
@@ -822,7 +822,7 @@ fun MealsHighSugarTotal(
                         MealsHighSugarStep.TOTAL_RESULT -> {
                             val mealUnits = uiState.rawInsulinUnits
                             val highSugarUnits = highSugarUiState.rawInsulinUnits
-                            val total = roundTotalInsulin(mealUnits + highSugarUnits)
+                            val total = roundTotalInsulin(mealUnits + highSugarUnits, uiState.roundingRule)
                             val totalFormatted = if (total % 1.0 == 0.0) total.toInt().toString() else total.toString()
 
                             //lottie setup:

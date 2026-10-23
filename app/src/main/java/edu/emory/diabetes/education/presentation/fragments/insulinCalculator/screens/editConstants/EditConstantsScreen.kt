@@ -21,6 +21,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -50,6 +52,8 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.com
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.cFactorInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.carbRatioInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.targetBSInfo
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.roundingInfo
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.RoundingRule
 import edu.emory.diabetes.education.presentation.theme.nunito
 
 @Composable
@@ -69,6 +73,7 @@ fun EditConstantsScreen(
     var showCFactorInfo by remember { mutableStateOf(false) }
     var showTargetBSInfo by remember { mutableStateOf(false) }
     var showCarbRatioInfo by remember { mutableStateOf(false) }
+    var showRoundingInfo by remember { mutableStateOf(false) }
 
     if (showCFactorInfo) {
         InfoDialog(
@@ -91,6 +96,14 @@ fun EditConstantsScreen(
             title = "Carb Ratio",
             description = carbRatioInfo,
             onDismiss = { showCarbRatioInfo = false }
+        )
+    }
+
+    if (showRoundingInfo) {
+        InfoDialog(
+            title = "Rounding Rule",
+            description = roundingInfo,
+            onDismiss = { showRoundingInfo = false }
         )
     }
 
@@ -159,6 +172,14 @@ fun EditConstantsScreen(
                 onInfoClick = { showCFactorInfo = true }
             )
 
+            Spacer(modifier = Modifier.height(20.dp))
+
+            RoundingRuleSection(
+                selected = uiState.roundingRule,
+                onSelect = { viewModel.onRoundingRuleChanged(it) },
+                onInfoClick = { showRoundingInfo = true }
+            )
+
             Spacer(modifier = Modifier.weight(1f))
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -219,7 +240,7 @@ private fun ConstantInputField(
         ) {
             Text(
                 text = label,
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.W600,
                 fontFamily = nunito,
                 color = Color.Black
@@ -284,6 +305,78 @@ private fun ConstantInputField(
     }
 }
 
+
+@Composable
+private fun RoundingRuleSection(
+    selected: RoundingRule,
+    onSelect: (RoundingRule) -> Unit,
+    onInfoClick: () -> Unit
+) {
+    Column {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "Rounding Rule",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.W600,
+                fontFamily = nunito,
+                color = Color.Black
+            )
+            Spacer(modifier = Modifier.width(6.dp))
+            Icon(
+                imageVector = Icons.Outlined.Info,
+                contentDescription = "Info",
+                modifier = Modifier
+                    .size(18.dp)
+                    .clickable { onInfoClick() },
+                tint = Color.Black
+            )
+        }
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        RoundingRuleRow(
+            label = "Half unit",
+            isSelected = selected == RoundingRule.HALF,
+            onClick = { onSelect(RoundingRule.HALF) }
+        )
+        RoundingRuleRow(
+            label = "Whole unit",
+            isSelected = selected == RoundingRule.WHOLE,
+            onClick = { onSelect(RoundingRule.WHOLE) }
+        )
+    }
+}
+
+@Composable
+private fun RoundingRuleRow(
+    label: String,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(vertical = 0.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RadioButton(
+            selected = isSelected,
+            onClick = onClick,
+            colors = RadioButtonDefaults.colors(
+                selectedColor = colorResource(R.color.primaryGreen),
+                unselectedColor = colorResource(R.color.gray_200_calc)
+            )
+        )
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(
+            text = label,
+            fontSize = 18.sp,
+            fontFamily = nunito,
+            color = Color.Black
+        )
+    }
+}
 
 @Preview
 @Composable

@@ -94,12 +94,15 @@ fun HandBook(
                         if (halloweenOn) {
                             IconButton(
                                 onClick = onReplayIntroClick,
-                                modifier = Modifier.align(Alignment.CenterEnd)
+                                modifier = Modifier
+                                    .align(Alignment.CenterEnd)
+                                    .padding(end = 8.dp, top = 6.dp)
                             ) {
                                 Image(
                                     painter = painterResource(R.drawable.im_lantern_halloween),
                                     contentDescription = "Replay intro video",
-                                    modifier = Modifier.size(36.dp)
+                                    modifier = Modifier.size(80.dp),
+                                    contentScale = ContentScale.Fit
                                 )
                             }
                         }

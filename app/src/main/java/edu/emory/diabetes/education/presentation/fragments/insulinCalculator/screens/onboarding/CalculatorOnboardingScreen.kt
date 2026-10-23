@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -61,6 +62,7 @@ import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnab
 import androidx.compose.ui.zIndex
 import edu.emory.diabetes.education.presentation.fragments.main.halloween.SeasonalLottieOverlay
 import edu.emory.diabetes.education.presentation.theme.nunito
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.RoundingRule
 
 @Composable
 fun CalculatorOnboardingScreen(
@@ -96,14 +98,18 @@ fun CalculatorOnboardingScreen(
                     R.drawable.im_meal_onboarding
                 },
                 question = "What's your carb ratio?",
-                value = uiState.carbRatio,
-                onValueChange = { if (!it.contains('.')) viewModel.onCarbRatioChanged(it) },
-                unit = "g/unit",
-                isError = uiState.carbRatioError,
+                canProceed = uiState.carbRatio.isNotBlank() && !uiState.carbRatioError,
                 onNext = { viewModel.goToStep(OnboardingStep.TARGET_BLOOD_SUGAR) },
                 onBack = { viewModel.goToStep(OnboardingStep.INTRO) },
                 onExit = onExit
-            )
+            ) {
+                OnboardingInputField(
+                    value = uiState.carbRatio,
+                    onValueChange = { if (!it.contains('.')) viewModel.onCarbRatioChanged(it) },
+                    unit = "g/unit",
+                    isError = uiState.carbRatioError
+                )
+            }
         }
 
         OnboardingStep.TARGET_BLOOD_SUGAR -> {
@@ -117,14 +123,18 @@ fun CalculatorOnboardingScreen(
                     R.drawable.im_hbs_onboarding
                 },
                 question = "What's your target blood sugar?",
-                value = uiState.targetBloodSugar,
-                onValueChange = { if (!it.contains('.')) viewModel.onTargetBloodSugarChanged(it) },
-                unit = "mg/dL",
-                isError = uiState.targetBloodSugarError,
+                canProceed = uiState.targetBloodSugar.isNotBlank() && !uiState.targetBloodSugarError,
                 onNext = { viewModel.goToStep(OnboardingStep.CORRECTION_FACTOR) },
                 onBack = { viewModel.goToStep(OnboardingStep.CARB_RATIO) },
                 onExit = onExit
-            )
+            ) {
+                OnboardingInputField(
+                    value = uiState.targetBloodSugar,
+                    onValueChange = { if (!it.contains('.')) viewModel.onTargetBloodSugarChanged(it) },
+                    unit = "mg/dL",
+                    isError = uiState.targetBloodSugarError
+                )
+            }
         }
 
         OnboardingStep.CORRECTION_FACTOR -> {
@@ -138,17 +148,59 @@ fun CalculatorOnboardingScreen(
                     R.drawable.im_hbs_onboarding
                 },
                 question = "What's your correction factor?",
-                value = uiState.correctionFactor,
-                onValueChange = { if (!it.contains('.')) viewModel.onCorrectionFactorChanged(it) },
-                unit = "",
-                isError = uiState.correctionFactorError,
+                canProceed = uiState.correctionFactor.isNotBlank() && !uiState.correctionFactorError,
+                onNext = { viewModel.goToStep(OnboardingStep.ROUNDING) },
+                onBack = { viewModel.goToStep(OnboardingStep.TARGET_BLOOD_SUGAR) },
+                onExit = onExit
+            ) {
+                OnboardingInputField(
+                    value = uiState.correctionFactor,
+                    onValueChange = { if (!it.contains('.')) viewModel.onCorrectionFactorChanged(it) },
+                    unit = "",
+                    isError = uiState.correctionFactorError
+                )
+            }
+        }
+
+        OnboardingStep.ROUNDING -> {
+            QuestionStep(
+                progress = 0.8f,
+                bubble = R.drawable.im_cal_rounding_text,
+                chatBubbleHeight = 120,
+                mascot = if(LocalHalloweenEnabled.current){
+                    R.drawable.im_hbs_onboarding_hallo
+                }else{
+                    R.drawable.im_hbs_onboarding
+                },
+                question = "How should insulin be rounded?",
+                canProceed = uiState.roundingRule != null,
                 onNext = {
                     viewModel.finish(context)
                     onFinish()
                 },
-                onBack = { viewModel.goToStep(OnboardingStep.TARGET_BLOOD_SUGAR) },
+                onBack = { viewModel.goToStep(OnboardingStep.CORRECTION_FACTOR) },
                 onExit = onExit
-            )
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    RoundingOptionCard(
+                        title = "Half unit",
+                        subtitle = "0.5 unit steps",
+                        isSelected = uiState.roundingRule == RoundingRule.HALF,
+                        onClick = { viewModel.onRoundingRuleSelected(RoundingRule.HALF) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    RoundingOptionCard(
+                        title = "Whole unit",
+                        subtitle = "1 unit steps",
+                        isSelected = uiState.roundingRule == RoundingRule.WHOLE,
+                        onClick = { viewModel.onRoundingRuleSelected(RoundingRule.WHOLE) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
         }
     }
         if (LocalHalloweenEnabled.current && step == OnboardingStep.TARGET_BLOOD_SUGAR) {
@@ -317,16 +369,12 @@ private fun QuestionStep(
     chatBubbleHeight: Int,
     mascot: Int,
     question: String,
-    value: String,
-    onValueChange: (String) -> Unit,
-    unit: String,
-    isError: Boolean,
+    canProceed: Boolean,
     onNext: () -> Unit,
     onBack: () -> Unit,
-    onExit: () -> Unit
+    onExit: () -> Unit,
+    content: @Composable ColumnScope.() -> Unit
 ) {
-    val canProceed = value.isNotBlank() && !isError
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -407,12 +455,7 @@ private fun QuestionStep(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            OnboardingInputField(
-                value = value,
-                onValueChange = onValueChange,
-                unit = unit,
-                isError = isError
-            )
+            content()
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -432,6 +475,45 @@ private fun QuestionStep(
 
             Spacer(modifier = Modifier.height(40.dp))
         }
+    }
+}
+
+@Composable
+private fun RoundingOptionCard(
+    title: String,
+    subtitle: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val borderColor = if (isSelected) colorResource(R.color.primaryGreen)
+    else colorResource(R.color.gray_200_calc)
+    val backgroundColor = if (isSelected) colorResource(R.color.green_050)
+    else colorResource(R.color.gray_050)
+
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .background(backgroundColor)
+            .border(1.5.dp, borderColor, RoundedCornerShape(12.dp))
+            .clickable { onClick() }
+            .padding(vertical = 5.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = title,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.W700,
+            fontFamily = nunito,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier.height(2.dp))
+        Text(
+            text = subtitle,
+            fontSize = 13.sp,
+            fontFamily = nunito,
+            color = colorResource(R.color.gray_400)
+        )
     }
 }
 
@@ -577,16 +659,19 @@ fun CalculatorQuestionScreenPreview() {
     QuestionStep(
         question = "What is your target blood sugar?",
         chatBubbleHeight = 84,
-        value = "100",
-        unit = "mg/dL",
+        canProceed = true,
         progress = 0.5f,
-        isError = false,
-        onValueChange = {},
         onNext = {},
         onExit = {},
         onBack = {},
         mascot = R.drawable.im_cal_correction,
         bubble = R.drawable.im_cal_carb_text,
-
-    )
+    ) {
+        OnboardingInputField(
+            value = "100",
+            onValueChange = {},
+            unit = "mg/dL",
+            isError = false
+        )
+    }
 }
