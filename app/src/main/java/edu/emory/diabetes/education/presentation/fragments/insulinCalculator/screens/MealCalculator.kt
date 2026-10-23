@@ -34,6 +34,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.navigation.NavController
@@ -360,7 +361,11 @@ fun MealCalculator(
         }
     }
         if (LocalHalloweenEnabled.current) {
-            SeasonalLottieOverlay("spider_drop.json")
+            SeasonalLottieOverlay(
+                "spider_drop.json",
+                contentScale = ContentScale.FillWidth,
+                alignment = Alignment.TopCenter
+            )
         }
     }
 

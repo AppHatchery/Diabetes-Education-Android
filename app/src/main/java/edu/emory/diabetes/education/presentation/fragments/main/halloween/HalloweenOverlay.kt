@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -102,7 +103,12 @@ fun HomeHalloweenOverlay(modifier: Modifier = Modifier) {
 // every tap and scroll pass through to the screen below. It hides itself when the system Reduce
 // Motion (animations off) setting is on. Host screens gate it on the Halloween flag.
 @Composable
-fun SeasonalLottieOverlay(asset: String, modifier: Modifier = Modifier) {
+fun SeasonalLottieOverlay(
+    asset: String,
+    modifier: Modifier = Modifier,
+    contentScale: ContentScale = ContentScale.Crop,
+    alignment: Alignment = Alignment.Center
+) {
     val animationsEnabled = remember { ValueAnimator.areAnimatorsEnabled() }
     if (!animationsEnabled) return
 
@@ -114,7 +120,8 @@ fun SeasonalLottieOverlay(asset: String, modifier: Modifier = Modifier) {
     LottieAnimation(
         composition = composition,
         progress = { progress },
-        contentScale = ContentScale.Crop,
+        contentScale = contentScale,
+        alignment = alignment,
         modifier = modifier.fillMaxSize()
     )
 }

@@ -245,6 +245,9 @@ fun AppNavHost(startFromReminder: Boolean = false, onFirstScreenReady: () -> Uni
                 },
                 onKnowYourCarbsClick = {
                     navController.navigate(AppRoute.KnowYourCarbs.route)
+                },
+                onReplayIntroClick = {
+                    navController.navigate(AppRoute.Intro.route)
                 }
             )
         }
@@ -373,6 +376,7 @@ fun AppNavHost(startFromReminder: Boolean = false, onFirstScreenReady: () -> Uni
                     // }
                     navController.navigate(AppRoute.Main.route) {
                         popUpTo(AppRoute.Intro.route) { inclusive = true }
+                        launchSingleTop = true
                     }
                 },
                 onFirstFrame = onFirstScreenReady

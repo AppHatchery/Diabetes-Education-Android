@@ -72,7 +72,8 @@ fun HandBook(
     onManagementClick: () -> Unit,
     onEducationalResourcesClick: () -> Unit,
     onReferencesClick: () -> Unit,
-    onKnowYourCarbsClick: () -> Unit
+    onKnowYourCarbsClick: () -> Unit,
+    onReplayIntroClick: () -> Unit = {}
 ) {
     val halloweenOn = LocalHalloweenEnabled.current
     Box(modifier = Modifier.fillMaxSize()) {
@@ -81,16 +82,27 @@ fun HandBook(
         topBar = {
             TopAppBar(
                 title = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
+                    Box(modifier = Modifier.fillMaxWidth()) {
                         Text(
                             text = "Type U",
                             textAlign = TextAlign.Center,
                             fontFamily = nunito,
-                            fontWeight = FontWeight.W500
+                            fontWeight = FontWeight.W500,
+                            modifier = Modifier.align(Alignment.Center)
                         )
+                        // Lantern button replays the Halloween intro video on tap.
+                        if (halloweenOn) {
+                            IconButton(
+                                onClick = onReplayIntroClick,
+                                modifier = Modifier.align(Alignment.CenterEnd)
+                            ) {
+                                Image(
+                                    painter = painterResource(R.drawable.im_lantern_halloween),
+                                    contentDescription = "Replay intro video",
+                                    modifier = Modifier.size(36.dp)
+                                )
+                            }
+                        }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(

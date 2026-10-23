@@ -122,7 +122,8 @@ fun ChapterFinishScreen(
                 painter = painterResource(id = completedChapter.chapterEndBgImage),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
+                alignment = Alignment.TopCenter,
+                contentScale = ContentScale.FillWidth
             )
         }
 
@@ -227,7 +228,8 @@ fun ChapterFinishScreen(
             Card(
                 shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
             ) {
                 Column(
                     modifier = Modifier
@@ -335,7 +337,9 @@ fun ChapterFinishScreen(
         }
     }
         if (isHalloween) {
-            SeasonalLottieOverlay("falling_leaves.json")
+            // Diabetes Self-Management (course id 2) uses falling stars; other courses use leaves.
+            val overlayAsset = if (uiState.course.id == 2) "falling_stars.json" else "falling_leaves.json"
+            SeasonalLottieOverlay(overlayAsset)
         }
     }
 }

@@ -80,7 +80,7 @@ object CourseDataProvider {
                 chapterEndText = " and discovered how each type works and how to store them.",
                 chapterEndTitle = "Way to go!",
                 chapterEndImage = R.drawable.im_basics,
-                chapterEndBgImage = R.drawable.im_types_of_insulin_hallo,
+                chapterEndBgImage = R.drawable.im_types_of_insulin_bg_hallo,
                 pages = listOf(
                     ChapterPage(pageUrl = "1_3_1_types_of_insulin", title = "Types of Insulin"),
                     ChapterPage(pageUrl = "1_3_2_storage_of_insulin", title = "Storage of Insulin"),

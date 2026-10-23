@@ -137,6 +137,11 @@ fun MealsHighSugarTotal(
     //var currentStep by remember { mutableStateOf(MealsHighSugarStep.MEAL_INPUT) }
     val currentStep by viewModel.currentStep.collectAsState()
 
+    // One scroll state for the step content; jump back to the top on each step
+    // change so a new step never opens scrolled to the previous step's position.
+    val contentScrollState = rememberScrollState()
+    LaunchedEffect(currentStep) { contentScrollState.scrollTo(0) }
+
     // Validation attempt trackers — trigger red state on failed Next tap
     var mealValidationAttempted by remember { mutableStateOf(false) }
     var highSugarValidationAttempted by remember { mutableStateOf(false) }
@@ -434,7 +439,7 @@ fun MealsHighSugarTotal(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
+                        .verticalScroll(contentScrollState)
                         //.imePadding()
                         //.defaultMinSize(minHeight = 600.dp)
                         .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
@@ -828,7 +833,7 @@ fun MealsHighSugarTotal(
                                 isPlaying = true
                             )
 
-                            Box(modifier = Modifier.fillMaxSize()) {
+                            Box(modifier = Modifier.fillMaxWidth()) {
                                 LottieAnimation(
                                     composition = composition,
                                     progress = { progress },
@@ -856,7 +861,7 @@ fun MealsHighSugarTotal(
                                         modifier = Modifier
                                             .height(275.dp)
                                             .width(275.dp),
-                                        contentScale = ContentScale.Crop
+                                        contentScale = ContentScale.Fit
                                     )
                                     // Result card
                                     Column(
@@ -1259,7 +1264,14 @@ fun MealsHighSugarTotal(
                 MealsHighSugarStep.TOTAL_RESULT -> null
             }
             if (seasonalAsset != null) {
-                SeasonalLottieOverlay(seasonalAsset)
+                // Spiders hang at a fixed point from the top, so scale by width and
+                // top-anchor them; other overlays keep the default crop.
+                val isSpider = seasonalAsset == "spider_drop.json"
+                SeasonalLottieOverlay(
+                    seasonalAsset,
+                    contentScale = if (isSpider) ContentScale.FillWidth else ContentScale.Crop,
+                    alignment = if (isSpider) Alignment.TopCenter else Alignment.Center
+                )
             }
         }
     }
