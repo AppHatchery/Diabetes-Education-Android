@@ -156,73 +156,78 @@ fun ChapterFinishScreen(
             ) {
                 // In Halloween mode the title, speech bubble and character are hidden
                 // so only the star card shows over the background image.
-                if (!isHalloween) {
+                //if (!isHalloween) {
                 Spacer(modifier = Modifier.height(20.dp))
 
-                Text(
-                    text = completedChapter.chapterEndTitle,
-                    color = Color.White,
-                    fontSize = 32.sp,
-                    fontFamily = nunito,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
-                )
+                    Text(
+                        text = completedChapter.chapterEndTitle,
+                        color = Color.White,
+                        fontSize = 32.sp,
+                        fontFamily = nunito,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
 
-                Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
 
-                // Speech bubble
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(horizontal = 40.dp)
-                ) {
-                    Card(
-                        shape = RoundedCornerShape(10.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+
+                    // Speech bubble
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.padding(horizontal = 40.dp)
                     ) {
-                        Text(
-                            text = buildAnnotatedString {
-                                append("You've completed \"")
-                                withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = colorResource(R.color.primaryGreen))) {
-                                    append(completedChapter.title)
-                                }
-                                append(" ")
-                                append( completedChapter.chapterEndText)
-                            },
-                            fontSize = 16.sp,
-                            textAlign = TextAlign.Center,
-                            fontFamily = nunito,
-                            lineHeight = 20.sp,
-                            color = Color.Black,
-                            modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)
+                        Card(
+                            shape = RoundedCornerShape(10.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color.White),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                        ) {
+                            Text(
+                                text = buildAnnotatedString {
+                                    append("You've completed \"")
+                                    withStyle(
+                                        SpanStyle(
+                                            fontWeight = FontWeight.Bold,
+                                            color = colorResource(R.color.primaryGreen)
+                                        )
+                                    ) {
+                                        append(completedChapter.title)
+                                    }
+                                    append(" ")
+                                    append(completedChapter.chapterEndText)
+                                },
+                                fontSize = 16.sp,
+                                textAlign = TextAlign.Center,
+                                fontFamily = nunito,
+                                lineHeight = 20.sp,
+                                color = Color.Black,
+                                modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)
+                            )
+                        }
+
+                        // Downward-pointing triangle tail
+                        Canvas(modifier = Modifier.size(width = 20.dp, height = 12.dp)) {
+                            val path = Path().apply {
+                                moveTo(0f, 0f)
+                                lineTo(size.width, 0f)
+                                lineTo(size.width / 2f, size.height)
+                                close()
+                            }
+                            drawPath(path, color = Color.White)
+                        }
+                    }
+                    // Character image
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        Image(
+                            painter = painterResource(id = if (!isHalloween) completedChapter.chapterEndImage else completedChapter.chapterEndCharacter),
+                            contentDescription = null,
+                            modifier = Modifier.size(270.dp)
+                            //modifier = Modifier.size(470.dp),
+                            //contentScale = ContentScale.Fit
                         )
                     }
-
-                    // Downward-pointing triangle tail
-                    Canvas(modifier = Modifier.size(width = 20.dp, height = 12.dp)) {
-                        val path = Path().apply {
-                            moveTo(0f, 0f)
-                            lineTo(size.width, 0f)
-                            lineTo(size.width / 2f, size.height)
-                            close()
-                        }
-                        drawPath(path, color = Color.White)
-                    }
-                }
-                // Character image
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.BottomCenter
-                ) {
-                    Image(
-                        painter = painterResource(id = completedChapter.chapterEndImage),
-                        contentDescription = null,
-                        modifier = Modifier.size(270.dp)
-                        //modifier = Modifier.size(470.dp),
-                        //contentScale = ContentScale.Fit
-                    )
-                }
-                }
             }
             //star card
             Card(
@@ -312,7 +317,7 @@ fun ChapterFinishScreen(
                             modifier = Modifier.fillMaxSize(),
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
-                        ){
+                        ) {
                             Text(
                                 text = if (isLastChapter) "Done" else "Next Chapter",
                                 color = Color.White,
@@ -322,7 +327,7 @@ fun ChapterFinishScreen(
 
                             Spacer(modifier = Modifier.width(8.dp))
 
-                            if(!isLastChapter){
+                            if (!isLastChapter) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Outlined.ArrowForward, "Back",
                                     modifier = Modifier.size(20.dp),

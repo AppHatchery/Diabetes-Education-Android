@@ -41,6 +41,7 @@ data class Chapter(
     val chapterEndTitle: String,
     @DrawableRes val chapterEndImage:  Int,
     @DrawableRes val chapterEndBgImage:  Int = R.drawable.im_what_is_diabetes_bg_hallo,
+    @DrawableRes val chapterEndCharacter:  Int = R.drawable.im_whats_diabetes_hallo_hope,
     val pages: List<ChapterPage>,
     val isCompleted: Boolean = false
 )
