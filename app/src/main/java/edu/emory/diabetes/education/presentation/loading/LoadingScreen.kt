@@ -30,7 +30,8 @@ fun LoadingScreen() {
         Image(
             painter = painterResource(id = R.drawable.ic_launcher_foreground),
             contentDescription = null,
-            modifier = Modifier.size(180.dp)
+            // Match the system splash icon size so it does not resize on handoff to this screen.
+            modifier = Modifier.size(288.dp)
         )
         Spacer(modifier = Modifier.height(32.dp))
         CircularProgressIndicator(color = colorResource(id = R.color.white))
