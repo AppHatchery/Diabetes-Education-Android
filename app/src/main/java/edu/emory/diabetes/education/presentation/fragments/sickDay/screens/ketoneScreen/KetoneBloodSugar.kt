@@ -47,7 +47,7 @@ fun KetoneBloodSugar(
     isLowKetone: Boolean
 ){
     // Threshold the reading is compared against to take the high path.
-    val threshold = if (isLowKetone) 300 else 150
+    val threshold = if (isLowKetone) 299 else 150
 
     var reading by remember {
         mutableStateOf(viewModel.getAnswer(FlowAnswerKeys.REMINDER_KETONE_READING) ?: "")

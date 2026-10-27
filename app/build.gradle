@@ -12,6 +12,12 @@ plugins {
     id 'com.google.devtools.ksp'
 }
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     compileSdk 36
 
@@ -27,10 +33,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("PATH_TO_KEYSTORE_FILE")
-            storePassword System.getenv("APP_HATCHERY_STORE_PASSWORD")
-            keyAlias "key0"
-            keyPassword System.getenv("APP_HATCHERY_KEY_PASSWORD")
+            storeFile file(keystoreProperties.getProperty("storeFile") ?: System.getenv("APP_HATCHERY_STORE_FILE") ?: "PATH_TO_KEYSTORE_FILE")
+            storePassword keystoreProperties.getProperty("storePassword") ?: System.getenv("APP_HATCHERY_STORE_PASSWORD")
+            keyAlias keystoreProperties.getProperty("keyAlias") ?: System.getenv("APP_HATCHERY_KEY_ALIAS") ?: "key0"
+            keyPassword keystoreProperties.getProperty("keyPassword") ?: System.getenv("APP_HATCHERY_KEY_PASSWORD")
         }
     }
 
@@ -54,6 +60,10 @@ android {
     buildFeatures {
         dataBinding = true
         compose = true
+    }
+    // Workaround for a crash in the bundled lifecycle lint detector during release lint analysis
+    lint {
+        disable 'NullSafeMutableLiveData'
     }
     namespace 'edu.emory.diabetes.education'
 }

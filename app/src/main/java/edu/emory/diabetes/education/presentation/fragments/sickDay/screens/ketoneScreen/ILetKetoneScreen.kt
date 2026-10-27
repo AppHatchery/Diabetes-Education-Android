@@ -181,7 +181,7 @@ fun IletKetoneScreen(
                             }
                             "moderateKetone" -> {
                                 if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low"){
-                                    navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/low")
+                                    navController.navigate(SickDayScreen.RegularCare.route)
                                 }else{
                                     navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/medium")
                                 }
