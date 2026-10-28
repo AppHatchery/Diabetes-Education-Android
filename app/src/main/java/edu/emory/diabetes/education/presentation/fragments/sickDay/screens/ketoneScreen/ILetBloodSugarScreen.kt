@@ -68,9 +68,10 @@ fun ILetBloodSugarScreen(
         val answer = if (isHigher) "yes" else "no"
         when (type) {
             "moderateKetone" -> {
-                if (answer == "yes" || measure == "medium") {
-                    navController.navigate(callForHelpRoute)
-                } else {
+                if (answer == "yes" && measure == "medium") {
+                    navController.navigate("${SickDayScreen.ManageILet.route}/High")
+                }
+                else {
                     navController.navigate(SickDayScreen.RegularCare.route)
                 }
             }

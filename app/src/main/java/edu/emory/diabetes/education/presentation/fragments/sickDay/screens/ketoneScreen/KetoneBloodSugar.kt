@@ -49,7 +49,7 @@ fun KetoneBloodSugar(
     isLowKetone: Boolean
 ){
     // Threshold the reading is compared against to take the high path.
-    val threshold = if (isLowKetone) 300 else 150
+    val threshold = if (isLowKetone) 299 else 150
 
     // CHOA patients call CHOA, everyone else calls their own doctor
     val callForHelpRoute = if (OnboardingPrefs(LocalContext.current).isChoaPatient) {

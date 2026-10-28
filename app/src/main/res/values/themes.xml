@@ -11,6 +11,9 @@
         <item name="colorOnSecondary">@android:color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
+        <!-- Light window background: the app is light-only, so keep the base behind
+             Compose light to avoid a dark flash before content draws (dark mode). -->
+        <item name="android:windowBackground">@color/white</item>
         <!-- Customize your theme here. -->
         <item name="android:textViewStyle">@style/textViewStyle</item>
         <item name="android:buttonStyle">@style/buttonStyle</item>
@@ -24,6 +27,19 @@
     <style name="Theme.CustomTabLayout" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/green_900</item>
+    </style>
+
+    <!-- Launch splash: shows the app icon centered, then hands off to the main theme. -->
+    <style name="Theme.DiabetesEducation.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/primaryGreen</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.DiabetesEducation</item>
+    </style>
+
+    <!-- Halloween launch splash: orange background with the Halloween icon. -->
+    <style name="Theme.DiabetesEducation.Splash.Halloween">
+        <item name="windowSplashScreenBackground">@color/splash_hallo_color</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_logo_halloween_foreground</item>
     </style>
 
 </resources>

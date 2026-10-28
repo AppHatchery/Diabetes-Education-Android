@@ -1,13 +1,9 @@
 package edu.emory.diabetes.education.presentation
 
-import android.Manifest
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.content.pm.PackageManager
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,13 +11,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -35,6 +30,7 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
+import edu.emory.diabetes.education.data.prefs.HalloweenPrefs
 import edu.emory.diabetes.education.databinding.ActivityMainBinding
 import edu.emory.diabetes.education.notifications.CheckReminderReceiver
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayFragment
@@ -43,29 +39,31 @@ import edu.emory.diabetes.education.presentation.home.AppNavHost
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val TAG = "MainActivity"
-
-    private val notificationPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) Log.d(TAG, "POST_NOTIFICATIONS granted")
-        else Log.w(TAG, "POST_NOTIFICATIONS DENIED")
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Use the Halloween splash variant when the cached flag is on.
+        if (HalloweenPrefs.isCachedHalloweenEnabled(this)) {
+            setTheme(R.style.Theme_DiabetesEducation_Splash_Halloween)
+        }
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        val startFromReminder = intent
+            .getStringExtra(CheckReminderReceiver.EXTRA_ROUTE)
+            .isNullOrEmpty()
+            .not()
+
+        // Keep the system splash up until the first real screen is shown (reminders skip the
+        // wait). A safety timeout makes sure it is never held indefinitely.
+        var keepSplashOnScreen = !startFromReminder
+        splashScreen.setKeepOnScreenCondition { keepSplashOnScreen }
+        window.decorView.postDelayed({ keepSplashOnScreen = false }, SPLASH_TIMEOUT_MS)
+
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
                 Color.TRANSPARENT,
                 Color.TRANSPARENT
             )
         )
-        requestNotificationPermission()
-
-        val startFromReminder = intent
-            .getStringExtra(CheckReminderReceiver.EXTRA_ROUTE)
-            .isNullOrEmpty()
-            .not()
 
         // Fresh launch while a reminder is active opens its reminder screen instead of home
         val startOnReminderScreen = savedInstanceState == null &&
@@ -84,9 +82,9 @@ class MainActivity : ComponentActivity() {
                 AppNavHost(
                     startFromReminder = startFromReminder,
                     startOnReminderScreen = startOnReminderScreen
+                    onFirstScreenReady = { keepSplashOnScreen = false }
                 )
             }
-           // AppNavHost(startFromReminder = startFromReminder)
         }
     }
 
@@ -98,15 +96,9 @@ class MainActivity : ComponentActivity() {
         recreate()
     }
 
-    private fun requestNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this, Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-            }
-        }
+    companion object {
+        // Backstop so the splash is never held longer than this if the first frame never signals.
+        private const val SPLASH_TIMEOUT_MS = 2500L
     }
 }
 //@AndroidEntryPoint

@@ -19,17 +19,13 @@ data class MealCalculatorUiState(
     val totalCarbsError: Boolean = false,
     val carbRatioError: Boolean = false,
     val calculatedResult: String? = null,
-    val hasCalculated: Boolean = false
+    val hasCalculated: Boolean = false,
+    val roundingRule: RoundingRule = RoundingRule.WHOLE
 ) {
     val insulinUnits: Double
-        get() {
-            val carbs = totalCarbs.toIntOrNull() ?: 0
-            val ratio = carbRatio.toIntOrNull() ?: 0
-            return if (ratio == 0) 0.0
-            else floor((carbs / ratio.toDouble()) * 2) / 2.0
-        }
+        get() = roundDose(rawInsulinUnits, roundingRule)
 
-    // Unrounded insulin units, before any half-unit rounding
+    // Unrounded insulin units, before any rounding
     val rawInsulinUnits: Double
         get() {
             val carbs = totalCarbs.toIntOrNull() ?: 0
@@ -56,18 +52,13 @@ data class HighSugarCalculatorUiState(
     val targetBloodSugarError: Boolean = false,
     val correctionFactorError: Boolean = false,
     val calculatedResult: String? = null,
-    val hasCalculated: Boolean = false
+    val hasCalculated: Boolean = false,
+    val roundingRule: RoundingRule = RoundingRule.WHOLE
 ) {
     val insulinUnits: Double
-        get() {
-            val current = currentBloodSugar.toIntOrNull() ?: 0
-            val target = targetBloodSugar.toIntOrNull() ?: 0
-            val correction = correctionFactor.toIntOrNull() ?: 0
-            return if (correction == 0) 0.0
-            else floor(((current - target) / correction.toDouble()) * 2) / 2.0
-        }
+        get() = roundDose(rawInsulinUnits, roundingRule)
 
-    // Unrounded insulin units, before any half-unit rounding
+    // Unrounded insulin units, before any rounding
     val rawInsulinUnits: Double
         get() {
             val current = currentBloodSugar.toIntOrNull() ?: 0
@@ -87,8 +78,8 @@ data class HighSugarCalculatorUiState(
         else insulinUnits.toString()
 }
 
-// Rounds the combined dose down to the nearest half unit, applied once at the end
-fun roundTotalInsulin(units: Double): Double = floor(units * 2) / 2.0
+// Rounds the combined dose once at the end, using the chosen rounding rule
+fun roundTotalInsulin(units: Double, rule: RoundingRule): Double = roundDose(units, rule)
 
 class NewCalculatorViewmodel: ViewModel() {
     private val _uiState = MutableStateFlow(MealCalculatorUiState())
@@ -113,12 +104,14 @@ class NewCalculatorViewmodel: ViewModel() {
         val savedCarbRatio = prefs.getString("carb_ratio", "") ?: ""
         val savedTargetBloodSugar = prefs.getString("target_blood_sugar", "") ?: ""
         val savedCorrectionFactor = prefs.getString("correction_factor", "") ?: ""
+        val savedRoundingRule = readRoundingRule(context)
 
-        _uiState.update { it.copy(carbRatio = savedCarbRatio) }
+        _uiState.update { it.copy(carbRatio = savedCarbRatio, roundingRule = savedRoundingRule) }
         _highSugarUiState.update {
             it.copy(
                 targetBloodSugar = savedTargetBloodSugar,
-                correctionFactor = savedCorrectionFactor
+                correctionFactor = savedCorrectionFactor,
+                roundingRule = savedRoundingRule
             )
         }
     }

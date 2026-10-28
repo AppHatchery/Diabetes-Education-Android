@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -23,6 +24,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -40,6 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -55,7 +58,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
+import androidx.compose.ui.zIndex
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.SeasonalLottieOverlay
 import edu.emory.diabetes.education.presentation.theme.nunito
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.RoundingRule
 
 @Composable
 fun CalculatorOnboardingScreen(
@@ -67,6 +74,7 @@ fun CalculatorOnboardingScreen(
     val step by viewModel.currentStep.collectAsState()
     val context = LocalContext.current
 
+    Box(modifier = Modifier.fillMaxSize()) {
     when (step) {
         OnboardingStep.INTRO -> {
             IntroStep(
@@ -83,51 +91,120 @@ fun CalculatorOnboardingScreen(
             QuestionStep(
                 progress = 0.2f,
                 bubble = R.drawable.im_cal_carb_text,
-                mascot = R.drawable.im_mean_cal,
+                chatBubbleHeight = 84,
+                mascot = if(LocalHalloweenEnabled.current){
+                    R.drawable.im_meal_onboarding_hallo
+                }else{
+                    R.drawable.im_meal_onboarding
+                },
                 question = "What's your carb ratio?",
-                value = uiState.carbRatio,
-                onValueChange = { if (!it.contains('.')) viewModel.onCarbRatioChanged(it) },
-                unit = "g/unit",
-                isError = uiState.carbRatioError,
+                canProceed = uiState.carbRatio.isNotBlank() && !uiState.carbRatioError,
                 onNext = { viewModel.goToStep(OnboardingStep.TARGET_BLOOD_SUGAR) },
                 onBack = { viewModel.goToStep(OnboardingStep.INTRO) },
                 onExit = onExit
-            )
+            ) {
+                OnboardingInputField(
+                    value = uiState.carbRatio,
+                    onValueChange = { if (!it.contains('.')) viewModel.onCarbRatioChanged(it) },
+                    unit = "g/unit",
+                    isError = uiState.carbRatioError
+                )
+            }
         }
 
         OnboardingStep.TARGET_BLOOD_SUGAR -> {
             QuestionStep(
                 progress = 0.4f,
                 bubble = R.drawable.im_cal_target_text,
-                mascot = R.drawable.im_cal_hbs,
+                chatBubbleHeight = 64,
+                mascot = if(LocalHalloweenEnabled.current){
+                    R.drawable.im_hbs_onboarding_hallo
+                }else{
+                    R.drawable.im_hbs_onboarding
+                },
                 question = "What's your target blood sugar?",
-                value = uiState.targetBloodSugar,
-                onValueChange = { if (!it.contains('.')) viewModel.onTargetBloodSugarChanged(it) },
-                unit = "mg/dL",
-                isError = uiState.targetBloodSugarError,
+                canProceed = uiState.targetBloodSugar.isNotBlank() && !uiState.targetBloodSugarError,
                 onNext = { viewModel.goToStep(OnboardingStep.CORRECTION_FACTOR) },
                 onBack = { viewModel.goToStep(OnboardingStep.CARB_RATIO) },
                 onExit = onExit
-            )
+            ) {
+                OnboardingInputField(
+                    value = uiState.targetBloodSugar,
+                    onValueChange = { if (!it.contains('.')) viewModel.onTargetBloodSugarChanged(it) },
+                    unit = "mg/dL",
+                    isError = uiState.targetBloodSugarError
+                )
+            }
         }
 
         OnboardingStep.CORRECTION_FACTOR -> {
             QuestionStep(
                 progress = 0.6f,
                 bubble = R.drawable.im_cal_correction_text,
-                mascot = R.drawable.im_cal_hbs,
+                chatBubbleHeight = 84,
+                mascot =  if(LocalHalloweenEnabled.current){
+                    R.drawable.im_hbs_onboarding_hallo
+                }else{
+                    R.drawable.im_hbs_onboarding
+                },
                 question = "What's your correction factor?",
-                value = uiState.correctionFactor,
-                onValueChange = { if (!it.contains('.')) viewModel.onCorrectionFactorChanged(it) },
-                unit = "",
-                isError = uiState.correctionFactorError,
+                canProceed = uiState.correctionFactor.isNotBlank() && !uiState.correctionFactorError,
+                onNext = { viewModel.goToStep(OnboardingStep.ROUNDING) },
+                onBack = { viewModel.goToStep(OnboardingStep.TARGET_BLOOD_SUGAR) },
+                onExit = onExit
+            ) {
+                OnboardingInputField(
+                    value = uiState.correctionFactor,
+                    onValueChange = { if (!it.contains('.')) viewModel.onCorrectionFactorChanged(it) },
+                    unit = "",
+                    isError = uiState.correctionFactorError
+                )
+            }
+        }
+
+        OnboardingStep.ROUNDING -> {
+            QuestionStep(
+                progress = 0.8f,
+                bubble = R.drawable.im_cal_rounding_text,
+                chatBubbleHeight = 120,
+                mascot = if(LocalHalloweenEnabled.current){
+                    R.drawable.im_hbs_onboarding_hallo
+                }else{
+                    R.drawable.im_hbs_onboarding
+                },
+                question = "How should insulin be rounded?",
+                canProceed = uiState.roundingRule != null,
                 onNext = {
                     viewModel.finish(context)
                     onFinish()
                 },
-                onBack = { viewModel.goToStep(OnboardingStep.TARGET_BLOOD_SUGAR) },
+                onBack = { viewModel.goToStep(OnboardingStep.CORRECTION_FACTOR) },
                 onExit = onExit
-            )
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    RoundingOptionCard(
+                        title = "Half unit",
+                        subtitle = "0.5 unit steps",
+                        isSelected = uiState.roundingRule == RoundingRule.HALF,
+                        onClick = { viewModel.onRoundingRuleSelected(RoundingRule.HALF) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    RoundingOptionCard(
+                        title = "Whole unit",
+                        subtitle = "1 unit steps",
+                        isSelected = uiState.roundingRule == RoundingRule.WHOLE,
+                        onClick = { viewModel.onRoundingRuleSelected(RoundingRule.WHOLE) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
+        }
+    }
+        if (LocalHalloweenEnabled.current && step == OnboardingStep.TARGET_BLOOD_SUGAR) {
+            SeasonalLottieOverlay("ghost_drift.json")
         }
     }
 }
@@ -139,78 +216,149 @@ private fun IntroStep(
     onExit: () -> Unit
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .windowInsetsPadding(WindowInsets.systemBars)
-            .padding(horizontal = 10.dp),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Row(
+        // Status bar background for the intro page
+        Spacer(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .windowInsetsTopHeight(WindowInsets.statusBars)
+                .background(
+                    if (LocalHalloweenEnabled.current) Color(0xFFECF7F1) else Color.White
+                )
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    if(LocalHalloweenEnabled.current){
+                        Color(0xFFF6FBF8)
+                    }else{
+                        Color.White
+                    }
+                )
+                .windowInsetsPadding(WindowInsets.navigationBars),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowLeft,
-                contentDescription = "Back",
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            if (LocalHalloweenEnabled.current) {
+                SeasonalLottieOverlay("falling_leaves.json", Modifier.zIndex(1f))
+            }
+            if(LocalHalloweenEnabled.current){
+                Image(
+                    painter = painterResource(R.drawable.im_total_insulin_bg),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxWidth(),
+                    contentScale = ContentScale.FillWidth
+                )
+            }else{
+                Color.White
+            }
+
+
+            Column(
                 modifier = Modifier
-                    .size(30.dp)
-                    .clickable { onExit() },
-                tint = Color.Black
-            )
-            Icon(
-                imageVector = Icons.Outlined.Close,
-                contentDescription = "Close",
+                    .fillMaxWidth()
+                    .align(Alignment.TopCenter)
+                    .padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowLeft,
+                        contentDescription = "Back",
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clickable { onExit() },
+                        tint = Color.Black
+                    )
+                    Icon(
+                        imageVector = Icons.Outlined.Close,
+                        contentDescription = "Close",
+                        modifier = Modifier
+                            .size(26.dp)
+                            .clickable { onExit() },
+                        tint = Color.Black
+                    )
+                }
+
+                  Spacer(modifier = Modifier.weight(1f))
+
+                SpeechBubble(
+                    bubbleImage = R.drawable.im_cal_intro_text,
+                    modifier = Modifier
+                        .padding(horizontal = 24.dp)
+                        .width(260.dp)
+                        .height(81.dp)
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Image(
+                    painter = painterResource(
+                        if (LocalHalloweenEnabled.current) {
+                            R.drawable.im_cal_intro_hallo
+                        } else {
+                            R.drawable.im_cal_intro
+                        }
+                        //R.drawable.im_cal_intro
+                    ),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .height(270.dp)
+                        .width(186.dp)
+                )
+
+                 Spacer(modifier = Modifier.weight(1f))
+
+                PrimaryNextButton(enabled = true, onClick = onNext)
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = "Skip",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = nunito,
+                    color = colorResource(R.color.primaryGreen),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onSkip() }
+                        .padding(vertical = 12.dp)
+                )
+
+                Spacer(modifier = Modifier.height(30.dp))
+
+            }
+
+            Box(
                 modifier = Modifier
-                    .size(26.dp)
-                    .clickable { onExit() },
-                tint = Color.Black
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .background(
+                        if(LocalHalloweenEnabled.current){
+                            Color(0xFFF6FBF8)
+                        }else{
+                            Color.White
+                        }
+                    )
+                    .height(40.dp)
             )
         }
+        }
 
-        Spacer(modifier = Modifier.weight(1f))
-
-        SpeechBubble(
-            bubbleImage = R.drawable.im_cal_intro_text,
-            modifier = Modifier
-                .padding(horizontal = 24.dp)
-                .width(260.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Image(
-            painter = painterResource(R.drawable.im_cal_intro),
-            contentDescription = null,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .height(270.dp)
-                .width(186.dp)
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        PrimaryNextButton(enabled = true, onClick = onNext)
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        Text(
-            text = "Skip",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold,
-            fontFamily = nunito,
-            color = colorResource(R.color.primaryGreen),
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { onSkip() }
-                .padding(vertical = 12.dp)
-        )
-
-        Spacer(modifier = Modifier.height(30.dp))
     }
 }
 
@@ -218,18 +366,15 @@ private fun IntroStep(
 private fun QuestionStep(
     progress: Float,
     bubble: Int,
+    chatBubbleHeight: Int,
     mascot: Int,
     question: String,
-    value: String,
-    onValueChange: (String) -> Unit,
-    unit: String,
-    isError: Boolean,
+    canProceed: Boolean,
     onNext: () -> Unit,
     onBack: () -> Unit,
-    onExit: () -> Unit
+    onExit: () -> Unit,
+    content: @Composable ColumnScope.() -> Unit
 ) {
-    val canProceed = value.isNotBlank() && !isError
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -283,7 +428,9 @@ private fun QuestionStep(
             Spacer(modifier = Modifier.width(8.dp))
             SpeechBubble(
                 bubbleImage = bubble,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .height(chatBubbleHeight.dp)
             )
         }
 
@@ -308,12 +455,7 @@ private fun QuestionStep(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            OnboardingInputField(
-                value = value,
-                onValueChange = onValueChange,
-                unit = unit,
-                isError = isError
-            )
+            content()
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -333,6 +475,45 @@ private fun QuestionStep(
 
             Spacer(modifier = Modifier.height(40.dp))
         }
+    }
+}
+
+@Composable
+private fun RoundingOptionCard(
+    title: String,
+    subtitle: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val borderColor = if (isSelected) colorResource(R.color.primaryGreen)
+    else colorResource(R.color.gray_200_calc)
+    val backgroundColor = if (isSelected) colorResource(R.color.green_050)
+    else colorResource(R.color.gray_050)
+
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .background(backgroundColor)
+            .border(1.5.dp, borderColor, RoundedCornerShape(12.dp))
+            .clickable { onClick() }
+            .padding(vertical = 5.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = title,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.W700,
+            fontFamily = nunito,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier.height(2.dp))
+        Text(
+            text = subtitle,
+            fontSize = 13.sp,
+            fontFamily = nunito,
+            color = colorResource(R.color.gray_400)
+        )
     }
 }
 
@@ -431,22 +612,7 @@ private fun SpeechBubble(
         contentDescription = "Speech bubble",
         modifier = modifier
     )
-//    Box(
-//        modifier = modifier
-//            .clip(RoundedCornerShape(16.dp))
-//            .background(Color.White)
-//            .androidBorder(colorResource(R.color.gray_200_calc))
-//            .padding(horizontal = 16.dp, vertical = 12.dp)
-//    ) {
-//        Text(
-//            text = text,
-//            fontSize = 16.sp,
-//            fontWeight = FontWeight.W500,
-//            fontFamily = nunito,
-//            color = Color.Black,
-//            lineHeight = 22.sp
-//        )
-//    }
+
 }
 
 @Composable
@@ -492,16 +658,20 @@ fun CalculatorOnboardingScreenPreview() {
 fun CalculatorQuestionScreenPreview() {
     QuestionStep(
         question = "What is your target blood sugar?",
-        value = "100",
-        unit = "mg/dL",
+        chatBubbleHeight = 84,
+        canProceed = true,
         progress = 0.5f,
-        isError = false,
-        onValueChange = {},
         onNext = {},
         onExit = {},
         onBack = {},
         mascot = R.drawable.im_cal_correction,
-        bubble = R.drawable.im_cal_target_text,
-
-    )
+        bubble = R.drawable.im_cal_carb_text,
+    ) {
+        OnboardingInputField(
+            value = "100",
+            onValueChange = {},
+            unit = "mg/dL",
+            isError = false
+        )
+    }
 }

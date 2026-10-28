@@ -1,12 +1,21 @@
 package edu.emory.diabetes.education.presentation.home
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,7 +33,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.navigation
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
+import edu.emory.diabetes.education.presentation.remoteconfig.RemoteConfigViewModel
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import kotlinx.coroutines.delay
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.NewCalculatorViewmodel
@@ -42,7 +60,11 @@ import edu.emory.diabetes.education.presentation.fragments.resources.foodResourc
 import edu.emory.diabetes.education.presentation.fragments.resources.foodResources.KnowYourCarbsViewModel
 import edu.emory.diabetes.education.presentation.fragments.resources.foodResources.AddCustomFood
 import edu.emory.diabetes.education.presentation.fragments.resources.foodResources.SelectedFoodsCalculator
+import edu.emory.diabetes.education.data.prefs.HalloweenPrefs
+import edu.emory.diabetes.education.data.prefs.IntroPrefs
 import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
+import edu.emory.diabetes.education.presentation.intro.IntroVideoScreen
+import edu.emory.diabetes.education.presentation.loading.LoadingScreen
 import edu.emory.diabetes.education.presentation.fragments.onboarding.OnboardingViewModel
 import edu.emory.diabetes.education.presentation.fragments.onboarding.nav.OnboardingNavigation
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
@@ -53,8 +75,13 @@ import kotlinx.coroutines.delay
 private const val REMINDER_REDIRECT_DELAY_MS = 500L
 private const val REMINDER_TRANSITION_MS = 350
 
+// Safety cap: if Remote Config never resolves on first launch, leave the loading screen after this.
+private const val LOADING_TIMEOUT_MS = 8000L
+
 sealed class AppRoute(val route: String) {
     object Main       : AppRoute("main")
+    object Intro      : AppRoute("intro")
+    object Loading    : AppRoute("loading")
     object Onboarding : AppRoute("onboarding")
     object SickDay    : AppRoute("sick_day")
     object Calculator : AppRoute("calculator/{startDestination}") {
@@ -77,16 +104,24 @@ private sealed class KnowYourCarbsRoute(val route: String) {
 }
 
 @Composable
-fun AppNavHost(
-    startFromReminder: Boolean = false,
-    startOnReminderScreen: Boolean = false
-) {
+fun AppNavHost(startFromReminder: Boolean = false, onFirstScreenReady: () -> Unit = {}) {
     val navController = rememberNavController()
     val context = LocalContext.current
-    val startDestination = when {
-        startFromReminder -> AppRoute.SickDay.route
-        !OnboardingPrefs.isOnboardingCompleted(context) -> AppRoute.Onboarding.route
-        else -> AppRoute.Main.route
+
+    val remoteConfigViewModel: RemoteConfigViewModel = hiltViewModel()
+    val halloweenEnabled by remoteConfigViewModel.halloweenEnabled.collectAsState()
+
+    // Only the very first launch (before any successful fetch) waits on Remote Config via the
+    // loading screen; later launches decide instantly from the cached flag. Reminders skip both.
+    val startDestination = remember {
+        when {
+            startFromReminder -> AppRoute.SickDay.route
+            IntroPrefs.hasShownIntro(context) -> AppRoute.Main.route
+            HalloweenPrefs.hasFetched(context) ->
+                if (HalloweenPrefs.isCachedHalloweenEnabled(context)) AppRoute.Intro.route
+                else AppRoute.Main.route
+            else -> AppRoute.Loading.route
+        }
     }
 
     // Animates only the automatic move from home to the reminder screen on launch
@@ -105,6 +140,7 @@ fun AppNavHost(
         }
     }
 
+    CompositionLocalProvider(LocalHalloweenEnabled provides halloweenEnabled) {
     NavHost(
         navController = navController,
         startDestination = startDestination,
@@ -115,13 +151,52 @@ fun AppNavHost(
         popExitTransition = { ExitTransition.None }
     ) {
 
+        // Loading: first launch only. Shows a spinner until Remote Config resolves, then routes.
+        composable(AppRoute.Loading.route) {
+            LaunchedEffect(Unit) { onFirstScreenReady() }
+            val ready by remoteConfigViewModel.isReady.collectAsState()
+            var timedOut by remember { mutableStateOf(false) }
+            var navigated by remember { mutableStateOf(false) }
+            LaunchedEffect(Unit) {
+                delay(LOADING_TIMEOUT_MS)
+                timedOut = true
+            }
+
+            LoadingScreen()
+
+            LaunchedEffect(ready, timedOut) {
+                if (!navigated && (ready || timedOut)) {
+                    navigated = true
+                    val next = if (halloweenEnabled && !IntroPrefs.hasShownIntro(context)) {
+                        AppRoute.Intro.route
+                    } else {
+                        AppRoute.Main.route
+                    }
+                    navController.navigate(next) {
+                        popUpTo(AppRoute.Loading.route) { inclusive = true }
+                    }
+                }
+            }
+        }
+
         // ── Main / HandBook ──────────────────────────────────────────
         composable(
             route = AppRoute.Main.route,
             exitTransition = {
                 if (animateReminderEntry) fadeOut(tween(REMINDER_TRANSITION_MS)) else ExitTransition.None
             }
+
+            // Dissolve in from the intro video so the handoff has no visible pause.
+            enterTransition = {
+                if (initialState.destination.route == AppRoute.Intro.route)
+                    fadeIn(animationSpec = tween(300)) else EnterTransition.None
+            },
+            popEnterTransition = {
+                if (initialState.destination.route == AppRoute.Intro.route)
+                    fadeIn(animationSpec = tween(300)) else EnterTransition.None
+            }
         ) {
+            LaunchedEffect(Unit) { onFirstScreenReady() }
             val context = LocalContext.current
 
             // First calculator launch shows onboarding; afterwards go straight to the calculator.
@@ -131,6 +206,26 @@ fun AppNavHost(
                     navController.navigate(AppRoute.Calculator.create(encoded))
                 } else {
                     navController.navigate(AppRoute.CalculatorOnboarding.create(encoded))
+                }
+            }
+
+            // Ask for notification access when entering the sick day protocol (its reminders
+            // need it), then open the protocol whether or not the user grants it.
+            val notificationPermissionLauncher = rememberLauncherForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) {
+                navController.navigate(AppRoute.SickDay.route)
+            }
+
+            fun openSickDay() {
+                val needsPermission = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                    ContextCompat.checkSelfPermission(
+                        context, Manifest.permission.POST_NOTIFICATIONS
+                    ) != PackageManager.PERMISSION_GRANTED
+                if (needsPermission) {
+                    notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                } else {
+                    navController.navigate(AppRoute.SickDay.route)
                 }
             }
 
@@ -145,7 +240,7 @@ fun AppNavHost(
                     openCalculator(NewCalculatorScreen.HighSugarCalculator.route)
                 },
                 onGetHelpClick = {
-                    navController.navigate(AppRoute.SickDay.route)
+                    openSickDay()
                 },
                 onNutritionClick = {
                     navController.navigate(
@@ -184,6 +279,9 @@ fun AppNavHost(
                 },
                 onKnowYourCarbsClick = {
                     navController.navigate(AppRoute.KnowYourCarbs.route)
+                },
+                onReplayIntroClick = {
+                    navController.navigate(AppRoute.Intro.route)
                 }
             )
         }
@@ -303,6 +401,37 @@ fun AppNavHost(
             )
         }
 
+        // Intro video: plays once, then routes on to onboarding or the home screen.
+        composable(
+            route = AppRoute.Intro.route,
+            // Keep the final video frame on screen, fading out as the home screen fades in.
+            exitTransition = {
+                if (targetState.destination.route == AppRoute.Main.route)
+                    fadeOut(animationSpec = tween(300)) else ExitTransition.None
+            },
+            popExitTransition = {
+                if (targetState.destination.route == AppRoute.Main.route)
+                    fadeOut(animationSpec = tween(300)) else ExitTransition.None
+            }
+        ) {
+            IntroVideoScreen(
+                onFinish = {
+                    IntroPrefs.markIntroShown(context)
+                    // Onboarding disabled for now; go straight to the home screen.
+                    // val next = if (!OnboardingPrefs.isOnboardingCompleted(context)) {
+                    //     AppRoute.Onboarding.route
+                    // } else {
+                    //     AppRoute.Main.route
+                    // }
+                    navController.navigate(AppRoute.Main.route) {
+                        popUpTo(AppRoute.Intro.route) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                },
+                onFirstFrame = onFirstScreenReady
+            )
+        }
+
         // Know your carbs
         navigation(
             startDestination = KnowYourCarbsRoute.List.route,
@@ -335,6 +464,7 @@ fun AppNavHost(
             }
         }
 
+    }
     }
 }
 

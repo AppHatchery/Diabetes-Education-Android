@@ -48,4 +48,5 @@ sealed class SickDayScreen(val route: String) {
     object HypoCallDoctorScreen: SickDayScreen("hypo_call_doctor")
     object GlucagonScreen: SickDayScreen("glucagon_screen")
 
+    object LowKetoneIletBloodSugar: SickDayScreen("low_ketone_i_let_blood_sugar/{urineValue}")
 }

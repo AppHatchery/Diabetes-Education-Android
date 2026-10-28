@@ -1,8 +1,12 @@
 package edu.emory.diabetes.education
 
+import android.app.Activity
 import android.app.Application
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import dagger.hilt.android.HiltAndroidApp
+import edu.emory.diabetes.education.data.appicon.AppIconManager
+import edu.emory.diabetes.education.data.prefs.HalloweenPrefs
 import edu.emory.diabetes.education.data.prefs.PendoPrefs
 import edu.emory.diabetes.education.data.prefs.PendoPrefs.Companion.PENDO_PREFIX
 import kotlinx.coroutines.CoroutineScope
@@ -29,7 +33,35 @@ class App : Application() {
     pendoSDKIntegration()
     onStartPendoSession()
     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+    registerAppIconSwitching()
   }
+
+  // Applies the cached Halloween flag to the launcher icon only while the app is in
+  // the background, so switching the launcher alias never disrupts a visible screen.
+  private fun registerAppIconSwitching() =
+    registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
+      private var startedActivities = 0
+
+      override fun onActivityStarted(activity: Activity) {
+        startedActivities++
+      }
+
+      override fun onActivityStopped(activity: Activity) {
+        startedActivities--
+        if (startedActivities == 0 && !activity.isChangingConfigurations) {
+          AppIconManager.applyHalloweenIcon(
+            this@App,
+            HalloweenPrefs.isCachedHalloweenEnabled(this@App)
+          )
+        }
+      }
+
+      override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
+      override fun onActivityResumed(activity: Activity) {}
+      override fun onActivityPaused(activity: Activity) {}
+      override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+      override fun onActivityDestroyed(activity: Activity) {}
+    })
 
   private fun onStartPendoSession() = pendoPrefs.getPendoVisitorId.onEach {
     if (it.isNullOrEmpty()) {

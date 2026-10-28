@@ -12,6 +12,12 @@ plugins {
     id 'com.google.devtools.ksp'
 }
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     compileSdk 36
 
@@ -19,18 +25,18 @@ android {
         applicationId "edu.emory.diabetes.education"
         minSdk 29
         targetSdk 36
-        versionCode 20
-        versionName "2.0"
+        versionCode 21
+        versionName "2.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
         release {
-            storeFile file("PATH_TO_KEYSTORE_FILE")
-            storePassword System.getenv("APP_HATCHERY_STORE_PASSWORD")
-            keyAlias "key0"
-            keyPassword System.getenv("APP_HATCHERY_KEY_PASSWORD")
+            storeFile file(keystoreProperties.getProperty("storeFile") ?: System.getenv("APP_HATCHERY_STORE_FILE") ?: "PATH_TO_KEYSTORE_FILE")
+            storePassword keystoreProperties.getProperty("storePassword") ?: System.getenv("APP_HATCHERY_STORE_PASSWORD")
+            keyAlias keystoreProperties.getProperty("keyAlias") ?: System.getenv("APP_HATCHERY_KEY_ALIAS") ?: "key0"
+            keyPassword keystoreProperties.getProperty("keyPassword") ?: System.getenv("APP_HATCHERY_KEY_PASSWORD")
         }
     }
 
@@ -55,12 +61,17 @@ android {
         dataBinding = true
         compose = true
     }
+    // Workaround for a crash in the bundled lifecycle lint detector during release lint analysis
+    lint {
+        disable 'NullSafeMutableLiveData'
+    }
     namespace 'edu.emory.diabetes.education'
 }
 
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.compose.ui:ui:1.10.0'
@@ -154,6 +165,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-config'
 
 
     //Jsoup (html parser)

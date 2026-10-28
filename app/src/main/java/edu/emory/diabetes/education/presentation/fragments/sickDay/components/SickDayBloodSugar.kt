@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -129,7 +131,7 @@ fun BloodSugarDialog(
                     onClick = onChooseDifferentSymptom,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(52.dp),
+                        .heightIn(min = 52.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = colorResource(R.color.secondary_fire_red)
                     ),
@@ -140,7 +142,8 @@ fun BloodSugarDialog(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = nunito,
-                        color = Color.White
+                        color = Color.White,
+                        textAlign = TextAlign.Center
                     )
                 }
 

@@ -52,6 +52,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.InsulinCalculatorHalloween
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.UrgentCareHalloween
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.KnowYourCarbsHalloween
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.ResourceCardHalloween
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.HomeHalloweenOverlay
+import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
 import edu.emory.diabetes.education.presentation.theme.nunito
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,23 +72,40 @@ fun HandBook(
     onManagementClick: () -> Unit,
     onEducationalResourcesClick: () -> Unit,
     onReferencesClick: () -> Unit,
-    onKnowYourCarbsClick: () -> Unit
+    onKnowYourCarbsClick: () -> Unit,
+    onReplayIntroClick: () -> Unit = {}
 ) {
+    val halloweenOn = LocalHalloweenEnabled.current
+    Box(modifier = Modifier.fillMaxSize()) {
     Scaffold(
         //contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
             TopAppBar(
                 title = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
+                    Box(modifier = Modifier.fillMaxWidth()) {
                         Text(
                             text = "Type U",
                             textAlign = TextAlign.Center,
                             fontFamily = nunito,
-                            fontWeight = FontWeight.W500
+                            fontWeight = FontWeight.W500,
+                            modifier = Modifier.align(Alignment.Center)
                         )
+                        // Lantern button replays the Halloween intro video on tap.
+                        if (halloweenOn) {
+                            IconButton(
+                                onClick = onReplayIntroClick,
+                                modifier = Modifier
+                                    .align(Alignment.CenterEnd)
+                                    .padding(end = 8.dp, top = 6.dp)
+                            ) {
+                                Image(
+                                    painter = painterResource(R.drawable.im_lantern_halloween),
+                                    contentDescription = "Replay intro video",
+                                    modifier = Modifier.size(80.dp),
+                                    contentScale = ContentScale.Fit
+                                )
+                            }
+                        }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -108,17 +131,29 @@ fun HandBook(
                     contentPadding = PaddingValues(vertical = 4.dp)
                 ) {
                     item {
-                        InsulinCalculatorCard(
-                            onMainClick = onInsulinCalculatorClick,
-                            onMealsClick = onMealsClick,
-                            onHighSugarClick = onHighSugarClick
-                        )
+                        if (LocalHalloweenEnabled.current) {
+                            InsulinCalculatorHalloween(
+                                onMainClick = onInsulinCalculatorClick,
+                                onMealsClick = onMealsClick,
+                                onHighSugarClick = onHighSugarClick
+                            )
+                        } else {
+                            InsulinCalculatorCard(
+                                onMainClick = onInsulinCalculatorClick,
+                                onMealsClick = onMealsClick,
+                                onHighSugarClick = onHighSugarClick
+                            )
+                        }
                     }
 
                     item {
-                        UrgentHealthCard(
-                            onClick = onGetHelpClick
-                        )
+                        if (LocalHalloweenEnabled.current) {
+                            UrgentCareHalloween(onClick = onGetHelpClick)
+                        } else {
+                            UrgentHealthCard(
+                                onClick = onGetHelpClick
+                            )
+                        }
                     }
 
                     item {
@@ -131,9 +166,13 @@ fun HandBook(
                     }
                     
                     item {
-                        KnowYourCarbCard(
-                            onClick = onKnowYourCarbsClick
-                        )
+                        if (LocalHalloweenEnabled.current) {
+                            KnowYourCarbsHalloween(onClick = onKnowYourCarbsClick)
+                        } else {
+                            KnowYourCarbCard(
+                                onClick = onKnowYourCarbsClick
+                            )
+                        }
                     }
 
                     item {
@@ -165,6 +204,11 @@ fun HandBook(
         }
     )
 
+        // Halloween falling-leaves overlay, shown while the seasonal theme is on.
+        if (halloweenOn) {
+            HomeHalloweenOverlay()
+        }
+    }
 }
 @Composable
 fun InsulinCalculatorCard(
@@ -204,14 +248,25 @@ fun InsulinCalculatorCard(
                             .weight(1f)
                             .padding(top = 20.dp),
                     ) {
-                        Spacer(modifier = Modifier.height(20.dp))
+                        Spacer(modifier = Modifier.height(10.dp))
                         Text(
                             text = "Insulin Calculator",
+                            color = colorResource(R.color.blue_200),
+                            fontSize = 16.sp,
+                            fontFamily = nunito,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.height(30.dp))
+
+                        Text(
+                            text = "Calculate how much insulin you need for",
                             color = Color.White,
                             fontSize = 20.sp,
                             fontFamily = nunito,
                             fontWeight = FontWeight.Bold
                         )
+
+
                     }
 
                     Image(
@@ -290,7 +345,7 @@ fun InsulinCalculatorCard(
                             shape = RoundedCornerShape(12.dp)
                         ) {
                             Text(
-                                text = "Correction",
+                                text = "High Sugar",
                                 fontFamily = nunito,
                                 fontSize = 20.sp,
                                 maxLines = 1,
@@ -343,7 +398,7 @@ fun UrgentHealthCard(
                     .padding(top = 24.dp, start = 20.dp, bottom = 20.dp)
             ) {
                 Text(
-                    text = "Do you have an urgent health concern?",
+                    text = "Unsure about an urgent health concern?",
                     color = Color.White,
                     fontSize = 22.sp,
                     fontFamily = nunito,
@@ -451,36 +506,60 @@ fun EducationalResourcesSection(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {
-                    ResourceCard(
-                        title = "Diabetes\nBasics",
-                        backgroundColor = Color(0xFFE8F5E8),
-                        textColor = Color(0xFF4CAF50),
-                        onClick = onDiabetesBasicsClick,
-                        imageResId = R.drawable.im_basics,
-                        modifier = Modifier.weight(1f)
-                    )
+                    if (LocalHalloweenEnabled.current) {
+                        ResourceCardHalloween(
+                            onClick = onDiabetesBasicsClick,
+                            imageResId = R.drawable.im_basics_hallo,
+                            modifier = Modifier.weight(1f)
+                        )
+                    } else {
+                        ResourceCard(
+                            title = "Diabetes\nBasics",
+                            backgroundColor = Color(0xFFE8F5E8),
+                            textColor = Color(0xFF4CAF50),
+                            onClick = onDiabetesBasicsClick,
+                            imageResId = R.drawable.im_basics,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
 
                 item {
-                    ResourceCard(
-                        title = "Nutrition and Carb Counting",
-                        backgroundColor = Color(0xFFFFF3E0),
-                        textColor = Color(0xFFFF9800),
-                        onClick = onNutritionClick,
-                        imageResId = R.drawable.im_nutri_carbs,
-                        modifier = Modifier.weight(1f)
-                    )
+                    if (LocalHalloweenEnabled.current) {
+                        ResourceCardHalloween(
+                            onClick = onNutritionClick,
+                            imageResId = R.drawable.im_carb_counting_hallo,
+                            modifier = Modifier.weight(1f)
+                        )
+                    } else {
+                        ResourceCard(
+                            title = "Nutrition and Carb Counting",
+                            backgroundColor = Color(0xFFFFF3E0),
+                            textColor = Color(0xFFFF9800),
+                            onClick = onNutritionClick,
+                            imageResId = R.drawable.im_nutri_carbs,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
 
                 item{
-                    ResourceCard(
-                        title = "Diabetes Self Management",
-                        backgroundColor = Color(0xFFF3E5F5),
-                        textColor = Color(0xFF9C27B0),
-                        onClick = onManagementClick,
-                        imageResId = R.drawable.im_diabetes_mngt,
-                        modifier = Modifier.weight(1f)
-                    )
+                    if (LocalHalloweenEnabled.current) {
+                        ResourceCardHalloween(
+                            onClick = onManagementClick,
+                            imageResId = R.drawable.im_self_mngt_hallo,
+                            modifier = Modifier.weight(1f)
+                        )
+                    } else {
+                        ResourceCard(
+                            title = "Diabetes Self Management",
+                            backgroundColor = Color(0xFFF3E5F5),
+                            textColor = Color(0xFF9C27B0),
+                            onClick = onManagementClick,
+                            imageResId = R.drawable.im_diabetes_mngt,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
 
 

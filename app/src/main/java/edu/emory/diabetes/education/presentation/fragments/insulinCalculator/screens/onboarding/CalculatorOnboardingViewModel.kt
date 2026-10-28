@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.RoundingRule
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.saveRoundingRule
 
 private const val CONSTANTS_PREFS = "calculator_constants"
 private const val KEY_CARB_RATIO = "carb_ratio"
@@ -31,7 +33,8 @@ enum class OnboardingStep {
     INTRO,
     CARB_RATIO,
     TARGET_BLOOD_SUGAR,
-    CORRECTION_FACTOR
+    CORRECTION_FACTOR,
+    ROUNDING
 }
 
 data class OnboardingUiState(
@@ -40,7 +43,8 @@ data class OnboardingUiState(
     val correctionFactor: String = "",
     val carbRatioError: Boolean = false,
     val targetBloodSugarError: Boolean = false,
-    val correctionFactorError: Boolean = false
+    val correctionFactorError: Boolean = false,
+    val roundingRule: RoundingRule? = null
 )
 
 class CalculatorOnboardingViewModel : ViewModel() {
@@ -76,6 +80,10 @@ class CalculatorOnboardingViewModel : ViewModel() {
         )}
     }
 
+    fun onRoundingRuleSelected(rule: RoundingRule) {
+        _uiState.update { it.copy(roundingRule = rule) }
+    }
+
     /** Persists the entered constants and marks onboarding as completed. */
     fun finish(context: Context) {
         val state = _uiState.value
@@ -86,6 +94,7 @@ class CalculatorOnboardingViewModel : ViewModel() {
             .putString(KEY_CORRECTION_FACTOR, state.correctionFactor)
             .putBoolean(KEY_ONBOARDING_COMPLETED, true)
             .apply()
+        saveRoundingRule(context, state.roundingRule ?: RoundingRule.WHOLE)
     }
 
     /** Marks onboarding as completed without saving any constants. */
