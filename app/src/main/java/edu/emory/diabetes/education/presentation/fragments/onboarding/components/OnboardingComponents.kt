@@ -61,7 +61,7 @@ fun OnboardingScaffold(
                 title = "",
                 iconColor = Color.Black,
                 onNavigationClick = onBack,
-                isCloseVisible = true,
+                isCloseVisible = false,
                 onExitToMain = onExit,
                 color = Color.White
             )

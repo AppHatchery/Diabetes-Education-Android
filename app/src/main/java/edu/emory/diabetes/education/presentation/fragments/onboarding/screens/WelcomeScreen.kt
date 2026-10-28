@@ -48,7 +48,7 @@ fun WelcomeScreen(
                 title = "",
                 iconColor = Color.Black,
                 onNavigationClick = onExit,
-                isCloseVisible = true,
+                isCloseVisible = false,
                 onExitToMain = onExit,
                 color = Color.White
             )

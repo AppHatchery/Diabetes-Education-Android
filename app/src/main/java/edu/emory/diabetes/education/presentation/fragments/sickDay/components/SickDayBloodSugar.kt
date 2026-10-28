@@ -84,8 +84,11 @@ fun BloodSugarReadingField(
 
 // Prompt shown when a reading is below 70, offering to switch symptoms or continue.
 @Composable
-fun LowBloodSugarDialog(
+fun BloodSugarDialog(
     onChooseDifferentSymptom: () -> Unit,
+    dialogTitle: String = "Blood sugar is below 70",
+    dialogDescription: String = "That's too low to be a high blood sugar. It might be hypoglycemia instead.",
+    buttonText: String = "Continue with hyperglycemia",
     onContinue: () -> Unit,
     onDismiss: () -> Unit
 ){
@@ -106,7 +109,7 @@ fun LowBloodSugarDialog(
                     .padding(24.dp)
             ) {
                 Text(
-                    text = "Blood sugar is below 70",
+                    text = dialogTitle,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = nunito,
@@ -116,7 +119,7 @@ fun LowBloodSugarDialog(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "That's too low to be a high blood sugar. It might be hypoglycemia instead.",
+                    text = dialogDescription,
                     fontSize = 16.sp,
                     fontFamily = nunito,
                     color = Color.Black
@@ -151,7 +154,7 @@ fun LowBloodSugarDialog(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "Continue with hyperglycemia",
+                        text = buttonText,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = nunito,

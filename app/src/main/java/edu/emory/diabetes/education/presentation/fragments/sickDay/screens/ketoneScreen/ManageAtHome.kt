@@ -434,7 +434,7 @@ fun ManageAtHomePreview(){
     ManageAtHome(
         navController = navController,
         onExitToMain = {},
-        instrument = "insulin_pump",
+        instrument = "injection",
         isLow = true
     )
 }

@@ -27,10 +27,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.ui.platform.LocalContext
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.BloodSugarReadingField
-import edu.emory.diabetes.education.presentation.fragments.sickDay.components.LowBloodSugarDialog
+import edu.emory.diabetes.education.presentation.fragments.sickDay.components.BloodSugarDialog
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SICK_DAY_LOW_THRESHOLD
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
@@ -47,6 +49,13 @@ fun ILetBloodSugarScreen(
 ){
     // Threshold the reading is compared against to take the high path.
     val threshold = 180
+
+    // CHOA patients call CHOA, everyone else calls their own doctor
+    val callForHelpRoute = if (OnboardingPrefs(LocalContext.current).isChoaPatient) {
+        SickDayScreen.CallCHOA.route
+    } else {
+        SickDayScreen.HypoCallDoctorScreen.route
+    }
 
     var reading by remember { mutableStateOf("") }
     var showLowDialog by remember { mutableStateOf(false) }
@@ -68,7 +77,7 @@ fun ILetBloodSugarScreen(
             }
             else -> {
                 if (answer == "yes" || measure == "medium") {
-                    navController.navigate(SickDayScreen.CallCHOA.route)
+                    navController.navigate(callForHelpRoute)
                 } else {
                     navController.navigate(SickDayScreen.RegularCare.route)
                 }
@@ -138,7 +147,7 @@ fun ILetBloodSugarScreen(
     }
 
     if (showLowDialog) {
-        LowBloodSugarDialog(
+        BloodSugarDialog(
             onChooseDifferentSymptom = {
                 showLowDialog = false
                 // Wipe every answer so the user restarts the protocol from scratch.

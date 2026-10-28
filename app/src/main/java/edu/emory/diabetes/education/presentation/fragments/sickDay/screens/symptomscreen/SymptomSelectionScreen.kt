@@ -37,6 +37,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
@@ -46,6 +47,8 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Fu
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.INSTRUMENT_TYPE
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
+import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SymptomFourGridEqualCard
+import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SymptomMixedGrid
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.TextWithButtons
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
 import edu.emory.diabetes.education.presentation.theme.nunito
@@ -249,7 +252,11 @@ fun SymptomSelectionScreen(
                         navController.navigate("${SickDayScreen.Duration.route}/$instrumentType")
                     } else {
                         val symptomsSet = selectedSymptom?.let { setOf(it) } ?: emptySet()
-                        val nextRoute = viewModel.determineNextRoute(categoryId, symptomsSet)
+                        val nextRoute = viewModel.determineNextRoute(
+                            categoryId,
+                            symptomsSet,
+                            OnboardingPrefs(context).isChoaPatient
+                        )
                         navController.navigate(nextRoute)
                     }
                 },
@@ -261,61 +268,6 @@ fun SymptomSelectionScreen(
     }
 }
 
-@Composable
-fun SymptomFourGridEqualCard(
-    symptoms: List<Symptom>,
-    selectedSymptom: String?,
-    onSymptomToggle: (String) -> Unit
-){
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        items(symptoms) { symptom ->
-            CardWithImage(
-                modifier = Modifier.fillMaxWidth(),
-                symptom = symptom,
-                isSelected = selectedSymptom == symptom.id,
-                cardOnclick =  {onSymptomToggle(symptom.id) },
-            )
-        }
-    }
-}
-
-@Composable
-fun SymptomMixedGrid(
-    symptoms: List<Symptom>,
-    textOnlyOption: String,
-    selectedSymptom: String?,
-    onSymptomToggle: (String) -> Unit
-){
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-
-        items(
-            count = symptoms.size,
-            key = { index -> symptoms[index].id }
-        ) { index ->
-            CardWithImage(
-                symptom = symptoms[index],
-                modifier = Modifier.fillMaxWidth(),
-                isSelected = selectedSymptom == (symptoms[index].id),
-                cardOnclick = { onSymptomToggle(symptoms[index].id) }
-            )
-        }
-        item {
-            CardWithoutImage(
-                cardText = textOnlyOption,
-                cardOnclick = { onSymptomToggle("none_of_above") },
-                isSelected = selectedSymptom == ("none_of_above")
-            )
-        }
-    }
-}
 
 
 

@@ -1,0 +1,117 @@
+package edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.screens
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
+import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
+import edu.emory.diabetes.education.presentation.theme.nunito
+
+@Composable
+fun HypoRegularCareScreen(
+    navController: NavController,
+    onExitToMain: () -> Unit
+){
+    Scaffold(
+        topBar = {
+            SickDayTopBar(
+                title = "",
+                iconColor = Color.White,
+                showNavigation = true,
+                onNavigationClick = {
+                    navController.popBackStack()
+                },
+                color = colorResource(R.color.secondaryMeadowGreen_300)
+            )
+        },
+        containerColor = colorResource(R.color.secondaryMeadowGreen_300),
+        content = { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 24.dp)
+                    .background(
+                        //color = colorResource(R.color.secondaryMeadowGreen_300)
+                        brush =  Brush.radialGradient(
+                            colors = listOf(
+                                colorResource(R.color.secondaryMeadowGreen_600), colorResource(R.color.secondaryMeadowGreen_600), colorResource(R.color.secondaryMeadowGreen_300)),
+                            center = Offset.Unspecified,
+                            radius = Float.POSITIVE_INFINITY
+                        )
+                    ),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(40.dp))
+
+                Text(
+                    text = "Continue regular diabetes medical management plan (DMMP).",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = nunito,
+                    color = colorResource(R.color.white),
+                    textAlign = TextAlign.Center,
+                    lineHeight = 32.sp
+                )
+
+                Spacer(modifier = Modifier.height(80.dp))
+
+                Image(
+                    painter = painterResource(R.drawable.im_regular_care),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .height(336.dp)
+                        .width(245.dp)
+                )
+
+                // Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.height(102.dp))
+
+                CustomTransparentTextButton(
+                    onClick = onExitToMain,
+                    buttonText = "Exit",
+                    iconColor = Color.White,
+                    buttonTextColor = Color.White
+                )
+
+                Spacer(modifier = Modifier.height(40.dp))
+            }
+        }
+    )
+}
+
+@Preview
+@Composable
+fun RegularCareScreenPreview(){
+    val navController = rememberNavController()
+    HypoRegularCareScreen(
+        navController = navController,
+        onExitToMain = {}
+    )
+}
