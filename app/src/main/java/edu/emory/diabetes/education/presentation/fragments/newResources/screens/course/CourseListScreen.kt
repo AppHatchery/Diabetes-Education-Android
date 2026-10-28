@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.NewResourcesTopBar
+import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
 import edu.emory.diabetes.education.presentation.theme.nunito
 
 private val GrayDescription = Color(0xFF6B6B6B)
@@ -145,7 +146,7 @@ private fun CourseHeader(
             )
 
             Image(
-                painter = painterResource(id = course.headerImage),
+                painter = painterResource(id = if (LocalHalloweenEnabled.current) course.headerImageHalloween else course.headerImage),
                 contentDescription = null,
                 modifier = Modifier.size(150.dp),
                 contentScale = ContentScale.Fit

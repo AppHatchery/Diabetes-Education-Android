@@ -18,7 +18,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.floor
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.readRoundingRule
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.roundDose
 
 /** A food the user has added to their meal, together with its running quantity. */
 data class SelectedFood(
@@ -48,6 +49,9 @@ class KnowYourCarbsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val customFoodRepo = repo.customFoodRepoImpl
+
+    // Kept so the rounding rule is read fresh, reflecting any later edits.
+    private val appContext = context
 
     // Built-in categories with the user's custom foods merged into their sections.
     val allCategories: StateFlow<List<CarbCategory>> =
@@ -88,7 +92,8 @@ class KnowYourCarbsViewModel @Inject constructor(
     val insulinUnits: Double
         get() {
             val ratio = carbRatio.toIntOrNull() ?: 0
-            return if (ratio == 0) 0.0 else floor((totalCarbs / ratio.toDouble()) * 2) / 2.0
+            return if (ratio == 0) 0.0
+            else roundDose(totalCarbs / ratio.toDouble(), readRoundingRule(appContext))
         }
 
     fun formatUnits(): String =

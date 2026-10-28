@@ -8,6 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.RoundingRule
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.readRoundingRule
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.saveRoundingRule
 
 data class CalculatorConstantsUiState(
     val carbRatio: String = "",
@@ -16,7 +19,8 @@ data class CalculatorConstantsUiState(
     val carbRatioError: Boolean = false,
     val targetBloodSugarError: Boolean = false,
     val correctionFactorError: Boolean = false,
-    val saveSuccess: Boolean = false
+    val saveSuccess: Boolean = false,
+    val roundingRule: RoundingRule = RoundingRule.WHOLE
 )
 
 class EditConstantsViewModel : ViewModel() {
@@ -30,7 +34,8 @@ class EditConstantsViewModel : ViewModel() {
             it.copy(
                 carbRatio = prefs.getString("carb_ratio", "") ?: "",
                 targetBloodSugar = prefs.getString("target_blood_sugar", "") ?: "",
-                correctionFactor = prefs.getString("correction_factor", "") ?: ""
+                correctionFactor = prefs.getString("correction_factor", "") ?: "",
+                roundingRule = readRoundingRule(context)
             )
         }
     }
@@ -59,6 +64,10 @@ class EditConstantsViewModel : ViewModel() {
         )}
     }
 
+    fun onRoundingRuleChanged(rule: RoundingRule) {
+        _uiState.update { it.copy(roundingRule = rule, saveSuccess = false) }
+    }
+
     fun save(context: Context): Boolean {
         val state = _uiState.value
         val hasErrors = state.carbRatioError || state.targetBloodSugarError || state.correctionFactorError
@@ -71,6 +80,7 @@ class EditConstantsViewModel : ViewModel() {
                 putString("correction_factor", state.correctionFactor)
                 apply()
             }
+        saveRoundingRule(context, state.roundingRule)
         _uiState.update { it.copy(saveSuccess = true) }
         return true
     }

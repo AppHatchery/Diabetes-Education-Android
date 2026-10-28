@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -77,6 +80,9 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.com
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.targetBSInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.totalCarbsInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
+import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.roundTotalInsulin
+import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.SeasonalLottieOverlay
 import edu.emory.diabetes.education.presentation.theme.arial
 import edu.emory.diabetes.education.presentation.theme.nunito
 import sdk.pendo.io.Pendo
@@ -131,6 +137,11 @@ fun MealsHighSugarTotal(
     //var currentStep by remember { mutableStateOf(MealsHighSugarStep.MEAL_INPUT) }
     val currentStep by viewModel.currentStep.collectAsState()
 
+    // One scroll state for the step content; jump back to the top on each step
+    // change so a new step never opens scrolled to the previous step's position.
+    val contentScrollState = rememberScrollState()
+    LaunchedEffect(currentStep) { contentScrollState.scrollTo(0) }
+
     // Validation attempt trackers — trigger red state on failed Next tap
     var mealValidationAttempted by remember { mutableStateOf(false) }
     var highSugarValidationAttempted by remember { mutableStateOf(false) }
@@ -176,9 +187,16 @@ fun MealsHighSugarTotal(
 
     val stepImage = when (currentStep) {
         MealsHighSugarStep.MEAL_INPUT,
-        MealsHighSugarStep.MEAL_RESULT -> R.drawable.im_mean_cal
+        MealsHighSugarStep.MEAL_RESULT -> if(LocalHalloweenEnabled.current){
+            R.drawable.im_meal_cal_hallo
+        }else{
+            R.drawable.im_mean_cal
+        }
         MealsHighSugarStep.HIGH_SUGAR_INPUT,
-        MealsHighSugarStep.HIGH_SUGAR_RESULT -> R.drawable.im_cal_hbs
+        MealsHighSugarStep.HIGH_SUGAR_RESULT ->  if(LocalHalloweenEnabled.current){
+            R.drawable.im_cal_hbs_hallo
+        }else{
+            R.drawable.im_cal_hbs}
         MealsHighSugarStep.TOTAL_RESULT -> null
     }
 
@@ -231,9 +249,9 @@ fun MealsHighSugarTotal(
                 Pendo.track("Calculate_insulin_for_hbs", properties)
             }
             MealsHighSugarStep.TOTAL_RESULT -> {
-                val mealUnits = uiState.insulinUnits
-                val highSugarUnits = highSugarUiState.insulinUnits
-                val total = mealUnits + highSugarUnits
+                val mealUnits = uiState.rawInsulinUnits
+                val highSugarUnits = highSugarUiState.rawInsulinUnits
+                val total = roundTotalInsulin(mealUnits + highSugarUnits, uiState.roundingRule)
                 val totalFormatted = if (total % 1.0 == 0.0) total.toInt().toString() else total.toString()
                 val properties = hashMapOf<String, Any>()
                 properties["for_food"] = mealUnits
@@ -302,12 +320,42 @@ fun MealsHighSugarTotal(
     }
 
 
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                if (currentStep == MealsHighSugarStep.TOTAL_RESULT && LocalHalloweenEnabled.current)
+                    Color(0xFFF6FBF8)
+                else
+                    Color.Transparent
+            )
+    ) {
+        if (currentStep == MealsHighSugarStep.TOTAL_RESULT && LocalHalloweenEnabled.current) {
+            Image(
+                painter = painterResource(R.drawable.im_total_insulin_bg),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .statusBarsPadding()
+                    .align(Alignment.TopCenter),
+                contentScale = ContentScale.FillWidth
+            )
+            // Status bar background strip (image stays below the status bar, like the intro)
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.TopCenter)
+                    .windowInsetsTopHeight(WindowInsets.statusBars)
+                    .background(Color(0xFFECF7F1))
+            )
+        }
+
     Scaffold(
         topBar = {
             CalculatorTopBar(
                 title = "",
                 color = if (currentStep == MealsHighSugarStep.TOTAL_RESULT)
-                    Color.White
+                    if (LocalHalloweenEnabled.current) Color.Transparent else Color.White
                 else
                     colorResource(R.color.green_050),
                 onNavigationClick = { when (currentStep) {
@@ -331,7 +379,7 @@ fun MealsHighSugarTotal(
             )
         },
         containerColor = if (currentStep == MealsHighSugarStep.TOTAL_RESULT)
-            Color.White
+            if (LocalHalloweenEnabled.current) Color.Transparent else Color.White
         else
             colorResource(R.color.green_050),
     ) { innerPadding ->
@@ -344,7 +392,12 @@ fun MealsHighSugarTotal(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = colorResource(R.color.green_050)),
+                    .background(
+                        color = if (currentStep == MealsHighSugarStep.TOTAL_RESULT && LocalHalloweenEnabled.current)
+                            Color.Transparent
+                        else
+                            colorResource(R.color.green_050)
+                    ),
             ) {
                 // ── Top header ──────────────────────────────────────────
                 if (currentStep != MealsHighSugarStep.TOTAL_RESULT) {
@@ -386,11 +439,16 @@ fun MealsHighSugarTotal(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
+                        .verticalScroll(contentScrollState)
                         //.imePadding()
                         //.defaultMinSize(minHeight = 600.dp)
                         .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
-                        .background(Color.White)
+                        .background(
+                            if (currentStep == MealsHighSugarStep.TOTAL_RESULT && LocalHalloweenEnabled.current)
+                                Color.Transparent
+                            else
+                                Color.White
+                        )
                         .padding(start = 20.dp, end = 20.dp, top = 40.dp)
                         .padding(bottom = keyboardHeight.value + 60.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -508,12 +566,43 @@ fun MealsHighSugarTotal(
                             }
                             Spacer(modifier = Modifier.height(204.dp))
                             ResultCard(
-                                insulin = uiState.formatUnits(),
+                                insulin = uiState.formatRawUnits(),
                                 isAbove = true,
                                 cardLabel = "Insulin for food",
                                 infoOnClick = {showInsulinForFood = true}
                             )
                             Spacer(modifier = Modifier.height(24.dp))
+                            if (!isKeyboardVisible) {
+                                Button(
+                                    onClick = { viewModel.setStep(MealsHighSugarStep.HIGH_SUGAR_INPUT) },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = colorResource(R.color.primaryGreen)
+                                    ),
+                                    shape = RoundedCornerShape(12.dp)
+                                ) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.Center,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = "Next",
+                                            fontSize = 20.sp,
+                                            fontWeight = FontWeight.W500,
+                                            modifier = Modifier.padding(end = 2.dp),
+                                            color = Color.White,
+                                            textAlign = TextAlign.Center
+                                        )
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                            contentDescription = null,
+                                            tint = Color.White,
+                                            modifier = Modifier.size(12.dp)
+                                        )
+                                    }
+                                }
+                            }
                         }
 
                         // ── Step 3: High sugar input ─────────────────────
@@ -688,7 +777,7 @@ fun MealsHighSugarTotal(
                                 )
                             } else {
                                 ResultCard(
-                                    insulin = highSugarUiState.formatUnits(),
+                                    insulin = highSugarUiState.formatRawUnits(),
                                     isAbove = true,
                                     cardLabel = "Insulin for High Blood Sugar",
                                     infoOnClick = {showInsulinForHBS}
@@ -696,13 +785,44 @@ fun MealsHighSugarTotal(
                             }
 
                             Spacer(modifier = Modifier.height(24.dp))
+                            if (!isKeyboardVisible) {
+                                Button(
+                                    onClick = { viewModel.setStep(MealsHighSugarStep.TOTAL_RESULT) },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = colorResource(R.color.primaryGreen)
+                                    ),
+                                    shape = RoundedCornerShape(12.dp)
+                                ) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.Center,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = "Next",
+                                            fontSize = 20.sp,
+                                            fontWeight = FontWeight.W500,
+                                            modifier = Modifier.padding(end = 2.dp),
+                                            color = Color.White,
+                                            textAlign = TextAlign.Center
+                                        )
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                            contentDescription = null,
+                                            tint = Color.White,
+                                            modifier = Modifier.size(12.dp)
+                                        )
+                                    }
+                                }
+                            }
                         }
 
                         // ── Step 5: Total result ─────────────────────────
                         MealsHighSugarStep.TOTAL_RESULT -> {
-                            val mealUnits = uiState.insulinUnits
-                            val highSugarUnits = highSugarUiState.insulinUnits
-                            val total = mealUnits + highSugarUnits
+                            val mealUnits = uiState.rawInsulinUnits
+                            val highSugarUnits = highSugarUiState.rawInsulinUnits
+                            val total = roundTotalInsulin(mealUnits + highSugarUnits, uiState.roundingRule)
                             val totalFormatted = if (total % 1.0 == 0.0) total.toInt().toString() else total.toString()
 
                             //lottie setup:
@@ -713,7 +833,7 @@ fun MealsHighSugarTotal(
                                 isPlaying = true
                             )
 
-                            Box(modifier = Modifier.fillMaxSize()) {
+                            Box(modifier = Modifier.fillMaxWidth()) {
                                 LottieAnimation(
                                     composition = composition,
                                     progress = { progress },
@@ -726,16 +846,22 @@ fun MealsHighSugarTotal(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .align(Alignment.TopCenter)
-                                        .padding(top = 80.dp),
+                                        .padding(top = 30.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     Image(
-                                        painter = painterResource(R.drawable.im_total),
+                                        painter = painterResource(
+                                            if (LocalHalloweenEnabled.current){
+                                                R.drawable.im_total_insulin_hallo
+                                            }else{
+                                                R.drawable.im_total
+                                            }
+                                        ),
                                         contentDescription = null,
                                         modifier = Modifier
                                             .height(275.dp)
                                             .width(275.dp),
-                                        contentScale = ContentScale.Crop
+                                        contentScale = ContentScale.Fit
                                     )
                                     // Result card
                                     Column(
@@ -781,7 +907,7 @@ fun MealsHighSugarTotal(
                                                 )
                                                 Spacer(modifier = Modifier.height(4.dp))
                                                 Text(
-                                                    text = "${uiState.formatUnits()} units",
+                                                    text = "${uiState.formatRawUnits()} units",
                                                     fontSize = 20.sp,
                                                     fontWeight = FontWeight.W700,
                                                     fontFamily = nunito,
@@ -809,7 +935,7 @@ fun MealsHighSugarTotal(
                                                 )
                                                 Spacer(modifier = Modifier.height(4.dp))
                                                 Text(
-                                                    text = "${highSugarUiState.formatUnits()} units",
+                                                    text = "${highSugarUiState.formatRawUnits()} units",
                                                     fontSize = 20.sp,
                                                     fontWeight = FontWeight.W700,
                                                     fontFamily = nunito,
@@ -819,7 +945,7 @@ fun MealsHighSugarTotal(
                                         }
                                     }
 
-                                    Spacer(modifier = Modifier.height(32.dp))
+                                    Spacer(modifier = Modifier.height(20.dp))
 
                                     // Exit button
                                     Button(
@@ -857,7 +983,7 @@ fun MealsHighSugarTotal(
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.height(30.dp))
+                   // Spacer(modifier = Modifier.height(30.dp))
                 }
             }
             when (currentStep) {
@@ -1044,7 +1170,7 @@ fun MealsHighSugarTotal(
                     }
                 }
 
-                // ── Result steps: always-visible Next button ─────────────────
+                // Result steps: keyboard Calculate button (Next now sits below the result card)
                 MealsHighSugarStep.MEAL_RESULT -> {
                     AnimatedVisibility(
                         visible = isKeyboardVisible && canCalculateMeal,
@@ -1079,41 +1205,6 @@ fun MealsHighSugarTotal(
                         }
                     }
 
-                    // Next only visible when keyboard is dismissed
-                    if (!isKeyboardVisible) {
-                        Button(
-                            onClick = { viewModel.setStep(MealsHighSugarStep.HIGH_SUGAR_INPUT) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .align(Alignment.BottomCenter)
-                                .padding(start = 20.dp, top = 10.dp, end = 20.dp, bottom = 40.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = colorResource(R.color.primaryGreen)
-                            ),
-                            shape = RoundedCornerShape(12.dp)
-                        ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = "Next",
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.W500,
-                                    modifier = Modifier.padding(end = 2.dp),
-                                    color = Color.White,
-                                    textAlign = TextAlign.Center
-                                )
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                    contentDescription = null,
-                                    tint = Color.White,
-                                    modifier = Modifier.size(12.dp)
-                                )
-                            }
-                        }
-                    }
                 }
 
                 MealsHighSugarStep.HIGH_SUGAR_RESULT -> {
@@ -1159,37 +1250,28 @@ fun MealsHighSugarTotal(
                         }
                     }
 
-                    // Next only visible when keyboard is dismissed
-                    if (!isKeyboardVisible) {
-                        Button(
-                            onClick = { viewModel.setStep(MealsHighSugarStep.TOTAL_RESULT) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .align(Alignment.BottomCenter)
-                                .padding(start = 20.dp, top = 10.dp, end = 20.dp, bottom = 40.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = colorResource(R.color.primaryGreen)
-                            ),
-                            shape = RoundedCornerShape(12.dp)
-                        ) {
-                            Text(
-                                text = "Next",
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.W500,
-                                modifier = Modifier.padding(end = 2.dp),
-                                color = Color.White,
-                                textAlign = TextAlign.Center
-                            )
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                contentDescription = null,
-                                tint = Color.White,
-                                modifier = Modifier.size(12.dp)
-                            )
-                        }
-                    }
                 }
                 MealsHighSugarStep.TOTAL_RESULT -> { /* nothing */ }
+            }
+        }
+    }
+        if (LocalHalloweenEnabled.current) {
+            val seasonalAsset = when (currentStep) {
+                MealsHighSugarStep.MEAL_INPUT,
+                MealsHighSugarStep.MEAL_RESULT -> "spider_drop.json"
+                MealsHighSugarStep.HIGH_SUGAR_INPUT,
+                MealsHighSugarStep.HIGH_SUGAR_RESULT -> "bat_flyby.json"
+                MealsHighSugarStep.TOTAL_RESULT -> null
+            }
+            if (seasonalAsset != null) {
+                // Spiders hang at a fixed point from the top, so scale by width and
+                // top-anchor them; other overlays keep the default crop.
+                val isSpider = seasonalAsset == "spider_drop.json"
+                SeasonalLottieOverlay(
+                    seasonalAsset,
+                    contentScale = if (isSpider) ContentScale.FillWidth else ContentScale.Crop,
+                    alignment = if (isSpider) Alignment.TopCenter else Alignment.Center
+                )
             }
         }
     }

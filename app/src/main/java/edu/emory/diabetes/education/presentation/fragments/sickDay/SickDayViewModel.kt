@@ -48,6 +48,8 @@ object FlowAnswerKeys {
     const val REMINDER_KETONE_SCREEN_INSTRUMENT = "reminder_ketone_screen_instrument"
     const val ILET_KETONE_MEASURE      = "ilet_ketone_measure"
     const val ILET_KETONE_LEVEL        = "ilet_ketone_level"
+
+    const val LOW_ILET_BLOOD_SUGAR = "low_ilet_blood_sugar"
     fun iletKetoneScreenTypeKey(type: String) = "ilet_ketone_screen_type_$type"
 }
 class SickDayViewModel : ViewModel() {

@@ -569,7 +569,7 @@ fun ManageILetPreview(){
     val navController = rememberNavController()
     ManageILet(
         navController = navController,
-        type = "moderate",
+        type = "Moderate",
         onExitToMain = {},
         viewModel = viewModel()
     )

@@ -43,6 +43,15 @@ import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.newResources.components.NewResourcesTopBar
 import edu.emory.diabetes.education.presentation.theme.nunito
+import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.SeasonalLottieOverlay
+import androidx.compose.material3.MaterialTheme
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -59,6 +68,7 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun ChapterFinishScreen(
@@ -77,6 +87,23 @@ fun ChapterFinishScreen(
     val totalChapters = uiState.totalChapters
     val completedCount = uiState.completedChapterCount
     val colors = uiState.course.colorScheme
+    val isHalloween = LocalHalloweenEnabled.current
+
+    // Use light (white) status bar icons while this screen is shown, over its dark background
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        DisposableEffect(Unit) {
+            val window = view.context.findActivity()?.window
+            val controller = window?.let { WindowInsetsControllerCompat(it, view) }
+            val previous = controller?.isAppearanceLightStatusBars
+            controller?.isAppearanceLightStatusBars = false
+            onDispose {
+                if (controller != null && previous != null) {
+                    controller.isAppearanceLightStatusBars = previous
+                }
+            }
+        }
+    }
 
     LaunchedEffect(Unit) {
         for (i in 1..completedCount) {
@@ -85,24 +112,40 @@ fun ChapterFinishScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            NewResourcesTopBar(
-                title = "",
-                onNavigationClick = onBackToList,
-                color = colors.chapterFinishBackground,
-                iconColor = Color.White,
-                isCloseVisible = true,
-                onExitToMain = onBackToList
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        // Halloween background image that fills the screen, reaching behind the status bar
+        if (isHalloween) {
+            Image(
+                painter = painterResource(id = completedChapter.chapterEndBgImage),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                alignment = Alignment.TopCenter,
+                contentScale = ContentScale.FillWidth
             )
         }
-    ) {innerPadding ->
+
+        Scaffold(
+            containerColor = if (isHalloween) Color.Transparent else MaterialTheme.colorScheme.background,
+            topBar = {
+                NewResourcesTopBar(
+                    title = "",
+                    onNavigationClick = onBackToList,
+                    color = if (isHalloween) Color.Transparent else colors.chapterFinishBackground,
+                    iconColor = Color.White,
+                    isCloseVisible = true,
+                    onExitToMain = onBackToList
+                )
+            }
+        ) { innerPadding ->
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(colors.chapterFinishBackground)
+                .background(if (isHalloween) Color.Transparent else colors.chapterFinishBackground)
         ) {
             Column(
                 modifier = Modifier
@@ -111,76 +154,87 @@ fun ChapterFinishScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom
             ) {
+                // In Halloween mode the title, speech bubble and character are hidden
+                // so only the star card shows over the background image.
+                //if (!isHalloween) {
                 Spacer(modifier = Modifier.height(20.dp))
 
-                Text(
-                    text = completedChapter.chapterEndTitle,
-                    color = Color.White,
-                    fontSize = 32.sp,
-                    fontFamily = nunito,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
-                )
+                    Text(
+                        text = completedChapter.chapterEndTitle,
+                        color = Color.White,
+                        fontSize = 32.sp,
+                        fontFamily = nunito,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
 
-                Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
 
-                // Speech bubble
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(horizontal = 40.dp)
-                ) {
-                    Card(
-                        shape = RoundedCornerShape(10.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+
+                    // Speech bubble
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.padding(horizontal = 40.dp)
                     ) {
-                        Text(
-                            text = buildAnnotatedString {
-                                append("You've completed \"")
-                                withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = colorResource(R.color.primaryGreen))) {
-                                    append(completedChapter.title)
-                                }
-                                append(" ")
-                                append( completedChapter.chapterEndText)
-                            },
-                            fontSize = 16.sp,
-                            textAlign = TextAlign.Center,
-                            fontFamily = nunito,
-                            lineHeight = 20.sp,
-                            color = Color.Black,
-                            modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)
+                        Card(
+                            shape = RoundedCornerShape(10.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color.White),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                        ) {
+                            Text(
+                                text = buildAnnotatedString {
+                                    append("You've completed \"")
+                                    withStyle(
+                                        SpanStyle(
+                                            fontWeight = FontWeight.Bold,
+                                            color = colorResource(R.color.primaryGreen)
+                                        )
+                                    ) {
+                                        append(completedChapter.title)
+                                    }
+                                    append(" ")
+                                    append(completedChapter.chapterEndText)
+                                },
+                                fontSize = 16.sp,
+                                textAlign = TextAlign.Center,
+                                fontFamily = nunito,
+                                lineHeight = 20.sp,
+                                color = Color.Black,
+                                modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)
+                            )
+                        }
+
+                        // Downward-pointing triangle tail
+                        Canvas(modifier = Modifier.size(width = 20.dp, height = 12.dp)) {
+                            val path = Path().apply {
+                                moveTo(0f, 0f)
+                                lineTo(size.width, 0f)
+                                lineTo(size.width / 2f, size.height)
+                                close()
+                            }
+                            drawPath(path, color = Color.White)
+                        }
+                    }
+                    // Character image
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        Image(
+                            painter = painterResource(id = if (!isHalloween) completedChapter.chapterEndImage else completedChapter.chapterEndCharacter),
+                            contentDescription = null,
+                            modifier = Modifier.size(270.dp)
+                            //modifier = Modifier.size(470.dp),
+                            //contentScale = ContentScale.Fit
                         )
                     }
-
-                    // Downward-pointing triangle tail
-                    Canvas(modifier = Modifier.size(width = 20.dp, height = 12.dp)) {
-                        val path = Path().apply {
-                            moveTo(0f, 0f)
-                            lineTo(size.width, 0f)
-                            lineTo(size.width / 2f, size.height)
-                            close()
-                        }
-                        drawPath(path, color = Color.White)
-                    }
-                }
-                // Character image
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.BottomCenter
-                ) {
-                    Image(
-                        painter = painterResource(id = completedChapter.chapterEndImage),
-                        contentDescription = null,
-                        modifier = Modifier.size(270.dp)
-                        //modifier = Modifier.size(470.dp),
-                        //contentScale = ContentScale.Fit
-                    )
-                }
             }
+            //star card
             Card(
                 shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
             ) {
                 Column(
                     modifier = Modifier
@@ -263,7 +317,7 @@ fun ChapterFinishScreen(
                             modifier = Modifier.fillMaxSize(),
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
-                        ){
+                        ) {
                             Text(
                                 text = if (isLastChapter) "Done" else "Next Chapter",
                                 color = Color.White,
@@ -273,7 +327,7 @@ fun ChapterFinishScreen(
 
                             Spacer(modifier = Modifier.width(8.dp))
 
-                            if(!isLastChapter){
+                            if (!isLastChapter) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Outlined.ArrowForward, "Back",
                                     modifier = Modifier.size(20.dp),
@@ -287,18 +341,30 @@ fun ChapterFinishScreen(
             }
         }
     }
+        if (isHalloween) {
+            // Diabetes Self-Management (course id 2) uses falling stars; other courses use leaves.
+            val overlayAsset = if (uiState.course.id == 2) "falling_stars.json" else "falling_leaves.json"
+            SeasonalLottieOverlay(overlayAsset)
+        }
+    }
 }
 
 @Preview
 @Composable
 fun ChapterFinishScreenPreview(){
-//    ChapterFinishContent (
-//        uiState = CourseUiState(
-//            course = CourseDataProvider.diabetesSelfManagement,
-//            isLoading = false
-//        ),
-//        onNextChapter = {},
-//        onBackToList = {},
-//        onClose = {}
-//    )
+    ChapterFinishScreen(
+        viewModel = viewModel(),
+        onNextChapter = {},
+        onBackToList = {},
+        onClose = {}
+    )
+}
+
+private fun Context.findActivity(): Activity? {
+    var ctx: Context = this
+    while (ctx is ContextWrapper) {
+        if (ctx is Activity) return ctx
+        ctx = ctx.baseContext
+    }
+    return null
 }

@@ -174,14 +174,14 @@ fun IletKetoneScreen(
                                 if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low"){
                                     navController.navigate(SickDayScreen.RegularCare.route)
                                 }else if(selectedUrineLevel == "Moderate" || selectedUrineLevel == "5" || selectedUrineLevel == "15" || selectedUrineLevel == "40"){
-                                    navController.navigate("${SickDayScreen.ManageILet.route}/Moderate")
+                                    navController.navigate("${SickDayScreen.LowKetoneIletBloodSugar.route}/$selectedUrineLevel")
                                 }else{
-                                    navController.navigate("${SickDayScreen.ManageILet.route}/High")
+                                    navController.navigate("${SickDayScreen.LowKetoneIletBloodSugar.route}/$selectedUrineLevel")
                                 }
                             }
                             "moderateKetone" -> {
                                 if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low"){
-                                    navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/low")
+                                    navController.navigate(SickDayScreen.RegularCare.route)
                                 }else{
                                     navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/medium")
                                 }

@@ -80,17 +80,6 @@ fun ManageAtHome(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    CustomTransparentTextButton(
-                        onClick = onExitToMain,
-                        buttonText = "Exit",
-                        buttonTextColor = colorResource(R.color.primaryGreen),
-                    )
-                }
-
                 Spacer(modifier = Modifier.height(24.dp))
             }else if(instrument == "insulin_pump" && !isLow){
                 InsulinPumpHighContent()
@@ -98,6 +87,46 @@ fun ManageAtHome(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 AfterCorrectionCard()
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Text(
+                    text = "Stay hydrated, drink fluids based on age",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = nunito,
+                    color = colorResource(R.color.primaryBlue),
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "Example: A 2-year-old drinks 2oz per hour",
+                    fontSize = 16.sp,
+                    fontFamily = nunito,
+                )
+
+                Spacer(modifier = Modifier.height(5.dp))
+
+                BulletPoint(
+                    text = buildAnnotatedString {
+                        append("If ")
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("blood sugar is 150 mg/dL or lower")
+                        }
+                        append(", drink with sugar (e.g., Gatorade, Sprite)")
+                    }
+                )
+
+                BulletPoint(
+                    text = buildAnnotatedString {
+                        append("If ")
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("blood sugar is over 150 mg/dL")
+                        }
+                        append(", drink without sugar (e.g., Water, Gatorade Zero)")
+                    }
+                )
 
                 Spacer(modifier = Modifier.height(20.dp))
             }else{
@@ -107,19 +136,20 @@ fun ManageAtHome(
 
                 AfterCorrectionCard()
 
-                Spacer(modifier = Modifier.height(20.dp))
-
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    CustomTransparentTextButton(
-                        onClick = onExitToMain,
-                        buttonText = "Exit",
-                        buttonTextColor = colorResource(R.color.primaryGreen),
-                    )
-                }
                 Spacer(modifier = Modifier.height(30.dp))
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CustomTransparentTextButton(
+                    onClick = onExitToMain,
+                    buttonText = "Exit",
+                    buttonTextColor = colorResource(R.color.primaryGreen),
+                )
             }
 
             Spacer(modifier = Modifier.height(23.dp))
@@ -368,11 +398,14 @@ fun InsulinPumpContent(){
 
         InsulinPumpText(
             text = buildAnnotatedString {
-                append("Confirm your ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
-                    append("pump site is securely connected")
+                    append("Change pump site ")
                 }
-                append(" and not leaking.")
+                append(" and give ")
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                    append("correction dose ")
+                }
+                append("through the new site")
             },
             image = R.drawable.im_insulin_pump
         )
@@ -380,14 +413,14 @@ fun InsulinPumpContent(){
 
         InsulinPumpText(
             text = buildAnnotatedString {
-                append("Give the recommended ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
-                    append("correction dose through")
+                    append("Recheck blood sugar")
                 }
-                append(" the")
+                append(" and")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
-                    append(" pump site.")
+                    append(" ketones")
                 }
+                append(" in 2 hours.")
             },
             image = R.drawable.im_injection
         )

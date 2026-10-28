@@ -34,6 +34,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.navigation.NavController
@@ -63,6 +64,8 @@ import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.com
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.components.totalCarbsInfo
 import edu.emory.diabetes.education.presentation.fragments.insulinCalculator.nav.NewCalculatorScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
+import edu.emory.diabetes.education.presentation.remoteconfig.LocalHalloweenEnabled
+import edu.emory.diabetes.education.presentation.fragments.main.halloween.SeasonalLottieOverlay
 import edu.emory.diabetes.education.presentation.theme.nunito
 import sdk.pendo.io.Pendo
 
@@ -149,6 +152,7 @@ fun MealCalculator(
         wasKeyboardVisible = isKeyboardVisible
     }
 
+    Box(modifier = Modifier.fillMaxSize()) {
     Scaffold(
         topBar = {
             CalculatorTopBar(
@@ -204,7 +208,13 @@ fun MealCalculator(
                     Spacer(modifier = Modifier.width(30.dp))
 
                     Image(
-                        painter = painterResource(R.drawable.im_mean_cal),
+                        painter = painterResource(
+                            if(LocalHalloweenEnabled.current){
+                                R.drawable.im_meal_cal_hallo
+                            }else{
+                                R.drawable.im_mean_cal
+                            }
+                        ),
                         contentDescription = null,
                         modifier = Modifier
                             .height(155.dp)
@@ -348,6 +358,14 @@ fun MealCalculator(
                     }
                 }
             }
+        }
+    }
+        if (LocalHalloweenEnabled.current) {
+            SeasonalLottieOverlay(
+                "spider_drop.json",
+                contentScale = ContentScale.FillWidth,
+                alignment = Alignment.TopCenter
+            )
         }
     }
 

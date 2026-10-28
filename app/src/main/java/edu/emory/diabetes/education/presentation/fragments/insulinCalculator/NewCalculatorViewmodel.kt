@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlin.math.floor
+import kotlin.math.roundToInt
 
 data class MealCalculatorUiState(
     val totalCarbs: String = "",
@@ -18,15 +18,25 @@ data class MealCalculatorUiState(
     val totalCarbsError: Boolean = false,
     val carbRatioError: Boolean = false,
     val calculatedResult: String? = null,
-    val hasCalculated: Boolean = false
+    val hasCalculated: Boolean = false,
+    val roundingRule: RoundingRule = RoundingRule.WHOLE
 ) {
     val insulinUnits: Double
+        get() = roundDose(rawInsulinUnits, roundingRule)
+
+    // Unrounded insulin units, before any rounding
+    val rawInsulinUnits: Double
         get() {
             val carbs = totalCarbs.toIntOrNull() ?: 0
             val ratio = carbRatio.toIntOrNull() ?: 0
-            return if (ratio == 0) 0.0
-            else floor((carbs / ratio.toDouble()) * 2) / 2.0
+            return if (ratio == 0) 0.0 else carbs / ratio.toDouble()
         }
+
+    // Shows the raw units trimmed to at most two decimals
+    fun formatRawUnits(): String {
+        val display = (rawInsulinUnits * 100).roundToInt() / 100.0
+        return if (display % 1.0 == 0.0) display.toInt().toString() else display.toString()
+    }
 
     fun formatUnits(): String =
         if (insulinUnits % 1.0 == 0.0) insulinUnits.toInt().toString()
@@ -41,21 +51,34 @@ data class HighSugarCalculatorUiState(
     val targetBloodSugarError: Boolean = false,
     val correctionFactorError: Boolean = false,
     val calculatedResult: String? = null,
-    val hasCalculated: Boolean = false
+    val hasCalculated: Boolean = false,
+    val roundingRule: RoundingRule = RoundingRule.WHOLE
 ) {
     val insulinUnits: Double
+        get() = roundDose(rawInsulinUnits, roundingRule)
+
+    // Unrounded insulin units, before any rounding
+    val rawInsulinUnits: Double
         get() {
             val current = currentBloodSugar.toIntOrNull() ?: 0
             val target = targetBloodSugar.toIntOrNull() ?: 0
             val correction = correctionFactor.toIntOrNull() ?: 0
-            return if (correction == 0) 0.0
-            else floor(((current - target) / correction.toDouble()) * 2) / 2.0
+            return if (correction == 0) 0.0 else (current - target) / correction.toDouble()
         }
+
+    // Shows the raw units trimmed to at most two decimals
+    fun formatRawUnits(): String {
+        val display = (rawInsulinUnits * 100).roundToInt() / 100.0
+        return if (display % 1.0 == 0.0) display.toInt().toString() else display.toString()
+    }
 
     fun formatUnits(): String =
         if (insulinUnits % 1.0 == 0.0) insulinUnits.toInt().toString()
         else insulinUnits.toString()
 }
+
+// Rounds the combined dose once at the end, using the chosen rounding rule
+fun roundTotalInsulin(units: Double, rule: RoundingRule): Double = roundDose(units, rule)
 
 class NewCalculatorViewmodel: ViewModel() {
     private val _uiState = MutableStateFlow(MealCalculatorUiState())
@@ -80,12 +103,14 @@ class NewCalculatorViewmodel: ViewModel() {
         val savedCarbRatio = prefs.getString("carb_ratio", "") ?: ""
         val savedTargetBloodSugar = prefs.getString("target_blood_sugar", "") ?: ""
         val savedCorrectionFactor = prefs.getString("correction_factor", "") ?: ""
+        val savedRoundingRule = readRoundingRule(context)
 
-        _uiState.update { it.copy(carbRatio = savedCarbRatio) }
+        _uiState.update { it.copy(carbRatio = savedCarbRatio, roundingRule = savedRoundingRule) }
         _highSugarUiState.update {
             it.copy(
                 targetBloodSugar = savedTargetBloodSugar,
-                correctionFactor = savedCorrectionFactor
+                correctionFactor = savedCorrectionFactor,
+                roundingRule = savedRoundingRule
             )
         }
     }
