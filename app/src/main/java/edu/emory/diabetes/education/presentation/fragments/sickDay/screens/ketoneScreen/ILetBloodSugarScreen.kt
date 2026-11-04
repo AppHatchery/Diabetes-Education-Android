@@ -1,5 +1,6 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -63,6 +64,8 @@ fun ILetBloodSugarScreen(
     val readingValue = reading.toIntOrNull()
     val isHigher = readingValue != null && readingValue > threshold
 
+    Log.d("skibidi", "ILetBloodSugarScreenType: $type")
+
     // Routes based on whether the reading is above the threshold, preserving the original flow.
     fun proceedToNext() {
         val answer = if (isHigher) "yes" else "no"
@@ -73,6 +76,13 @@ fun ILetBloodSugarScreen(
                 }
                 else {
                     navController.navigate(SickDayScreen.RegularCare.route)
+                }
+            }
+            "highKetone" ->{
+                if (answer == "yes"){
+                    navController.navigate("${SickDayScreen.ILetKetone.route}/$type")
+                }else{
+                    navController.navigate(callForHelpRoute)
                 }
             }
             else -> {

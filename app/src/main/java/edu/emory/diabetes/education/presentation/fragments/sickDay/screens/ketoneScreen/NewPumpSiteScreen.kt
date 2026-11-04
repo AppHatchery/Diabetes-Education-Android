@@ -33,6 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomTransparentTextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
+import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.BulletPoint
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.InsulinPumpText
 import edu.emory.diabetes.education.presentation.theme.nunito
 
@@ -102,6 +103,46 @@ fun NewPumpSiteScreen(
                     }
                 },
                 image = R.drawable.im_ilet_pump
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text(
+                text = "Stay hydrated, drink fluids based on age",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = nunito,
+                color = colorResource(R.color.primaryBlue),
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "Example: A 2-year-old drinks 2oz per hour",
+                fontSize = 16.sp,
+                fontFamily = nunito,
+            )
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            BulletPoint(
+                text = buildAnnotatedString {
+                    append("If ")
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append("blood sugar is 150 mg/dL or lower")
+                    }
+                    append(", drink with sugar (e.g., Gatorade, Sprite)")
+                }
+            )
+
+            BulletPoint(
+                text = buildAnnotatedString {
+                    append("If ")
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append("blood sugar is over 150 mg/dL")
+                    }
+                    append(", drink without sugar (e.g., Water, Gatorade Zero)")
+                }
             )
 
             Spacer(modifier = Modifier.weight(1f))

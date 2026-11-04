@@ -104,7 +104,11 @@ private sealed class KnowYourCarbsRoute(val route: String) {
 }
 
 @Composable
-fun AppNavHost(startFromReminder: Boolean = false, onFirstScreenReady: () -> Unit = {}) {
+fun AppNavHost(
+    startFromReminder: Boolean = false,
+    startOnReminderScreen: Boolean = false,
+    onFirstScreenReady: () -> Unit = {}
+) {
     val navController = rememberNavController()
     val context = LocalContext.current
 
@@ -184,7 +188,7 @@ fun AppNavHost(startFromReminder: Boolean = false, onFirstScreenReady: () -> Uni
             route = AppRoute.Main.route,
             exitTransition = {
                 if (animateReminderEntry) fadeOut(tween(REMINDER_TRANSITION_MS)) else ExitTransition.None
-            }
+            },
 
             // Dissolve in from the intro video so the handoff has no visible pause.
             enterTransition = {

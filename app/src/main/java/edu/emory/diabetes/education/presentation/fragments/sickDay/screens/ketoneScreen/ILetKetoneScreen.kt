@@ -44,6 +44,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
@@ -65,6 +66,12 @@ fun IletKetoneScreen(
     val categoryId = "IletKetone"
     val context = LocalContext.current
     val prefs = SickDayPrefs(context)
+
+    val callForHelpRoute = if (OnboardingPrefs(LocalContext.current).isChoaPatient) {
+        SickDayScreen.CallCHOA.route
+    } else {
+        SickDayScreen.HypoCallDoctorScreen.route
+    }
 
     // True when this screen was launched as the start destination
     val isStartDestination = remember {
@@ -188,9 +195,9 @@ fun IletKetoneScreen(
                             }
                             else -> {
                                 if(selectedUrineLevel == "Neg" || selectedUrineLevel == "Low"){
-                                    navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/low")
+                                    navController.navigate(SickDayScreen.NewPump.route)
                                 }else{
-                                    navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/medium")
+                                    navController.navigate(callForHelpRoute)
                                 }
                             }
                         }
@@ -211,7 +218,7 @@ fun IletKetoneScreen(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = "Check ketone level",
+                text = "Check ketone level>>>>",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = nunito,
