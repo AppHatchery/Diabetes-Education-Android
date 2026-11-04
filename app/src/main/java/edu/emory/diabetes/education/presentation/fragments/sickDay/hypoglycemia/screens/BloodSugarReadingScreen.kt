@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -105,6 +107,44 @@ fun BloodSugarReadingScreen(
                     viewModel.saveAnswer(HypoFlowAnswerKeys.BLOOD_SUGAR_READING, it)
                 }
             )
+
+            // Shown only for children aged 5 or younger
+            if (personAge in 1..5) {
+                Spacer(modifier = Modifier.height(47.dp))
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            color = colorResource(R.color.blue_050),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        text = "Low blood glucose threshold",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = nunito,
+                        color = colorResource(R.color.primaryBlue),
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "For children aged 5 years and younger, the low blood glucose threshold is 80 mg/dL instead of 70 mg/dL, as recommended during diabetes education.",
+                        fontSize = 14.sp,
+                        fontFamily = nunito,
+                        color = Color.Black,
+                        lineHeight = 20.sp
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = "Your child's hypoglycemia protocol has been adjusted based on their age.",
+                        fontSize = 14.sp,
+                        fontFamily = nunito,
+                        color = Color.Black,
+                        lineHeight = 20.sp
+                    )
+                }
+            }
 
             val isNextEnabled = readingValue != null
 

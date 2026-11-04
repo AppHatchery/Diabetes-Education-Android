@@ -54,6 +54,7 @@ object HypoFlowAnswerKeys {
     const val BLOOD_SUGAR_READING = "blood_sugar_reading"
     const val CGM_READING = "cgm_reading"
     const val VOMITING_BLOOD_SUGAR = "vomiting_blood_sugar"
+    const val USE_REDUCED_DOSE = "use_reduced_dose"
 }
 
 class HypoglycemiaViewModel : ViewModel() {
