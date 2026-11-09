@@ -101,6 +101,7 @@ fun CardWithImage(
                 },
                 textAlign = TextAlign.Center,
                 modifier = modifier
+                    .fillMaxWidth()
                     .padding(start = 10.dp, end = 10.dp, top = 10.dp)
             )
         }
@@ -148,6 +149,75 @@ fun CardWithoutImage(
         }
     }
 }
+
+// Card used only in the vomiting symptom screen.
+@Composable
+fun VomitingCard(
+    modifier: Modifier = Modifier,
+    symptom: Symptom,
+    isSelected: Boolean,
+    cardHeight: Dp = 221.dp,
+    cardOnclick: () -> Unit
+){
+    Card(
+        modifier = modifier
+            .clickable { cardOnclick() }
+            .height(cardHeight),
+        colors = if (isSelected){
+            CardDefaults.cardColors(containerColor = colorResource(R.color.primaryBlue))
+        } else {
+            CardDefaults.cardColors(containerColor = Color.Transparent)
+        },
+        shape = RoundedCornerShape(8.dp),
+        border = BorderStroke(width = 1.dp, color = colorResource(R.color.blue_300))
+    ){
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ){
+            // Fixed-size image box so both cards show an identical frame regardless of label length.
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp, start = 10.dp, end = 10.dp)
+                    .height(153.dp)
+                    .background(
+                        colorResource(R.color.gray_500),
+                        shape = RoundedCornerShape(8.dp)
+                    ),
+                contentAlignment = Alignment.Center
+            ){
+                Image(
+                    painter = painterResource(symptom.image),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(153.dp)
+                )
+            }
+
+            // Spacer pushes the label toward the bottom so single-line and multi-line labels align.
+            Spacer(modifier = Modifier.weight(1f))
+
+            Text(
+                text = symptom.label,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = nunito,
+                softWrap = true,
+                color = if (isSelected){
+                    Color.White
+                } else {
+                    colorResource(R.color.primaryBlue)
+                },
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 14.dp)
+            )
+        }
+    }
+}
+
 @Composable
 fun CardWithImageCustomSize(
     modifier: Modifier = Modifier,

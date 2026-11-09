@@ -37,7 +37,7 @@ import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.BloodSugarReadingField
-import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CardWithImage
+import edu.emory.diabetes.education.presentation.fragments.sickDay.components.VomitingCard
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomWidthInactiveButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
@@ -249,7 +249,7 @@ fun HypoSymptomSelectionScreen(
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 rowSymptoms.forEach { symptom ->
-                                    CardWithImage(
+                                    VomitingCard(
                                         modifier = Modifier.weight(1f),
                                         symptom = symptom,
                                         isSelected = selectedSymptom == symptom.id,
