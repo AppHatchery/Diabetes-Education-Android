@@ -269,7 +269,8 @@ fun HighKetoneContent(
                 // Timer finished and they tapped Start Test —
                 // checkpoint no longer needed, clear it then navigate
                 onSkipReminder()
-                navController.navigate("${SickDayScreen.ILetKetone.route}/$type")
+                navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/low")
+               // navController.navigate("${SickDayScreen.ILetKetone.route}/$type")
             },
             onSkipReminder = {
                 // User explicitly skipped — clear checkpoint then navigate
@@ -281,7 +282,8 @@ fun HighKetoneContent(
                 properties["iletPump"] = "true"
                 Pendo.track("Reminder Skip", properties)
                 onSkipReminder()
-                navController.navigate("${SickDayScreen.ILetKetone.route}/$type")
+                navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/low")
+                //navController.navigate("${SickDayScreen.ILetKetone.route}/$type")
             }
         )
 
@@ -308,7 +310,8 @@ fun HighKetoneContent(
             CustomTransparentTextButton(
                 onClick = {
                     onSkipReminder()
-                    navController.navigate("${SickDayScreen.ILetKetone.route}/$type")
+                    navController.navigate("${SickDayScreen.ILetBloodSugar.route}/$type/low")
+                  //  navController.navigate("${SickDayScreen.ILetKetone.route}/$type")
                 },
                 buttonText = "Yes, Over 90 mins",
                 buttonTextColor = colorResource(R.color.primaryBlue),
@@ -582,7 +585,7 @@ fun ManageILetPreview(){
     val navController = rememberNavController()
     ManageILet(
         navController = navController,
-        type = "Moderate",
+        type = "High",
         onExitToMain = {},
         viewModel = viewModel()
     )

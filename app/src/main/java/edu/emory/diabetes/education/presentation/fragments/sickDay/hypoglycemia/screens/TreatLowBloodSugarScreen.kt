@@ -20,6 +20,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.remember
@@ -45,6 +46,7 @@ import edu.emory.diabetes.education.presentation.fragments.sickDay.components.Bu
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.HypoCheckReminderCard
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
 import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.HypoFlowAnswerKeys
+import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.MAX_TREAT_ATTEMPTS
 import edu.emory.diabetes.education.presentation.fragments.sickDay.hypoglycemia.HypoglycemiaViewModel
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.BulletPoint
@@ -80,7 +82,26 @@ fun TreatLowBloodSugarScreen(
     val bloodSugar = viewModel.getAnswer(HypoFlowAnswerKeys.BLOOD_SUGAR_READING)?.toInt() ?: 0
     val cgmReading = viewModel.getAnswer(HypoFlowAnswerKeys.CGM_READING) ?: "no"
 
-    val useReducedDose = attempt == 1 && bloodSugar > 50 && cgmReading == "yes"
+    // Decide the dose once on attempt 1 (or fall back to the same rule when no choice is stored),
+    // then keep it for every later attempt so 8g from the start stays 8g throughout.
+    val storedReducedDose = viewModel.getAnswer(HypoFlowAnswerKeys.USE_REDUCED_DOSE)
+    val useReducedDose = if (attempt == 1 || storedReducedDose == null) {
+        bloodSugar > 50 && cgmReading == "yes"
+    } else {
+        storedReducedDose == "yes"
+    }
+
+    // Persist the attempt-1 decision so later attempts read the same dose.
+    LaunchedEffect(attempt, useReducedDose) {
+        if (attempt == 1) {
+            viewModel.saveAnswer(
+                HypoFlowAnswerKeys.USE_REDUCED_DOSE,
+                if (useReducedDose) "yes" else "no"
+            )
+        }
+    }
+
+    val isFourthAttempt = attempt == MAX_TREAT_ATTEMPTS
 
     val createRoute = SickDayScreen.HypoSymptomSelectionScreen.createRoute("vomiting")
 
@@ -93,14 +114,38 @@ fun TreatLowBloodSugarScreen(
 
     if (useReducedDose){
         title = "Treat low blood sugar (8g)"
-        description = "Give 8g of fast-acting carbohydrate"
-        bulletTextOne = "2 oz (120 mL) fruit juice, or"
-        bulletTextTwo = "2 glucose tablets"
+        description = if (isFourthAttempt) {
+            "Give 8 g of fast-acting carbohydrate"
+        } else {
+            "Give 8g of fast-acting carbohydrate"
+        }
+        bulletTextOne = if (isFourthAttempt) {
+            "If conscious, alert, and able to safely take food or drink by mouth, continue the 8/15 treatment (8 g fast-acting carbohydrate, then recheck blood sugar in 15 minutes)."
+        } else {
+            "2 oz (120 mL) fruit juice, or"
+        }
+        bulletTextTwo = if (isFourthAttempt) {
+            "If loss of consciousness (LOC) occurs, give glucagon as directed in the Diabetes Medical Management Plan (DMMP) and seek emergency medical assistance."
+        } else {
+            "2 glucose tablets"
+        }
     } else{
         title = "Treat low blood sugar (15g)"
-        description = "Give 15g of fast-acting carbohydrate"
-        bulletTextOne = "4 oz (60 mL) fruit juice, or"
-        bulletTextTwo = "4 glucose tablets"
+        description = if (isFourthAttempt) {
+            "Give 15 g of fast-acting carbohydrate"
+        } else {
+            "Give 15g of fast-acting carbohydrate"
+        }
+        bulletTextOne = if (isFourthAttempt) {
+            "If conscious, alert, and able to safely take food or drink by mouth, continue the 15/15 treatment (15 g fast-acting carbohydrate, then recheck blood sugar in 15 minutes)."
+        } else {
+            "4 oz (60 mL) fruit juice, or"
+        }
+        bulletTextTwo = if (isFourthAttempt) {
+            "If loss of consciousness (LOC) occurs, give glucagon as directed in the Diabetes Medical Management Plan (DMMP) and seek emergency medical assistance."
+        } else {
+            "4 glucose tablets"
+        }
     }
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),

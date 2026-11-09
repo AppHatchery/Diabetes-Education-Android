@@ -1,5 +1,7 @@
 package edu.emory.diabetes.education.presentation.fragments.sickDay.screens.ketoneScreen
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,6 +45,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import edu.emory.diabetes.education.R
+import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
 import edu.emory.diabetes.education.presentation.fragments.sickDay.SickDayViewModel
@@ -73,6 +76,10 @@ fun KetoneScreen(
     // the user last visited this screen. If it did, wipe the stale answers.
     val savedInstrument = viewModel.getAnswer(FlowAnswerKeys.KETONE_SCREEN_INSTRUMENT)
     val instrumentChanged = savedInstrument != null && savedInstrument != instrument
+
+    val bloodSugar = viewModel.getAnswer(FlowAnswerKeys.DURATION_Q1) ?: ""
+    val isBloodSugarUnder180 = bloodSugar.toInt() <= 180
+    Log.d("skibidi", "KetoneScreen: $bloodSugar  +  $isBloodSugarUnder180")
 
     var selectedMeasure by remember {
         mutableStateOf(
@@ -156,9 +163,11 @@ fun KetoneScreen(
                         val destination = resolveKetoneNavDestination(
                             instrument = instrument,
                             selectedUrineLevel = selectedUrineLevel ?: "",
+                            bSugarUnder180 = isBloodSugarUnder180,
                             iLetKetone = iLetKetone,
                             over300 = over300 == "true",
-                            over300Other = over300Other == "true"
+                            over300Other = over300Other == "true",
+                            context = context
                         )
                         navController.navigate(destination)
                     },
@@ -302,11 +311,19 @@ private fun resolveKetoneNavDestination(
     selectedUrineLevel: String,
     iLetKetone: String,
     over300: Boolean,
-    over300Other: Boolean
+    bSugarUnder180: Boolean,
+    over300Other: Boolean,
+    context: Context
 ): String {
     val isLowIletKetone = selectedUrineLevel in setOf("Neg", "Low")
     val isLowKetone = selectedUrineLevel in setOf("Neg","5", "Low")
     val isLow = false
+
+    val callForHelpRoute = if (OnboardingPrefs(context).isChoaPatient) {
+        SickDayScreen.CallCHOA.route
+    } else {
+        SickDayScreen.HypoCallDoctorScreen.route
+    }
 
     return when (instrument) {
         "injection" -> if (isLowKetone) {
@@ -329,7 +346,12 @@ private fun resolveKetoneNavDestination(
         }
         else -> when { // iLet
             isLowIletKetone -> "${SickDayScreen.ManageILet.route}/Low"
-            over300 && iLetKetone == "Moderate" -> "${SickDayScreen.ManageILet.route}/Moderate"
+            iLetKetone == "Moderate" -> if(bSugarUnder180){
+                callForHelpRoute
+            }else{
+                "${SickDayScreen.ManageILet.route}/Moderate"
+            }
+            //over300 && iLetKetone == "Moderate" -> "${SickDayScreen.ManageILet.route}/Moderate"
             over300 -> "${SickDayScreen.ManageILet.route}/High"
             else -> "${SickDayScreen.BloodSugar.route}/$instrument"
         }

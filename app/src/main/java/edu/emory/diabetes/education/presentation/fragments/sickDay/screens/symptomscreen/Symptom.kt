@@ -94,7 +94,7 @@ object SymptomData {
         title = "Is there vomiting or loss of consciousness?",
         subtitle = null,
         symptoms = listOf(
-            Symptom("vomiting", "Vomiting", R.drawable.im_dka),
+            Symptom("vomiting", "Vomiting", R.drawable.im_vomiting),
             Symptom("consciousness", "Loss of consciousness", R.drawable.im_dizziness),
         )
 

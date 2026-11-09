@@ -11,7 +11,10 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +37,7 @@ import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.data.prefs.SickDayPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.FlowAnswerKeys
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.BloodSugarReadingField
+import edu.emory.diabetes.education.presentation.fragments.sickDay.components.VomitingCard
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.CustomWidthInactiveButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.NextButton
 import edu.emory.diabetes.education.presentation.fragments.sickDay.components.SickDayTopBar
@@ -102,12 +106,26 @@ fun HypoSymptomSelectionScreen(
         },
         containerColor = Color.White
     ) { innerPadding ->
+        val vomitingScrollState = rememberScrollState()
         Column(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
                 .background(Color.White)
+                .then(
+                    // Scroll + IME padding so the blood-sugar reading field stays
+                    // reachable when the keyboard is up. Only the vomiting branch uses
+                    // this, because its symptom grid is a non-lazy Row (safe inside
+                    // verticalScroll); other branches still use LazyVerticalGrid.
+                    if (categoryId == "vomiting") {
+                        Modifier
+                            .imePadding()
+                            .verticalScroll(vomitingScrollState)
+                    } else {
+                        Modifier
+                    }
+                )
         ) {
             Text(
                 text = category.title,
@@ -203,27 +221,47 @@ fun HypoSymptomSelectionScreen(
                 }
 
                 "vomiting" -> {
-                    SymptomFourGridEqualCard(
-                        symptoms = category.symptoms,
-                        selectedSymptom = selectedSymptom,
-                        onSymptomToggle = { symptomId ->
-                            selectedSymptom = if (selectedSymptom == symptomId) null else symptomId
-                            selectedSymptom
-                                ?.let {
-                                    viewModel.saveAnswer(
-                                        HypoFlowAnswerKeys.symptomKey(
-                                            categoryId
-                                        ), it
+                    val onVomitingSymptomToggle: (String) -> Unit = { symptomId ->
+                        selectedSymptom = if (selectedSymptom == symptomId) null else symptomId
+                        selectedSymptom
+                            ?.let {
+                                viewModel.saveAnswer(
+                                    HypoFlowAnswerKeys.symptomKey(categoryId), it
+                                )
+                            }
+                            ?: viewModel.clearAnswer(HypoFlowAnswerKeys.symptomKey(categoryId))
+
+                        if (symptomId != "neither") {
+                            reading = ""
+                            viewModel.clearAnswer(HypoFlowAnswerKeys.VOMITING_BLOOD_SUGAR)
+                        }
+                    }
+
+                    // Non-lazy 2-column grid so the outer Column can be scrollable
+                    // (a LazyVerticalGrid inside verticalScroll crashes with infinite constraints).
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        category.symptoms.chunked(2).forEach { rowSymptoms ->
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                rowSymptoms.forEach { symptom ->
+                                    VomitingCard(
+                                        modifier = Modifier.weight(1f),
+                                        symptom = symptom,
+                                        isSelected = selectedSymptom == symptom.id,
+                                        cardOnclick = { onVomitingSymptomToggle(symptom.id) }
                                     )
                                 }
-                                ?: viewModel.clearAnswer(HypoFlowAnswerKeys.symptomKey(categoryId))
-
-                            if (symptomId != "neither") {
-                                reading = ""
-                                viewModel.clearAnswer(HypoFlowAnswerKeys.VOMITING_BLOOD_SUGAR)
+                                if (rowSymptoms.size < 2) {
+                                    Spacer(modifier = Modifier.weight(1f))
+                                }
                             }
                         }
-                    )
+                    }
 
                         Spacer(modifier = Modifier.height(16.dp))
                         CustomWidthInactiveButton(
@@ -259,6 +297,8 @@ fun HypoSymptomSelectionScreen(
                                 viewModel.saveAnswer(HypoFlowAnswerKeys.VOMITING_BLOOD_SUGAR, it)
                             }
                         )
+
+                        Spacer(modifier = Modifier.height(20.dp))
                     }
                 }
 
@@ -309,7 +349,12 @@ fun HypoSymptomSelectionScreen(
             }
 
             if(categoryId == "vomiting" || categoryId == "injection") {
-                Spacer(modifier = Modifier.weight(1f))
+                if (categoryId == "vomiting") {
+                    Spacer(modifier = Modifier.weight(1f))
+                    //Spacer(modifier = Modifier.height(32.dp))
+                } else {
+                    Spacer(modifier = Modifier.weight(1f))
+                }
 
                 val isNextEnabled = remember(selectedSymptom, isCGMReading, categoryId, reading) {
                     when {
@@ -410,7 +455,7 @@ fun HypoSymptomSelectionScreen(
 fun HypoSymptomSelectionScreenPreview() {
     val navController = rememberNavController()
     HypoSymptomSelectionScreen(
-        categoryId = "bloodSugarSymptoms",
+        categoryId = "vomiting",
         navController = navController,
         viewModel = HypoglycemiaViewModel(),
         onExitToMain = {}

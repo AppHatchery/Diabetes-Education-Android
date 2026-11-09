@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
             ) {
                 AppNavHost(
                     startFromReminder = startFromReminder,
-                    startOnReminderScreen = startOnReminderScreen
+                    startOnReminderScreen = startOnReminderScreen,
                     onFirstScreenReady = { keepSplashOnScreen = false }
                 )
             }

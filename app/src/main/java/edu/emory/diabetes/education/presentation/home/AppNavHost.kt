@@ -104,7 +104,11 @@ private sealed class KnowYourCarbsRoute(val route: String) {
 }
 
 @Composable
-fun AppNavHost(startFromReminder: Boolean = false, onFirstScreenReady: () -> Unit = {}) {
+fun AppNavHost(
+    startFromReminder: Boolean = false,
+    startOnReminderScreen: Boolean = false,
+    onFirstScreenReady: () -> Unit = {}
+) {
     val navController = rememberNavController()
     val context = LocalContext.current
 
@@ -116,9 +120,12 @@ fun AppNavHost(startFromReminder: Boolean = false, onFirstScreenReady: () -> Uni
     val startDestination = remember {
         when {
             startFromReminder -> AppRoute.SickDay.route
-            IntroPrefs.hasShownIntro(context) -> AppRoute.Main.route
+            IntroPrefs.hasShownIntro(context) ->
+                if (!OnboardingPrefs.isOnboardingCompleted(context)) AppRoute.Onboarding.route
+                else AppRoute.Main.route
             HalloweenPrefs.hasFetched(context) ->
                 if (HalloweenPrefs.isCachedHalloweenEnabled(context)) AppRoute.Intro.route
+                else if (!OnboardingPrefs.isOnboardingCompleted(context)) AppRoute.Onboarding.route
                 else AppRoute.Main.route
             else -> AppRoute.Loading.route
         }
@@ -169,6 +176,8 @@ fun AppNavHost(startFromReminder: Boolean = false, onFirstScreenReady: () -> Uni
                     navigated = true
                     val next = if (halloweenEnabled && !IntroPrefs.hasShownIntro(context)) {
                         AppRoute.Intro.route
+                    } else if (!OnboardingPrefs.isOnboardingCompleted(context)) {
+                        AppRoute.Onboarding.route
                     } else {
                         AppRoute.Main.route
                     }
@@ -184,7 +193,7 @@ fun AppNavHost(startFromReminder: Boolean = false, onFirstScreenReady: () -> Uni
             route = AppRoute.Main.route,
             exitTransition = {
                 if (animateReminderEntry) fadeOut(tween(REMINDER_TRANSITION_MS)) else ExitTransition.None
-            }
+            },
 
             // Dissolve in from the intro video so the handoff has no visible pause.
             enterTransition = {
@@ -417,13 +426,12 @@ fun AppNavHost(startFromReminder: Boolean = false, onFirstScreenReady: () -> Uni
             IntroVideoScreen(
                 onFinish = {
                     IntroPrefs.markIntroShown(context)
-                    // Onboarding disabled for now; go straight to the home screen.
-                    // val next = if (!OnboardingPrefs.isOnboardingCompleted(context)) {
-                    //     AppRoute.Onboarding.route
-                    // } else {
-                    //     AppRoute.Main.route
-                    // }
-                    navController.navigate(AppRoute.Main.route) {
+                    val next = if (!OnboardingPrefs.isOnboardingCompleted(context)) {
+                        AppRoute.Onboarding.route
+                    } else {
+                        AppRoute.Main.route
+                    }
+                    navController.navigate(next) {
                         popUpTo(AppRoute.Intro.route) { inclusive = true }
                         launchSingleTop = true
                     }
