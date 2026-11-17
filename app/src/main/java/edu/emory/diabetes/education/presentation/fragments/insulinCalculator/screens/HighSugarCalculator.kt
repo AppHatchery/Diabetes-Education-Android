@@ -108,7 +108,6 @@ fun HighSugarCalculator(
     val canCalculate = uiState.currentBloodSugar.isNotBlank() && uiState.targetBloodSugar.isNotBlank() && uiState.correctionFactor.isNotBlank()
 
     var validationAttempted by remember { mutableStateOf(false) }
-    var showNoInsulinNeeded by remember { mutableStateOf(false) }
 
     val isBloodSugarInverted = uiState.currentBloodSugar.isNotBlank() &&
             uiState.targetBloodSugar.isNotBlank() &&
@@ -162,10 +161,9 @@ fun HighSugarCalculator(
                     properties["target_blood_sugar"] = uiState.targetBloodSugar
                     Pendo.track("Calculate_insulin_for_hbs", properties)
                     viewModel.calculateHighSugar()
-                    showNoInsulinNeeded = false
                 }
                 isBloodSugarInverted && uiState.correctionFactor.isNotBlank() -> {
-                    showNoInsulinNeeded = true
+                    viewModel.calculateHighSugar()
                 }
             }
         }
@@ -349,10 +347,10 @@ fun HighSugarCalculator(
 
                     Spacer(modifier = Modifier.height(59.dp))
 
-                    if (uiState.hasCalculated || showNoInsulinNeeded) {
+                    if (uiState.hasCalculated) {
                         ResultCard(
-                            insulin = if (showNoInsulinNeeded) "No insulin needed" else uiState.formatUnits(),
-                            isAbove = !showNoInsulinNeeded,
+                            insulin = uiState.formatUnits(),
+                            isAbove = true,
                             cardLabel = "Insulin for High Blood Sugar",
                             infoOnClick = {showInsulinForHBS = true}
                         )
@@ -420,10 +418,9 @@ fun HighSugarCalculator(
                                     properties["blood_sugar"] = uiState.currentBloodSugar
                                     properties["target_blood_sugar"] = uiState.targetBloodSugar
                                     Pendo.track("Calculate_insulin_for_hbs", properties)
-                                    showNoInsulinNeeded = false
                                 }
                                 isBloodSugarInverted -> {
-                                    showNoInsulinNeeded = true
+                                    viewModel.calculateHighSugar()
                                 }
                             }
                             keyboardController?.hide()

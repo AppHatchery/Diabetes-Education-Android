@@ -64,6 +64,8 @@ data class HighSugarCalculatorUiState(
             val current = currentBloodSugar.toIntOrNull() ?: 0
             val target = targetBloodSugar.toIntOrNull() ?: 0
             val correction = correctionFactor.toIntOrNull() ?: 0
+            // Correction bolus is 0 when current blood sugar is at or below 150, or at or below target
+            if (current <= 150 || current <= target) return 0.0
             return if (correction == 0) 0.0 else (current - target) / correction.toDouble()
         }
 

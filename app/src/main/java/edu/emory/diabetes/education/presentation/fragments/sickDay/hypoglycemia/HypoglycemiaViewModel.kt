@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import edu.emory.diabetes.education.data.prefs.HypoFlowPrefs
-import edu.emory.diabetes.education.data.prefs.OnboardingPrefs
 import edu.emory.diabetes.education.presentation.fragments.sickDay.nav.SickDayScreen
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomCategory
 import edu.emory.diabetes.education.presentation.fragments.sickDay.screens.symptomscreen.SymptomData
@@ -17,9 +16,6 @@ import kotlinx.coroutines.launch
 
 const val MAX_TREAT_ATTEMPTS = 4
 
-val personAge = OnboardingPrefs.KEY_PERSON_AGE.toIntOrNull() ?: 0
-
-val SAFE_BLOOD_SUGAR = if(personAge <= 5) 80 else 70
 data class HypoFlowState(
     val answers: Map<String, String> = emptyMap(),
     val selections: Map<String, Set<String>> = emptyMap(),
@@ -145,10 +141,11 @@ class HypoglycemiaViewModel : ViewModel() {
         }
     }
 
-    fun evaluateRecheck(reading: Int): RecheckResult {
+    // safeThreshold is 80 mg/dL for children 5 and under, 70 mg/dL otherwise; the caller reads the saved age and passes it in.
+    fun evaluateRecheck(reading: Int, safeThreshold: Int): RecheckResult {
         val attempt = _flowState.value.treatAttempt
         return when {
-            reading >= SAFE_BLOOD_SUGAR -> RecheckResult.RegularCare
+            reading >= safeThreshold -> RecheckResult.RegularCare
             attempt >= MAX_TREAT_ATTEMPTS -> RecheckResult.CallCHOA
             else -> {
                 _flowState.update {

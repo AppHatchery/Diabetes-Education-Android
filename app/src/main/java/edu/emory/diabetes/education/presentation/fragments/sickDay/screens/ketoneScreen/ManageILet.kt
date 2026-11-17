@@ -146,9 +146,9 @@ fun ManageILet(
                     navController = navController,
                     savedEndTimeMs = savedEndTimeMs,
                     onReminderSet = {
-                        ReminderScheduler.scheduleReminder(context, durationMinutes = 90, route = "${SickDayScreen.ILetKetone.route}/highKetone")
+                        ReminderScheduler.scheduleReminder(context, durationMinutes = 90, route = "${SickDayScreen.ILetBloodSugar.route}/highKetone/low")
                         prefs.saveReminderCheckpoint(
-                            route = "${SickDayScreen.ILetKetone.route}/highKetone",
+                            route = "${SickDayScreen.ILetBloodSugar.route}/highKetone/low",
                             reminderScreenRoute = "${SickDayScreen.ManageILet.route}/$type",
                             durationMinutes = 90,
                             group = SickDayPrefs.REMINDER_GROUP_ILET

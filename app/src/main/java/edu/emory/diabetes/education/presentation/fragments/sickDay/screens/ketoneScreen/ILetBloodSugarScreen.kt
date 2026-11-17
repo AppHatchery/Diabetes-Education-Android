@@ -75,7 +75,7 @@ fun ILetBloodSugarScreen(
                     navController.navigate("${SickDayScreen.ManageILet.route}/High")
                 }
                 else {
-                    navController.navigate(SickDayScreen.RegularCare.route)
+                    navController.navigate(SickDayScreen.CallCHOA.route)
                 }
             }
             "highKetone" ->{

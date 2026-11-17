@@ -52,7 +52,7 @@ fun BloodSugarReadingScreen(
     val onboardingPrefs = OnboardingPrefs(context)
 
     val personAge = onboardingPrefs.personAge?.toIntOrNull() ?: 0
-    val maxBloodSugarValue = if(personAge <= 5) 80 else 70
+    val maxBloodSugarValue = if(personAge <= 5) 80 else 69
     var reading by remember {
         mutableStateOf(viewModel.getAnswer(HypoFlowAnswerKeys.BLOOD_SUGAR_READING) ?: "")
     }

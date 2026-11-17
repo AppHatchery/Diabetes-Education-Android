@@ -399,7 +399,10 @@ fun HypoSymptomSelectionScreen(
                                     // clear it so the next Treat Low Blood Sugar screen starts fresh.
                                     prefs.clearReminderCheckpoint()
 
-                                    when (viewModel.evaluateRecheck(value)) {
+                                    // 80 mg/dL threshold for children 5 and under, 70 mg/dL otherwise
+                                    val patientAge = onboardingPrefs.personAge?.toIntOrNull() ?: 0
+                                    val safeThreshold = if (patientAge <= 5) 80 else 70
+                                    when (viewModel.evaluateRecheck(value, safeThreshold)) {
                                         RecheckResult.RegularCare ->
                                             navController.navigate(SickDayScreen.RegularCare.route)
 
