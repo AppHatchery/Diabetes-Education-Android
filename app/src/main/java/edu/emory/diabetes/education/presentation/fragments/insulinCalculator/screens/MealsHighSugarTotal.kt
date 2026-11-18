@@ -153,6 +153,10 @@ fun MealsHighSugarTotal(
             (highSugarUiState.currentBloodSugar.toDoubleOrNull() ?: 0.0) <=
             (highSugarUiState.targetBloodSugar.toDoubleOrNull() ?: 0.0)
 
+    // True when the current blood sugar input is between 0 and 150 inclusive
+    val isWithinTargetRange = highSugarUiState.currentBloodSugar.isNotBlank() &&
+            (highSugarUiState.currentBloodSugar.toIntOrNull() ?: -1) in 0..150
+
 // Update canCalculateHS to also block when inverted
     val canCalculateHS = highSugarUiState.currentBloodSugar.isNotBlank()
             && highSugarUiState.targetBloodSugar.isNotBlank()
@@ -768,20 +772,32 @@ fun MealsHighSugarTotal(
                                 )
                             }
                             Spacer(modifier = Modifier.height(50.dp))
-                            if (showNoInsulinNeeded) {
-                                ResultCard(
-                                    insulin = "No insulin needed",
-                                    isAbove = false,
-                                    cardLabel = "Insulin for High Blood Sugar",
-                                    infoOnClick = {showInsulinForHBS}
-                                )
-                            } else {
-                                ResultCard(
-                                    insulin = highSugarUiState.formatRawUnits(),
-                                    isAbove = true,
-                                    cardLabel = "Insulin for High Blood Sugar",
-                                    infoOnClick = {showInsulinForHBS}
-                                )
+                            when {
+                                isWithinTargetRange -> {
+                                    ResultCard(
+                                        insulin = highSugarUiState.formatRawUnits(),
+                                        isAbove = false,
+                                        belowText = "Additional insulin is not needed to correct your blood sugar because your current level is within the target range.",
+                                        cardLabel = "Insulin for High Blood Sugar",
+                                        infoOnClick = {showInsulinForHBS}
+                                    )
+                                }
+                                showNoInsulinNeeded -> {
+                                    ResultCard(
+                                        insulin = "No insulin needed",
+                                        isAbove = false,
+                                        cardLabel = "Insulin for High Blood Sugar",
+                                        infoOnClick = {showInsulinForHBS}
+                                    )
+                                }
+                                else -> {
+                                    ResultCard(
+                                        insulin = highSugarUiState.formatRawUnits(),
+                                        isAbove = true,
+                                        cardLabel = "Insulin for High Blood Sugar",
+                                        infoOnClick = {showInsulinForHBS}
+                                    )
+                                }
                             }
 
                             Spacer(modifier = Modifier.height(24.dp))

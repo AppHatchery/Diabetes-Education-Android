@@ -190,6 +190,7 @@ fun ResultCard(
     insulin: String,
     cardLabel: String,
     isAbove: Boolean = false,
+    belowText: String = "No insulin needed if current blood sugar is below target.",
     infoOnClick: () -> Unit = {}
 ){
     Column(
@@ -219,12 +220,12 @@ fun ResultCard(
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
-        val unitText = if (isAbove) "$insulin Units" else "No insulin needed if current blood sugar is below target."
+        val unitText = if (isAbove) "$insulin Units" else belowText
         val unitTextColor = if (isAbove) colorResource(R.color.primaryBlue) else colorResource(R.color.secondary_sunset_orange)
         Text(
             text = unitText,
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.SemiBold,
             fontFamily = nunito,
             color = unitTextColor
         )

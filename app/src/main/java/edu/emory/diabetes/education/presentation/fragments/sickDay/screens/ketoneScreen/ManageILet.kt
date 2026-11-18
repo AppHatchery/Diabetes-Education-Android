@@ -476,6 +476,20 @@ fun LowKetoneContent(
             image = R.drawable.im_ilet_pump
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
+        InsulinPumpText(
+            text = buildAnnotatedString {
+                append("Give the recommended ")
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                    append("correction dose through ")
+                }
+                append("the")
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                    append(" pump site.")
+                }
+            },
+            image = R.drawable.im_injection
+        )
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
@@ -585,7 +599,7 @@ fun ManageILetPreview(){
     val navController = rememberNavController()
     ManageILet(
         navController = navController,
-        type = "High",
+        type = "Low",
         onExitToMain = {},
         viewModel = viewModel()
     )
