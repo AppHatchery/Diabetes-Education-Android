@@ -189,7 +189,6 @@ fun HypoSymptomSelectionScreen(
                         text = "I notice these symptoms",
                         onClick = {
                             val isCHOApPatient = OnboardingPrefs(context).isChoaPatient
-                            Log.d("skibidi", "HypoSymptomSelectionScreen: $isCHOApPatient")
                             navController.navigate(
                                 viewModel.determineNextRoute(categoryId, selectedSymptoms, isCHOApPatient)
                             )
@@ -374,10 +373,6 @@ fun HypoSymptomSelectionScreen(
                         if(categoryId == "injection") {
                             when (selectedSymptom) {
                                 "Insulin_pump" -> {
-                                    Log.d(
-                                        "skibidi",
-                                        "HypoSymptomSelectionScreen: $bloodSugarReading, $isCGMReading"
-                                    )
                                     if (isCGMReading == "yes" && bloodSugarReading > 50) {
                                         navController.navigate(SickDayScreen.TreatLowBloodSugarScreen.route)
                                     } else {

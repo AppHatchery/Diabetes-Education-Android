@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -409,10 +410,11 @@ fun UrgentHealthCard(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Get guidance on what to do next",
+                    text = "Find out what to do for low blood sugar, high blood sugar, or DKA.",
                     color = Color.White.copy(alpha = 0.9f),
                     fontFamily = nunito,
-                    fontSize = 16.sp
+                    fontStyle = FontStyle.Italic,
+                    fontSize = 14.sp
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))

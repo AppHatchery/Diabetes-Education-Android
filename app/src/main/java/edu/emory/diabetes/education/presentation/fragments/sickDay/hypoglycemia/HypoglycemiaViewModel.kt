@@ -130,7 +130,6 @@ class HypoglycemiaViewModel : ViewModel() {
                 } else {
                     // Not CHOA patient
                     if (isCHOAPatient) {
-                        Log.d("skibidi", "determineNextRoute: ${true}")
                         SickDayScreen.CallCHOA.route
                     } else {
                         SickDayScreen.HypoCallDoctorScreen.route

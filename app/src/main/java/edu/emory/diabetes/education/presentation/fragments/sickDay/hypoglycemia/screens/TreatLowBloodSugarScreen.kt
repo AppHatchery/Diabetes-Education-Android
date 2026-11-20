@@ -110,7 +110,6 @@ fun TreatLowBloodSugarScreen(
     var bulletTextOne = ""
     var bulletTextTwo = ""
 
-    Log.d("skibidi", "TreatLowBloodSugarScreen:$bloodSugar, $cgmReading")
 
     if (useReducedDose){
         title = "Treat low blood sugar (8g)"

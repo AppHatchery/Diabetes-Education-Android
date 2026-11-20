@@ -108,6 +108,7 @@ fun HighSugarCalculator(
     val canCalculate = uiState.currentBloodSugar.isNotBlank() && uiState.targetBloodSugar.isNotBlank() && uiState.correctionFactor.isNotBlank()
 
     var validationAttempted by remember { mutableStateOf(false) }
+    var showNoInsulinNeeded by remember { mutableStateOf(false) }
 
     val isBloodSugarInverted = uiState.currentBloodSugar.isNotBlank() &&
             uiState.targetBloodSugar.isNotBlank() &&
@@ -165,9 +166,11 @@ fun HighSugarCalculator(
                     properties["target_blood_sugar"] = uiState.targetBloodSugar
                     Pendo.track("Calculate_insulin_for_hbs", properties)
                     viewModel.calculateHighSugar()
+                    showNoInsulinNeeded = false
                 }
                 isBloodSugarInverted && uiState.correctionFactor.isNotBlank() -> {
                     viewModel.calculateHighSugar()
+                    showNoInsulinNeeded = true
                 }
             }
         }
@@ -352,13 +355,33 @@ fun HighSugarCalculator(
                     Spacer(modifier = Modifier.height(59.dp))
 
                     if (uiState.hasCalculated) {
-                        ResultCard(
-                            insulin = uiState.formatUnits(),
-                            isAbove = !isWithinTargetRange,
-                            belowText = "Additional insulin is not needed to correct your blood sugar because your current level is within the target range.",
-                            cardLabel = "Insulin for High Blood Sugar",
-                            infoOnClick = {showInsulinForHBS = true}
-                        )
+                        when {
+                            isWithinTargetRange -> {
+                                ResultCard(
+                                    insulin = uiState.formatUnits(),
+                                    isAbove = false,
+                                    belowText = "Additional insulin is not needed to correct your blood sugar because your current level is within the target range.",
+                                    cardLabel = "Insulin for High Blood Sugar",
+                                    infoOnClick = {showInsulinForHBS = true}
+                                )
+                            }
+                            showNoInsulinNeeded -> {
+                                ResultCard(
+                                    insulin = "No insulin needed",
+                                    isAbove = false,
+                                    cardLabel = "Insulin for High Blood Sugar",
+                                    infoOnClick = {showInsulinForHBS = true}
+                                )
+                            }
+                            else -> {
+                                ResultCard(
+                                    insulin = uiState.formatUnits(),
+                                    isAbove = true,
+                                    cardLabel = "Insulin for High Blood Sugar",
+                                    infoOnClick = {showInsulinForHBS = true}
+                                )
+                            }
+                        }
 
                         Spacer(modifier = Modifier.weight(1f))
                         Spacer(modifier = Modifier.height(10.dp))
@@ -423,9 +446,11 @@ fun HighSugarCalculator(
                                     properties["blood_sugar"] = uiState.currentBloodSugar
                                     properties["target_blood_sugar"] = uiState.targetBloodSugar
                                     Pendo.track("Calculate_insulin_for_hbs", properties)
+                                    showNoInsulinNeeded = false
                                 }
                                 isBloodSugarInverted -> {
                                     viewModel.calculateHighSugar()
+                                    showNoInsulinNeeded = true
                                 }
                             }
                             keyboardController?.hide()
