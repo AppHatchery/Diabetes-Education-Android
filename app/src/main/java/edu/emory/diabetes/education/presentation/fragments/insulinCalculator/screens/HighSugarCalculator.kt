@@ -115,6 +115,10 @@ fun HighSugarCalculator(
             (uiState.currentBloodSugar.toDoubleOrNull() ?: 0.0) <=
             (uiState.targetBloodSugar.toDoubleOrNull() ?: 0.0)
 
+    // True when the current blood sugar input is between 0 and 150 inclusive
+    val isWithinTargetRange = uiState.currentBloodSugar.isNotBlank() &&
+            (uiState.currentBloodSugar.toIntOrNull() ?: -1) in 0..150
+
     val currentBSError = validationAttempted && uiState.currentBloodSugar.isBlank()
     val targetBSError = validationAttempted && uiState.targetBloodSugar.isBlank()
     val correctionError = validationAttempted && uiState.correctionFactor.isBlank()
@@ -165,6 +169,7 @@ fun HighSugarCalculator(
                     showNoInsulinNeeded = false
                 }
                 isBloodSugarInverted && uiState.correctionFactor.isNotBlank() -> {
+                    viewModel.calculateHighSugar()
                     showNoInsulinNeeded = true
                 }
             }
@@ -349,16 +354,37 @@ fun HighSugarCalculator(
 
                     Spacer(modifier = Modifier.height(59.dp))
 
-                    if (uiState.hasCalculated || showNoInsulinNeeded) {
-                        ResultCard(
-                            insulin = if (showNoInsulinNeeded) "No insulin needed" else uiState.formatUnits(),
-                            isAbove = !showNoInsulinNeeded,
-                            cardLabel = "Insulin for High Blood Sugar",
-                            infoOnClick = {showInsulinForHBS = true}
-                        )
+                    if (uiState.hasCalculated) {
+                        when {
+                            isWithinTargetRange -> {
+                                ResultCard(
+                                    insulin = uiState.formatUnits(),
+                                    isAbove = false,
+                                    belowText = "Additional insulin is not needed to correct your blood sugar because your current level is within the target range.",
+                                    cardLabel = "Insulin for High Blood Sugar",
+                                    infoOnClick = {showInsulinForHBS = true}
+                                )
+                            }
+                            showNoInsulinNeeded -> {
+                                ResultCard(
+                                    insulin = "No insulin needed",
+                                    isAbove = false,
+                                    cardLabel = "Insulin for High Blood Sugar",
+                                    infoOnClick = {showInsulinForHBS = true}
+                                )
+                            }
+                            else -> {
+                                ResultCard(
+                                    insulin = uiState.formatUnits(),
+                                    isAbove = true,
+                                    cardLabel = "Insulin for High Blood Sugar",
+                                    infoOnClick = {showInsulinForHBS = true}
+                                )
+                            }
+                        }
 
                         Spacer(modifier = Modifier.weight(1f))
-                       // Spacer(modifier = Modifier.height(54.dp))
+                        Spacer(modifier = Modifier.height(10.dp))
 
                         Column(
                             modifier = Modifier.fillMaxWidth(),
@@ -423,6 +449,7 @@ fun HighSugarCalculator(
                                     showNoInsulinNeeded = false
                                 }
                                 isBloodSugarInverted -> {
+                                    viewModel.calculateHighSugar()
                                     showNoInsulinNeeded = true
                                 }
                             }

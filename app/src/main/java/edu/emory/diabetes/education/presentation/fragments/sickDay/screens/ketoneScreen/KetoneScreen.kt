@@ -79,7 +79,6 @@ fun KetoneScreen(
 
     val bloodSugar = viewModel.getAnswer(FlowAnswerKeys.DURATION_Q1) ?: ""
     val isBloodSugarUnder180 = bloodSugar.toInt() <= 180
-    Log.d("skibidi", "KetoneScreen: $bloodSugar  +  $isBloodSugarUnder180")
 
     var selectedMeasure by remember {
         mutableStateOf(
@@ -353,6 +352,7 @@ private fun resolveKetoneNavDestination(
             }
             //over300 && iLetKetone == "Moderate" -> "${SickDayScreen.ManageILet.route}/Moderate"
             over300 -> "${SickDayScreen.ManageILet.route}/High"
+            iLetKetone == "High" -> "${SickDayScreen.ManageILet.route}/High"
             else -> "${SickDayScreen.BloodSugar.route}/$instrument"
         }
     }

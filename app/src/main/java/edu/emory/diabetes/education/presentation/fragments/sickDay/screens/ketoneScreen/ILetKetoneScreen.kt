@@ -218,7 +218,7 @@ fun IletKetoneScreen(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = "Check ketone level>>>>",
+                text = "Check ketone level",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = nunito,

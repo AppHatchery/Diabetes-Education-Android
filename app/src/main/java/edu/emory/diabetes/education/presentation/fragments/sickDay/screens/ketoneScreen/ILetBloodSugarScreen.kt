@@ -64,7 +64,6 @@ fun ILetBloodSugarScreen(
     val readingValue = reading.toIntOrNull()
     val isHigher = readingValue != null && readingValue > threshold
 
-    Log.d("skibidi", "ILetBloodSugarScreenType: $type")
 
     // Routes based on whether the reading is above the threshold, preserving the original flow.
     fun proceedToNext() {
@@ -75,7 +74,7 @@ fun ILetBloodSugarScreen(
                     navController.navigate("${SickDayScreen.ManageILet.route}/High")
                 }
                 else {
-                    navController.navigate(SickDayScreen.RegularCare.route)
+                    navController.navigate(SickDayScreen.CallCHOA.route)
                 }
             }
             "highKetone" ->{

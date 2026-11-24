@@ -146,9 +146,9 @@ fun ManageILet(
                     navController = navController,
                     savedEndTimeMs = savedEndTimeMs,
                     onReminderSet = {
-                        ReminderScheduler.scheduleReminder(context, durationMinutes = 90, route = "${SickDayScreen.ILetKetone.route}/highKetone")
+                        ReminderScheduler.scheduleReminder(context, durationMinutes = 90, route = "${SickDayScreen.ILetBloodSugar.route}/highKetone/low")
                         prefs.saveReminderCheckpoint(
-                            route = "${SickDayScreen.ILetKetone.route}/highKetone",
+                            route = "${SickDayScreen.ILetBloodSugar.route}/highKetone/low",
                             reminderScreenRoute = "${SickDayScreen.ManageILet.route}/$type",
                             durationMinutes = 90,
                             group = SickDayPrefs.REMINDER_GROUP_ILET
@@ -476,6 +476,20 @@ fun LowKetoneContent(
             image = R.drawable.im_ilet_pump
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
+        InsulinPumpText(
+            text = buildAnnotatedString {
+                append("Give the recommended ")
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                    append("correction dose through ")
+                }
+                append("the")
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
+                    append(" pump site.")
+                }
+            },
+            image = R.drawable.im_injection
+        )
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
@@ -585,7 +599,7 @@ fun ManageILetPreview(){
     val navController = rememberNavController()
     ManageILet(
         navController = navController,
-        type = "High",
+        type = "Low",
         onExitToMain = {},
         viewModel = viewModel()
     )

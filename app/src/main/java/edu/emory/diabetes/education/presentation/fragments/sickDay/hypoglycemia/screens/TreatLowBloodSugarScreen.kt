@@ -110,7 +110,6 @@ fun TreatLowBloodSugarScreen(
     var bulletTextOne = ""
     var bulletTextTwo = ""
 
-    Log.d("skibidi", "TreatLowBloodSugarScreen:$bloodSugar, $cgmReading")
 
     if (useReducedDose){
         title = "Treat low blood sugar (8g)"
@@ -256,6 +255,13 @@ fun TreatLowBloodSugarScreen(
                 },
                 onSkipReminder = {
                     // User explicitly skipped — clear checkpoint then navigate
+                    val properties = hashMapOf<String, Any>()
+                    properties["source"] = "TreatLowBloodSugar"
+                    properties["action"] = "Skip This Reminder"
+                    properties["reminderId"] = ReminderScheduler.REQUEST_CODE
+                    properties["testType"] = "hypoglycemia"
+                    properties["iletPump"] = "false"
+                    Pendo.track("Reminder Skip", properties)
                     prefs.clearReminderCheckpoint()
                     navController.navigate(createRoute) {
                         popUpTo(createRoute) { inclusive = true }

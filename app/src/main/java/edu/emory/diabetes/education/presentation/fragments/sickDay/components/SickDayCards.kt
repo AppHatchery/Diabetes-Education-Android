@@ -156,7 +156,7 @@ fun VomitingCard(
     modifier: Modifier = Modifier,
     symptom: Symptom,
     isSelected: Boolean,
-    cardHeight: Dp = 221.dp,
+    cardHeight: Dp = 245.dp,
     cardOnclick: () -> Unit
 ){
     Card(
@@ -174,7 +174,6 @@ fun VomitingCard(
         Column(
             modifier = Modifier.fillMaxSize()
         ){
-            // Fixed-size image box so both cards show an identical frame regardless of label length.
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -195,25 +194,29 @@ fun VomitingCard(
                 )
             }
 
-            // Spacer pushes the label toward the bottom so single-line and multi-line labels align.
-            Spacer(modifier = Modifier.weight(1f))
-
-            Text(
-                text = symptom.label,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = nunito,
-                softWrap = true,
-                color = if (isSelected){
-                    Color.White
-                } else {
-                    colorResource(R.color.primaryBlue)
-                },
-                textAlign = TextAlign.Center,
+            // Box fills the remaining space so single and multi-line labels sit vertically centered below the image.
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 14.dp)
-            )
+                    .weight(1f)
+                    .padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 14.dp),
+                contentAlignment = Alignment.Center
+            ){
+                Text(
+                    text = symptom.label,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = nunito,
+                    softWrap = true,
+                    color = if (isSelected){
+                        Color.White
+                    } else {
+                        colorResource(R.color.primaryBlue)
+                    },
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
     }
 }
