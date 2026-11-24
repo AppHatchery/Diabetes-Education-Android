@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.theme.nunito
+import sdk.pendo.io.Pendo
 
 @Composable
 fun SelectedFoodsCalculator(
@@ -66,6 +67,17 @@ fun SelectedFoodsCalculator(
     var showInsulinInfo by remember { mutableStateOf(false) }
 
     val hasResult = carbRatio.isNotBlank() && totalCarbs > 0
+
+    // Fires one KnowYourCarbs event with the final insulin-for-food value
+    // when the user leaves the screen having completed a calculation.
+    val exitWithTracking: () -> Unit = {
+        if (hasResult) {
+            val properties = hashMapOf<String, Any>()
+            properties["InsulinForFood"] = viewModel.insulinUnits
+            Pendo.track("KnowYourCarbs", properties)
+        }
+        onNavigateBack()
+    }
 
     if (showTotalCarbsInfo) {
         CarbInfoDialog("Total Carbs", carbTotalCarbsInfo) { showTotalCarbsInfo = false }
@@ -88,7 +100,7 @@ fun SelectedFoodsCalculator(
                     .padding(horizontal = 12.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = onNavigateBack) {
+                IconButton(onClick = exitWithTracking) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                         contentDescription = "Back",
@@ -211,7 +223,7 @@ fun SelectedFoodsCalculator(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable(onClick = onNavigateBack),
+                        .clickable(onClick = exitWithTracking),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {

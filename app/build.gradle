@@ -172,7 +172,7 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.15.4'
 
     // Pendo
-    implementation group: 'sdk.pendo.io', name: 'pendoIO', version: '3.3.0.6597', changing: true
+    implementation "sdk.pendo.io:pendoIO:3.13.9.10193"
 
     // DataStore
     implementation 'androidx.datastore:datastore-preferences:1.1.1'
