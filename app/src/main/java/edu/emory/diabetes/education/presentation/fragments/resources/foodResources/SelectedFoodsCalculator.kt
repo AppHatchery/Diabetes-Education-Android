@@ -33,6 +33,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +51,7 @@ import androidx.compose.ui.unit.sp
 import edu.emory.diabetes.education.R
 import edu.emory.diabetes.education.presentation.theme.nunito
 import sdk.pendo.io.Pendo
+import kotlinx.coroutines.delay
 
 @Composable
 fun SelectedFoodsCalculator(
@@ -68,15 +70,15 @@ fun SelectedFoodsCalculator(
 
     val hasResult = carbRatio.isNotBlank() && totalCarbs > 0
 
-    // Fires one KnowYourCarbs event with the final insulin-for-food value
-    // when the user leaves the screen having completed a calculation.
-    val exitWithTracking: () -> Unit = {
+    // Fires a KnowYourCarbs event whenever a calculation produces a settled insulin-for-food value.
+    val unitsForTracking = viewModel.insulinUnits
+    LaunchedEffect(unitsForTracking, hasResult) {
         if (hasResult) {
+            delay(800)
             val properties = hashMapOf<String, Any>()
-            properties["InsulinForFood"] = viewModel.insulinUnits
+            properties["InsulinForFood"] = unitsForTracking
             Pendo.track("KnowYourCarbs", properties)
         }
-        onNavigateBack()
     }
 
     if (showTotalCarbsInfo) {
@@ -100,7 +102,7 @@ fun SelectedFoodsCalculator(
                     .padding(horizontal = 12.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = exitWithTracking) {
+                IconButton(onClick = onNavigateBack) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                         contentDescription = "Back",
@@ -223,7 +225,7 @@ fun SelectedFoodsCalculator(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable(onClick = exitWithTracking),
+                        .clickable(onClick = onNavigateBack),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
